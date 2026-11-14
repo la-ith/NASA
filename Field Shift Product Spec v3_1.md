@@ -108,7 +108,7 @@ flowchart LR
 
 **Climate Provider Adapter:** converts the app’s location/time/variable request into provider-specific calls and returns normalized observations. Keep provider code isolated so a verified source can later be replaced. For MVP, verify the exact NASA POWER product, variable, endpoint, units, temporal coverage, and terms.
 
-**Validation and Provenance:** checks response structure, date coverage, missingness, plausible ranges, and units. Records source/product, variable, location precision, requested and actual periods, units, retrieval time, quality flags, and processing version.
+**Validation and Provenance:** checks response structure, date coverage, missingness, plausible ranges, and units. Data-reading integrity has zero tolerance: requested dates, parameter names, returned values, units, and source metadata must be preserved exactly; a mismatch fails the response and is shown as a data error. NASA's declared missing-value marker is converted to an explicit missing status, never a numeric value. Records source/product, variable, location precision, requested and actual periods, units, retrieval time, quality flags, and processing version. Any numeric rounding allowance applies only to reproducible calculations after validated data has been read, not to the source data.
 
 **Climate Indicator Service:** calculates only defined historical indicators—for example, seasonal rainfall total, baseline mean, anomaly, and variability when data is sufficient. Every indicator specifies formula, units, baseline period, minimum coverage, and interpretation. Insufficient data returns a clear unavailable status.
 
@@ -146,6 +146,27 @@ When the provider fails: bounded retries and timeout; use a matching cached resp
 - Rotation rule: condition, effect, evidence, reviewer, scope, version, review state.
 - Climate dataset: provider/product/variable, location, periods, values/units, retrieval time, quality flags, processing version.
 - Analysis: snapshots of inputs, priority, plans, results, limitations, and versions.
+
+### SQLite relational schema
+
+Use these tables for the MVP. `PK` is a primary key; `FK` is a foreign key. Store a snapshot with each analysis so later edits to a field, crop profile, or rule do not change an earlier result.
+
+| Table | Key columns | Purpose |
+|---|---|---|
+| `field` | `field_id PK`, label, rounded latitude/longitude, area/value/unit, irrigation, soil input | One pilot field and its current user-entered details. |
+| `crop` | `crop_id PK`, name, type, season, water range/source, review status | Supported crop profiles. |
+| `crop_season` | `season_id PK`, `field_id FK`, season start/end, `crop_id FK nullable`, unknown flag, source/confidence | One recorded history season. Unknown seasons remain explicit. |
+| `rotation_rule` | `rule_id PK`, code, version, condition, effect, citation, region, reviewer, review status | Versioned agronomic rules and their review state. |
+| `analysis` | `analysis_id PK`, `field_id FK`, created time, goal, input snapshot, engine/rule versions, status | One reproducible comparison run. |
+| `climate_dataset` | `dataset_id PK`, `analysis_id FK`, provider/product/variable, coordinates, date range, units, retrieval time, quality counts | NASA POWER request and response provenance. |
+| `climate_observation` | (`dataset_id FK`, observation date) composite PK, value, quality status | Validated daily NASA observations; preserve missing days as quality status, not zero. |
+| `candidate_plan` | `plan_id PK`, `analysis_id FK`, `crop_id FK`, role, display order | One next-season crop option: current practice or alternative. |
+| `plan_evidence` | `evidence_id PK`, `plan_id FK`, `rule_id FK nullable`, criterion, result label, explanation/evidence | Criterion result and supporting evidence for a candidate. |
+| `plan_input_status` | (`plan_id FK`, input key) composite PK, status, source/default, effect | The “What we know” states: entered, estimated, assumed, or missing. |
+
+Relationships: `field 1—many crop_season`; `field 1—many analysis`; `analysis 1—many climate_dataset`; `climate_dataset 1—many climate_observation`; `analysis 1—many candidate_plan`; `candidate_plan 1—many plan_evidence` and `plan_input_status`; `crop 1—many crop_season` and `candidate_plan`; `rotation_rule 1—many plan_evidence`.
+
+For a history row, use `crop_id = NULL` and `unknown = true` when the crop is unknown. Never insert a fabricated crop. Keep analysis snapshots immutable; create a new analysis when inputs change.
 
 ## 7. Decision method
 
@@ -250,7 +271,7 @@ Use external request timeouts, bounded retries with backoff, and graceful partia
 
 For weak connectivity, cache the app shell and allow a saved report to be viewed offline with its age and source state visible. Charts need text alternatives.
 
-## 10. Suggested build structure and stack
+## 10. Build structure and stack
 
 ~~~text
 field-shift/
@@ -272,7 +293,7 @@ field-shift/
   docs/rule-sources.md
 ~~~
 
-Choose the frontend framework the team knows best. Python + FastAPI suits the analysis service if Python is familiar. Use plain Python calculations before adding data libraries. SQLite or in-memory storage is sufficient for a demo; choose PostgreSQL when deployment and persistence needs justify it. Use maps and charts only when they add evidence.
+Use Python for NASA data retrieval and analysis. The FastAPI backend owns the NASA POWER adapter, response validation and unit normalization, historical indicator calculations, and rotation-rule evaluation; the frontend displays the returned evidence and does not calculate results or call NASA directly. Start with the Python standard library for calculations and add data libraries only when needed. Choose the frontend framework the team knows best. SQLite or in-memory storage is sufficient for a demo; choose PostgreSQL when deployment and persistence needs justify it. Use maps and charts only when they add evidence.
 
 ### Minimal API
 
@@ -300,6 +321,7 @@ MVP is ready to demonstrate when:
 9. Evidence and limitations can be inspected for every plan.
 10. Each plan's “What we know” panel shows decision-relevant inputs as entered, estimated, assumed, or missing, names the source/default, and explains how assumptions or gaps limit the comparison; no aggregate confidence score is shown.
 11. The team can state which parts are implemented, simulated, or planned.
+12. NASA response data passes exact integrity checks for requested dates, parameters, values, units, and metadata; any mismatch fails validation instead of being accepted under a percentage tolerance.
 
 Before real-world recommendations, a domain reviewer must check local crop rules; the data lead must verify source product, units, coverage, and resolution; pilot users should review comprehension. Do not claim field validation without doing it.
 
