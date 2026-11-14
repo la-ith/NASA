@@ -10,4 +10,5 @@ def connect(path: str) -> sqlite3.Connection:
     db.execute("PRAGMA foreign_keys = ON")  # off by default in SQLite
     db.executescript((DB_DIR / "schema.sql").read_text(encoding="utf-8"))
     db.executescript((DB_DIR / "seed.sql").read_text(encoding="utf-8"))
+    db.executescript((DB_DIR / "schema_v2.sql").read_text(encoding="utf-8"))  # v4.0 migration, additive only
     return db
