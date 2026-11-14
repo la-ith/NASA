@@ -13,7 +13,7 @@ ITEMS={
  'tmax':('day-air-tmp-max','DayAirTmpMax',{'(C)':1,'(°C)':1}),
  'tmin':('day-air-tmp-min','DayAirTmpMin',{'(C)':1,'(°C)':1}),
  'dew':('day-dew-pnt','DayDewPnt',{'(C)':1,'(°C)':1}),
- 'solar':('day-sol-rad-avg','DaySolRadAvg',{'(W/sq.m)':.0864}),
+ 'solar':('day-sol-rad-avg','DaySolRadAvg',{'(W/sq.m)':.0864,'(W/m²)':.0864}),
  'wind':('day-wind-spd-avg','DayWindSpdAvg',{'(m/s)':1}),
 }
 
@@ -46,7 +46,10 @@ def normalize(raw,station,start,end):
                 out[d.isoformat()]=dict(values=values,qa=qa)
     except (KeyError,TypeError,ValueError) as e:raise SourceIntegrityError(str(e)) from e
     if not seen:raise NotCovered('No CIMIS station records returned for this interval')
-    return dict(station=station,records=out,adapter_version='cimis-station-1.0',
+    original_units={field:sorted({row[field]['Unit'] for provider in providers for row in provider['Records']
+                                if isinstance(row.get(field),dict) and isinstance(row[field].get('Unit'),str)})
+                    for _,field,_ in ITEMS.values()}
+    return dict(station=station,records=out,adapter_version='cimis-station-1.1',original_units=original_units,
                 reference='CIMIS published ASCE grass-reference ETo; not observed crop ET',
                 qc='Only unflagged nonmissing values retained; all original QC flags remain in raw response',
                 units=dict(eto='mm/day',rain='mm/day',tmax='C',tmin='C',dew='C',solar='MJ/m2/day',wind='m/s'),

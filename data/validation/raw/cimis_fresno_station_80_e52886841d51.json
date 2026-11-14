@@ -1,0 +1,70 @@
+{
+  "response": {
+    "Stations": [
+      {
+        "StationNbr": "80",
+        "Name": "Fresno State",
+        "City": "Fresno",
+        "RegionalOffice": "South Central Region Office",
+        "County": "Fresno",
+        "ConnectDate": "10/3/1988",
+        "DisconnectDate": "12/31/2050",
+        "IsActive": "True",
+        "IsEtoStation": "True",
+        "Elevation": "339",
+        "GroundCover": "Grass",
+        "HmsLatitude": "36\u00ba49'15N / 36.820833",
+        "HmsLongitude": "-119\u00ba44'32W / -119.74231",
+        "ZipCodes": [
+          "93766",
+          "93762",
+          "93761",
+          "93760",
+          "93759",
+          "93755",
+          "93750",
+          "93747",
+          "93745",
+          "93744",
+          "93741",
+          "93740",
+          "93729",
+          "93728",
+          "93727",
+          "93726",
+          "93725",
+          "93724",
+          "93722",
+          "93721",
+          "93720",
+          "93718",
+          "93717",
+          "93716",
+          "93715",
+          "93714",
+          "93711",
+          "93710",
+          "93709",
+          "93708",
+          "93707",
+          "93706",
+          "93705",
+          "93704",
+          "93703",
+          "93702",
+          "93701",
+          "93650"
+        ],
+        "SitingDesc": "DATE: 11-12-02<br/><br/>\r\nSTATION #:  80 <br/>                                                     \r\nSTATION NAME: Fresno<br/> \r\nETO ZONE: 12<br/>\r\nPREVAILING WINDS: NW<br/> \r\nLOCAL CHARACTER: Located on the north campus of CSU Fresno.  This is a large island of agricultural activity in the north area of Fresno.  This portion of the campus is used for livestock maintenance in small paddock or large pasture settings.<br/><br/>\r\n\r\nDESCRIPTION OF STATION SITE:<br/>\r\nThe station is placed in a flood irrigated pasture area that is used for grazing.  It is protected by a large critter corral type enclosure.  Within the enclosure there are additional instruments and evaporation pan that comprise an agroclimatic site operated by the Department of Water Resources office in Fresno.<br/><br/>\r\n\r\nNORTH:<br/>\r\n500+ ft: Irrigated pasture<br/><br/>\r\n\r\nEAST:<br/>\r\n300+ ft: Irrigated pasture<br/><br/>\r\n\r\nSOUTH:<br/>\r\n500+ ft: Irrigated pasture<br/><br/>\r\n\r\nWEST:<br/>\r\n175ft: Irrigated pasture<br/>\r\n175-200ft; Unpaved access road<br/>\r\n200-500+ ft: Irrigated pasture<br/><br/>\r\n\r\nCOMMENTS:<br/>\r\nThe the grass can vary in height during the growing season. It has been noted that, at times the instrumentation appear to accumulate a layer of dust, possibly from the unpaved access roads and nearby farming activities. It is serviced frequently."
+      }
+    ]
+  },
+  "content_sha256": "e52886841d51c6aeaaceea8b7edf9421f330e0e1c040d563e22983dc0ea4faae",
+  "retrieved_utc": "2026-11-14T20:46:01.491648+00:00",
+  "request": {
+    "url": "https://et.water.ca.gov/StationWeb/GetStationByStationNumber",
+    "params": {
+      "stationNbr": 80
+    }
+  }
+}

@@ -124,8 +124,9 @@ def run_analysis(request: dict, state: State, weather: DailyWeather, soil: SoilI
                            "differ. TAW from NRCS available water capacity; the 1/3-15 bar alternative is shown "
                            "as a sensitivity check.")
     if state.code == "CA":
-        limitations.append("California: the high Fresno irrigation estimate remains unresolved; regional station "
-                           "verification is pending. Do not treat these irrigation quantities as validated field advice.")
+        limitations.append("California: the high Fresno irrigation estimate remains unresolved. A station-reference "
+                           "comparison found positive ET0 differences; field irrigation accuracy is not established. "
+                           "Do not treat these irrigation quantities as validated field advice.")
     if mode == "sample":
         limitations.append("Sample mode: saved NASA and USDA records, not a live retrieval.")
     if not current:
@@ -158,7 +159,7 @@ def run_analysis(request: dict, state: State, weather: DailyWeather, soil: SoilI
                        "report_url": "/api/v2/validation/holdout",
                        "field_irrigation_accuracy": "not established", "agronomic_review": "draft-unreviewed",
                        "forecast": False,
-                       "regional_warning": "Fresno discrepancy unresolved; California station verification pending"
+                       "regional_warning": "Fresno discrepancy unresolved; station ET0 comparison completed, field irrigation accuracy not established"
                        if state.code == "CA" else None},
         "equations": ["FAO56-Eq6", "FAO56-Eq8", "FAO56-Eq9", "FAO56-Eq11", "FAO56-Eq12", "FAO56-Eq13", "FAO56-Eq14",
                       "FAO56-Eq21", "FAO56-Eq23", "FAO56-Eq24", "FAO56-Eq25", "FAO56-Eq37", "FAO56-Eq38",

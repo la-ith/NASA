@@ -81,3 +81,5 @@ Primary new references:
 - https://www.fao.org/4/t7202e/t7202e05.htm
 - https://content.ces.ncsu.edu/north-carolina-soybean-production-guide/10-water-management-in-soybeans
 - https://extension.oregonstate.edu/catalog/em-8794-dryland-cropping-systems-grain-sorghum
+
+CIMIS follow-through: the user's private AppKey is now accepted. Fresno State (80), a grass/ETo-designated station, returned live 2020–2022 daily data. Solar unit `(W/m²)` is explicitly accepted and converted to MJ/m²/day by multiplication by 0.0864; raw unit strings are retained. Only unflagged reference quantities enter the comparison. Current station metadata and original response payloads are saved with content hashes in `data/validation/raw/cimis_*.json`; the weather comparison is in `docs/validation/results/fresno-cimis-comparison.json`. The older siting description and comparison method/support limitations remain disclosed.

@@ -5,10 +5,349 @@
     2022
   ],
   "station": 80,
-  "location": "Fresno State; station metadata must confirm location",
-  "checked_utc": "2026-11-14T20:12:34.587855+00:00",
-  "status": "blocked",
+  "location": {
+    "name": "Fresno State",
+    "city": "Fresno",
+    "lat": 36.820833,
+    "lon": -119.74231
+  },
+  "checked_utc": "2026-11-14T20:46:00.435841+00:00",
+  "status": "reference_compared",
   "calibration_applied": false,
   "limitation": "Published reference ET0 comparison is not measured maize water use or irrigation validation",
-  "blocker": "CIMIS_APP_KEY not configured"
+  "station_metadata": {
+    "StationNbr": "80",
+    "Name": "Fresno State",
+    "City": "Fresno",
+    "RegionalOffice": "South Central Region Office",
+    "County": "Fresno",
+    "ConnectDate": "10/3/1988",
+    "DisconnectDate": "12/31/2050",
+    "IsActive": "True",
+    "IsEtoStation": "True",
+    "Elevation": "339",
+    "GroundCover": "Grass",
+    "HmsLatitude": "36\u00ba49'15N / 36.820833",
+    "HmsLongitude": "-119\u00ba44'32W / -119.74231",
+    "ZipCodes": [
+      "93766",
+      "93762",
+      "93761",
+      "93760",
+      "93759",
+      "93755",
+      "93750",
+      "93747",
+      "93745",
+      "93744",
+      "93741",
+      "93740",
+      "93729",
+      "93728",
+      "93727",
+      "93726",
+      "93725",
+      "93724",
+      "93722",
+      "93721",
+      "93720",
+      "93718",
+      "93717",
+      "93716",
+      "93715",
+      "93714",
+      "93711",
+      "93710",
+      "93709",
+      "93708",
+      "93707",
+      "93706",
+      "93705",
+      "93704",
+      "93703",
+      "93702",
+      "93701",
+      "93650"
+    ],
+    "SitingDesc": "DATE: 11-12-02<br/><br/>\r\nSTATION #:  80 <br/>                                                     \r\nSTATION NAME: Fresno<br/> \r\nETO ZONE: 12<br/>\r\nPREVAILING WINDS: NW<br/> \r\nLOCAL CHARACTER: Located on the north campus of CSU Fresno.  This is a large island of agricultural activity in the north area of Fresno.  This portion of the campus is used for livestock maintenance in small paddock or large pasture settings.<br/><br/>\r\n\r\nDESCRIPTION OF STATION SITE:<br/>\r\nThe station is placed in a flood irrigated pasture area that is used for grazing.  It is protected by a large critter corral type enclosure.  Within the enclosure there are additional instruments and evaporation pan that comprise an agroclimatic site operated by the Department of Water Resources office in Fresno.<br/><br/>\r\n\r\nNORTH:<br/>\r\n500+ ft: Irrigated pasture<br/><br/>\r\n\r\nEAST:<br/>\r\n300+ ft: Irrigated pasture<br/><br/>\r\n\r\nSOUTH:<br/>\r\n500+ ft: Irrigated pasture<br/><br/>\r\n\r\nWEST:<br/>\r\n175ft: Irrigated pasture<br/>\r\n175-200ft; Unpaved access road<br/>\r\n200-500+ ft: Irrigated pasture<br/><br/>\r\n\r\nCOMMENTS:<br/>\r\nThe the grass can vary in height during the growing season. It has been noted that, at times the instrumentation appear to accumulate a layer of dust, possibly from the unpaved access roads and nearby farming activities. It is serviced frequently."
+  },
+  "metadata_artifact": "data/validation/raw/cimis_fresno_station_80_e52886841d51.json",
+  "quality_limitations": [
+    "Only unflagged reference values are retained; QA exclusions can change the comparison sample.",
+    "Current station is grass/ETo-designated; siting notes dated 2002 mention variable grass height and dust. Historical maintenance conditions need review.",
+    "CIMIS published ASCE ETo and daily FAO-56 use related reference methods but are not an exact equation-identity test.",
+    "These development years and station are distinct from the consumed frozen holdout study. No parameters are fitted.",
+    "A station-reference comparison does not measure crop ET, yield or actual field irrigation."
+  ],
+  "years": {
+    "2020": {
+      "eto": {
+        "n": 145,
+        "expected": 153,
+        "missing_or_excluded": 8,
+        "suspect_reference_days": 8,
+        "bias": 0.6922520356486547,
+        "mae": 0.9084077608070286,
+        "rmse": 1.0982526262653525
+      },
+      "source_artifact": "data/validation/raw/cimis_fresno_2020_faf4e5a4862f.json",
+      "power_manifest": {
+        "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CT2MDEW%2CRH2M%2CWS2M%2CALLSKY_SFC_SW_DWN%2CPS&community=AG&latitude=36.8208&longitude=-119.7423&start=20200501&end=20200930&format=JSON&time-standard=LST",
+        "retrieved_utc": "2026-11-14T20:43:10.412624+00:00",
+        "sha256": "6eac68782c08bcd3c29524489de5009d482d5f451b8eff3503ca3ec9abe5d629",
+        "file": "power_cimis_fresno_2020_348da7e36cb5_6eac68782c08.raw",
+        "status": 200,
+        "content_type": "application/json"
+      },
+      "paired_model_total": 1064.386545169055,
+      "paired_reference_total": 964.01,
+      "paired_season_relative_bias": 0.10412396673172997,
+      "season_total_eligible_95_percent": false,
+      "totals_note": "Paired valid days only, not imputed or extrapolated to a full observed season.",
+      "components": {
+        "tmax": {
+          "n": 149,
+          "expected": 153,
+          "missing_or_excluded": 4,
+          "suspect_reference_days": 0,
+          "bias": 2.38731543624161,
+          "mae": 2.6010067114093958,
+          "rmse": 2.947555351530412
+        },
+        "tmin": {
+          "n": 144,
+          "expected": 153,
+          "missing_or_excluded": 9,
+          "suspect_reference_days": 0,
+          "bias": 2.9238888888888885,
+          "mae": 3.144722222222222,
+          "rmse": 3.785805176357248
+        },
+        "dew": {
+          "n": 140,
+          "expected": 153,
+          "missing_or_excluded": 13,
+          "suspect_reference_days": 0,
+          "bias": -5.714214285714286,
+          "mae": 5.801642857142857,
+          "rmse": 6.585387123884865
+        },
+        "solar": {
+          "n": 122,
+          "expected": 153,
+          "missing_or_excluded": 31,
+          "suspect_reference_days": 0,
+          "bias": 0.7843475409836054,
+          "mae": 1.4839934426229504,
+          "rmse": 1.8211839946296144
+        },
+        "wind": {
+          "n": 148,
+          "expected": 153,
+          "missing_or_excluded": 5,
+          "suspect_reference_days": 0,
+          "bias": -0.04418918918918917,
+          "mae": 0.3463513513513513,
+          "rmse": 0.4542427616225563
+        },
+        "rain": {
+          "n": 150,
+          "expected": 153,
+          "missing_or_excluded": 3,
+          "suspect_reference_days": 0,
+          "bias": 0.10439999999999999,
+          "mae": 0.10439999999999999,
+          "rmse": 0.8759406372580278
+        }
+      },
+      "component_units": {
+        "tmax": "C",
+        "tmin": "C",
+        "dew": "C",
+        "solar": "MJ/m2/day",
+        "wind": "m/s",
+        "rain": "mm/day"
+      }
+    },
+    "2021": {
+      "eto": {
+        "n": 149,
+        "expected": 153,
+        "missing_or_excluded": 4,
+        "suspect_reference_days": 4,
+        "bias": 0.8678021916772672,
+        "mae": 0.9306145792751048,
+        "rmse": 1.1450296003524492
+      },
+      "source_artifact": "data/validation/raw/cimis_fresno_2021_5365b9e0d16b.json",
+      "power_manifest": {
+        "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CT2MDEW%2CRH2M%2CWS2M%2CALLSKY_SFC_SW_DWN%2CPS&community=AG&latitude=36.8208&longitude=-119.7423&start=20210501&end=20210930&format=JSON&time-standard=LST",
+        "retrieved_utc": "2026-11-14T20:43:12.542641+00:00",
+        "sha256": "31549598cfd91232a6a269e6351eab0721dabbcbb059d3a1b1dd1758caa5da26",
+        "file": "power_cimis_fresno_2021_4b091dbe447b_31549598cfd9.raw",
+        "status": 200,
+        "content_type": "application/json"
+      },
+      "paired_model_total": 1143.1825265599127,
+      "paired_reference_total": 1013.88,
+      "paired_season_relative_bias": 0.12753237716486443,
+      "season_total_eligible_95_percent": true,
+      "totals_note": "Paired valid days only, not imputed or extrapolated to a full observed season.",
+      "components": {
+        "tmax": {
+          "n": 148,
+          "expected": 153,
+          "missing_or_excluded": 5,
+          "suspect_reference_days": 0,
+          "bias": 2.647905405405406,
+          "mae": 2.647905405405406,
+          "rmse": 2.8848793829299093
+        },
+        "tmin": {
+          "n": 146,
+          "expected": 153,
+          "missing_or_excluded": 7,
+          "suspect_reference_days": 0,
+          "bias": 3.191232876712329,
+          "mae": 3.373424657534247,
+          "rmse": 3.933958931752126
+        },
+        "dew": {
+          "n": 141,
+          "expected": 153,
+          "missing_or_excluded": 12,
+          "suspect_reference_days": 0,
+          "bias": -6.007730496453901,
+          "mae": 6.010851063829787,
+          "rmse": 6.546313943062519
+        },
+        "solar": {
+          "n": 148,
+          "expected": 153,
+          "missing_or_excluded": 5,
+          "suspect_reference_days": 0,
+          "bias": 1.2241486486486473,
+          "mae": 1.4101756756756745,
+          "rmse": 1.5518838466565432
+        },
+        "wind": {
+          "n": 147,
+          "expected": 153,
+          "missing_or_excluded": 6,
+          "suspect_reference_days": 0,
+          "bias": 0.04428571428571428,
+          "mae": 0.36931972789115647,
+          "rmse": 0.45837853827785335
+        },
+        "rain": {
+          "n": 152,
+          "expected": 153,
+          "missing_or_excluded": 1,
+          "suspect_reference_days": 0,
+          "bias": 0.018026315789473685,
+          "mae": 0.018026315789473685,
+          "rmse": 0.059614992815742694
+        }
+      },
+      "component_units": {
+        "tmax": "C",
+        "tmin": "C",
+        "dew": "C",
+        "solar": "MJ/m2/day",
+        "wind": "m/s",
+        "rain": "mm/day"
+      }
+    },
+    "2022": {
+      "eto": {
+        "n": 152,
+        "expected": 153,
+        "missing_or_excluded": 1,
+        "suspect_reference_days": 1,
+        "bias": 0.43584982058493016,
+        "mae": 0.7127181472315197,
+        "rmse": 0.8899343212105211
+      },
+      "source_artifact": "data/validation/raw/cimis_fresno_2022_dc29be7aa667.json",
+      "power_manifest": {
+        "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CT2MDEW%2CRH2M%2CWS2M%2CALLSKY_SFC_SW_DWN%2CPS&community=AG&latitude=36.8208&longitude=-119.7423&start=20220501&end=20220930&format=JSON&time-standard=LST",
+        "retrieved_utc": "2026-11-14T20:43:14.778555+00:00",
+        "sha256": "4d7c87eba520dc5140cb1bf2d4ee61dab2e18206c6427f9d565c8fc6696bae64",
+        "file": "power_cimis_fresno_2022_9f968880958b_4d7c87eba520.raw",
+        "status": 200,
+        "content_type": "application/json"
+      },
+      "paired_model_total": 1179.1091727289095,
+      "paired_reference_total": 1112.86,
+      "paired_season_relative_bias": 0.05953055436345056,
+      "season_total_eligible_95_percent": true,
+      "totals_note": "Paired valid days only, not imputed or extrapolated to a full observed season.",
+      "components": {
+        "tmax": {
+          "n": 147,
+          "expected": 153,
+          "missing_or_excluded": 6,
+          "suspect_reference_days": 0,
+          "bias": 1.945442176870748,
+          "mae": 2.0631292517006803,
+          "rmse": 2.3602729578110555
+        },
+        "tmin": {
+          "n": 143,
+          "expected": 153,
+          "missing_or_excluded": 10,
+          "suspect_reference_days": 0,
+          "bias": 3.4274125874125874,
+          "mae": 3.5902097902097903,
+          "rmse": 4.1880115280930825
+        },
+        "dew": {
+          "n": 137,
+          "expected": 153,
+          "missing_or_excluded": 16,
+          "suspect_reference_days": 0,
+          "bias": -4.905547445255475,
+          "mae": 4.943211678832117,
+          "rmse": 5.7419028357490065
+        },
+        "solar": {
+          "n": 85,
+          "expected": 153,
+          "missing_or_excluded": 68,
+          "suspect_reference_days": 0,
+          "bias": -0.5272752941176486,
+          "mae": 0.9409600000000008,
+          "rmse": 1.3398051580909294
+        },
+        "wind": {
+          "n": 147,
+          "expected": 153,
+          "missing_or_excluded": 6,
+          "suspect_reference_days": 0,
+          "bias": -0.06285714285714285,
+          "mae": 0.38272108843537417,
+          "rmse": 0.5014618086935747
+        },
+        "rain": {
+          "n": 152,
+          "expected": 153,
+          "missing_or_excluded": 1,
+          "suspect_reference_days": 0,
+          "bias": 0.041710526315789476,
+          "mae": 0.06921052631578947,
+          "rmse": 0.27462893626050944
+        }
+      },
+      "component_units": {
+        "tmax": "C",
+        "tmin": "C",
+        "dew": "C",
+        "solar": "MJ/m2/day",
+        "wind": "m/s",
+        "rain": "mm/day"
+      }
+    }
+  },
+  "remaining": "Inspect weather components, local crop calendar and management; no correction or irrigation validation follows automatically",
+  "interpretation": "NASA-driven ET0 exceeds the quality-screened station reference on average in each evaluated year. The paired comparison does not prove a unique cause or a correction for the 25-season irrigation median."
 }

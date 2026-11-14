@@ -6,7 +6,7 @@
 
 | Priority | Delivered | Still limited or blocked |
 |---|---|---|
-| Scientific validation | Frozen engineering protocol, 21 reserved station-season evaluations, raw source hashes, per-output errors, failed gates and block-bootstrap bias intervals; technical parameter review below | Combined weather screening did not qualify. Expert agronomic review and measured crop irrigation validation remain absent. California station comparison needs CIMIS AppKey |
+| Scientific validation | Frozen engineering protocol, 21 reserved station-season evaluations, raw source hashes, per-output errors, failed gates and block-bootstrap bias intervals; technical parameter review below | Combined weather screening did not qualify. Expert agronomic review and measured crop irrigation validation remain absent. California station comparison completed after key configuration; field irrigation validation remains pending |
 | OpenAI activation | Ignored local configuration loading, server-only credentials, verified model access, grounded English/Arabic rendering, crop-care evidence, bounded live-check command, explicit quota/authentication errors | Model access returned 200; generation returned `credit_balance_exhausted`. Account API credits are required before live responses can pass |
 | National layers | NASA IMERG/SMAP raster context with US50 clipping and original legends/date gaps; resumable physical grid builder, COG files, point values, provenance and PNG tiles | Native valid-pixel coverage varies. The full national derived deficit grid is not precomputed; the completed live example is Kansas maize 2020, 80 cells |
 
@@ -142,3 +142,17 @@ Source capabilities: https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/1.0.0/WM
 ## Verification
 
 185 backend tests passed, including private literal configuration, credential redaction, quota handling, Arabic/crop evidence, immutable numerical claims, frozen gate failures, block-bootstrap repeatability, CIMIS units/QC/station checks, source alpha/date gaps, corrupted tile caches, positive-longitude Alaska/Hawaii masks, COG layout, exact values/nodata and immutable publication. Fifty raw-byte source manifests and the complete Kansas raster checksum were verified. Frontend diff is empty. One original Starlette dependency deprecation remains.
+
+## CIMIS live follow-through
+
+The privately configured AppKey is accepted. Live Fresno State station 80 comparisons completed for May–September 2020–2022. The API returns solar radiation as `(W/m²)`; the adapter now accepts that exact equivalent spelling alongside `(W/sq.m)` and converts W/m² × 86400 / 1,000,000 to MJ/m²/day. Original payloads/units are preserved, and a live-fixture regression checks the conversion.
+
+| Year | Paired days | ET0 bias (mm/day) | RMSE (mm/day) | Paired total difference |
+|---|---:|---:|---:|---:|
+| 2020 | 145/153 | +0.692 | 1.098 | +10.4% |
+| 2021 | 149/153 | +0.868 | 1.145 | +12.8% |
+| 2022 | 152/153 | +0.436 | 0.890 | +6.0% |
+
+Bias is NASA-driven FAO-56 minus quality-screened CIMIS published ASCE ETo. Totals use paired valid days; 2020 fails the 95% paired-day threshold and remains diagnostic. Component results show warmer NASA temperatures and lower dewpoint than the irrigated station, consistent with higher ET0. Different valid-day subsets, method differences and spatial support prevent a unique causal conclusion or a correction factor for the 25-season irrigation median. Current station metadata designates grass/ETo reference status; its older siting notes mention dust and variable grass height.
+
+CIMIS connection and the California reference comparison are no longer blocked. Full report: `validation/fresno-cimis-comparison.md`; raw/normalized evidence: `validation/results/fresno-cimis-comparison.json`. Actual field irrigation accuracy, agronomic review and the cause/magnitude of the original high irrigation estimate remain unresolved. No parameters were fitted.

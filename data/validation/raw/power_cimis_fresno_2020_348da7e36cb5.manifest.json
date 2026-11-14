@@ -1,0 +1,8 @@
+{
+  "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CT2MDEW%2CRH2M%2CWS2M%2CALLSKY_SFC_SW_DWN%2CPS&community=AG&latitude=36.8208&longitude=-119.7423&start=20200501&end=20200930&format=JSON&time-standard=LST",
+  "retrieved_utc": "2026-11-14T20:43:10.412624+00:00",
+  "sha256": "6eac68782c08bcd3c29524489de5009d482d5f451b8eff3503ca3ec9abe5d629",
+  "file": "power_cimis_fresno_2020_348da7e36cb5_6eac68782c08.raw",
+  "status": 200,
+  "content_type": "application/json"
+}

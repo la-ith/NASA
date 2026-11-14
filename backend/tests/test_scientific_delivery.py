@@ -123,6 +123,16 @@ def test_cimis_key_only_in_header(monkeypatch):
     assert 'private-cimis-key' not in json.dumps(result)
 
 
+def test_live_cimis_solar_unit_equivalence_and_original_payload():
+    path=next((Path(__file__).resolve().parents[2]/'data/validation/raw').glob('cimis_unmodified_fresno_2020_*.json'))
+    raw=json.loads(path.read_text(encoding='utf-8'))['response'];original=copy.deepcopy(raw)
+    result=cimis.normalize(raw,80,date(2020,5,1),date(2020,9,30))
+    record=next(r for p in raw['Data']['Providers'] for r in p['Records'] if not r['DaySolRadAvg']['Qc'].strip())
+    value=result['records'][record['Date']]['values']['solar']
+    assert value==pytest.approx(float(record['DaySolRadAvg']['Value'])*86400/1_000_000)
+    assert result['original_units']['DaySolRadAvg']==['(W/m²)'] and raw==original
+
+
 def tile_for(lon,lat,z=6):
     return z,int((lon+180)/360*2**z),int((1-math.asinh(math.tan(math.radians(lat)))/math.pi)/2*2**z)
 

@@ -81,3 +81,13 @@ datasets/Palestine. No nationwide accuracy or complete spec-v4 release is claime
 Frontend and user-account implementation remain unchanged. Docker image build/runtime verification remains pending on a host with Docker.
 
 Verification for this delivery: 185 backend tests pass, including 18 new validation/configuration/AI/raster tests. Original dependency deprecation remains; no frontend files changed. Fifty raw-byte download manifests and the live Kansas COG checksum were verified. API 2.3.0 retains physical engine 2.2.0.
+
+## CIMIS key activation follow-through
+
+CIMIS credentials were configured privately and accepted by the current API. The previously blocked Fresno comparison now succeeds for 2020–2022. Live response solar units `(W/m²)` are explicitly normalized with the same physical conversion as `(W/sq.m)`; raw units/payloads remain unchanged. A regression test verifies the real-response conversion.
+
+Paired daily ET0 bias (NASA minus CIMIS ASCE): +0.692, +0.868, +0.436 mm/day; RMSE: 1.098, 1.145, 0.890. Unflagged paired counts: 145, 149, 152 of 153; 2020 is below the 95% day threshold. Station metadata and component errors are retained. See `validation/fresno-cimis-comparison.md`. This is a successful reference comparison, not confirmation of the 25-season irrigation estimate or measured field accuracy.
+
+Remaining: scientific qualification/expert review and field observations; OpenAI response generation last failed because API credits were exhausted; national derived deficit grid outside executed scope; frontend/account work; deployment verification. CIMIS key configuration is no longer outstanding.
+
+Verification after CIMIS activation: 186 backend tests pass, with one existing dependency deprecation. No frontend files or account database were changed. Private credentials remain ignored and excluded from artifacts.
