@@ -124,7 +124,8 @@ def inputs(
                   "state": "missing" if lower_need_mm is None else "entered",
                   "source": f"team: {water_source}" if lower_need_mm is not None else "no confirmed figure",
                   "effect": ("Water fit has insufficient evidence; no other crop's figure is borrowed."
-                             if lower_need_mm is None else f"Lower bound {lower_need_mm:g} mm used by water fit.")})
+                             if lower_need_mm is None else
+                             f"Lower bound {lower_need_mm:g} mm. Water fit uses it only when the site check passes.")})
     return items
 
 

@@ -24,6 +24,7 @@ Version 3.2 | 14 November 2026 | NASA Space Apps Challenge 2026 — "Field Shift
 - Added three new sections: challenge coverage (20), submission checklist (21), and glossary (22).
 - Added section 23: how the app analyses NASA POWER data and where each result is used. It includes Python + FastAPI reference code that was run against the live pilot record and reproduces the section 16.1 and 17 values. The backend stack is now decided (decision 12), and the cache stores only validated responses.
 - Added zero-tolerance data-reading integrity (section 16.2, acceptance criterion 17), carried over from the v3.1 edits. NASA's response must match the request exactly, values are kept exactly as received, and any mismatch fails as a data error. The "no data" state is now "data error". The code and tests in section 23 enforce every check.
+- Built the app. The repository now has `backend/` (Python + FastAPI, 55 tests) and `frontend/` (the nine screens as an installable web app). The section 23 code blocks are copies of those files. Section 19 records what is implemented.
 - Added the SQLite relational schema from the v3.1 edits as section 6.4. Its tables, keys and relationships match v3.1 exactly, and the extra plain columns v3.2 needs are listed there. The section 9 cache is a separate table outside the relational model. Section 23 adds `schema.sql`, `seed.sql` and the storage code, plus `GET /api/v1/analyses/{id}`, all tested.
 - Corrected the `PRECTOTCORR` sources in section 16. Requested alone, it reports `["MERRA2"]`; the earlier `["MERRA2", "POWER"]` came from a request that also included temperature.
 - Replaced the NASA POWER acknowledgement with the current official wording.
@@ -604,24 +605,31 @@ For weak connectivity:
 - allow a saved report to be viewed offline, with its age and source visible
 - give every chart a text alternative
 
-## 10. Suggested build structure and stack
+## 10. Build structure and stack
+
+This is the structure of the repository as built.
 
 ~~~text
 field-shift/
-  frontend/src/pages/
-  frontend/src/components/
-  frontend/src/api/
+  frontend/index.html                     # the web app shell; FastAPI serves this folder at /
+  frontend/app.js                         # the nine screens, routing, draft saving, error states
+  frontend/styles.css                     # light and dark themes, mobile first, print layout
+  frontend/sw.js                          # caches the app shell for offline use
+  frontend/manifest.webmanifest           # installable PWA
+  frontend/icon.svg
+  backend/README.md                       # how to run
   backend/requirements.txt                # pinned versions, section 23.1
   backend/pytest.ini                      # pythonpath = .
-  backend/app/main.py                     # FastAPI app, startup cache warm-up, error shapes
-  backend/app/api/analyses.py             # POST /api/v1/analyses and the other routes
+  backend/app/main.py                     # FastAPI app, startup cache warm-up, error shapes, serves the frontend
+  backend/app/api/analyses.py             # POST /api/v1/analyses and GET /api/v1/analyses/{id}
+  backend/app/api/reference.py            # GET /api/v1/crops, /rules and /demo
   backend/app/db/schema.sql               # SQLite tables, section 6.4
   backend/app/db/seed.sql                 # crop profiles and rules from section 18
   backend/app/db/database.py              # opens the database, creates tables, loads seed rows
-  backend/app/domain/fields.py
-  backend/app/domain/plans.py
+  backend/app/domain/crops.py             # crop profiles and the crop families the rotation rules use
+  backend/app/domain/plans.py             # Candidate Plan Builder
   backend/app/domain/rules.py             # H1-H3 and R1-R6
-  backend/app/domain/evaluation.py
+  backend/app/domain/evaluation.py        # Rotation Evaluation Engine
   backend/app/services/climate_provider.py
   backend/app/services/climate_cache.py   # the section 9 cache (power_cache)
   backend/app/services/analysis_store.py  # writes an analysis and every row that belongs to it
@@ -629,20 +637,17 @@ field-shift/
   backend/app/services/indicators.py
   backend/app/services/site_check.py
   backend/app/services/climate_context.py # runs the NASA data steps for one analysis
-  backend/app/services/explanations.py
+  backend/app/services/explanations.py    # section 18 templates, "What we know", summary, limitations
   backend/tests/test_indicators.py        # integrity checks; reproduces the section 16.1 and 17 pilot values
   backend/tests/test_storage.py           # schema, constraints, and storing datasets and analyses
-  backend/tests/test_rules.py             # reproduces the section 18 expected results
-  data/demo/power_pilot_19911001_20260531.json
-  data/demo/sample_case.json
-  data/demo/site_check.json
-  docs/product-spec.md
-  docs/data-dictionary.md
-  docs/rule-sources.md
+  backend/tests/test_rules.py             # every rotation flowchart branch, hard constraints, cut-offs, plan builder
+  backend/tests/test_api.py               # the whole API offline, including the section 18 expected results
+  data/demo/power_pilot_19911001_20260531.json  # validated NASA POWER record, retrieved 2026-11-14
+  data/demo/site_check.json               # Hebron station reference (decision 11)
 ~~~
 
 - Each folder under `backend/app` has an empty `__init__.py`.
-- Use the frontend framework the team knows best.
+- The frontend is plain HTML, CSS and JavaScript with no build step, served by the same FastAPI app.
 - The backend is Python 3.12 with FastAPI (decision 12). Section 23 specifies how it analyses NASA data, with tested reference code. Calculations use plain Python; add data libraries only when they are needed.
 - SQLite or in-memory storage is enough for a demo. Choose PostgreSQL when deployment and persistence needs justify it.
 - Use maps and charts only when they add evidence.
@@ -1099,22 +1104,22 @@ In these templates:
 
 Keep this table current during the build. It answers acceptance criterion 16 and goes on the last slide.
 
-| Part | State at start of build | Target for demo |
+| Part | Target for demo | State on 14 Nov 2026 |
 |---|---|---|
-| UI journey, all nine screens | Planned | Implemented |
-| NASA POWER adapter, validation, provenance | Reference code in section 23, tested against the live record | Implemented, with cached pilot record and sample fallback |
-| Site check (16.1) | Planned (pilot values computed) | Implemented |
-| Indicators (section 17) | Reference code and tests in section 23 | Implemented, with tests |
-| SQLite schema and storage (section 6.4) | Reference schema, seed data and storage code in section 23, tested | Implemented, with tests |
-| Rule engine (section 18) | Planned | Implemented, with tests |
-| Rule content | Draft, unreviewed | Simulated: labelled illustrative unless a reviewer signs off |
-| Station reference value | Secondary source | Primary source, if obtained (decision 11) |
-| Lentil and vetch water figures | Missing | Shown as insufficient evidence unless sourced |
-| GPM IMERG rainfall | Not started | Stretch goal (decision 10b); otherwise stated as planned |
-| Print report | Planned | Implemented through browser printing |
-| Offline saved report, PWA install | Planned | Implemented if time allows; otherwise stated as planned |
-| Arabic interface | Planned | Per decision 6 |
-| Field validation with farmers | Not done | Not done; stated plainly |
+| UI journey, all nine screens | Implemented | Implemented (`frontend/`), checked in a browser at desktop and 375 px width |
+| NASA POWER adapter, validation, provenance | Implemented, with cached pilot record and sample fallback | Implemented and tested, including a live call |
+| Site check (16.1) | Implemented | Implemented and tested |
+| Indicators (section 17) | Implemented, with tests | Implemented and tested |
+| SQLite schema and storage (section 6.4) | Implemented, with tests | Implemented and tested |
+| Rule engine (section 18): H1–H3, R1–R6, plan builder, explanations | Implemented, with tests | Implemented and tested; every rotation flowchart branch has a test |
+| Rule content | Simulated: labelled illustrative unless a reviewer signs off | Simulated: draft-unreviewed, labelled in the app |
+| Station reference value | Primary source, if obtained (decision 11) | Secondary source |
+| Lentil and vetch water figures | Shown as insufficient evidence unless sourced | Shown as insufficient evidence |
+| GPM IMERG rainfall | Stretch goal (decision 10b); otherwise stated as planned | Planned |
+| Print report | Implemented through browser printing | Implemented |
+| Offline saved report, PWA install | Implemented if time allows | Implemented: the app shell is cached and the last report opens offline |
+| Arabic interface | Per decision 6 | Planned; the demo is in English |
+| Field validation with farmers | Not done; stated plainly | Not done |
 
 ## 20. Challenge coverage
 
@@ -1277,7 +1282,7 @@ flowchart LR
 
 ### 23.4 Reference code
 
-The first line of each block is the file path, matching the tree in section 10. Rotation rules R1–R3, the plan builder and the explanation templates are not shown here; they follow sections 5 and 18. The `api/analyses.py` block is an excerpt that shows only the climate path, with a small stand-in for the plan builder. The SQL files implement section 6.4.
+Each block is a copy of the repository file named on its first line; the repository is the source of truth. The SQL files implement section 6.4. These files are in the repository but not shown here: `domain/crops.py`, `domain/plans.py` and `domain/evaluation.py` (plan builder and engine, sections 5 and 18), `services/explanations.py` (section 18 templates), `api/reference.py`, `tests/test_rules.py`, `tests/test_api.py`, and the `frontend/` folder.
 
 ~~~python
 # backend/app/services/climate_provider.py
@@ -1588,6 +1593,12 @@ def save_analysis(db: sqlite3.Connection, request: dict, result: dict, climate: 
             (field["label"], field["lat"], field["lon"], field["area"]["value"], field["area"]["unit"],
              field["irrigation"], field["soil"]),
         ).lastrowid
+        db.executemany(  # an unknown season gets crop_id NULL and unknown = 1; no crop is invented
+            "INSERT INTO crop_season (field_id, start_date, end_date, crop_id, unknown, source)"
+            " VALUES (?, ?, ?, (SELECT crop_id FROM crop WHERE name = ?), ?, 'farmer')",
+            [(field_id, f"{s['season'][:4]}-10-01", f"{int(s['season'][:4]) + 1}-05-31", s["crop"],
+              int(s["crop"] == "unknown")) for s in request.get("history", [])],
+        )
         db.execute(
             "INSERT INTO analysis (analysis_id, field_id, created_utc, goal, input_snapshot, engine_version,"
             " rules_version, status, result_snapshot) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -1621,7 +1632,7 @@ def save_analysis(db: sqlite3.Connection, request: dict, result: dict, climate: 
             db.executemany(
                 "INSERT INTO plan_evidence (plan_id, rule_id, criterion, label, explanation, rule_state)"
                 f" VALUES (?, {RULE_ID}, ?, ?, ?, ?)",
-                [(plan_id, c["rule"], RULES_VERSION, c["criterion"], c["label"], c["reason"], c["rule_state"])
+                [(plan_id, c["rule"], RULES_VERSION, c["criterion"], c["label"], c["explanation"], c["rule_state"])
                  for c in plan["criteria"]],
             )
             db.executemany(
@@ -1838,6 +1849,7 @@ class SiteCheck:
     cell_mean_mm: float | None = None
     station_mean_mm: float | None = None
     ratio: float | None = None
+    station_name: str | None = None
 
 
 def run_site_check(seasons: list[SeasonTotal], station: StationReference | None) -> SiteCheck:
@@ -1851,29 +1863,81 @@ def run_site_check(seasons: list[SeasonTotal], station: StationReference | None)
     ratio = cell / station.mean_oct_may_mm
     low, high = REPRESENTATIVE_RATIO
     if low <= ratio <= high:
-        return SiteCheck("representative", "grid cell matches the station record", cell, station.mean_oct_may_mm, ratio)
+        return SiteCheck("representative", "grid cell matches the station record", cell, station.mean_oct_may_mm,
+                         ratio, station.name)
     reason = f"the grid cell has {ratio:.0%} of the rainfall recorded at {station.name} station"
-    return SiteCheck("not_representative", reason, cell, station.mean_oct_may_mm, ratio)
+    return SiteCheck("not_representative", reason, cell, station.mean_oct_may_mm, ratio, station.name)
 ~~~
 
 ~~~python
 # backend/app/domain/rules.py
-"""Excerpt: climate rules R4-R6 (section 18). Rotation rules R1-R3 live in the same file."""
+"""Hard constraints H1-H3 and criterion rules R1-R6 (section 18)."""
 from dataclasses import dataclass
 
+from app.domain.crops import CropProfile
 from app.services.indicators import Indicators, seasons_meeting
 from app.services.site_check import SiteCheck
 
-RULES_VERSION = "0.1"  # matches rule.version in db/seed.sql
+RULES_VERSION = "0.1"  # matches rotation_rule.version in db/seed.sql
+IRRIGATED_ONLY: set[str] = set()  # no MVP crop is irrigated-only, so H3 cannot trip yet
 
 
 @dataclass(frozen=True)
 class CriterionResult:
-    criterion: str  # "rotation_soil", "water_fit" or "risk"
-    label: str  # "favorable", "mixed", "concern" or "insufficient_evidence"
-    rule: str
+    criterion: str  # "hard_constraint", "rotation_soil", "water_fit" or "risk"
+    label: str  # "rejected", "favorable", "mixed", "concern" or "insufficient_evidence"
+    rule: str | None  # None only for a rotation result that no single rule produced
     reason: str
-    rule_state: str = "draft-unreviewed"  # the full app reads it from the rotation_rule table
+
+
+def hard_constraint(crop: str, crops: dict[str, CropProfile], irrigation: str) -> CriterionResult | None:
+    """H1-H3, checked before anything else. None means the plan may be evaluated."""
+    profile = crops.get(crop)
+    if profile is None or profile.season is None:
+        return CriterionResult("hard_constraint", "rejected", "H1", "This crop is not supported in this version.")
+    if profile.season != "winter":  # the MVP candidate season, 2026/27, is a winter season
+        return CriterionResult(
+            "hard_constraint", "rejected", "H2", "This crop is not grown in the selected season in this version."
+        )
+    if crop in IRRIGATED_ONLY and irrigation == "rain-fed":
+        return CriterionResult(
+            "hard_constraint", "rejected", "H3", "This crop needs irrigation; the field is recorded as rain-fed."
+        )
+    return None
+
+
+@dataclass(frozen=True)
+class RotationResult:
+    result: CriterionResult
+    seasons_needed: int  # how many of the most recent seasons the decision depends on
+
+
+def rotation_soil(candidate_family: str, previous_families: list[str]) -> RotationResult:
+    """R1-R3, exactly as the section 18 flowchart. previous_families is oldest first; gaps count as 'unknown'."""
+
+    def result(label: str, rule: str | None, reason: str, needed: int) -> RotationResult:
+        return RotationResult(CriterionResult("rotation_soil", label, rule, reason), needed)
+
+    p1 = previous_families[-1] if previous_families else "unknown"
+    p2 = previous_families[-2] if len(previous_families) >= 2 else "unknown"
+    if candidate_family == "cereal":
+        if p1 == "unknown":
+            return result("insufficient_evidence", None, "the previous season's crop is unknown", 1)
+        if p1 != "cereal":
+            return result("mixed", "R3", "the run of cereal seasons is broken by the previous season", 1)
+        if p2 == "unknown":
+            return result("insufficient_evidence", None,
+                          "a third cereal season in a row can be neither confirmed nor ruled out", 2)
+        if p2 == "cereal":
+            return result("concern", "R1", "at least 3 cereal seasons in a row", 2)
+        return result("mixed", "R3", "only 2 cereal seasons in a row", 2)
+    if candidate_family == "legume":
+        if p1 == "unknown":
+            return result("insufficient_evidence", None, "the previous season's crop is unknown", 1)
+        if p1 == "cereal":
+            return result("favorable", "R2", "a legume after a cereal season", 1)
+        return result("mixed", "R3", "no specific rotation effect identified", 1)
+    raise ValueError(f"no rotation rule covers a {candidate_family} candidate")
 
 
 def water_fit(
@@ -1973,30 +2037,28 @@ async def build_climate_context(
 
 ~~~python
 # backend/app/api/analyses.py
-"""Excerpt: the climate path of POST /api/v1/analyses, from request to stored result, and GET by ID.
-History is validated and used by the rotation rules (section 18); it is not modelled in this excerpt."""
+"""POST /api/v1/analyses and GET /api/v1/analyses/{id} (sections 6 and 10)."""
 import json
+import re
 import secrets
-from dataclasses import asdict
 from typing import Literal
 
 from fastapi import APIRouter, HTTPException, Request
+from fastapi.exceptions import RequestValidationError
 from pydantic import BaseModel, Field, model_validator
 
-from app.domain.rules import RULES_VERSION, rainfall_risk, water_fit
+from app.domain.crops import candidates, load_crops
+from app.domain.evaluation import evaluate_plan, load_rule_states
+from app.domain.plans import build_plans
+from app.domain.rules import RULES_VERSION
+from app.services import explanations
 from app.services.analysis_store import save_analysis
 from app.services.climate_context import ClimateContext, build_climate_context
 from app.services.climate_provider import ADAPTER_VERSION
 
 router = APIRouter()
 ENGINE_VERSION = "1.0.0"
-
-# Stand-in for the Candidate Plan Builder (section 5): the three plans of the demo case.
-DEMO_PLANS = [
-    ("A", "wheat", "current_practice", "Current practice: repeats the crop recorded for 2025/26."),
-    ("B", "lentil", "alternative", "Alternative: a supported grain legume for the 2026/27 winter season."),
-    ("C", "vetch", "alternative", "Alternative: a supported forage legume for the 2026/27 winter season."),
-]
+SEASON_LABEL = re.compile(r"(\d{4})/(\d{2})")
 
 
 class AreaIn(BaseModel):
@@ -2019,11 +2081,38 @@ class FieldIn(BaseModel):
         return self
 
 
+class SeasonIn(BaseModel):
+    season: str  # for example "2025/26"
+    crop: str  # a crop from GET /api/v1/crops, or "unknown"
+
+
 class AnalysisRequest(BaseModel):
     mode: Literal["live", "sample"]
     field: FieldIn
+    history: list[SeasonIn] = Field(min_length=1, max_length=5)  # oldest first
     candidate_season: Literal["2026/27"]
     goal: Literal["conserve_water", "improve_soil_rotation", "balance_both"]
+    current_practice_crop: str | None = None  # required only when the last season's crop is not a candidate
+    extra_candidates: list[str] = Field(default_factory=list, max_length=1)  # sample case only (Plan D)
+
+    @model_validator(mode="after")
+    def seasons_and_sample_rules(self) -> "AnalysisRequest":
+        years = []
+        for s in self.history:
+            match = SEASON_LABEL.fullmatch(s.season)
+            if not match or (int(match[1]) + 1) % 100 != int(match[2]):
+                raise ValueError(f"{s.season!r} is not a season label like 2025/26.")
+            years.append(int(match[1]))
+        last = int(self.candidate_season[:4]) - 1
+        if years != list(range(last - len(years) + 1, last + 1)):
+            raise ValueError(f"Seasons must be consecutive and end with {last}/{(last + 1) % 100:02d}.")
+        if self.extra_candidates and self.mode != "sample":
+            raise ValueError("extra_candidates is accepted only in sample mode.")
+        return self
+
+
+def _invalid(field: str, message: str) -> RequestValidationError:
+    return RequestValidationError([{"type": "value_error", "loc": ("body", field), "msg": message, "input": None}])
 
 
 def round1(x: float | None) -> float | None:
@@ -2060,28 +2149,62 @@ def climate_evidence(ctx: ClimateContext) -> dict:
 @router.post("/analyses")
 async def create_analysis(body: AnalysisRequest, request: Request) -> dict:
     db = request.app.state.db
-    ctx = await build_climate_context(
+    crops = load_crops(db)
+    supported = candidates(crops)
+    history = [(s.season, s.crop) for s in body.history]
+    for _, crop in history:
+        if crop != "unknown" and crop not in crops:
+            raise _invalid("history", f"Unknown crop choice {crop!r}. Use GET /api/v1/crops for the choices.")
+    if any(crop in supported for crop in body.extra_candidates):
+        raise _invalid("extra_candidates", "Plan D is for a crop this version does not support.")
+    last_season, last_crop = history[-1]
+    if last_crop in supported:
+        if body.current_practice_crop not in (None, last_crop):
+            raise _invalid("current_practice_crop", f"Current practice repeats {last_crop}, recorded for {last_season}.")
+        current = last_crop
+    elif body.current_practice_crop in supported:
+        current = body.current_practice_crop
+    else:
+        raise _invalid("current_practice_crop", f"The crop for {last_season} is not a supported candidate; "
+                                                f"choose the crop for current practice ({', '.join(supported)}).")
+
+    climate = await build_climate_context(
         body.mode, body.field.lat, body.field.lon, int(body.candidate_season[:4]), request.app.state.http, db,
     )
-    risk = rainfall_risk(ctx.indicators)  # R6 is the same for every plan
+    states = load_rule_states(db)
+    field = body.field.model_dump()
+    order = explanations.CRITERION_ORDER[body.goal]
     plans = []
-    for plan_id, crop, role, why_included in DEMO_PLANS:
-        (lower_need_mm,) = db.execute("SELECT water_need_min_mm FROM crop WHERE name = ?", (crop,)).fetchone()
-        water = water_fit(lower_need_mm, body.field.irrigation, ctx.site, ctx.indicators)
-        # The full engine adds the rotation/soil criterion (R1-R3) and the explanation text here.
-        plans.append({"id": plan_id, "type": role, "crop": crop, "why_included": why_included,
-                      "status": "evaluated", "criteria": [asdict(water), asdict(risk)]})
-    insufficient = any(c["label"] == "insufficient_evidence" for p in plans for c in p["criteria"])
+    for plan in build_plans(history, current, supported, crops, body.extra_candidates, body.candidate_season):
+        evaluated = evaluate_plan(plan, history, field, crops, climate, states)
+        if evaluated["status"] == "evaluated":
+            evaluated["criteria"].sort(key=lambda c: order.index(c["criterion"]))
+        plans.append(evaluated)
+    criteria = [c for p in plans if p["status"] == "evaluated" for c in p["criteria"]]
+    illustrative = any(c["rule_state"] != "reviewed" for p in plans for c in p["criteria"])
+    partial = any(c["label"] == "insufficient_evidence" for c in criteria) or bool(climate.record.flags)
     result = {
         "analysis_id": secrets.token_hex(4),
-        "status": "partial" if insufficient else "complete",
+        "status": "partial" if partial else "complete",
         "mode": body.mode,
+        "banners": {"sample_data": body.mode == "sample", "illustrative_rules": illustrative},
         "versions": {"rules": RULES_VERSION, "engine": ENGINE_VERSION, "adapter": ADAPTER_VERSION,
-                     "power_api": ctx.record.api_version},
-        "data": climate_evidence(ctx),
+                     "power_api": climate.record.api_version},
+        "field": field,
+        "history": [s.model_dump() for s in body.history],
+        "candidate_season": body.candidate_season,
+        "goal": body.goal,
+        "criterion_order": order,
+        "summary": explanations.summary(body.goal, plans),
+        "data": climate_evidence(climate),
         "plans": plans,
+        "limitations": explanations.limitations(climate, illustrative),
+        "local_questions": explanations.LOCAL_QUESTIONS,
+        "notice": explanations.NOTICE,
+        "acknowledgement": explanations.ACKNOWLEDGEMENT,
+        "data_reference": explanations.data_reference(climate),
     }
-    save_analysis(db, body.model_dump(), result, ctx)
+    save_analysis(db, body.model_dump(), result, climate)
     return result
 
 
@@ -2098,33 +2221,41 @@ async def get_analysis(analysis_id: str, request: Request) -> dict:
 
 ~~~python
 # backend/app/main.py
-"""FastAPI app: startup cache warm-up and the error shapes from section 10."""
+"""FastAPI app: startup cache warm-up, the error shapes from section 10, and the web app."""
 import logging
+import os
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 import httpx
 from fastapi import FastAPI, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.api.analyses import router as analyses_router
+from app.api.reference import router as reference_router
 from app.db.database import connect
 from app.services.climate_context import build_climate_context
 from app.services.climate_provider import ProviderError
 from app.services.validation import UnusableRecord
 
 log = logging.getLogger("field_shift")
+DB_PATH = os.environ.get("FIELD_SHIFT_DB", "field_shift.db")  # created in the working directory
+WARM_UP = os.environ.get("FIELD_SHIFT_WARMUP", "1") != "0"  # tests switch it off to stay offline
+FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     app.state.http = httpx.AsyncClient()
-    app.state.db = connect("field_shift.db")  # created in the working directory
-    try:  # warm the pilot cache, so the demo does not depend on a live call
-        await build_climate_context("live", 31.5, 35.1, 2026, app.state.http, app.state.db)
-    except (ProviderError, UnusableRecord) as exc:
-        log.warning("Pilot cache warm-up failed; live requests will try again: %s", exc)
+    app.state.db = connect(DB_PATH)
+    if WARM_UP:
+        try:  # warm the pilot cache, so the demo does not depend on a live call
+            await build_climate_context("live", 31.5, 35.1, 2026, app.state.http, app.state.db)
+        except (ProviderError, UnusableRecord) as exc:
+            log.warning("Pilot cache warm-up failed; live requests will try again: %s", exc)
     yield
     await app.state.http.aclose()
     app.state.db.close()
@@ -2132,6 +2263,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Field Shift API", version="1.0.0", lifespan=lifespan)
 app.include_router(analyses_router, prefix="/api/v1")
+app.include_router(reference_router, prefix="/api/v1")
 
 
 @app.get("/api/v1/health")
@@ -2155,6 +2287,10 @@ async def provider_error(request: Request, exc: ProviderError) -> JSONResponse:
 async def data_error(request: Request, exc: UnusableRecord) -> JSONResponse:
     error = {"code": exc.code, "message": str(exc), "sample_available": True}
     return JSONResponse(status_code=502, content={"error": error})
+
+
+if FRONTEND_DIR.is_dir():  # mounted last, so /api routes take precedence
+    app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
 ~~~
 
 The two data files the code reads:
@@ -2316,7 +2452,8 @@ def raw():
 
 
 def criterion(name: str, label: str, rule: str) -> dict:
-    return {"criterion": name, "label": label, "rule": rule, "reason": "...", "rule_state": "draft-unreviewed"}
+    return {"criterion": name, "label": label, "rule": rule, "reason": "...", "explanation": "...",
+            "rule_state": "draft-unreviewed"}
 
 
 def test_cache_keeps_a_response_exactly_for_30_days(db, raw):
@@ -2384,7 +2521,7 @@ pytest
 uvicorn app.main:app --reload
 ~~~
 
-FastAPI then serves interactive API docs at `http://127.0.0.1:8000/docs`. A POST to `/api/v1/analyses` with the section 10 request returns the climate evidence and each plan's water-fit and risk labels.
+The web app is then at `http://127.0.0.1:8000`, and interactive API docs are at `http://127.0.0.1:8000/docs`. A POST to `/api/v1/analyses` with the section 10 request returns the full comparison.
 
 ### 23.7 Rules for changing this code
 
