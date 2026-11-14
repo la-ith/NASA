@@ -148,3 +148,29 @@ details > div { padding: 0 14px 14px; }
   .plans { grid-template-columns: repeat(3, 1fr); }
   h1 { font-size: 16pt; }
 }
+
+/* ---------- U.S. release (v2): map and side panel ---------- */
+.top { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; }
+.layout { display: grid; grid-template-columns: 1fr; }
+@media (min-width: 980px) { .layout { grid-template-columns: minmax(0, 1fr) 520px; height: calc(100vh - 56px); } }
+.map-pane { position: relative; min-height: 360px; border-bottom: 1px solid var(--line); }
+@media (min-width: 980px) { .map-pane { border-bottom: none; border-right: 1px solid var(--line); } }
+#map { position: absolute; inset: 0; }
+.map-shortcuts { position: absolute; top: 10px; left: 10px; display: flex; gap: 6px; z-index: 2; flex-wrap: wrap; }
+.map-shortcuts button { min-height: 36px; padding: 6px 10px; font-size: .9rem; }
+.map-status { position: absolute; bottom: 28px; left: 10px; right: 10px; z-index: 2; margin: 0; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; }
+.map-status:empty { display: none; }
+.panel-pane { overflow-y: auto; padding: 16px; max-width: none; }
+.panel-pane h1 { font-size: 1.35rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: .8rem; border-radius: 999px; padding: 2px 10px; border: 1px solid var(--line); }
+.chip.supported, .chip.user { background: var(--favorable-bg); color: var(--favorable); }
+.chip.partial, .chip.unknown { background: var(--mixed-bg); color: var(--mixed); }
+.chip.unsupported { background: var(--concern-bg); color: var(--concern); }
+.chip.not_integrated { background: var(--insufficient-bg); color: var(--insufficient); }
+.strategy { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin: 10px 0; }
+.strategy.current { border: 2px solid var(--brand); }
+.eq { font-family: ui-monospace, Consolas, monospace; font-size: .85rem; }
+td .range { color: var(--muted); font-size: .85rem; display: block; }
+@media print { .layout { display: block; height: auto; } .map-pane { display: none; } .panel-pane { overflow: visible; } }

@@ -202,6 +202,8 @@ ROTATION_NOTES = {  # qualitative, draft; no quantified benefit is claimed (spec
     "cereal_after_legume": "A cereal after a legume follows the common Corn Belt alternation.",
     "cereal_after_cereal": "A different cereal after a cereal keeps a cereal sequence (crop family unchanged).",
     "unknown_previous": "The last season's crop is unknown, so no rotation note applies.",
+    "outside_catalog_previous": "The last season's crop is outside the catalog, so its crop family is unknown and "
+                                "no rotation note applies.",
 }
 
 
@@ -210,6 +212,8 @@ def rotation_note(crop: CropProfileV2, last_crop: str | None, catalog: Catalog) 
         key = "unknown_previous"
     elif last_crop == crop.id:
         key = "same_crop"
+    elif last_crop not in catalog.crops:
+        key = "outside_catalog_previous"
     else:
         last_family = catalog.crops[last_crop].family if last_crop in catalog.crops else None
         key = {("legume", "cereal"): "legume_after_cereal", ("cereal", "legume"): "cereal_after_legume",

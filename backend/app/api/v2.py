@@ -11,12 +11,12 @@ from datetime import date, datetime, timezone
 from typing import Literal
 
 from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
 from pydantic import BaseModel, Field, model_validator
 
 from app.adapters import AdapterError, power
 from app.domain.crop_catalog import load_catalog
-from app.geo.boundaries import BOUNDARY_VERSION, state_at
+from app.geo.boundaries import BOUNDARY_FILE, BOUNDARY_VERSION, state_at
 from app.science.equations import EQUATIONS
 from app.services import sources_v2
 from app.services.analysis_v2 import ENGINE_VERSION
@@ -91,6 +91,12 @@ async def crops() -> dict:
                        "season_days": c.stages.total, "kc": [c.kc_ini, c.kc_mid, c.kc_end], "p": c.p,
                        "root_depth_m": c.root_depth_m, "sources": c.sources} for c in catalog.crops.values()],
             "goals": list(GOAL_ORDER)}
+
+
+@router.get("/boundaries")
+async def boundaries() -> FileResponse:
+    """The 50-state GeoJSON the map draws; the same file the analysis checks against."""
+    return FileResponse(BOUNDARY_FILE, media_type="application/geo+json")
 
 
 @router.get("/equations")

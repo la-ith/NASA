@@ -4,23 +4,34 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Field Shift</title>
-  <meta name="description" content="Compare crop rotation options for one field using NASA rainfall data and transparent rules.">
+  <meta name="description" content="Compare crop strategies for a U.S. field with NASA weather, USDA soil data and FAO-56 water equations.">
   <meta name="theme-color" content="#2f6b3b">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
   <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
   <script type="module" src="app.js"></script>
 </head>
 <body>
-  <a class="skip" href="#view">Skip to content</a>
+  <a class="skip" href="#panel">Skip to the form</a>
   <header class="top">
-    <a class="brand" href="#/home"><img src="icon.svg" alt="" width="24" height="24"> Field Shift</a>
-    <nav aria-label="Steps"><ol id="stepper" class="stepper"></ol></nav>
+    <a class="brand" href="./"><img src="icon.svg" alt="" width="24" height="24"> Field Shift</a>
+    <span class="muted small">U.S. release · NASA POWER + USDA SSURGO + FAO-56</span>
   </header>
-  <main id="view" tabindex="-1"></main>
-  <footer class="foot">
-    <p id="notice"></p>
-  </footer>
+  <div class="layout">
+    <section class="map-pane" aria-label="Map of the 50 U.S. states">
+      <div id="map" role="application" aria-label="Map. Click to choose a location, or type coordinates in the form."></div>
+      <div class="map-shortcuts" aria-label="Map shortcuts">
+        <button data-view="lower48">Lower 48</button>
+        <button data-view="alaska">Alaska</button>
+        <button data-view="hawaii">Hawaii</button>
+      </div>
+      <p id="map-status" class="map-status small" aria-live="polite"></p>
+    </section>
+    <main id="panel" class="panel-pane" tabindex="-1"></main>
+  </div>
+  <footer class="foot"><p id="notice"></p></footer>
   <noscript><p class="panel">Field Shift needs JavaScript to run.</p></noscript>
 </body>
 </html>

@@ -1,7 +1,7 @@
 {
   "name": "Field Shift",
   "short_name": "Field Shift",
-  "description": "Compare crop rotation options for one field using NASA rainfall data and transparent rules.",
+  "description": "Compare crop strategies for a U.S. field with NASA weather, USDA soil data and FAO-56 water equations.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f6f4ee",
