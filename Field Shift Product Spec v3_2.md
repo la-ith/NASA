@@ -24,6 +24,7 @@ Version 3.2 | 14 November 2026 | NASA Space Apps Challenge 2026 — "Field Shift
 - Added three new sections: challenge coverage (20), submission checklist (21), and glossary (22).
 - Added section 23: how the app analyses NASA POWER data and where each result is used. It includes Python + FastAPI reference code that was run against the live pilot record and reproduces the section 16.1 and 17 values. The backend stack is now decided (decision 12), and the cache stores only validated responses.
 - Added zero-tolerance data-reading integrity (section 16.2, acceptance criterion 17), carried over from the v3.1 edits. NASA's response must match the request exactly, values are kept exactly as received, and any mismatch fails as a data error. The "no data" state is now "data error". The code and tests in section 23 enforce every check.
+- Added the SQLite relational schema from the v3.1 edits as section 6.4, reconciled with section 23. The `climate_dataset` table is now also the cache, analyses point to the dataset they used, and `rotation_rule` is renamed `rule`. Section 23 adds `schema.sql`, `seed.sql` and the storage code, plus `GET /api/v1/analyses/{id}`, all tested.
 - Corrected the `PRECTOTCORR` sources in section 16. Requested alone, it reports `["MERRA2"]`; the earlier `["MERRA2", "POWER"]` came from a request that also included temperature.
 - Replaced the NASA POWER acknowledgement with the current official wording.
 
@@ -214,7 +215,7 @@ A plan can be displayed as `wheat → lentil`. The left crop is the immediately 
 
 **Explanation Builder:** fills fixed templates (section 18) from the engine output. The MVP uses no generative AI (decision 9).
 
-**Storage and Observability:** stores analysis snapshots: inputs, provenance, site-check result, and the versions of rules, engine and adapter. It tracks latency and provider failures without logging exact locations or other unnecessary personal information.
+**Storage and Observability:** stores fields, NASA datasets, analyses, plans and evidence in SQLite (section 6.4). Each analysis keeps snapshots of its inputs and results, the dataset it used, and the versions of rules, engine and adapter. It tracks latency and provider failures without logging exact locations or other unnecessary personal information.
 
 ## 6. Data flow
 
@@ -251,8 +252,10 @@ A plan can be displayed as `wheat → lentil`. The left crop is the immediately 
 - **Candidate plan:** plan ID (A–D), next-season crop, plan type (current practice, alternative or sample test), the reason it was included, and the history snapshot used to evaluate it. A displayed crop sequence is derived from history plus the candidate; it is not stored as several future seasons.
 - **Crop profile:** crop, type, season, verified attributes, geographic scope, references, version, review state.
 - **Rule:** ID, condition, effect, evidence, reviewer, scope, version, review state.
-- **Climate dataset:** provider, API version, parameter, community, rounded location, cell elevation, requested and actual periods, values and units, retrieval time (UTC), quality flags, site-check result, adapter version.
-- **Analysis:** ID, state (section 6.2), and snapshots of inputs, goal, plans, results, limitations and versions.
+- **Climate dataset:** provider, API version, sources, parameter, community, rounded location, cell elevation, requested period, the response exactly as received, daily values with their quality status, units, retrieval time (UTC), adapter version.
+- **Analysis:** ID, the climate dataset it used, its final status (complete or partial; runs that end in an error are not stored), and snapshots of inputs and results, including the site check, plans, limitations and versions.
+
+Section 6.4 turns these records into SQLite tables.
 
 ### 6.1 Analysis flowchart
 
@@ -355,8 +358,58 @@ In the pilot, every live analysis ends in **Partial**. The site check fails, and
 | Irrigation | One of: rain-fed, irrigated, mixed, unknown | "Choose an irrigation type." |
 | Soil type | Optional free choice or "I don't know"; display only | — |
 | History | From 1 to 5 seasons. Contiguous. The last one is the season immediately before the candidate season (2025/26 for 2026/27). Each season has exactly one choice from the history crop list (section 18) or "unknown". | "Seasons must be consecutive and end with 2025/26." |
-| Goal | One of: conserve water, improve soil and rotation, balance both | "Choose one goal." |
+| Goal | One of: conserve water, improve soil and rotation, balance both (API values `conserve_water`, `improve_soil_rotation`, `balance_both`) | "Choose one goal." |
 | Mode | `live` or `sample` | — |
+
+### 6.4 SQLite relational schema
+
+The MVP stores everything in one SQLite file, using these tables to hold the main data records above. `PK` is a primary key and `FK` a foreign key. The full table definitions are in `backend/app/db/schema.sql`, and the crop profiles and rules are loaded from `backend/app/db/seed.sql` (both in section 23.4).
+
+| Table | Key columns | Purpose |
+|---|---|---|
+| `field` | `field_id PK`; label; rounded latitude and longitude; area value and unit; irrigation; soil type | The field as the user entered it |
+| `crop` | `crop_id PK`; name (unique); type; candidate flag; season; water need min/max and source; review state | Candidate crops (wheat, lentil, vetch) and history-only choices (barley, chickpea, fallow, other) |
+| `crop_season` | `season_id PK`; `field_id FK`; season label (unique per field); start and end; `crop_id FK`, nullable; unknown flag; entry source | One recorded history season. An unknown season stays explicit |
+| `rule` | `rule_id PK`; code and version (unique together); condition; effect; citation; region; reviewer; review state | Every rule, H1–H3 and R1–R6, versioned, with its review state |
+| `climate_dataset` | `dataset_id PK`; mode; the request (location, parameter, community, start, end); API version, sources, fill value, time standard, units, cell elevation; valid and missing days; retrieval time; adapter version; raw response | One validated NASA response with its provenance. The newest live dataset under 30 days old for the same request is the cache (section 9) |
+| `climate_observation` | (`dataset_id FK`, observation date) composite PK; value; quality status | One daily value exactly as returned: valid, flagged (over 300 mm/day, kept unchanged) or missing |
+| `analysis` | `analysis_id PK` (random); `field_id FK`; `dataset_id FK`; created time; mode; goal; candidate season; status; rules and engine versions; input and result snapshots | One finished comparison. `GET /api/v1/analyses/{id}` returns its result snapshot unchanged |
+| `candidate_plan` | `plan_id PK`; `analysis_id FK`; plan code A–D (unique per analysis); crop name; `crop_id FK`, nullable; role; why included; status; `rejected_by FK` to `rule`; rejection reason; display order | One next-season option: current practice, an alternative, or the sample-only test plan |
+| `plan_evidence` | `evidence_id PK`; `plan_id FK`; `rule_id FK`, nullable; criterion (unique per plan); label; reason; the rule's review state at run time | One criterion result and its evidence |
+| `plan_input_status` | (`plan_id FK`, input key) composite PK; status; source or default; effect | The "What we know" entries: entered, estimated, assumed or missing |
+
+~~~mermaid
+erDiagram
+  field ||--o{ crop_season : "has history"
+  field ||--o{ analysis : "is compared in"
+  crop |o--o{ crop_season : "grown in"
+  crop |o--o{ candidate_plan : "proposed as"
+  climate_dataset ||--|{ climate_observation : "holds"
+  climate_dataset ||--o{ analysis : "is used by"
+  analysis ||--|{ candidate_plan : "compares"
+  candidate_plan ||--o{ plan_evidence : "is judged by"
+  candidate_plan ||--o{ plan_input_status : "lists inputs in"
+  rule |o--o{ plan_evidence : "produces"
+  rule |o--o{ candidate_plan : "rejects"
+~~~
+
+**Rules for the stored data:**
+
+- **Write once.** `climate_dataset`, `climate_observation`, `analysis`, `candidate_plan`, `plan_evidence` and `plan_input_status` are never updated or deleted. Changing an input creates a new analysis. Later edits to a field, crop profile or rule never change an earlier result.
+- **Fields and history.** `field` and `crop_season` hold what the user entered. Every analysis also keeps a full copy of its inputs (`input_snapshot`). There are no accounts in the MVP (decision 7), so each analysis writes its own `field` row.
+- **Unknown stays explicit.** A history season with no crop must have `unknown = 1`; the database rejects anything else. A crop is never invented to fill a gap.
+- **Missing climate days are never zero.** A value is NULL only where NASA sent its fill value, and its status is then `missing`; the database rejects anything else.
+- **Review state is frozen per result.** `plan_evidence.rule_state` copies the rule's review state when the analysis ran, so a later review does not relabel an old result.
+- **Foreign keys are switched on** for every connection (`PRAGMA foreign_keys = ON`); SQLite leaves them off by default.
+
+**Changes from the v3.1 schema:**
+
+- `rotation_rule` is now `rule`, because it also holds the hard constraints and the climate rules.
+- `climate_dataset` no longer belongs to one analysis. Each analysis points to the dataset it used, so one stored dataset serves many analyses and replaces a separate cache table. v3.1 had analysis 1–many climate_dataset; it is now climate_dataset 1–many analysis.
+- `climate_dataset` keeps the raw response exactly as received, so stored copies are re-validated on every use (section 16.2).
+- `candidate_plan` keeps the crop name and allows an empty `crop_id`, so a rejected unsupported crop (Plan D) can be recorded. It also records why the plan was included and which rule rejected it.
+- `analysis` also records its dataset, mode, candidate season and result snapshot.
+- `climate_observation` adds a `flagged` status for values above the plausible-range check.
 
 ## 7. Decision method
 
@@ -522,9 +575,10 @@ These are targets, not verified claims.
   - So the MVP requests only `PRECTOTCORR`.
 - A map is never required to enter a field or view results.
 - Climate cache:
-  - Key: rounded latitude and longitude, parameter, community, start date and end date.
-  - Each entry also stores the API version and the retrieval time.
-  - Only responses that pass validation are cached.
+  - The cache is the `climate_dataset` table (section 6.4). The newest live dataset for the same request is reused.
+  - A request is identified by: rounded latitude and longitude, parameter, community, start date and end date.
+  - Each dataset also stores the API version, the retrieval time, and the response exactly as received. Stored copies are re-validated on every use.
+  - Only responses that pass validation are stored.
   - Expiry: 30 days. Historical values can change when POWER releases a new version.
 
 ### Reliability and security
@@ -554,24 +608,27 @@ field-shift/
   backend/pytest.ini                      # pythonpath = .
   backend/app/main.py                     # FastAPI app, startup cache warm-up, error shapes
   backend/app/api/analyses.py             # POST /api/v1/analyses and the other routes
+  backend/app/db/schema.sql               # SQLite tables, section 6.4
+  backend/app/db/seed.sql                 # crop profiles and rules from section 18
+  backend/app/db/database.py              # opens the database, creates tables, loads seed rows
   backend/app/domain/fields.py
   backend/app/domain/plans.py
   backend/app/domain/rules.py             # H1-H3 and R1-R6
   backend/app/domain/evaluation.py
   backend/app/services/climate_provider.py
-  backend/app/services/climate_cache.py
+  backend/app/services/climate_store.py   # climate_dataset and climate_observation; also the cache
+  backend/app/services/analysis_store.py  # analysis, candidate_plan, plan_evidence, plan_input_status
   backend/app/services/validation.py
   backend/app/services/indicators.py
   backend/app/services/site_check.py
   backend/app/services/climate_context.py # runs the NASA data steps for one analysis
   backend/app/services/explanations.py
-  backend/tests/test_indicators.py        # reproduces the section 16.1 and 17 pilot values
+  backend/tests/test_indicators.py        # integrity checks; reproduces the section 16.1 and 17 pilot values
+  backend/tests/test_storage.py           # schema, constraints, and storing datasets and analyses
   backend/tests/test_rules.py             # reproduces the section 18 expected results
   data/demo/power_pilot_19911001_20260531.json
   data/demo/sample_case.json
   data/demo/site_check.json
-  data/agronomy/crops.json
-  data/agronomy/rules.json
   docs/product-spec.md
   docs/data-dictionary.md
   docs/rule-sources.md
@@ -632,7 +689,7 @@ Response example, shortened to one plan:
   "analysis_id": "a9f3c2e7",
   "status": "partial",
   "mode": "live",
-  "versions": { "rules": "0.1-draft", "engine": "1.0.0", "adapter": "1.0.0", "power_api": "v2.10.3" },
+  "versions": { "rules": "0.1", "engine": "1.0.0", "adapter": "1.0.0", "power_api": "v2.10.3" },
   "data": {
     "provider": "NASA POWER", "parameter": "PRECTOTCORR", "community": "AG", "units": "mm/day",
     "api_version": "v2.10.3", "sources": ["MERRA2"], "fill_value": -999.0, "time_standard": "LST",
@@ -714,7 +771,7 @@ Do not claim field validation without doing it.
 
 1. Save the pilot POWER record and the sample case as fixtures. Write the indicator and rule tests from sections 17 and 18.
 2. Build the UI journey with clearly labelled mock data.
-3. Agree the shared data models and the API contract (section 10).
+3. Agree the shared data models, the SQLite schema and the API contract (sections 6.4 and 10).
 4. Build the climate adapter, validation, provenance, site check, cache and fallback.
 5. Build the constraint checks and the evidence-linked evaluation engine.
 6. Connect the UI and implement every state in section 6.2.
@@ -754,7 +811,7 @@ Each row is a proposal. The owner confirms or changes it before coding starts.
 | 4 | Minimum history | Each candidate is evaluated against the seasons immediately before it. R1 needs at most the two preceding seasons; R2 needs the immediately preceding season. A season that was not entered counts as unknown. An unknown that prevents a decision gives "insufficient evidence", never a guess (section 18 flowchart). | Agronomy | Proposed |
 | 5 | Ratings | Ordinal only: favorable, mixed, concern, insufficient evidence (meanings in section 7). No 0–100 score in the MVP. The goal changes the criterion order and the summary, never a label. | Backend | Proposed |
 | 6 | Language | One UI language for the demo: Arabic if the right-to-left layout is complete by the integration checkpoint, otherwise English. No half-translated selector. Submission text and slides are in English. | UI | Proposed |
-| 7 | Persistence | Session only, no accounts. Analysis snapshots are stored in SQLite, keyed by a random analysis ID. The form draft is kept in browser local storage. | Backend | Proposed |
+| 7 | Persistence | Session only, no accounts. Fields, NASA datasets, analyses, plans and evidence are stored in SQLite using the schema in section 6.4. Each analysis is keyed by a random analysis ID and never changes after it is written. The form draft is kept in browser local storage. | Backend | Proposed |
 | 8 | Deployment and test device | A static frontend host plus one small FastAPI instance. Warm the cache for the pilot cell at deploy time. Test on one mid-range Android phone in Chrome and one desktop browser. | Integration | Proposed |
 | 9 | Generative AI ("SI") | None in the product MVP. Explanations come from deterministic templates filled from engine output. A paraphrasing layer is later work. Any SI tools used to build the project must be disclosed on the submission (section 21). | Backend | Proposed |
 | 10 | Grid-cell bias at the pilot | The POWER cell gets about 49% of the rainfall recorded at Hebron station (section 16.1). Proposal: (a) for the MVP, keep POWER and turn off absolute water fit through the site check, so water fit shows "insufficient evidence" with the reason. (b) Stretch goal: add GPM IMERG monthly rainfall at 0.1° (needs a free Earthdata login) and re-run the site check against the station. Promote it only if it passes. (c) Moving the pilot to a site the cell represents is possible, but it loses the prepared demo story. | Data | **Needs team decision** |
@@ -1041,6 +1098,7 @@ Keep this table current during the build. It answers acceptance criterion 16 and
 | NASA POWER adapter, validation, provenance | Reference code in section 23, tested against the live record | Implemented, with cached pilot record and sample fallback |
 | Site check (16.1) | Planned (pilot values computed) | Implemented |
 | Indicators (section 17) | Reference code and tests in section 23 | Implemented, with tests |
+| SQLite schema and storage (section 6.4) | Reference schema, seed data and storage code in section 23, tested | Implemented, with tests |
 | Rule engine (section 18) | Planned | Implemented, with tests |
 | Rule content | Draft, unreviewed | Simulated: labelled illustrative unless a reviewer signs off |
 | Station reference value | Secondary source | Primary source, if obtained (decision 11) |
@@ -1153,7 +1211,7 @@ The code below was run against the live pilot record on 14 November 2026 and rep
 | Web framework | FastAPI 0.115.6, with Pydantic 2.10.4 | Typed request validation, automatic OpenAPI docs, and async calls to NASA |
 | HTTP client | httpx 0.28.1 (async) | Timeouts and retries on calls to NASA POWER |
 | Server | uvicorn 0.34.0 | Runs the FastAPI app |
-| Storage | SQLite through Python's built-in `sqlite3` | Climate cache and analysis snapshots (decision 7) |
+| Storage | SQLite through Python's built-in `sqlite3` | The relational schema in section 6.4: NASA datasets (which are also the cache), analyses, plans and evidence (decision 7) |
 | Tests | pytest 8.3.4 | Reproduces the pilot values offline |
 
 `backend/requirements.txt`:
@@ -1188,13 +1246,13 @@ flowchart LR
 | Step | Module | Turns this… | …into this | Pilot example |
 |---|---|---|---|---|
 | 1. Build the request | `services/climate_provider.py` | Rounded location and candidate season | A POWER query from 1 Oct 1991 to 31 May of the candidate year | 31.5 N, 35.1 E; 1991-10-01 to 2026-05-31 |
-| 2. Fetch or reuse | `services/climate_cache.py`, `services/climate_provider.py` | The query | Raw POWER JSON (about 195 KB) | Cache hit after the warm-up at startup |
+| 2. Fetch or reuse | `services/climate_store.py`, `services/climate_provider.py` | The query | Raw POWER JSON (about 195 KB). A newly fetched response is stored in `climate_dataset` and `climate_observation` once it passes validation | The live dataset stored at startup is reused |
 | 3. Validate | `services/validation.py` | Raw JSON | After the zero-tolerance checks in 16.2, a daily record: each date maps to the exact value returned, or "missing" | Every check passes; 12,662 valid days, 0 missing |
 | 4. Season totals (I1) | `services/indicators.py` | The daily record | One total per season, with its valid-day count | 2019/20: 244 of 244 days valid, 491.0 mm |
 | 5. Indicators (I2–I6) | `services/indicators.py` | Season totals | Baseline mean, SD and CV; recent anomalies; recent shift | Mean 225.2 mm, CV 34.5%, shift +38.4% |
 | 6. Site check | `services/site_check.py` | Season totals and the station reference | Representative, not representative, or not checked | 229.4 ÷ 470.8 = 0.49: not representative |
 | 7. Climate rules (R4–R6) | `domain/rules.py` | Indicators, site check, crop and irrigation | One label per criterion, with a reason | Wheat water fit: insufficient evidence. Risk: mixed |
-| 8. Response | `api/analyses.py` | Everything above | The `data` block and each plan's criteria in the JSON response | Section 10 example |
+| 8. Response and storage | `api/analyses.py`, `services/analysis_store.py` | Everything above | The JSON response, stored as one `analysis` row with its `candidate_plan`, `plan_evidence` and `plan_input_status` rows | Section 10 example |
 
 ### 23.3 How the results are used in the app
 
@@ -1212,7 +1270,7 @@ flowchart LR
 
 ### 23.4 Reference code
 
-The first line of each block is the file path, matching the tree in section 10. Rotation rules R1–R3, the plan builder and the explanation templates are not shown here; they follow sections 5 and 18. The `api/analyses.py` block is an excerpt that shows only the climate path.
+The first line of each block is the file path, matching the tree in section 10. Rotation rules R1–R3, the plan builder and the explanation templates are not shown here; they follow sections 5 and 18. The `api/analyses.py` block is an excerpt that shows only the climate path, with a small stand-in for the plan builder. The SQL files implement section 6.4.
 
 ~~~python
 # backend/app/services/climate_provider.py
@@ -1265,43 +1323,311 @@ async def fetch_power_daily(
         raise ProviderError(problem)
 ~~~
 
+~~~sql
+-- backend/app/db/schema.sql
+-- SQLite schema for the MVP (section 6.4). Foreign keys must be switched on per connection.
+-- Rows in climate_dataset, climate_observation, analysis, candidate_plan, plan_evidence and
+-- plan_input_status are written once and never updated, so an earlier result never changes.
+
+CREATE TABLE IF NOT EXISTS field (
+  field_id    INTEGER PRIMARY KEY,
+  label       TEXT,
+  latitude    REAL NOT NULL,             -- rounded to 0.1 degree; exact coordinates are never stored
+  longitude   REAL NOT NULL,
+  area_value  REAL NOT NULL CHECK (area_value > 0),
+  area_unit   TEXT NOT NULL CHECK (area_unit IN ('dunum', 'hectare', 'acre')),
+  irrigation  TEXT NOT NULL CHECK (irrigation IN ('rain-fed', 'irrigated', 'mixed', 'unknown')),
+  soil_type   TEXT NOT NULL DEFAULT 'unknown'
+);
+
+CREATE TABLE IF NOT EXISTS crop (
+  crop_id            INTEGER PRIMARY KEY,
+  name               TEXT NOT NULL UNIQUE,
+  crop_type          TEXT NOT NULL
+                     CHECK (crop_type IN ('cereal', 'grain_legume', 'forage_legume', 'fallow', 'unclassified')),
+  is_candidate       INTEGER NOT NULL CHECK (is_candidate IN (0, 1)),
+  season             TEXT,                -- 'winter' for candidate crops
+  water_need_min_mm  REAL,                -- NULL: no confirmed figure
+  water_need_max_mm  REAL,
+  water_source       TEXT,
+  review_state       TEXT NOT NULL CHECK (review_state IN ('draft-unreviewed', 'reviewed', 'retired'))
+);
+
+CREATE TABLE IF NOT EXISTS crop_season (
+  season_id     INTEGER PRIMARY KEY,
+  field_id      INTEGER NOT NULL REFERENCES field (field_id),
+  season_label  TEXT NOT NULL,          -- for example '2025/26'
+  start_date    TEXT NOT NULL,          -- ISO date, 1 October
+  end_date      TEXT NOT NULL,          -- ISO date, 31 May
+  crop_id       INTEGER REFERENCES crop (crop_id),
+  unknown       INTEGER NOT NULL CHECK (unknown IN (0, 1)),
+  entry_source  TEXT NOT NULL CHECK (entry_source IN ('farmer', 'team')),
+  UNIQUE (field_id, season_label),
+  CHECK ((crop_id IS NULL) = (unknown = 1))  -- an unknown season stays explicit; no crop is ever fabricated
+);
+
+CREATE TABLE IF NOT EXISTS rule (
+  rule_id       INTEGER PRIMARY KEY,
+  code          TEXT NOT NULL,          -- H1-H3, R1-R6
+  version       TEXT NOT NULL,
+  condition     TEXT NOT NULL,
+  effect        TEXT NOT NULL,
+  citation      TEXT,                   -- NULL until the agronomy owner locates it
+  region        TEXT NOT NULL,
+  reviewer      TEXT,
+  review_state  TEXT NOT NULL CHECK (review_state IN ('draft-unreviewed', 'reviewed', 'retired')),
+  UNIQUE (code, version)
+);
+
+CREATE TABLE IF NOT EXISTS climate_dataset (
+  dataset_id        INTEGER PRIMARY KEY,
+  mode              TEXT NOT NULL CHECK (mode IN ('live', 'sample')),
+  provider          TEXT NOT NULL,
+  latitude          REAL NOT NULL,      -- the requested (rounded) point
+  longitude         REAL NOT NULL,
+  parameter         TEXT NOT NULL,
+  community         TEXT NOT NULL,
+  start_date        TEXT NOT NULL,
+  end_date          TEXT NOT NULL,
+  api_version       TEXT NOT NULL,      -- source metadata, exactly as received
+  sources           TEXT NOT NULL,      -- JSON list, exactly as received
+  fill_value        REAL NOT NULL,
+  time_standard     TEXT NOT NULL,
+  units             TEXT NOT NULL,
+  cell_elevation_m  REAL NOT NULL,
+  valid_days        INTEGER NOT NULL,
+  missing_days      INTEGER NOT NULL,
+  retrieved_utc     TEXT NOT NULL,
+  adapter_version   TEXT NOT NULL,
+  raw_response      TEXT NOT NULL,      -- the whole response exactly as received; re-validated on every use
+  UNIQUE (mode, latitude, longitude, parameter, community, start_date, end_date, retrieved_utc)
+);
+
+CREATE TABLE IF NOT EXISTS climate_observation (
+  dataset_id      INTEGER NOT NULL REFERENCES climate_dataset (dataset_id),
+  obs_date        TEXT NOT NULL,        -- ISO date
+  value_mm        REAL,                 -- exactly as returned; NULL only for NASA's fill value
+  quality_status  TEXT NOT NULL CHECK (quality_status IN ('valid', 'flagged', 'missing')),
+  PRIMARY KEY (dataset_id, obs_date),
+  CHECK ((value_mm IS NULL) = (quality_status = 'missing'))
+) WITHOUT ROWID;
+
+CREATE TABLE IF NOT EXISTS analysis (
+  analysis_id       TEXT PRIMARY KEY,   -- random, never sequential
+  field_id          INTEGER NOT NULL REFERENCES field (field_id),
+  dataset_id        INTEGER NOT NULL REFERENCES climate_dataset (dataset_id),
+  created_utc       TEXT NOT NULL,
+  mode              TEXT NOT NULL CHECK (mode IN ('live', 'sample')),
+  goal              TEXT NOT NULL CHECK (goal IN ('conserve_water', 'improve_soil_rotation', 'balance_both')),
+  candidate_season  TEXT NOT NULL,
+  status            TEXT NOT NULL CHECK (status IN ('complete', 'partial')),
+  rules_version     TEXT NOT NULL,
+  engine_version    TEXT NOT NULL,
+  input_snapshot    TEXT NOT NULL,      -- JSON: the validated request
+  result_snapshot   TEXT NOT NULL       -- JSON: the response returned to the UI
+);
+
+CREATE TABLE IF NOT EXISTS candidate_plan (
+  plan_id           INTEGER PRIMARY KEY,
+  analysis_id       TEXT NOT NULL REFERENCES analysis (analysis_id),
+  plan_code         TEXT NOT NULL CHECK (plan_code IN ('A', 'B', 'C', 'D')),
+  crop_name         TEXT NOT NULL,      -- as requested, even when unsupported
+  crop_id           INTEGER REFERENCES crop (crop_id),  -- NULL when the crop is not supported (H1)
+  role              TEXT NOT NULL CHECK (role IN ('current_practice', 'alternative', 'sample_test')),
+  why_included      TEXT NOT NULL,
+  status            TEXT NOT NULL CHECK (status IN ('evaluated', 'rejected')),
+  rejected_by       INTEGER REFERENCES rule (rule_id),
+  rejection_reason  TEXT,
+  display_order     INTEGER NOT NULL,
+  UNIQUE (analysis_id, plan_code),
+  CHECK ((status = 'rejected') = (rejected_by IS NOT NULL))
+);
+
+CREATE TABLE IF NOT EXISTS plan_evidence (
+  evidence_id  INTEGER PRIMARY KEY,
+  plan_id      INTEGER NOT NULL REFERENCES candidate_plan (plan_id),
+  rule_id      INTEGER REFERENCES rule (rule_id),  -- NULL only for a rotation result no single rule produced
+  criterion    TEXT NOT NULL CHECK (criterion IN ('rotation_soil', 'water_fit', 'risk')),
+  label        TEXT NOT NULL CHECK (label IN ('favorable', 'mixed', 'concern', 'insufficient_evidence')),
+  reason       TEXT NOT NULL,
+  rule_state   TEXT NOT NULL,           -- the rule's review state when the analysis ran
+  UNIQUE (plan_id, criterion)
+);
+
+CREATE TABLE IF NOT EXISTS plan_input_status (
+  plan_id    INTEGER NOT NULL REFERENCES candidate_plan (plan_id),
+  input_key  TEXT NOT NULL,             -- for example 'crop 2023/24'
+  status     TEXT NOT NULL CHECK (status IN ('entered', 'estimated', 'assumed', 'missing')),
+  source     TEXT,                      -- the source, or the stated default
+  effect     TEXT NOT NULL,
+  PRIMARY KEY (plan_id, input_key)
+) WITHOUT ROWID;
+~~~
+
+~~~sql
+-- backend/app/db/seed.sql
+-- Crop profiles and rule set 0.1 from section 18. Every row starts as draft-unreviewed.
+INSERT INTO crop (name, crop_type, is_candidate, season, water_need_min_mm, water_need_max_mm, water_source, review_state)
+VALUES
+  ('wheat',    'cereal',        1, 'winter', 450, 650, 'FAO Irrigation Water Management Training Manual No. 3, Table 14', 'draft-unreviewed'),
+  ('lentil',   'grain_legume',  1, 'winter', NULL, NULL, NULL, 'draft-unreviewed'),
+  ('vetch',    'forage_legume', 1, 'winter', NULL, NULL, NULL, 'draft-unreviewed'),
+  ('barley',   'cereal',        0, NULL,     NULL, NULL, NULL, 'draft-unreviewed'),
+  ('chickpea', 'grain_legume',  0, NULL,     NULL, NULL, NULL, 'draft-unreviewed'),
+  ('fallow',   'fallow',        0, NULL,     NULL, NULL, NULL, 'draft-unreviewed'),
+  ('other',    'unclassified',  0, NULL,     NULL, NULL, NULL, 'draft-unreviewed')
+ON CONFLICT DO NOTHING;
+
+INSERT INTO rule (code, version, condition, effect, citation, region, reviewer, review_state)
+VALUES
+  ('H1', '0.1', 'candidate crop is not in the supported candidate list', 'reject plan', NULL, 'Hebron pilot area', NULL, 'draft-unreviewed'),
+  ('H2', '0.1', 'candidate profile season differs from the candidate season', 'reject plan', NULL, 'Hebron pilot area', NULL, 'draft-unreviewed'),
+  ('H3', '0.1', 'candidate is irrigated-only and the field is rain-fed', 'reject plan', NULL, 'Hebron pilot area', NULL, 'draft-unreviewed'),
+  ('R1', '0.1', 'cereal candidate after two cereal seasons', 'rotation_soil: concern', NULL, 'Hebron pilot area', NULL, 'draft-unreviewed'),
+  ('R2', '0.1', 'legume candidate after a cereal season', 'rotation_soil: favorable', NULL, 'Hebron pilot area', NULL, 'draft-unreviewed'),
+  ('R3', '0.1', 'neither R1 nor R2 applies and history is sufficient', 'rotation_soil: mixed', NULL, 'Hebron pilot area', NULL, 'draft-unreviewed'),
+  ('R4', '0.1', 'site check representative, field rain-fed, confirmed lower water need T, baseline available',
+   'water_fit: share of baseline seasons >= T: 80% or more favorable, 50% to under 80% mixed, under 50% concern',
+   'FAO Irrigation Water Management Training Manual No. 3, Table 14', 'Hebron pilot area', NULL, 'draft-unreviewed'),
+  ('R5', '0.1', 'any R4 condition not met', 'water_fit: insufficient evidence', NULL, 'Hebron pilot area', NULL, 'draft-unreviewed'),
+  ('R6', '0.1', 'baseline coefficient of variation', 'risk: under 20% favorable, 20% to 35% mixed, over 35% concern', NULL, 'Hebron pilot area', NULL, 'draft-unreviewed')
+ON CONFLICT DO NOTHING;
+~~~
+
 ~~~python
-# backend/app/services/climate_cache.py
-"""SQLite cache of validated POWER responses (section 9). Entries expire after 30 days."""
+# backend/app/db/database.py
+"""Open the SQLite database, create the tables and load the seed rows (section 6.4)."""
+import sqlite3
+from pathlib import Path
+
+DB_DIR = Path(__file__).resolve().parent
+
+
+def connect(path: str) -> sqlite3.Connection:
+    db = sqlite3.connect(path, check_same_thread=False)
+    db.execute("PRAGMA foreign_keys = ON")  # off by default in SQLite
+    db.executescript((DB_DIR / "schema.sql").read_text(encoding="utf-8"))
+    db.executescript((DB_DIR / "seed.sql").read_text(encoding="utf-8"))
+    return db
+~~~
+
+~~~python
+# backend/app/services/climate_store.py
+"""NASA datasets in SQLite (section 6.4). A live dataset under 30 days old is the cache (section 9)."""
 import json
 import sqlite3
 from datetime import datetime, timedelta, timezone
 
+from app.services.validation import PLAUSIBLE_MAX_MM_PER_DAY, UNITS, DailyRecord
+
 CACHE_TTL = timedelta(days=30)
+ADAPTER_VERSION = "1.0.0"
+REQUEST_MATCH = "latitude = ? AND longitude = ? AND parameter = ? AND community = ? AND start_date = ? AND end_date = ?"
 
 
-class ClimateCache:
-    def __init__(self, path: str):
-        self.db = sqlite3.connect(path, check_same_thread=False)
-        self.db.execute(
-            "CREATE TABLE IF NOT EXISTS power_cache ("
-            "key TEXT PRIMARY KEY, retrieved_utc TEXT NOT NULL, api_version TEXT NOT NULL, body TEXT NOT NULL)"
+def _iso(yyyymmdd: str) -> str:
+    return f"{yyyymmdd[:4]}-{yyyymmdd[4:6]}-{yyyymmdd[6:]}"
+
+
+def _request(query: dict[str, str]) -> tuple:
+    """The columns that identify a request, in REQUEST_MATCH order."""
+    return (
+        float(query["latitude"]), float(query["longitude"]), query["parameters"], query["community"],
+        _iso(query["start"]), _iso(query["end"]),
+    )
+
+
+def find_recent_live(db: sqlite3.Connection, query: dict[str, str]) -> tuple[int, dict, datetime] | None:
+    row = db.execute(
+        f"SELECT dataset_id, retrieved_utc, raw_response FROM climate_dataset"
+        f" WHERE mode = 'live' AND {REQUEST_MATCH} ORDER BY retrieved_utc DESC LIMIT 1",
+        _request(query),
+    ).fetchone()
+    if row is None or datetime.now(timezone.utc) - datetime.fromisoformat(row[1]) > CACHE_TTL:
+        return None
+    return row[0], json.loads(row[2]), datetime.fromisoformat(row[1])
+
+
+def _quality(value: float | None) -> str:
+    if value is None:
+        return "missing"
+    return "flagged" if value > PLAUSIBLE_MAX_MM_PER_DAY else "valid"
+
+
+def save_dataset(
+    db: sqlite3.Connection, mode: str, query: dict[str, str], raw: dict, record: DailyRecord, retrieved: datetime
+) -> int:
+    """Store a validated dataset and its daily rows once, in one transaction. Return its id."""
+    request, retrieved_utc = _request(query), retrieved.isoformat()
+    with db:
+        cursor = db.execute(
+            "INSERT INTO climate_dataset (mode, provider, latitude, longitude, parameter, community, start_date,"
+            " end_date, api_version, sources, fill_value, time_standard, units, cell_elevation_m, valid_days,"
+            " missing_days, retrieved_utc, adapter_version, raw_response)"
+            " VALUES (?, 'NASA POWER', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT DO NOTHING",
+            (mode, *request, record.api_version, json.dumps(record.sources), record.fill_value, record.time_standard,
+             UNITS, record.cell_elevation_m, record.valid_days, record.missing_days, retrieved_utc,
+             ADAPTER_VERSION, json.dumps(raw)),
         )
+        if cursor.rowcount == 1:
+            db.executemany(
+                "INSERT INTO climate_observation VALUES (?, ?, ?, ?)",
+                [(cursor.lastrowid, day.isoformat(), value, _quality(value)) for day, value in record.values.items()],
+            )
+            return cursor.lastrowid
+    return db.execute(  # the same dataset was stored before (for example, the sample record)
+        f"SELECT dataset_id FROM climate_dataset WHERE mode = ? AND {REQUEST_MATCH} AND retrieved_utc = ?",
+        (mode, *request, retrieved_utc),
+    ).fetchone()[0]
+~~~
 
-    @staticmethod
-    def key(query: dict[str, str]) -> str:
-        return "|".join(query[k] for k in ("latitude", "longitude", "parameters", "community", "start", "end"))
+~~~python
+# backend/app/services/analysis_store.py
+"""Write one finished analysis and its plans to SQLite (section 6.4). Rows are never updated afterwards."""
+import json
+import sqlite3
+from datetime import datetime, timezone
 
-    def get(self, key: str) -> tuple[dict, datetime] | None:
-        row = self.db.execute("SELECT retrieved_utc, body FROM power_cache WHERE key = ?", (key,)).fetchone()
-        if row is None:
-            return None
-        retrieved = datetime.fromisoformat(row[0])
-        if datetime.now(timezone.utc) - retrieved > CACHE_TTL:
-            return None
-        return json.loads(row[1]), retrieved
+from app.domain.rules import RULES_VERSION
 
-    def put(self, key: str, raw: dict, retrieved: datetime) -> None:
-        self.db.execute(
-            "INSERT OR REPLACE INTO power_cache VALUES (?, ?, ?, ?)",
-            (key, retrieved.isoformat(), raw["header"]["api"]["version"], json.dumps(raw)),
+RULE_ID = "(SELECT rule_id FROM rule WHERE code = ? AND version = ?)"
+
+
+def save_analysis(db: sqlite3.Connection, request: dict, result: dict, dataset_id: int) -> None:
+    field = request["field"]
+    with db:  # the analysis with all its plans, or nothing
+        field_id = db.execute(
+            "INSERT INTO field (label, latitude, longitude, area_value, area_unit, irrigation, soil_type)"
+            " VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (field["label"], field["lat"], field["lon"], field["area"]["value"], field["area"]["unit"],
+             field["irrigation"], field["soil"]),
+        ).lastrowid
+        db.execute(
+            "INSERT INTO analysis (analysis_id, field_id, dataset_id, created_utc, mode, goal, candidate_season,"
+            " status, rules_version, engine_version, input_snapshot, result_snapshot)"
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (result["analysis_id"], field_id, dataset_id, datetime.now(timezone.utc).isoformat(), result["mode"],
+             request["goal"], request["candidate_season"], result["status"], result["versions"]["rules"],
+             result["versions"]["engine"], json.dumps(request), json.dumps(result)),
         )
-        self.db.commit()
+        for order, plan in enumerate(result["plans"], start=1):
+            plan_id = db.execute(
+                "INSERT INTO candidate_plan (analysis_id, plan_code, crop_name, crop_id, role, why_included, status,"
+                f" rejected_by, rejection_reason, display_order)"
+                f" VALUES (?, ?, ?, (SELECT crop_id FROM crop WHERE name = ?), ?, ?, ?, {RULE_ID}, ?, ?)",
+                (result["analysis_id"], plan["id"], plan["crop"], plan["crop"], plan["type"], plan["why_included"],
+                 plan["status"], plan.get("rejected_by"), RULES_VERSION, plan.get("rejection_reason"), order),
+            ).lastrowid
+            db.executemany(
+                "INSERT INTO plan_evidence (plan_id, rule_id, criterion, label, reason, rule_state)"
+                f" VALUES (?, {RULE_ID}, ?, ?, ?, ?)",
+                [(plan_id, c["rule"], RULES_VERSION, c["criterion"], c["label"], c["reason"], c["rule_state"])
+                 for c in plan["criteria"]],
+            )
+            db.executemany(
+                "INSERT INTO plan_input_status VALUES (?, ?, ?, ?, ?)",
+                [(plan_id, i["name"], i["state"], i.get("source"), i["effect"]) for i in plan.get("inputs", [])],
+            )
 ~~~
 
 ~~~python
@@ -1535,6 +1861,8 @@ from dataclasses import dataclass
 from app.services.indicators import Indicators, seasons_meeting
 from app.services.site_check import SiteCheck
 
+RULES_VERSION = "0.1"  # matches rule.version in db/seed.sql
+
 
 @dataclass(frozen=True)
 class CriterionResult:
@@ -1542,7 +1870,7 @@ class CriterionResult:
     label: str  # "favorable", "mixed", "concern" or "insufficient_evidence"
     rule: str
     reason: str
-    rule_state: str = "draft-unreviewed"  # read from data/agronomy/rules.json in the full app
+    rule_state: str = "draft-unreviewed"  # the full app reads it from the rule table
 
 
 def water_fit(
@@ -1580,14 +1908,15 @@ def rainfall_risk(ind: Indicators) -> CriterionResult:
 # backend/app/services/climate_context.py
 """From request to climate evidence: the NASA data part of one analysis (section 6, steps 3-5)."""
 import json
+import sqlite3
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
 from pathlib import Path
 
 import httpx
 
-from app.services.climate_cache import ClimateCache
 from app.services.climate_provider import fetch_power_daily, power_query
+from app.services.climate_store import find_recent_live, save_dataset
 from app.services.indicators import BASELINE_YEARS, Indicators, SeasonTotal, compute_indicators, seasonal_totals
 from app.services.site_check import SiteCheck, StationReference, run_site_check
 from app.services.validation import DailyRecord, parse_power_response
@@ -1599,6 +1928,7 @@ STATION_FILE = DATA_DIR / "site_check.json"
 
 @dataclass(frozen=True)
 class ClimateContext:
+    dataset_id: int
     mode: str
     retrieved_utc: datetime
     period: tuple[date, date]
@@ -1615,54 +1945,70 @@ def load_station() -> StationReference | None:
 
 
 async def build_climate_context(
-    mode: str, lat: float, lon: float, candidate_year: int, client: httpx.AsyncClient, cache: ClimateCache
+    mode: str, lat: float, lon: float, candidate_year: int, client: httpx.AsyncClient, db: sqlite3.Connection
 ) -> ClimateContext:
     start, end = date(BASELINE_YEARS.start, 10, 1), date(candidate_year, 5, 31)
-    fresh = False
+    query = power_query(lat, lon, start, end)
+    dataset_id = None
     if mode == "sample":
         saved = json.loads(SAMPLE_RECORD.read_text(encoding="utf-8"))
         raw, retrieved = saved["response"], datetime.fromisoformat(saved["retrieved_utc"])
+    elif stored := find_recent_live(db, query):  # the cache: a live dataset under 30 days old
+        dataset_id, raw, retrieved = stored
     else:
-        key = ClimateCache.key(power_query(lat, lon, start, end))
-        cached = cache.get(key)
-        if cached:
-            raw, retrieved = cached
-        else:
-            raw, retrieved, fresh = await fetch_power_daily(client, lat, lon, start, end), datetime.now(timezone.utc), True
+        raw, retrieved = await fetch_power_daily(client, lat, lon, start, end), datetime.now(timezone.utc)
 
-    record = parse_power_response(raw, lat, lon, start, end)  # raises DataIntegrityError or UnusableRecord
-    if fresh:
-        cache.put(key, raw, retrieved)  # only responses that passed validation are cached
+    # Validate every time, stored copies included. Raises DataIntegrityError or UnusableRecord.
+    record = parse_power_response(raw, lat, lon, start, end)
+    if dataset_id is None:
+        dataset_id = save_dataset(db, mode, query, raw, record, retrieved)  # only validated data is stored
     seasons = seasonal_totals(record, BASELINE_YEARS.start, candidate_year - 1)
     return ClimateContext(
-        mode, retrieved, (start, end), record, seasons,
+        dataset_id, mode, retrieved, (start, end), record, seasons,
         compute_indicators(seasons, candidate_year), run_site_check(seasons, load_station()),
     )
 ~~~
 
 ~~~python
 # backend/app/api/analyses.py
-"""Excerpt: the climate path of POST /api/v1/analyses. Only the request fields this path reads are modelled here."""
+"""Excerpt: the climate path of POST /api/v1/analyses, from request to stored result, and GET by ID.
+History is validated and used by the rotation rules (section 18); it is not modelled in this excerpt."""
+import json
 import secrets
 from dataclasses import asdict
 from typing import Literal
 
-from fastapi import APIRouter, Request
-from pydantic import BaseModel, model_validator
+from fastapi import APIRouter, HTTPException, Request
+from pydantic import BaseModel, Field, model_validator
 
-from app.domain.rules import rainfall_risk, water_fit
+from app.domain.rules import RULES_VERSION, rainfall_risk, water_fit
+from app.services.analysis_store import save_analysis
 from app.services.climate_context import ClimateContext, build_climate_context
+from app.services.climate_store import ADAPTER_VERSION
 
 router = APIRouter()
+ENGINE_VERSION = "1.0.0"
 
-# Lower indicative water need per candidate crop (section 18). The full app reads data/agronomy/crops.json.
-LOWER_WATER_NEED_MM = {"wheat": 450.0, "lentil": None, "vetch": None}
+# Stand-in for the Candidate Plan Builder (section 5): the three plans of the demo case.
+DEMO_PLANS = [
+    ("A", "wheat", "current_practice", "Current practice: repeats the crop recorded for 2025/26."),
+    ("B", "lentil", "alternative", "Alternative: a supported grain legume for the 2026/27 winter season."),
+    ("C", "vetch", "alternative", "Alternative: a supported forage legume for the 2026/27 winter season."),
+]
+
+
+class AreaIn(BaseModel):
+    value: float = Field(gt=0)
+    unit: Literal["dunum", "hectare", "acre"]
 
 
 class FieldIn(BaseModel):
+    label: str | None = None
     lat: float
     lon: float
+    area: AreaIn
     irrigation: Literal["rain-fed", "irrigated", "mixed", "unknown"]
+    soil: str = "unknown"
 
     @model_validator(mode="after")
     def in_pilot_area(self) -> "FieldIn":
@@ -1675,6 +2021,7 @@ class AnalysisRequest(BaseModel):
     mode: Literal["live", "sample"]
     field: FieldIn
     candidate_season: Literal["2026/27"]
+    goal: Literal["conserve_water", "improve_soil_rotation", "balance_both"]
 
 
 def round1(x: float | None) -> float | None:
@@ -1710,25 +2057,41 @@ def climate_evidence(ctx: ClimateContext) -> dict:
 
 @router.post("/analyses")
 async def create_analysis(body: AnalysisRequest, request: Request) -> dict:
+    db = request.app.state.db
     ctx = await build_climate_context(
-        body.mode, body.field.lat, body.field.lon, int(body.candidate_season[:4]),
-        request.app.state.http, request.app.state.cache,
+        body.mode, body.field.lat, body.field.lon, int(body.candidate_season[:4]), request.app.state.http, db,
     )
     risk = rainfall_risk(ctx.indicators)  # R6 is the same for every plan
     plans = []
-    # Plan order follows the demo case; in the full app the Candidate Plan Builder (section 5) decides it.
-    for plan_id, crop in zip("ABC", LOWER_WATER_NEED_MM):
-        water = water_fit(LOWER_WATER_NEED_MM[crop], body.field.irrigation, ctx.site, ctx.indicators)
+    for plan_id, crop, role, why_included in DEMO_PLANS:
+        (lower_need_mm,) = db.execute("SELECT water_need_min_mm FROM crop WHERE name = ?", (crop,)).fetchone()
+        water = water_fit(lower_need_mm, body.field.irrigation, ctx.site, ctx.indicators)
         # The full engine adds the rotation/soil criterion (R1-R3) and the explanation text here.
-        plans.append({"id": plan_id, "crop": crop, "criteria": [asdict(water), asdict(risk)]})
+        plans.append({"id": plan_id, "type": role, "crop": crop, "why_included": why_included,
+                      "status": "evaluated", "criteria": [asdict(water), asdict(risk)]})
     insufficient = any(c["label"] == "insufficient_evidence" for p in plans for c in p["criteria"])
-    return {
+    result = {
         "analysis_id": secrets.token_hex(4),
         "status": "partial" if insufficient else "complete",
         "mode": body.mode,
+        "versions": {"rules": RULES_VERSION, "engine": ENGINE_VERSION, "adapter": ADAPTER_VERSION,
+                     "power_api": ctx.record.api_version},
         "data": climate_evidence(ctx),
         "plans": plans,
     }
+    save_analysis(db, body.model_dump(), result, ctx.dataset_id)
+    return result
+
+
+@router.get("/analyses/{analysis_id}")
+async def get_analysis(analysis_id: str, request: Request) -> dict:
+    """Return the stored snapshot unchanged, so a saved result is reproduced exactly."""
+    row = request.app.state.db.execute(
+        "SELECT result_snapshot FROM analysis WHERE analysis_id = ?", (analysis_id,)
+    ).fetchone()
+    if row is None:
+        raise HTTPException(status_code=404, detail="analysis not found")
+    return json.loads(row[0])
 ~~~
 
 ~~~python
@@ -1744,7 +2107,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from app.api.analyses import router as analyses_router
-from app.services.climate_cache import ClimateCache
+from app.db.database import connect
 from app.services.climate_context import build_climate_context
 from app.services.climate_provider import ProviderError
 from app.services.validation import UnusableRecord
@@ -1755,13 +2118,14 @@ log = logging.getLogger("field_shift")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     app.state.http = httpx.AsyncClient()
-    app.state.cache = ClimateCache("field_shift.db")  # created in the working directory
+    app.state.db = connect("field_shift.db")  # created in the working directory
     try:  # warm the pilot cache, so the demo does not depend on a live call
-        await build_climate_context("live", 31.5, 35.1, 2026, app.state.http, app.state.cache)
+        await build_climate_context("live", 31.5, 35.1, 2026, app.state.http, app.state.db)
     except (ProviderError, UnusableRecord) as exc:
         log.warning("Pilot cache warm-up failed; live requests will try again: %s", exc)
     yield
     await app.state.http.aclose()
+    app.state.db.close()
 
 
 app = FastAPI(title="Field Shift API", version="1.0.0", lifespan=lifespan)
@@ -1915,6 +2279,105 @@ def test_pilot_climate_labels(seasons, site):
     assert rainfall_risk(ind).label == "mixed"
 ~~~
 
+The storage tests use an in-memory database, so they also run offline.
+
+~~~python
+# backend/tests/test_storage.py
+import json
+import sqlite3
+from datetime import date, datetime, timedelta, timezone
+from pathlib import Path
+
+import pytest
+
+from app.db.database import connect
+from app.services.analysis_store import save_analysis
+from app.services.climate_provider import power_query
+from app.services.climate_store import find_recent_live, save_dataset
+from app.services.validation import parse_power_response
+
+DEMO = Path(__file__).resolve().parents[2] / "data" / "demo"
+LAT, LON, START, END = 31.5, 35.1, date(1991, 10, 1), date(2026, 5, 31)
+QUERY = power_query(LAT, LON, START, END)
+
+
+@pytest.fixture
+def db():
+    return connect(":memory:")
+
+
+@pytest.fixture(scope="module")
+def saved():
+    sample = json.loads((DEMO / "power_pilot_19911001_20260531.json").read_text(encoding="utf-8"))
+    raw = sample["response"]
+    return raw, parse_power_response(raw, LAT, LON, START, END), datetime.fromisoformat(sample["retrieved_utc"])
+
+
+def test_dataset_stored_once_and_exactly(db, saved):
+    raw, record, retrieved = saved
+    dataset_id = save_dataset(db, "sample", QUERY, raw, record, retrieved)
+    assert save_dataset(db, "sample", QUERY, raw, record, retrieved) == dataset_id  # no duplicate rows
+    rows = db.execute(
+        "SELECT obs_date, value_mm, quality_status FROM climate_observation WHERE dataset_id = ?", (dataset_id,)
+    ).fetchall()
+    assert len(rows) == 12662
+    stored = {obs_date.replace("-", ""): (value, status) for obs_date, value, status in rows}
+    for key, value in raw["properties"]["parameter"]["PRECTOTCORR"].items():
+        assert stored[key] == (value, "valid")  # exact; the pilot record has no fill values
+    (raw_response,) = db.execute("SELECT raw_response FROM climate_dataset").fetchone()
+    assert json.loads(raw_response) == raw
+    assert find_recent_live(db, QUERY) is None  # sample data never serves as the live cache
+
+
+def test_live_dataset_is_the_cache_for_30_days(db, saved):
+    raw, record, _ = saved
+    now = datetime.now(timezone.utc)
+    save_dataset(db, "live", QUERY, raw, record, now - timedelta(days=31))
+    assert find_recent_live(db, QUERY) is None  # expired
+    fresh_id = save_dataset(db, "live", QUERY, raw, record, now)
+    assert find_recent_live(db, QUERY)[:2] == (fresh_id, raw)
+
+
+def test_analysis_saved_with_plans_evidence_and_inputs(db, saved):
+    raw, record, retrieved = saved
+    dataset_id = save_dataset(db, "sample", QUERY, raw, record, retrieved)
+    request = {"mode": "sample", "goal": "improve_soil_rotation", "candidate_season": "2026/27",
+               "field": {"label": None, "lat": 31.5, "lon": 35.1, "area": {"value": 20, "unit": "dunum"},
+                         "irrigation": "rain-fed", "soil": "unknown"}}
+    result = {"analysis_id": "a9f3c2e7", "status": "partial", "mode": "sample",
+              "versions": {"rules": "0.1", "engine": "1.0.0"},
+              "plans": [
+                  {"id": "A", "type": "current_practice", "crop": "wheat", "why_included": "Current practice.",
+                   "status": "evaluated",
+                   "criteria": [{"criterion": "risk", "label": "mixed", "rule": "R6", "reason": "CV 34.5%",
+                                 "rule_state": "draft-unreviewed"}],
+                   "inputs": [{"name": "crop 2023/24", "state": "missing", "effect": "Not needed."}]},
+                  {"id": "D", "type": "sample_test", "crop": "maize", "why_included": "Shows the rejection path.",
+                   "status": "rejected", "rejected_by": "H1",
+                   "rejection_reason": "This crop is not supported in this version.", "criteria": []},
+              ]}
+    save_analysis(db, request, result, dataset_id)
+    assert db.execute(
+        "SELECT plan_code, crop_id IS NULL, status FROM candidate_plan ORDER BY display_order"
+    ).fetchall() == [("A", 0, "evaluated"), ("D", 1, "rejected")]
+    assert db.execute("SELECT r.code FROM candidate_plan p JOIN rule r ON r.rule_id = p.rejected_by").fetchall() == [("H1",)]
+    assert db.execute("SELECT r.code FROM plan_evidence e JOIN rule r USING (rule_id)").fetchall() == [("R6",)]
+    assert db.execute("SELECT status FROM plan_input_status").fetchall() == [("missing",)]
+    (snapshot,) = db.execute("SELECT result_snapshot FROM analysis").fetchone()
+    assert json.loads(snapshot) == result
+
+
+def test_constraints_keep_unknowns_explicit(db):
+    db.execute("INSERT INTO field (latitude, longitude, area_value, area_unit, irrigation)"
+               " VALUES (31.5, 35.1, 20, 'dunum', 'rain-fed')")
+    with pytest.raises(sqlite3.IntegrityError):  # a season with no crop must be marked unknown
+        db.execute("INSERT INTO crop_season (field_id, season_label, start_date, end_date, crop_id, unknown,"
+                   " entry_source) VALUES (1, '2023/24', '2023-10-01', '2024-05-31', NULL, 0, 'farmer')")
+    with pytest.raises(sqlite3.IntegrityError):  # evidence must belong to a real plan
+        db.execute("INSERT INTO plan_evidence (plan_id, criterion, label, reason, rule_state)"
+                   " VALUES (999, 'risk', 'mixed', 'x', 'draft-unreviewed')")
+~~~
+
 ### 23.6 Running it locally
 
 From the `backend` folder:
@@ -1935,5 +2398,6 @@ FastAPI then serves interactive API docs at `http://127.0.0.1:8000/docs`. A POST
 - Never turn a missing value into zero. `None` flows through every step and becomes "unavailable" or "insufficient evidence".
 - Round only when building the response, never before a calculation or a comparison with a cut-off.
 - Keep the analysis functions (`validation`, `indicators`, `site_check`, `rules`) free of network and file access, so tests run offline.
-- Cache a POWER response only after it passes validation.
+- Store a POWER response only after it passes validation.
+- Never update or delete rows in the write-once tables (section 6.4). A change means a new analysis.
 - A new NASA dataset, such as GPM IMERG (decision 10b), gets its own adapter that produces the same `SeasonTotal` list. Indicators, the site check and the rules then work unchanged. If its absolute values feed a rule, it must pass its own site check first.
