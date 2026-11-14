@@ -72,7 +72,7 @@ def test_invalid_requests(client, change):
 def test_coverage_and_reference_routes(client):
     cov = client.post("/api/v2/coverage", json={"lat": 38.85, "lon": -99.33, "mode": "sample"}).json()
     assert cov["in_scope"] and cov["products"]["ssurgo"]["status"] == "supported"
-    assert cov["products"]["usda_cdl"]["status"] == "not_integrated"
+    assert cov["products"]["usda_cdl"]["status"] == "unchecked"
     assert not client.post("/api/v2/coverage", json={"lat": 18.47, "lon": -66.11}).json()["in_scope"]
     crops = client.get("/api/v2/crops").json()
     assert [c["id"] for c in crops["crops"]] == ["maize_grain", "soybean", "sorghum_grain"]

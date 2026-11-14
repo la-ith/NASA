@@ -961,63 +961,63 @@
           "expected": 153,
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
-          "bias": 0.29226221801955843,
-          "mae": 1.354785858840931,
-          "rmse": 1.7255736429157225
+          "bias": 0.2958334738159985,
+          "mae": 0.5476499683232621,
+          "rmse": 0.730826561832394
         },
         "tmax": {
           "n": 153,
           "expected": 153,
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
-          "bias": 0.5086928104575167,
-          "mae": 3.23483660130719,
-          "rmse": 4.453635145931007
+          "bias": 0.5278431372549023,
+          "mae": 1.1524183006535949,
+          "rmse": 1.566398808974959
         },
         "tmin": {
           "n": 153,
           "expected": 153,
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
-          "bias": 1.8620915032679741,
-          "mae": 2.9568627450980394,
-          "rmse": 3.646022633740997
+          "bias": 1.8257516339869284,
+          "mae": 2.1307189542483664,
+          "rmse": 2.6154570702411677
         },
         "ea": {
           "n": 153,
           "expected": 153,
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
-          "bias": 0.12275328879633272,
-          "mae": 0.26800249600682446,
-          "rmse": 0.33612631313090735
+          "bias": 0.12293882140019073,
+          "mae": 0.18205973853348048,
+          "rmse": 0.23239979280854833
         },
         "rs": {
           "n": 153,
           "expected": 153,
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
-          "bias": 1.4364705882352944,
-          "mae": 4.334640522875818,
-          "rmse": 6.156219661681657
+          "bias": 1.4826797385620916,
+          "mae": 1.7845098039215685,
+          "rmse": 2.176686184340324
         },
         "u2": {
           "n": 153,
           "expected": 153,
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
-          "bias": -0.02267973856209147,
-          "mae": 1.2452941176470589,
-          "rmse": 1.5386092098559643
+          "bias": -0.02627450980392153,
+          "mae": 0.4920261437908497,
+          "rmse": 0.6241658485818875
         },
         "rain": {
           "n": 153,
           "expected": 153,
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
-          "bias": 0.20137254901960777,
-          "mae": 4.422549019607843,
-          "rmse": 9.191750457371448
+          "bias": 0.2013725490196078,
+          "mae": 2.0390196078431373,
+          "rmse": 4.723597070141118
         },
         "method_crosscheck": {
           "n": 0,
@@ -1034,7 +1034,7 @@
           "expected_days": 153,
           "available": true,
           "model_sum": 953.5137547553986,
-          "reference_sum": 908.7976353984062,
+          "reference_sum": 908.2512332615509,
           "note": "Sums of paired valid days only; not filled or extrapolated."
         },
         "rain_season_total": {
@@ -1063,63 +1063,63 @@
           "expected": 153,
           "missing_or_excluded": 4,
           "suspect_reference_days": 0,
-          "bias": -0.1423890556667263,
-          "mae": 1.507563894269835,
-          "rmse": 1.9160812570889083
+          "bias": -0.13679131246805248,
+          "mae": 0.6966657074560679,
+          "rmse": 0.9617031290995576
         },
         "tmax": {
           "n": 151,
           "expected": 153,
           "missing_or_excluded": 2,
           "suspect_reference_days": 0,
-          "bias": -1.0351655629139074,
-          "mae": 3.841258278145696,
-          "rmse": 4.835362358611074
+          "bias": -1.0408609271523177,
+          "mae": 2.2317218543046358,
+          "rmse": 3.3960071022320606
         },
         "tmin": {
           "n": 150,
           "expected": 153,
           "missing_or_excluded": 3,
           "suspect_reference_days": 0,
-          "bias": 1.9373333333333336,
-          "mae": 2.7742666666666667,
-          "rmse": 3.4507657121282516
+          "bias": 1.8929333333333334,
+          "mae": 2.1806666666666663,
+          "rmse": 2.682258252542684
         },
         "ea": {
           "n": 149,
           "expected": 153,
           "missing_or_excluded": 4,
           "suspect_reference_days": 0,
-          "bias": 0.10929510731544653,
-          "mae": 0.27081413000810506,
-          "rmse": 0.3416885598347131
+          "bias": 0.11108661706630737,
+          "mae": 0.15784308067521247,
+          "rmse": 0.20069906644714375
         },
         "rs": {
           "n": 153,
           "expected": 153,
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
-          "bias": 1.6516339869281045,
-          "mae": 4.1635294117647055,
-          "rmse": 5.475120913697509
+          "bias": 1.7511111111111113,
+          "mae": 2.067843137254902,
+          "rmse": 2.827633944747834
         },
         "u2": {
           "n": 153,
           "expected": 153,
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
-          "bias": -0.193921568627451,
-          "mae": 1.143202614379085,
-          "rmse": 1.4909673571647097
+          "bias": -0.19000000000000003,
+          "mae": 0.51,
+          "rmse": 0.6827783494735344
         },
         "rain": {
           "n": 153,
           "expected": 153,
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
-          "bias": 0.03666666666666664,
-          "mae": 4.181895424836601,
-          "rmse": 9.515203074158936
+          "bias": -0.034705882352941225,
+          "mae": 2.3175816993464053,
+          "rmse": 6.335634205374686
         },
         "method_crosscheck": {
           "n": 0,
@@ -1135,8 +1135,8 @@
           "n_paired_days": 149,
           "expected_days": 153,
           "available": true,
-          "model_sum": 901.1736858870267,
-          "reference_sum": 922.389655181369,
+          "model_sum": 898.2844711697222,
+          "reference_sum": 918.6663767274621,
           "note": "Sums of paired valid days only; not filled or extrapolated."
         },
         "rain_season_total": {
@@ -1145,7 +1145,7 @@
           "expected_days": 153,
           "available": true,
           "model_sum": 416.8,
-          "reference_sum": 411.19,
+          "reference_sum": 422.11,
           "note": "Sums of paired valid days only; not filled or extrapolated."
         },
         "units": {
@@ -1165,54 +1165,54 @@
           "expected": 153,
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
-          "bias": 0.16339277178183229,
-          "mae": 1.8093334393541076,
-          "rmse": 2.257955108960703
+          "bias": 0.1504102741613718,
+          "mae": 0.6541131639086893,
+          "rmse": 0.7941244461943205
         },
         "tmax": {
           "n": 153,
           "expected": 153,
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
-          "bias": 0.7355555555555552,
-          "mae": 4.109150326797386,
-          "rmse": 5.352822113162682
+          "bias": 0.6633986928104573,
+          "mae": 1.351111111111111,
+          "rmse": 1.7365464186287354
         },
         "tmin": {
           "n": 153,
           "expected": 153,
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
-          "bias": 2.50718954248366,
-          "mae": 3.3827450980392153,
-          "rmse": 4.147740545644933
+          "bias": 2.467320261437908,
+          "mae": 2.58797385620915,
+          "rmse": 3.1015311420065736
         },
         "ea": {
           "n": 153,
           "expected": 153,
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
-          "bias": 0.14069726191655377,
-          "mae": 0.2663920872005319,
-          "rmse": 0.3466870921871104
+          "bias": 0.13895684281200713,
+          "mae": 0.16248319336141875,
+          "rmse": 0.2164890982558612
         },
         "rs": {
           "n": 153,
           "expected": 153,
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
-          "bias": 1.7870588235294118,
-          "mae": 4.926797385620915,
-          "rmse": 7.184836519851615
+          "bias": 1.837058823529412,
+          "mae": 2.070261437908497,
+          "rmse": 2.492703994182699
         },
         "u2": {
           "n": 153,
           "expected": 153,
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
-          "bias": -0.2481045751633987,
-          "mae": 1.1997385620915033,
-          "rmse": 1.5722715759361459
+          "bias": -0.23202614379084968,
+          "mae": 0.4316339869281046,
+          "rmse": 0.5668431097853366
         },
         "rain": {
           "n": 153,
@@ -1220,8 +1220,8 @@
           "missing_or_excluded": 0,
           "suspect_reference_days": 0,
           "bias": 0.5807189542483661,
-          "mae": 2.810130718954248,
-          "rmse": 6.113730769470359
+          "mae": 1.8779738562091501,
+          "rmse": 4.499047902183727
         },
         "method_crosscheck": {
           "n": 0,
@@ -1238,7 +1238,7 @@
           "expected_days": 153,
           "available": true,
           "model_sum": 1049.0439221717977,
-          "reference_sum": 1024.0448280891774,
+          "reference_sum": 1026.0311502251077,
           "note": "Sums of paired valid days only; not filled or extrapolated."
         },
         "rain_season_total": {
@@ -1272,26 +1272,26 @@
         "content_type": "application/json"
       },
       {
-        "url": "https://mesonet.k-state.edu/rest/stationdata/?stn=Hays&int=day&t_start=20200501000000&t_end=20200930235959&vars=TEMP2MMAX%2CTEMP2MMIN%2CRELHUM2MMAX%2CRELHUM2MMIN%2CPRECIP%2CSR%2CSRAVG%2CWSPD2MAVG%2CPRESSUREAVG",
-        "retrieved_utc": "2026-11-14T18:53:07.557852+00:00",
-        "sha256": "d89abea4ca61404613ff4078aafa3a1625a7500a2eb0e3fea95166f3f2cb0cf0",
-        "file": "hays_2020_55be3510969d_d89abea4ca61.raw",
+        "url": "https://mesonet.k-state.edu/rest/stationdata/?stn=Hays&int=day&t_start=20200502000000&t_end=20201001000000&vars=TEMP2MMAX%2CTEMP2MMIN%2CRELHUM2MMAX%2CRELHUM2MMIN%2CPRECIP%2CSR%2CSRAVG%2CWSPD2MAVG%2CPRESSUREAVG",
+        "retrieved_utc": "2026-11-14T19:32:31.870500+00:00",
+        "sha256": "97159a9dc04cb01d2f701f3a6abab5519507272f5a16e4dc9c46d6ee92b805f4",
+        "file": "hays_2020_63b161d6650b_97159a9dc04c.raw",
         "status": 200,
         "content_type": "text/plain"
       },
       {
-        "url": "https://mesonet.k-state.edu/rest/stationdata/?stn=Hays&int=day&t_start=20210501000000&t_end=20210930235959&vars=TEMP2MMAX%2CTEMP2MMIN%2CRELHUM2MMAX%2CRELHUM2MMIN%2CPRECIP%2CSR%2CSRAVG%2CWSPD2MAVG%2CPRESSUREAVG",
-        "retrieved_utc": "2026-11-14T18:53:07.974722+00:00",
-        "sha256": "28971aa0192cb43634628698551f585d408191cec3cc44c21867bbd12d01242a",
-        "file": "hays_2021_97c156f22ed0_28971aa0192c.raw",
+        "url": "https://mesonet.k-state.edu/rest/stationdata/?stn=Hays&int=day&t_start=20210502000000&t_end=20211001000000&vars=TEMP2MMAX%2CTEMP2MMIN%2CRELHUM2MMAX%2CRELHUM2MMIN%2CPRECIP%2CSR%2CSRAVG%2CWSPD2MAVG%2CPRESSUREAVG",
+        "retrieved_utc": "2026-11-14T19:32:32.413149+00:00",
+        "sha256": "4b6864627b404d0fd5d061275b7a590f667f71b6a081df3bfcbaf6d106ebcb77",
+        "file": "hays_2021_f95f469a3c7c_4b6864627b40.raw",
         "status": 200,
         "content_type": "text/plain"
       },
       {
-        "url": "https://mesonet.k-state.edu/rest/stationdata/?stn=Hays&int=day&t_start=20220501000000&t_end=20220930235959&vars=TEMP2MMAX%2CTEMP2MMIN%2CRELHUM2MMAX%2CRELHUM2MMIN%2CPRECIP%2CSR%2CSRAVG%2CWSPD2MAVG%2CPRESSUREAVG",
-        "retrieved_utc": "2026-11-14T18:53:08.407518+00:00",
-        "sha256": "e9b606eda1b5c457b9a933510de8c369d7a39893f0a17e92aeb8f7d0035dbafb",
-        "file": "hays_2022_e8f80eb505ff_e9b606eda1b5.raw",
+        "url": "https://mesonet.k-state.edu/rest/stationdata/?stn=Hays&int=day&t_start=20220502000000&t_end=20221001000000&vars=TEMP2MMAX%2CTEMP2MMIN%2CRELHUM2MMAX%2CRELHUM2MMIN%2CPRECIP%2CSR%2CSRAVG%2CWSPD2MAVG%2CPRESSUREAVG",
+        "retrieved_utc": "2026-11-14T19:32:33.037244+00:00",
+        "sha256": "e1bfa7e9ee71fb8a342e8e812bf97c429a6538cf68be7ed6fbd40de038030bcd",
+        "file": "hays_2022_f70b9f14857f_e1bfa7e9ee71.raw",
         "status": 200,
         "content_type": "text/plain"
       }
@@ -1398,9 +1398,9 @@
         "expected": 3,
         "missing_or_excluded": 0,
         "suspect_reference_days": 0,
-        "bias": 16.166414715090166,
-        "mae": 30.31039424465166,
-        "rmse": 32.013556443060004
+        "bias": 15.964462627599309,
+        "mae": 29.552399666092544,
+        "rmse": 31.589584775238926
       },
       "rain": {
         "unit": "mm per May\u2013September season",
@@ -1408,9 +1408,9 @@
         "expected": 3,
         "missing_or_excluded": 0,
         "suspect_reference_days": 0,
-        "bias": 41.75666666666666,
-        "mae": 41.75666666666666,
-        "rmse": 54.39071826454706
+        "bias": 38.11666666666665,
+        "mae": 41.65666666666666,
+        "rmse": 54.380678860541394
       }
     }
   }

@@ -100,7 +100,7 @@ def run_analysis(request: dict, state: State, weather: DailyWeather, soil: SoilI
                            "stages_days": [crop.stages.initial, crop.stages.development, crop.stages.mid, crop.stages.late],
                            "height_m": crop.height_m, "p": crop.p, "sources": crop.sources}
     simulated = [s["result"]["seasons_simulated"] for s in strategies]
-    status = "complete" if strategies and soil and all(n > 0 for n in simulated) else "partial"
+    status = "complete" if strategies and soil and all(n == len(years) for n in simulated) else "partial"
     if not strategies or not any(simulated):
         status = "unsupported"
     limitations = [
@@ -112,6 +112,8 @@ def run_analysis(request: dict, state: State, weather: DailyWeather, soil: SoilI
         "antecedent moisture, irrigation refills to field capacity when RAW is depleted (net, no application losses).",
         "Crop parameters are FAO-56 tabulated values, not calibrated for local hybrids, and are labelled draft until "
         "an agronomist reviews them.",
+        "Kc climate adjustments limit stage-mean wind to 1–6 m/s and RHmin to 20–80%; per-season "
+        "kc_climate_qa records original and used values and limiting flags.",
     ]
     if soil is None:
         limitations.append("No soil data: the water balance could not run, so deficits and irrigation needs are missing.")
@@ -119,6 +121,9 @@ def run_analysis(request: dict, state: State, weather: DailyWeather, soil: SoilI
         limitations.append("Soil is the dominant component of the SSURGO map unit; other soils in the map unit can "
                            "differ. TAW from NRCS available water capacity; the 1/3-15 bar alternative is shown "
                            "as a sensitivity check.")
+    if state.code == "CA":
+        limitations.append("California: the high Fresno irrigation estimate remains unresolved; regional station "
+                           "verification is pending. Do not treat these irrigation quantities as validated field advice.")
     if mode == "sample":
         limitations.append("Sample mode: saved NASA and USDA records, not a live retrieval.")
     if not current:
@@ -127,7 +132,7 @@ def run_analysis(request: dict, state: State, weather: DailyWeather, soil: SoilI
         limitations.append(f"Only {len(strategies)} eligible strategies: fewer than the three the challenge asks for.")
     return {
         "schema_version": "2.0", "decision_year": decision_year, "status": status, "mode": mode, "result_types": {
-            "historical_analysis": "Indicators from past data (ET0, crop demand, rainfall).",
+            "historical_analysis": "Indicators from past data (reference ET0 and rainfall).",
             "conditional_simulation": "Water balance under each past season's weather and stated management.",
             "validated_prediction": "None in this release."},
         "location": {"state": state.code, "state_name": state.name, "boundary_version": BOUNDARY_VERSION,
@@ -144,6 +149,12 @@ def run_analysis(request: dict, state: State, weather: DailyWeather, soil: SoilI
         "limitations": limitations,
         "provenance": {"weather": weather.manifest, "soil": None if soil is None else soil.manifest},
         "versions": {"engine": ENGINE_VERSION, "crop_catalog": catalog.version, "boundary": BOUNDARY_VERSION},
+        "validation": {"numerical_method": "FAO-56 worked-example verification; see equation register",
+                       "environmental_accuracy": "limited development station comparison, not nationwide certification",
+                       "field_irrigation_accuracy": "not established", "agronomic_review": "draft-unreviewed",
+                       "forecast": False,
+                       "regional_warning": "Fresno discrepancy unresolved; California station verification pending"
+                       if state.code == "CA" else None},
         "equations": ["FAO56-Eq6", "FAO56-Eq8", "FAO56-Eq9", "FAO56-Eq11", "FAO56-Eq12", "FAO56-Eq13", "FAO56-Eq14",
                       "FAO56-Eq21", "FAO56-Eq23", "FAO56-Eq24", "FAO56-Eq25", "FAO56-Eq37", "FAO56-Eq38",
                       "FAO56-Eq39", "FAO56-Eq40", "FAO56-Eq42", "FAO56-Eq58", "FAO56-Eq62", "FAO56-Eq63",

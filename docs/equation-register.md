@@ -20,7 +20,7 @@ lists the IDs it used.
 | FAO56-Eq82, Eq83 | TAW, RAW (homogeneous and layered) | `science/crop.py` | Example 34 (maize, Zr 1.2 m: TAW 108 / 204 / 144 mm) |
 | FAO56-Eq80, Eq84, Eq85, Eq88 | Water stress, daily root-zone balance, drainage | `science/water_balance.py` | Example 35 (10 days, Dr from 55 to 104.5 mm; Ks 1.00 to 0.62) |
 | FAO56-T22-p | p adjusted for ETc | `science/crop.py` | Limits test (0.1 ≤ p ≤ 0.8) |
-| SCS-CN | Daily runoff, curve number | `science/water_balance.py` | Formula test; CN values from TR-55 Table 2-2b (verify against the NRCS original) |
+| SCS-CN | Daily runoff, curve number | `science/water_balance.py` | Formula test; CN values confirmed in NRCS NEH 630 Subpart E, Figure 630E-1 |
 | BALANCE | Mass conservation of the root zone | `science/water_balance.py` | Closure below 1e-9 mm on mixed wet/dry runs, rain-fed and irrigated; checked in every analysis |
 
 Tolerances in the tests are half a unit of the last digit FAO-56 printed, widened only where FAO carried a
@@ -34,3 +34,5 @@ rounded intermediate forward; each case says so in `backend/tests/test_fao56.py`
 - Pilot conversions: W/m² × 0.0864 -> MJ/m²/day; km/day × 1000/86400 -> m/s; RH fraction × 100 -> percent; ft × 0.3048 -> m; wind height normalization uses Eq. 47.
 - Bias = mean(model-reference); MAE = mean(abs(model-reference)); RMSE = sqrt(mean((model-reference)^2)), computed on finite pairs, per output with missingness counts. Seasonal paired totals require at least 146 of 153 valid May–September days, without imputation.
 - Station-forced FAO versus published ETo is a method consistency cross-check, not independent environmental validation. No universal percentage tolerance or error target is introduced.
+- Engine 2.2.0 excludes negative ET0/condensation and zero TAW; all balance forcings must be finite/nonnegative. Storage-limited ETa implies a matching effective Ks and stress-day flag. Standard ETc is a conditional crop simulation.
+- Per-season Kc climate QA exposes original and range-limited stage inputs. Kansas following-midnight station stamps are shifted back exactly one day per provider documentation, including the correct terminal download date; this is an evaluation alignment correction, not a fitted bias adjustment.

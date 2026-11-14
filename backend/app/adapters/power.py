@@ -63,7 +63,7 @@ def query(lon: float, lat: float, start: date, end: date) -> dict[str, str]:
     return {
         "parameters": ",".join(p for p, _ in VARIABLES.values()), "community": COMMUNITY,
         "latitude": f"{lat:.4f}", "longitude": f"{lon:.4f}",
-        "start": start.strftime("%Y%m%d"), "end": end.strftime("%Y%m%d"), "format": "JSON",
+        "start": start.strftime("%Y%m%d"), "end": end.strftime("%Y%m%d"), "format": "JSON", "time-standard": "LST",
     }
 
 

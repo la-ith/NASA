@@ -2,7 +2,7 @@
 -- Source records and analyses are written once and never updated. Jobs are operational records and may change.
 
 CREATE TABLE IF NOT EXISTS v2_source_record (
-  record_id      TEXT PRIMARY KEY,       -- content SHA-256 prefix
+  record_id      TEXT PRIMARY KEY,       -- hash of provider, request, retrieval time and content
   provider       TEXT NOT NULL,          -- 'power' or 'ssurgo'
   request_key    TEXT NOT NULL,          -- provider, product, variables, point, period, time standard, adapter version
   retrieved_utc  TEXT NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS v2_source_record (
 CREATE INDEX IF NOT EXISTS v2_source_lookup ON v2_source_record (provider, request_key, retrieved_utc);
 
 CREATE TABLE IF NOT EXISTS v2_analysis (
-  analysis_id     TEXT PRIMARY KEY,      -- unguessable token: possession is the demo's access control
+  analysis_id     TEXT PRIMARY KEY,      -- unguessable ID; owner cookie scope is enforced by API
   created_utc     TEXT NOT NULL,
   status          TEXT NOT NULL CHECK (status IN ('complete', 'partial', 'unsupported')),
   engine_version  TEXT NOT NULL,
@@ -28,4 +28,18 @@ CREATE TABLE IF NOT EXISTS v2_job (
   stage        TEXT,
   analysis_id  TEXT REFERENCES v2_analysis (analysis_id),
   error        TEXT                      -- JSON error envelope when failed
+);
+
+CREATE TABLE IF NOT EXISTS v2_product_record (
+ artifact_id TEXT PRIMARY KEY, owner TEXT NOT NULL, product TEXT NOT NULL,
+ retrieved_utc TEXT NOT NULL, raw TEXT NOT NULL, result TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS v2_chat_session (
+ session_id TEXT PRIMARY KEY, owner TEXT NOT NULL, analysis_id TEXT,
+ created_utc TEXT NOT NULL, messages TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS v2_ai_usage (
+ utc_day TEXT PRIMARY KEY, requests INTEGER NOT NULL DEFAULT 0
 );

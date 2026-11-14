@@ -1,0 +1,67 @@
+{
+  "correction": "Kansas following-midnight labels shifted to preceding observation date per official documentation; correct interval includes October 1",
+  "reference": "https://mesonet.k-state.edu/rest/url-builder/",
+  "purpose": "Evaluation alignment correction, not calibration or field accuracy certification",
+  "years": {
+    "2020": {
+      "before": {
+        "n": 153,
+        "expected": 153,
+        "missing_or_excluded": 0,
+        "suspect_reference_days": 0,
+        "bias": 0.29226221801955843,
+        "mae": 1.354785858840931,
+        "rmse": 1.7255736429157225
+      },
+      "after": {
+        "n": 153,
+        "expected": 153,
+        "missing_or_excluded": 0,
+        "suspect_reference_days": 0,
+        "bias": 0.2958334738159985,
+        "mae": 0.5476499683232621,
+        "rmse": 0.730826561832394
+      }
+    },
+    "2021": {
+      "before": {
+        "n": 149,
+        "expected": 153,
+        "missing_or_excluded": 4,
+        "suspect_reference_days": 0,
+        "bias": -0.1423890556667263,
+        "mae": 1.507563894269835,
+        "rmse": 1.9160812570889083
+      },
+      "after": {
+        "n": 149,
+        "expected": 153,
+        "missing_or_excluded": 4,
+        "suspect_reference_days": 0,
+        "bias": -0.13679131246805248,
+        "mae": 0.6966657074560679,
+        "rmse": 0.9617031290995576
+      }
+    },
+    "2022": {
+      "before": {
+        "n": 153,
+        "expected": 153,
+        "missing_or_excluded": 0,
+        "suspect_reference_days": 0,
+        "bias": 0.16339277178183229,
+        "mae": 1.8093334393541076,
+        "rmse": 2.257955108960703
+      },
+      "after": {
+        "n": 153,
+        "expected": 153,
+        "missing_or_excluded": 0,
+        "suspect_reference_days": 0,
+        "bias": 0.1504102741613718,
+        "mae": 0.6541131639086893,
+        "rmse": 0.7941244461943205
+      }
+    }
+  }
+}

@@ -2,6 +2,9 @@
 
 Python 3.12 + FastAPI.
 
+Backend 2.2.0: see [the backend handoff](../docs/backend-handoff.md) for OpenAI configuration, private API
+contracts, point layers, scenarios, source artifacts, deployment and remaining scientific validation gates.
+
 - **v4 U.S. release** (`/api/v2`, web app at `/`): NASA POWER daily weather, USDA SSURGO soils and FAO-56
   (Penman–Monteith ET0, crop coefficients, daily root-zone water balance) replayed over 25 past seasons for current
   practice and two alternatives. See `../Field Shift Product Spec v4_0.md` and `../docs/`.
@@ -29,7 +32,7 @@ python -m app.cli --live --lat 41.59 --lon -93.62 --out result.json --report rep
 ```
 
 `--site` uses the saved, validated records in `../data/fixtures` (offline). `--live` calls NASA POWER and USDA Soil
-Data Access. Set `FIELD_SHIFT_WARMUP=0` to skip the v1 startup fetch and `FIELD_SHIFT_DB` to choose the database
+Data Access. Legacy warmup is off by default; set `FIELD_SHIFT_WARMUP=1` to enable it. Set `FIELD_SHIFT_DB` to choose the database
 file (default `field_shift.db`). The tests run offline.
 
 ## Layout

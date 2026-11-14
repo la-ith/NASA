@@ -1,0 +1,27 @@
+{
+  "retrieved_utc": "2026-11-14T19:39:03.037524+00:00",
+  "content_sha256": "078c91f2ecd4d006e3c051e47642da2047bdf394d12e743b00d5e22936049cf7",
+  "manifest": {
+    "content_sha256": "078c91f2ecd4d006e3c051e47642da2047bdf394d12e743b00d5e22936049cf7",
+    "retrieved_utc": "2026-11-14T19:39:03+00:00",
+    "layers": []
+  },
+  "response": {
+    "Table": [
+      [
+        "cokey",
+        "compname",
+        "comppct_r",
+        "reskind",
+        "resdept_r"
+      ],
+      [
+        "27960011",
+        "Harney",
+        "85",
+        null,
+        null
+      ]
+    ]
+  }
+}

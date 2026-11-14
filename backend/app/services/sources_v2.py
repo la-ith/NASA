@@ -32,7 +32,8 @@ def demo_site(lon: float, lat: float) -> str | None:
 def _store(db: sqlite3.Connection, provider: str, key: str, manifest: dict, raw: dict, retrieved: str) -> None:
     with db:
         db.execute("INSERT OR IGNORE INTO v2_source_record VALUES (?, ?, ?, ?, ?, ?)",
-                   (content_hash(raw)[:32], provider, key, retrieved, json.dumps(manifest), json.dumps(raw)))
+                   (content_hash([provider, key, retrieved, content_hash(raw)])[:32], provider, key, retrieved,
+                    json.dumps(manifest), json.dumps(raw)))
 
 
 def _cached(db: sqlite3.Connection, provider: str, key: str) -> tuple[dict, str] | None:

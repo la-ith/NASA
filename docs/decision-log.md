@@ -31,3 +31,20 @@ Implementation decisions taken while building spec v4.0. "Assumed" items are dis
 - The pilot is purposive development sampling, not a probability sample. May–September 2020–2022 only; 2023–2025 temporal holdout and spatial holdout stations are reserved and not evaluated.
 - CoAgMet RHmin <= 0.01 is excluded from humidity-derived and published-ET comparisons; raw data is retained. 92 development days in 2020 are flagged. Current official station metadata warns of non-reference surroundings; historical site conditions require confirmation.
 - No Fresno aridity correction is adopted. Maricopa is an analogue, not California truth. CIMIS access remains blocked.
+
+## Backend 2.2.0 follow-through — 14 November 2026
+
+- User chose OpenAI API. Use server-side Responses API configuration; no key is embedded. Initial assistant
+  selects approved evidence IDs; the server renders claims and numbers. Failure falls back explicitly.
+- User requested backend/science work while frontend and account databases are reserved for later. Add only
+  operational source/conversation/usage storage. Frontend files remain unchanged in this work.
+- Supplemental UTC IMERG/SMAP remain context, not mixed into LST balance forcing. SMAP no-data/source mismatch
+  is exposed. USDA CDL classification never overwrites farmer-confirmed crop history automatically.
+- Prefer working USDA-hosted CroplandCROS REST services over the timing-out legacy GMU service. Lock year/raster
+  and verify classification metadata; separate Hawaii availability, reject Alaska.
+- Map backend exposes point-supported values. National rasters/tiles require their own gridded pipeline and
+  are not fabricated from selected-point results.
+- Correct Kansas following-midnight labels from official documentation, not an error-minimizing lag search.
+  Preserve previous raw artifacts and obtain correctly bounded development data. Holdouts remain unused.
+- Numerical verification is separate from environmental/field accuracy. Fresno and expert agronomic review
+  remain open release gates. No correction is fitted to make irrigation totals match published numbers.

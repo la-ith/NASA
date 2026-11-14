@@ -5,7 +5,7 @@ For every candidate crop and every complete past season, using that season's rea
   1. ET0 each day by FAO-56 Penman-Monteith (Eq. 6), with ea from dewpoint (Eq. 14), Rs from POWER all-sky
      shortwave, u2 from POWER 2 m wind and γ from POWER surface pressure (Eq. 8).
   2. Kc each day from the FAO-56 stage curve (Eq. 66), with Kc mid and Kc end adjusted for that season's
-     mid-season wind and minimum humidity (Eqs. 62, 63, 65).
+     mid-season and late-season wind and minimum humidity respectively (Eqs. 62, 63, 65).
   3. Standard crop demand ETc = Kc ET0 (Eq. 58).
   4. The daily root-zone water balance (Eqs. 80-88) twice: rain-fed (missing water stays a deficit) and
      irrigated (net irrigation refills the root zone when RAW is depleted).
@@ -25,7 +25,7 @@ from app.science.crop import adjust_kc_for_climate, kc_curve, layered_total_avai
 from app.science.statistics import spread
 from app.science.water_balance import simulate
 
-ENGINE_VERSION = "2.1.0"
+ENGINE_VERSION = "2.2.0"
 CLOSURE_TOLERANCE_MM = 1e-6  # floating-point only; the balance is algebraically exact
 NEEDED = ("t_max", "t_min", "t_dew", "wind_2m", "shortwave_down", "surface_pressure", "precipitation", "t_mean")
 
@@ -77,6 +77,7 @@ class SeasonOutcome:
     kc_mid_adjusted: float
     kc_end_adjusted: float
     max_closure_residual: float
+    kc_climate_qa: dict | None = None
 
 
 def stage_climate_means(weather: DailyWeather, rows: list[int]) -> tuple[float, float]:
@@ -85,6 +86,22 @@ def stage_climate_means(weather: DailyWeather, rows: list[int]) -> tuple[float, 
     u2 = sum(v["wind_2m"][i] for i in rows) / len(rows)
     rhmin = sum(min_relative_humidity(v["t_dew"][i], v["t_max"][i]) for i in rows) / len(rows)
     return u2, rhmin
+
+
+def kc_climate_qa(crop,weather,rows):
+    """Record when FAO Eqs. 62/65 inputs were limited to their stated applicability ranges."""
+    s=crop.stages
+    qa={}
+    for stage,indices,table in [('mid',rows[s.initial+s.development:s.initial+s.development+s.mid],crop.kc_mid),
+                                ('late',rows[s.total-s.late:],crop.kc_end)]:
+        applied=stage=='mid' or table>=.45
+        wind,rh=stage_climate_means(weather,indices)
+        adjustment=adjust_kc_for_climate(table,wind,rh,crop.height_m)
+        qa[stage]=dict(applied=applied,wind_mean_m_s=wind,rhmin_mean_percent=rh,
+                       wind_used_m_s=adjustment.u2_used if applied else None,
+                       rhmin_used_percent=adjustment.rhmin_used if applied else None,
+                       limited=applied and adjustment.limited)
+    return qa
 
 
 def prepare_demand(crop: CropProfileV2, weather: DailyWeather, index: dict[date, int], start: date,
@@ -107,6 +124,8 @@ def prepare_demand(crop: CropProfileV2, weather: DailyWeather, index: dict[date,
     if any(not math.isfinite(e.et0_mm) for e in et0_days):
         return "outside_applicability", "ET0 undefined on a day without daylight (polar night)"
     et0 = [e.et0_mm for e in et0_days]
+    if any(e < 0 for e in et0):
+        return "outside_applicability", "negative reference ET0 indicates possible condensation, not modelled by this water balance"
 
     s = crop.stages
     kc_mid, kc_end = crop.kc_mid, crop.kc_end
@@ -133,6 +152,8 @@ def simulate_season(crop: CropProfileV2, weather: DailyWeather, index: dict[date
     status, prepared = prepare_demand(crop, weather, index, start, adjust_kc)
     if status != "ok":
         return status, prepared
+    if not math.isfinite(taw) or taw <= 0:
+        return "outside_applicability", "root zone has no positive available water capacity"
     days, rows, et0, kc, kc_mid, kc_end = prepared
     v = weather.values
     precip = [v["precipitation"][i] for i in rows]
@@ -146,12 +167,13 @@ def simulate_season(crop: CropProfileV2, weather: DailyWeather, index: dict[date
     return "ok", SeasonOutcome(
         days[0].year, days[0].isoformat(), days[-1].isoformat(), sum(et0), rainfed.etc_standard,
         rainfed.precipitation, rainfed.runoff, rainfed.eta, rainfed.deficit, rainfed.stress_days, rainfed.drainage,
-        irrigated.irrigation_net, irrigated.irrigation_events, kc_mid, kc_end, residual)
+        irrigated.irrigation_net, irrigated.irrigation_events, kc_mid, kc_end, residual,
+        kc_climate_qa(crop,weather,rows) if adjust_kc else None)
 
 
 SUMMARIZED = {  # output -> (unit, result type)
     "et0": ("mm per season", "historical_analysis"),
-    "etc_standard": ("mm per season", "historical_analysis"),
+    "etc_standard": ("mm per season", "conditional_simulation"),
     "precipitation": ("mm per season", "historical_analysis"),
     "rainfed_eta": ("mm per season", "conditional_simulation"),
     "rainfed_deficit": ("mm per season", "conditional_simulation"),
@@ -211,7 +233,8 @@ def simulate_climate_only(crop: CropProfileV2, weather: DailyWeather, index: dic
     etc = sum(k * e for k, e in zip(kc, et0))
     precip = sum(weather.values["precipitation"][i] for i in rows)
     return "ok", SeasonOutcome(days[0].year, days[0].isoformat(), days[-1].isoformat(), sum(et0), etc, precip,
-                               None, None, None, None, None, None, None, kc_mid, kc_end, 0.0)
+                               None, None, None, None, None, None, None, kc_mid, kc_end, 0.0,
+                               kc_climate_qa(crop,weather,rows))
 
 
 # ---------- strategies ----------

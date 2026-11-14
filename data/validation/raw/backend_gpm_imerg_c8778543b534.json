@@ -1,0 +1,93 @@
+{
+  "retrieved_utc": "2026-11-14T19:39:01.282143+00:00",
+  "content_sha256": "c8778543b534ebfa344cb80ef39f6bd2a8131e9a9433c532216c40e57c4aef7c",
+  "manifest": {
+    "product": "gpm_imerg",
+    "status": "available",
+    "values": {
+      "IMERG_PRECTOT": {
+        "20200501": 0.58,
+        "20200502": 0.0,
+        "20200503": 1.77
+      }
+    },
+    "valid_values": 3,
+    "expected_values": 3,
+    "time_standard": "UTC",
+    "units": {
+      "IMERG_PRECTOT": "mm/day"
+    },
+    "source_metadata": {
+      "title": "NASA/POWER Source Native Resolution Daily Data",
+      "api": {
+        "version": "v2.10.3",
+        "name": "POWER Daily API"
+      },
+      "sources": [
+        "IMERG"
+      ],
+      "fill_value": -999.0,
+      "time_standard": "UTC",
+      "start": "20200501",
+      "end": "20200503"
+    },
+    "content_sha256": "c8778543b534ebfa344cb80ef39f6bd2a8131e9a9433c532216c40e57c4aef7c",
+    "meaning": "UTC daily rainfall; context only, not mixed with LST forcing",
+    "limitation": "Does not alter the historical LST simulation. Product quality and field representativeness still require review.",
+    "request": {
+      "parameters": "IMERG_PRECTOT",
+      "community": "AG",
+      "latitude": "38.8500",
+      "longitude": "-99.3300",
+      "start": "20200501",
+      "end": "20200503",
+      "format": "JSON",
+      "time-standard": "UTC"
+    }
+  },
+  "response": {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -99.33,
+        38.85,
+        637.87
+      ]
+    },
+    "properties": {
+      "parameter": {
+        "IMERG_PRECTOT": {
+          "20200501": 0.58,
+          "20200502": 0.0,
+          "20200503": 1.77
+        }
+      }
+    },
+    "header": {
+      "title": "NASA/POWER Source Native Resolution Daily Data",
+      "api": {
+        "version": "v2.10.3",
+        "name": "POWER Daily API"
+      },
+      "sources": [
+        "IMERG"
+      ],
+      "fill_value": -999.0,
+      "time_standard": "UTC",
+      "start": "20200501",
+      "end": "20200503"
+    },
+    "messages": [],
+    "parameters": {
+      "IMERG_PRECTOT": {
+        "units": "mm/day",
+        "longname": "Total Precipitation"
+      }
+    },
+    "times": {
+      "data": 0.197,
+      "process": 0.01
+    }
+  }
+}

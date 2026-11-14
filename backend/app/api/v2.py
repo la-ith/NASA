@@ -56,6 +56,7 @@ class AnalysisRequestV2(BaseModel):
     planting_dates: dict[str, str] = Field(default_factory=dict)
     initial_depletion_fraction: float | None = Field(default=None, ge=0.0, le=1.0)
     soil: SoilOverride | None = None
+    parent_analysis_id: str | None = Field(default=None,max_length=100)
 
     @model_validator(mode="after")
     def check_period_and_dates(self) -> "AnalysisRequestV2":
@@ -146,9 +147,10 @@ async def coverage(body: PointIn, request: Request) -> dict:
     return {"in_scope": True, "state": {"code": state.code, "name": state.name},
             "demo_site": sources_v2.demo_site(body.lon, body.lat),
             "products": {"nasa_power": weather_cov, "ssurgo": soil_cov,
-                         "usda_cdl": {"status": "not_integrated", "reason": "planned; history is entered by the user"},
-                         "gpm_imerg": {"status": "not_integrated", "reason": "planned (spec v4.0, section 4)"},
-                         "smap": {"status": "not_integrated", "reason": "planned (spec v4.0, section 4)"}}}
+                         "usda_cdl": {"status": "unsupported" if state.code == "AK" else "unchecked",
+                                      "reason": "Classified context adapter; query product point endpoint; history remains user-entered"},
+                         "gpm_imerg": {"status": "unchecked", "reason": "Context adapter ready; query /api/v2/products/gpm_imerg/query"},
+                         "smap": {"status": "unchecked", "reason": "Context adapter ready; source-confirmed availability required per request"}}}
 
 
 async def _run_job(app, job_id: str, body: AnalysisRequestV2) -> None:
@@ -187,6 +189,7 @@ async def _run_job(app, job_id: str, body: AnalysisRequestV2) -> None:
         stage = "saving"
         analysis_id = secrets.token_urlsafe(12)
         result["analysis_id"] = analysis_id
+        result["parent_analysis_id"] = body.parent_analysis_id
         with db:
             owner = db.execute("SELECT owner FROM v2_job WHERE job_id = ?", (job_id,)).fetchone()[0]
             db.execute("INSERT INTO v2_analysis "
@@ -208,6 +211,8 @@ async def _run_job(app, job_id: str, body: AnalysisRequestV2) -> None:
 
 @router.post("/analyses", status_code=202)
 async def create_analysis(body: AnalysisRequestV2, request: Request):
+    if body.parent_analysis_id:
+        _load(request,body.parent_analysis_id)
     state = state_at(body.lon, body.lat)
     if state is None:
         return _error(422, "outside_scope", "This location is outside the 50 U.S. states covered by this release.",

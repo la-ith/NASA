@@ -5,7 +5,7 @@ import hashlib
 import io
 import json
 import math
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urlencode
 
@@ -73,7 +73,7 @@ def station_url(site,year):
         return 'https://coagmet.colostate.edu/data/daily/ftc01.csv?'+urlencode(
             dict(from_=f'{year}-05-01')).replace('from_','from')+f'&to={year}-09-30&header=yes&units=m'
     return 'https://mesonet.k-state.edu/rest/stationdata/?'+urlencode(dict(
-        stn='Hays',int='day',t_start=f'{year}0501000000',t_end=f'{year}0930235959',
+        stn='Hays',int='day',t_start=f'{year}0502000000',t_end=f'{year}1001000000',
         vars='TEMP2MMAX,TEMP2MMIN,RELHUM2MMAX,RELHUM2MMIN,PRECIP,SR,SRAVG,WSPD2MAVG,PRESSUREAVG'))
 
 
@@ -107,7 +107,12 @@ def normalize_station(site,data):
             # Published ET may inherit the suspect humidity; exclude it too, preserve other measurements.
             if qa: v['eto']=None
         else:
-            d=date.fromisoformat(r['TIMESTAMP'][:10])
+            # Official URL builder: daily observations are stamped at midnight of the following day.
+            # Shift by the documented interval, never by the lag giving the smallest model error.
+            stamp=datetime.fromisoformat(r['TIMESTAMP'])
+            if stamp.hour or stamp.minute or stamp.second:
+                raise ValueError('Kansas daily observation is not an end-of-day midnight stamp')
+            d=stamp.date()-timedelta(days=1)
             v={k:number(r.get(col)) for k,col in {'tmax':'TEMP2MMAX','tmin':'TEMP2MMIN','rs':'SR',
                                                   'u2':'WSPD2MAVG','rain':'PRECIP','pressure':'PRESSUREAVG'}.items()}
             rhmax,rhmin=number(r.get('RELHUM2MMAX')),number(r.get('RELHUM2MMIN'))
@@ -189,7 +194,8 @@ async def run():
         spatial_holdout=dict(stations=['AZMET az01 Tucson','CoAgMet akr02 Akron','CoAgMet gly04 Greeley','Kansas Colby'],
                              status='reserved, not downloaded or evaluated'),
         development_sites=SITES,applicability_only=['Palmer AK','Maui HI','Fresno CA (CIMIS blocked)','Ames IA'],
-        time_alignment='POWER LST versus station daily labels: exact day-window equivalence not established; limitation',
+        time_alignment='Kansas following-midnight stamps shifted back one day per provider documentation; '
+                       'POWER LST versus station civil/standard-time windows still differ',
         thresholds='No accuracy threshold selected; select before opening holdout')
     (OUT/'sample-manifest.json').write_text(json.dumps(manifest,indent=2))
     async with httpx.AsyncClient(timeout=90,follow_redirects=True) as client:
@@ -245,15 +251,17 @@ async def check_applicability(client,site):
 
 def write_report(results):
     lines=['# Pilot validation and review-fix report','',
-      'Date: 14 November 2026. Engine 2.1.0. Purposive development pilot, not a probability sample.',
+      'Date: 14 November 2026. Engine 2.2.0. Purposive development pilot, not a probability sample.',
       'No nationwide accuracy, crop-yield accuracy or field irrigation accuracy is established.', '',
       '## Evaluation design','',
       'Development: May–September 2020–2022, 153 daily labels per season. Temporal holdout 2023–2025 and '
       'spatial holdout stations remain reserved and were not downloaded by this runner. Raw responses are '
       'saved with request URLs, retrieval UTC and SHA-256 hashes in data/validation/raw/. '
       'Normalized reference values and QA flags are saved in results/normalized_*.json.', '',
-      'Daily labels align by calendar date. POWER uses local solar time; exact station observation-window '
-      'equivalence has not been verified. Daily differences therefore include possible time-window mismatch.', '',
+      'Kansas daily timestamps denote midnight of the following day and are shifted back one day, per the '
+      'official URL-builder documentation. Its download interval includes October 1 to cover September 30. '
+      'POWER uses local solar time; exact station civil/standard-time observation-window equivalence remains '
+      'unverified. Daily differences still include sub-day time-window mismatch.', '',
       '## Development environmental comparisons','',
       'Bias is model minus reference. ET0 units below are mm/day. Comparisons are diagnostic, not a release accuracy certification.', '',
       '| Station | Year | Paired days | Excluded/missing | Bias | MAE | RMSE |',
@@ -341,6 +349,7 @@ def write_report(results):
       '- CoAgMet station metadata: https://coagmet.colostate.edu/station_details.php?station=FTC01',
       '- Kansas variables: https://mesonet.k-state.edu/rest/variables/',
       '- Kansas service: https://mesonet.k-state.edu/rest/',
+      '- Kansas day-label convention: https://mesonet.k-state.edu/rest/url-builder/',
       '- POWER methodology: https://power.larc.nasa.gov/docs/methodology/',
       '']
     (OUT/'pilot-validation-report.md').write_text('\n'.join(lines),encoding='utf-8')

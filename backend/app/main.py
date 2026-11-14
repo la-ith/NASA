@@ -1,5 +1,6 @@
 """FastAPI app: startup cache warm-up, the error shapes from section 10, and the web app."""
 import logging
+import math
 import os
 import asyncio
 import hashlib
@@ -18,6 +19,9 @@ from fastapi.staticfiles import StaticFiles
 from app.api.analyses import router as analyses_router
 from app.api.reference import router as reference_router
 from app.api.v2 import router as v2_router
+from app.api.data import router as data_router
+from app.api.products import router as products_router
+from app.api.chat import router as chat_router
 from app.db.database import connect
 from app.services.climate_context import build_climate_context
 from app.services.climate_provider import ProviderError
@@ -25,7 +29,7 @@ from app.services.validation import UnusableRecord
 
 log = logging.getLogger("field_shift")
 DB_PATH = os.environ.get("FIELD_SHIFT_DB", "field_shift.db")  # created in the working directory
-WARM_UP = os.environ.get("FIELD_SHIFT_WARMUP", "1") != "0"  # tests switch it off to stay offline
+WARM_UP = os.environ.get("FIELD_SHIFT_WARMUP", "0") != "0"  # opt-in legacy Hebron cache warmup only
 FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"
 
 
@@ -34,6 +38,7 @@ async def lifespan(app: FastAPI):
     app.state.http = httpx.AsyncClient()
     app.state.db = connect(DB_PATH)
     app.state.analysis_executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="field-analysis")
+    app.state.chat_lock = asyncio.Lock()
     if WARM_UP:
         try:  # warm the pilot cache, so the demo does not depend on a live call
             await build_climate_context("live", 31.5, 35.1, 2026, app.state.http, app.state.db)
@@ -51,10 +56,13 @@ async def lifespan(app: FastAPI):
     app.state.db.close()
 
 
-app = FastAPI(title="Field Shift API", version="1.0.0", lifespan=lifespan)
+app = FastAPI(title="Field Shift API", version="2.2.0", lifespan=lifespan)
 app.include_router(analyses_router, prefix="/api/v1")
 app.include_router(reference_router, prefix="/api/v1")
 app.include_router(v2_router)  # spec v4.0: U.S. release; /api/v1 stays for the Hebron regression fixtures
+app.include_router(data_router)
+app.include_router(products_router)
+app.include_router(chat_router)
 
 
 @app.middleware("http")
@@ -78,7 +86,7 @@ async def health() -> dict:
 
 @app.exception_handler(RequestValidationError)
 async def invalid_input(request: Request, exc: RequestValidationError) -> JSONResponse:
-    fields = jsonable_encoder(exc.errors())
+    fields = jsonable_encoder(exc.errors(), custom_encoder={float: lambda x: x if math.isfinite(x) else str(x)})
     return JSONResponse(status_code=422, content={"error": {"code": "invalid_input", "fields": fields}})
 
 

@@ -76,6 +76,12 @@ def simulate(et0: list[float], kc: list[float], precip: list[float], taw: float,
         raise ValueError("need 0 <= refill_fraction < trigger_fraction <= 1")
     if not (len(et0) == len(kc) == len(precip)):
         raise ValueError("et0, kc and precip must cover the same days")
+    if not math.isfinite(taw) or taw <= 0 or not math.isfinite(curve_number) or not 0 < curve_number <= 100:
+        raise ValueError("TAW must be positive and curve number must be in (0, 100]")
+    if not math.isfinite(p_table) or not 0 < p_table < 1:
+        raise ValueError("depletion fraction must be in (0, 1)")
+    if any(not math.isfinite(x) or x < 0 for series in (et0, kc, precip) for x in series):
+        raise ValueError("balance forcings must be finite and nonnegative; condensation is not modelled")
     if not 0.0 <= initial_depletion <= taw:
         raise ValueError("initial depletion must be between 0 and TAW")
     r = BalanceResult(initial_depletion=initial_depletion)
@@ -92,6 +98,7 @@ def simulate(et0: list[float], kc: list[float], precip: list[float], taw: float,
         start = max(after_rain - irrigation, 0.0)  # Dr,i start (FAO-56 Example 36, column 5)
         ks = water_stress_coefficient(start, taw, p)
         eta = min(ks * etc, taw - start)  # cannot transpire water that is not stored
+        ks = min(ks, eta / etc) if etc > 0 else ks
         # Eqs. 85 and 88 with CR = 0: water above field capacity drains, and depletion is then exactly 0.
         balance = depletion - infiltration - irrigation + eta
         drainage, depletion = (-balance, 0.0) if balance < 0.0 else (0.0, balance)

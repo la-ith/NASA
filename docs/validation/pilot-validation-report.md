@@ -1,13 +1,13 @@
 # Pilot validation and review-fix report
 
-Date: 14 November 2026. Engine 2.1.0. Purposive development pilot, not a probability sample.
+Date: 14 November 2026. Engine 2.2.0. Purposive development pilot, not a probability sample.
 No nationwide accuracy, crop-yield accuracy or field irrigation accuracy is established.
 
 ## Evaluation design
 
 Development: May–September 2020–2022, 153 daily labels per season. Temporal holdout 2023–2025 and spatial holdout stations remain reserved and were not downloaded by this runner. Raw responses are saved with request URLs, retrieval UTC and SHA-256 hashes in data/validation/raw/. Normalized reference values and QA flags are saved in results/normalized_*.json.
 
-Daily labels align by calendar date. POWER uses local solar time; exact station observation-window equivalence has not been verified. Daily differences therefore include possible time-window mismatch.
+Kansas daily timestamps denote midnight of the following day and are shifted back one day, per the official URL-builder documentation. Its download interval includes October 1 to cover September 30. POWER uses local solar time; exact station civil/standard-time observation-window equivalence remains unverified. Daily differences still include sub-day time-window mismatch.
 
 ## Development environmental comparisons
 
@@ -21,9 +21,9 @@ Bias is model minus reference. ET0 units below are mm/day. Comparisons are diagn
 | ftc01 | 2020 | 61 | 92 | 1.613 | 1.613 | 1.818 |
 | ftc01 | 2021 | 153 | 0 | 1.244 | 1.261 | 1.429 |
 | ftc01 | 2022 | 153 | 0 | 1.132 | 1.139 | 1.325 |
-| hays | 2020 | 153 | 0 | 0.292 | 1.355 | 1.726 |
-| hays | 2021 | 149 | 4 | -0.142 | 1.508 | 1.916 |
-| hays | 2022 | 153 | 0 | 0.163 | 1.809 | 2.258 |
+| hays | 2020 | 153 | 0 | 0.296 | 0.548 | 0.731 |
+| hays | 2021 | 149 | 4 | -0.137 | 0.697 | 0.962 |
+| hays | 2022 | 153 | 0 | 0.150 | 0.654 | 0.794 |
 
 Full per-output metrics for Tmax, Tmin, ea, solar radiation, wind, daily ET0 and precipitation are in results/pilot-development.json. Seasonal ET0/rain totals require at least 146/153 paired valid days (95%). Totals sum those paired days without filling gaps. Seasonal metrics report bias/MAE/RMSE over eligible development seasons only; a season with incomplete paired days is not an observed complete total.
 
@@ -88,4 +88,5 @@ Resolve station-era metadata and day-window alignment; review crop/soil/manageme
 - CoAgMet station metadata: https://coagmet.colostate.edu/station_details.php?station=FTC01
 - Kansas variables: https://mesonet.k-state.edu/rest/variables/
 - Kansas service: https://mesonet.k-state.edu/rest/
+- Kansas day-label convention: https://mesonet.k-state.edu/rest/url-builder/
 - POWER methodology: https://power.larc.nasa.gov/docs/methodology/

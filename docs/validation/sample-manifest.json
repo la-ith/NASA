@@ -60,6 +60,6 @@
     "Fresno CA (CIMIS blocked)",
     "Ames IA"
   ],
-  "time_alignment": "POWER LST versus station daily labels: exact day-window equivalence not established; limitation",
+  "time_alignment": "Kansas following-midnight stamps shifted back one day per provider documentation; POWER LST versus station civil/standard-time windows still differ",
   "thresholds": "No accuracy threshold selected; select before opening holdout"
 }

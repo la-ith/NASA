@@ -1,0 +1,9 @@
+.git
+.claude
+outputs
+**/__pycache__
+**/.pytest_cache
+**/.env
+*.db
+data/validation
+docs/validation/results

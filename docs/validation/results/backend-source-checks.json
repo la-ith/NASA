@@ -1,0 +1,180 @@
+{
+  "retrieved_utc": "2026-11-14T19:38:59.920969+00:00",
+  "scope": "development probes only",
+  "checks": {
+    "cdl_hawaii": {
+      "status": "blocked",
+      "error_type": "NotCovered",
+      "message": "No raster for this year in this regional service"
+    },
+    "smap": {
+      "status": "no_data",
+      "valid_values": 0,
+      "expected_values": 6,
+      "artifact": "data/validation/raw/backend_smap_a4f26247c448.json"
+    },
+    "cdl_conus": {
+      "status": "available",
+      "class_code": 176,
+      "class_name": "Grassland/Pasture",
+      "year": 2020,
+      "farmer_confirmed": false,
+      "artifact": "data/validation/raw/backend_cdl_KS_b1a734f1605b.json"
+    },
+    "gpm_imerg": {
+      "status": "available",
+      "valid_values": 3,
+      "expected_values": 3,
+      "artifact": "data/validation/raw/backend_gpm_imerg_c8778543b534.json"
+    },
+    "power_and_balance": {
+      "status": "complete",
+      "artifact": "data/validation/raw/backend_power_hays_2020_87b35cddafe6.json",
+      "days": 366,
+      "missing": {
+        "precipitation": 0,
+        "t_mean": 0,
+        "t_max": 0,
+        "t_min": 0,
+        "t_dew": 0,
+        "rh_mean": 0,
+        "wind_2m": 0,
+        "shortwave_down": 0,
+        "surface_pressure": 0
+      },
+      "strategies": [
+        {
+          "crop": "maize_grain",
+          "seasons": [
+            {
+              "year": 2020,
+              "planting": "2020-05-01",
+              "harvest": "2020-09-27",
+              "et0": 937.25,
+              "etc_standard": 809.79,
+              "precipitation": 436.66,
+              "runoff": 34.37,
+              "rainfed_eta": 499.77,
+              "rainfed_deficit": 310.02,
+              "rainfed_stress_days": 99,
+              "rainfed_drainage": 0.0,
+              "irrigated_net_irrigation": 412.41,
+              "irrigated_events": 4,
+              "kc_mid_adjusted": 1.25,
+              "kc_end_adjusted": 0.35,
+              "max_closure_residual": 0.0,
+              "kc_climate_qa": {
+                "mid": {
+                  "applied": true,
+                  "wind_mean_m_s": 3.1576,
+                  "rhmin_mean_percent": 42.435497290335164,
+                  "wind_used_m_s": 3.1576,
+                  "rhmin_used_percent": 42.435497290335164,
+                  "limited": false
+                },
+                "late": {
+                  "applied": false,
+                  "wind_mean_m_s": 3.1713333333333336,
+                  "rhmin_mean_percent": 36.32487304039385,
+                  "wind_used_m_s": null,
+                  "rhmin_used_percent": null,
+                  "limited": false
+                }
+              }
+            }
+          ]
+        },
+        {
+          "crop": "soybean",
+          "seasons": [
+            {
+              "year": 2020,
+              "planting": "2020-05-20",
+              "harvest": "2020-10-06",
+              "et0": 891.52,
+              "etc_standard": 803.82,
+              "precipitation": 410.38,
+              "runoff": 34.18,
+              "rainfed_eta": 453.83,
+              "rainfed_deficit": 349.98,
+              "rainfed_stress_days": 107,
+              "rainfed_drainage": 0.0,
+              "irrigated_net_irrigation": 515.47,
+              "irrigated_events": 7,
+              "kc_mid_adjusted": 1.19,
+              "kc_end_adjusted": 0.57,
+              "max_closure_residual": 0.0,
+              "kc_climate_qa": {
+                "mid": {
+                  "applied": true,
+                  "wind_mean_m_s": 3.191666666666667,
+                  "rhmin_mean_percent": 41.9022597631598,
+                  "wind_used_m_s": 3.191666666666667,
+                  "rhmin_used_percent": 41.9022597631598,
+                  "limited": false
+                },
+                "late": {
+                  "applied": true,
+                  "wind_mean_m_s": 3.1652,
+                  "rhmin_mean_percent": 30.47819381449489,
+                  "wind_used_m_s": 3.1652,
+                  "rhmin_used_percent": 30.47819381449489,
+                  "limited": false
+                }
+              }
+            }
+          ]
+        },
+        {
+          "crop": "sorghum_grain",
+          "seasons": [
+            {
+              "year": 2020,
+              "planting": "2020-06-01",
+              "harvest": "2020-10-03",
+              "et0": 811.69,
+              "etc_standard": 619.69,
+              "precipitation": 353.33,
+              "runoff": 30.88,
+              "rainfed_eta": 437.22,
+              "rainfed_deficit": 182.47,
+              "rainfed_stress_days": 73,
+              "rainfed_drainage": 0.0,
+              "irrigated_net_irrigation": 293.65,
+              "irrigated_events": 2,
+              "kc_mid_adjusted": 1.1,
+              "kc_end_adjusted": 0.63,
+              "max_closure_residual": 0.0,
+              "kc_climate_qa": {
+                "mid": {
+                  "applied": true,
+                  "wind_mean_m_s": 3.01975,
+                  "rhmin_mean_percent": 39.692334398963936,
+                  "wind_used_m_s": 3.01975,
+                  "rhmin_used_percent": 39.692334398963936,
+                  "limited": false
+                },
+                "late": {
+                  "applied": true,
+                  "wind_mean_m_s": 3.3183333333333334,
+                  "rhmin_mean_percent": 34.057788931544316,
+                  "wind_used_m_s": 3.3183333333333334,
+                  "rhmin_used_percent": 34.057788931544316,
+                  "limited": false
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "validation": {
+        "numerical_method": "FAO-56 worked-example verification; see equation register",
+        "environmental_accuracy": "limited development station comparison, not nationwide certification",
+        "field_irrigation_accuracy": "not established",
+        "agronomic_review": "draft-unreviewed",
+        "forecast": false,
+        "regional_warning": null
+      }
+    }
+  }
+}
