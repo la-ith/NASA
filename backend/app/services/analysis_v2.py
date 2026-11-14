@@ -25,7 +25,7 @@ from app.science.crop import adjust_kc_for_climate, kc_curve, layered_total_avai
 from app.science.statistics import spread
 from app.science.water_balance import simulate
 
-ENGINE_VERSION = "2.0.0"
+ENGINE_VERSION = "2.1.0"
 CLOSURE_TOLERANCE_MM = 1e-6  # floating-point only; the balance is algebraically exact
 NEEDED = ("t_max", "t_min", "t_dew", "wind_2m", "shortwave_down", "surface_pressure", "precipitation", "t_mean")
 
@@ -49,8 +49,9 @@ class SoilInput:
 def soil_from_ssurgo(profile: SoilProfile) -> SoilInput:
     return SoilInput("ssurgo", profile.horizons, profile.hydrologic_group, profile.depth_cm,
                      f"{profile.component} ({profile.map_unit}; {profile.component_percent:g}% of map unit "
-                     f"{profile.mukey}; hydrologic group {profile.hydrologic_group_raw})", profile.fc_wp_horizons,
-                     profile.manifest)
+                     f"{profile.mukey}; hydrologic group {profile.hydrologic_group_raw}; "
+                     + (f"{profile.restriction['kind']} at {profile.restriction['top_cm']:g} cm)" if profile.restriction
+                        else "no restrictive layer recorded)"), profile.fc_wp_horizons, profile.manifest)
 
 
 def planting_date(year: int, month_day: str) -> date:
@@ -78,9 +79,17 @@ class SeasonOutcome:
     max_closure_residual: float
 
 
-def simulate_season(crop: CropProfileV2, weather: DailyWeather, index: dict[date, int], start: date, taw: float,
-                    curve_number: int, initial_depletion_fraction: float) -> tuple[str, SeasonOutcome | str]:
-    """One season. Returns ("ok", outcome) or (status, reason) when the season cannot be simulated."""
+def stage_climate_means(weather: DailyWeather, rows: list[int]) -> tuple[float, float]:
+    """Mean u2 [m s-1] and mean RHmin [%] (Eq. 63) over the given days, the inputs of Eqs. 62 and 65."""
+    v = weather.values
+    u2 = sum(v["wind_2m"][i] for i in rows) / len(rows)
+    rhmin = sum(min_relative_humidity(v["t_dew"][i], v["t_max"][i]) for i in rows) / len(rows)
+    return u2, rhmin
+
+
+def prepare_demand(crop: CropProfileV2, weather: DailyWeather, index: dict[date, int], start: date,
+                   adjust_kc: bool = True):
+    """Shared FAO-56 forcing and demand; independent of soil availability."""
     days = [start + timedelta(days=k) for k in range(crop.stages.total)]
     if days[0] not in index or days[-1] not in index:
         return "outside_record", "the season is not fully inside the weather record"
@@ -100,17 +109,37 @@ def simulate_season(crop: CropProfileV2, weather: DailyWeather, index: dict[date
     et0 = [e.et0_mm for e in et0_days]
 
     s = crop.stages
-    mid_rows = rows[s.initial + s.development: s.initial + s.development + s.mid]
-    u2_mid = sum(v["wind_2m"][i] for i in mid_rows) / len(mid_rows)
-    rhmin_mid = sum(min_relative_humidity(v["t_dew"][i], v["t_max"][i]) for i in mid_rows) / len(mid_rows)
-    kc_mid = adjust_kc_for_climate(crop.kc_mid, u2_mid, rhmin_mid, crop.height_m).kc
-    kc_end = adjust_kc_for_climate(crop.kc_end, u2_mid, rhmin_mid, crop.height_m).kc if crop.kc_end >= 0.45 \
-        else crop.kc_end
+    kc_mid, kc_end = crop.kc_mid, crop.kc_end
+    if adjust_kc:
+        # Eq. 62 uses mid-season means; Eq. 65 uses late-season means and applies only when Kc end(Tab) ≥ 0.45.
+        mid_start = s.initial + s.development
+        kc_mid = adjust_kc_for_climate(crop.kc_mid, *stage_climate_means(weather, rows[mid_start:mid_start + s.mid]),
+                                       crop.height_m).kc
+        if crop.kc_end >= 0.45:
+            kc_end = adjust_kc_for_climate(crop.kc_end, *stage_climate_means(weather, rows[s.total - s.late:]),
+                                           crop.height_m).kc
     kc = kc_curve(s, crop.kc_ini, kc_mid, kc_end)
+    return "ok", (days, rows, et0, kc, kc_mid, kc_end)
+
+
+def simulate_season(crop: CropProfileV2, weather: DailyWeather, index: dict[date, int], start: date, taw: float,
+                    curve_number: int, initial_depletion_fraction: float, adjust_kc: bool = True,
+                    trigger_fraction: float = 1.0, refill_fraction: float = 0.0) -> tuple[str, SeasonOutcome | str]:
+    """One season. Returns ("ok", outcome) or (status, reason) when the season cannot be simulated.
+
+    adjust_kc, trigger_fraction and refill_fraction exist for the sensitivity analysis; the defaults are the
+    documented method (FAO-56 Eqs. 62 and 65 applied; irrigate at RAW, refill to field capacity).
+    """
+    status, prepared = prepare_demand(crop, weather, index, start, adjust_kc)
+    if status != "ok":
+        return status, prepared
+    days, rows, et0, kc, kc_mid, kc_end = prepared
+    v = weather.values
     precip = [v["precipitation"][i] for i in rows]
     initial = initial_depletion_fraction * taw
     rainfed = simulate(et0, kc, precip, taw, crop.p, curve_number, initial, irrigate=False)
-    irrigated = simulate(et0, kc, precip, taw, crop.p, curve_number, initial, irrigate=True)
+    irrigated = simulate(et0, kc, precip, taw, crop.p, curve_number, initial, irrigate=True,
+                         trigger_fraction=trigger_fraction, refill_fraction=refill_fraction)
     residual = max(abs(rainfed.closure_residual), abs(irrigated.closure_residual))
     if residual > CLOSURE_TOLERANCE_MM:
         raise ArithmeticError(f"water balance did not close ({residual} mm) in {days[0].year}")
@@ -175,22 +204,14 @@ def replay_strategy(crop: CropProfileV2, weather: DailyWeather, soil: SoilInput 
 def simulate_climate_only(crop: CropProfileV2, weather: DailyWeather, index: dict[date, int],
                           start: date) -> tuple[str, SeasonOutcome | str]:
     """Without soil data the water balance cannot run; ET0, crop demand and rainfall are still computed."""
-    days = [start + timedelta(days=k) for k in range(crop.stages.total)]
-    if days[0] not in index or days[-1] not in index:
-        return "outside_record", "the season is not fully inside the weather record"
-    rows = [index[d] for d in days]
-    v = weather.values
-    if any(v[q][i] is None for q in NEEDED for i in rows):
-        return "missing_data", "a needed weather value is missing (NASA fill value)"
-    et0 = [fao56.daily_et0(d, weather.latitude, v["t_max"][i], v["t_min"][i],
-                           fao56.actual_vapour_pressure_from_dewpoint(v["t_dew"][i]), v["shortwave_down"][i],
-                           v["wind_2m"][i], v["surface_pressure"][i], weather.cell_elevation_m).et0_mm
-           for d, i in zip(days, rows)]
-    kc = kc_curve(crop.stages, crop.kc_ini, crop.kc_mid, crop.kc_end)
+    status, prepared = prepare_demand(crop, weather, index, start)
+    if status != "ok":
+        return status, prepared
+    days, rows, et0, kc, kc_mid, kc_end = prepared
     etc = sum(k * e for k, e in zip(kc, et0))
-    precip = sum(v["precipitation"][i] for i in rows)
+    precip = sum(weather.values["precipitation"][i] for i in rows)
     return "ok", SeasonOutcome(days[0].year, days[0].isoformat(), days[-1].isoformat(), sum(et0), etc, precip,
-                               None, None, None, None, None, None, None, crop.kc_mid, crop.kc_end, 0.0)
+                               None, None, None, None, None, None, None, kc_mid, kc_end, 0.0)
 
 
 # ---------- strategies ----------

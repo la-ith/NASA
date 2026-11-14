@@ -19,3 +19,15 @@ Implementation decisions taken while building spec v4.0. "Assumed" items are dis
 | 2026-11-14 | Basemap: OpenFreeMap Positron; state outlines from our own boundary file | Free, no key, with attribution; the map still works without basemap tiles. Review usage terms before a public deployment | Decided for the demo |
 | 2026-11-14 | /api/v2 for the U.S. release; /api/v1 and the Hebron app (/v1/) kept as regression | Spec v4.0 sections 15 and 21.2 | Decided |
 | 2026-11-14 | Chatbot not started | Spec Phase 5 comes after the U.S. web flow; no model provider chosen | Planned |
+
+## Review and pilot decisions — 14 November 2026
+
+- Shared `prepare_demand` ensures soil availability does not alter weather-to-ET0/Kc/ETc methods.
+- `decision_year` defaults to current year; only its immediately preceding history year supports inference. Duplicates/future history are invalid; gaps remain unknown.
+- Planting dates must exist in every replay year. Mixed-year February 29 is rejected before enqueueing.
+- Two pure-computation threads and at most 16 admitted jobs keep event-loop requests responsive. All database access stays in orchestration. Interrupted jobs become terminal on shutdown/restart.
+- Session-owned private results replace bearer-ID-only access. Legacy rows are preserved, not publicly exposed.
+- POWER station responses serialize returned coordinates at exactly three decimals after four-decimal requests. The adapter now checks that exact provider contract rather than a distance tolerance. Requested and returned points are both recorded.
+- The pilot is purposive development sampling, not a probability sample. May–September 2020–2022 only; 2023–2025 temporal holdout and spatial holdout stations are reserved and not evaluated.
+- CoAgMet RHmin <= 0.01 is excluded from humidity-derived and published-ET comparisons; raw data is retained. 92 development days in 2020 are flagged. Current official station metadata warns of non-reference surroundings; historical site conditions require confirmation.
+- No Fresno aridity correction is adopted. Maricopa is an analogue, not California truth. CIMIS access remains blocked.

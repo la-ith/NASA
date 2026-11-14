@@ -6,7 +6,7 @@ so the result is an estimate for the map unit, not a field measurement. Verified
 """
 import asyncio
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 import httpx
 
@@ -15,7 +15,7 @@ from app.science.crop import Horizon
 
 URL = "https://SDMDataAccess.sc.egov.usda.gov/Tabular/post.rest"
 ADAPTER_VERSION = "ssurgo-sda-1.0.0"
-ATTEMPT_TIMEOUT_S = 20.0
+ATTEMPT_TIMEOUT_S = 90.0  # Soil Data Access took 2 s to 63 s per query on 2026-11-14; analyses run as background jobs
 COLUMNS = ["mukey", "muname", "cokey", "compname", "comppct_r", "majcompflag", "hydgrp", "hzname",
            "hzdept_r", "hzdepb_r", "awc_r", "wthirdbar_r", "wfifteenbar_r", "sandtotal_r", "claytotal_r"]
 TABLE_ALIAS = {"mukey": "mu", "muname": "mu", "cokey": "c", "compname": "c", "comppct_r": "c", "majcompflag": "c",
@@ -43,11 +43,16 @@ def sql(lon: float, lat: float) -> str:
 
 
 async def fetch(client: httpx.AsyncClient, lon: float, lat: float) -> dict:
-    body = {"format": "JSON+COLUMNNAME", "query": sql(lon, lat)}
+    return await _post(client, sql(lon, lat))
+
+
+async def _post(client: httpx.AsyncClient, query: str) -> dict:
+    """One retry on timeout, network error or 5xx. The per-request timeout overrides httpx's 5 s default."""
+    body = {"format": "JSON+COLUMNNAME", "query": query}
     for attempt in (1, 2):
         try:
             async with asyncio.timeout(ATTEMPT_TIMEOUT_S):
-                response = await client.post(URL, json=body)
+                response = await client.post(URL, json=body, timeout=ATTEMPT_TIMEOUT_S)
         except (TimeoutError, httpx.TransportError) as exc:
             problem, retryable = f"no response from Soil Data Access ({exc!r})", True
         else:
@@ -71,12 +76,54 @@ class SoilProfile:
     hydrologic_group_raw: str
     horizons: list[Horizon]  # NRCS available water capacity by horizon
     fc_wp_horizons: list[Horizon]  # θ(1/3 bar) - θ(15 bar) by horizon, for a sensitivity check
-    depth_cm: float
+    depth_cm: float  # bottom of the deepest horizon with water data, or the restrictive layer if shallower
     manifest: dict = field(compare=False)
+    cokey: str = ""
+    restriction: dict | None = None  # shallowest restrictive layer of this component: kind and depth [cm]
 
     @property
     def curve_number(self) -> int:
         return CURVE_NUMBERS[self.hydrologic_group]
+
+
+RESTRICTION_COLUMNS = ["cokey", "compname", "comppct_r", "reskind", "resdept_r"]
+
+
+def restriction_sql(lon: float, lat: float) -> str:
+    """Restrictive layers ("nearly continuous layer ... that significantly reduce the movement of water and air through
+    the soil or that otherwise provides an unfavorable root environment", SSURGO 2.3.2 corestrictions.reskind)."""
+    return (
+        "SELECT c.cokey, c.compname, c.comppct_r, r.reskind, r.resdept_r"
+        f" FROM SDA_Get_Mukey_from_intersection_with_WktWgs84('point({float(lon):.6f} {float(lat):.6f})') AS k"
+        " INNER JOIN component c ON c.mukey = k.mukey LEFT JOIN corestrictions r ON r.cokey = c.cokey"
+        " WHERE c.majcompflag = 'Yes' ORDER BY c.comppct_r DESC, c.cokey, r.resdept_r"
+    )
+
+
+async def fetch_restrictions(client: httpx.AsyncClient, lon: float, lat: float) -> dict:
+    return await _post(client, restriction_sql(lon, lat))
+
+
+def apply_restrictions(profile: SoilProfile, raw: dict, retrieved_utc: str) -> SoilProfile:
+    """Cap the usable soil depth at the shallowest restrictive layer of the selected component."""
+    table = raw.get("Table") if isinstance(raw, dict) else None
+    if not table or len(table) < 2:
+        raise SourceIntegrityError("the restriction query returned no components, but the soil query did")
+    if table[0] != RESTRICTION_COLUMNS:
+        raise SourceIntegrityError(f"SSURGO restriction columns differ from the query: {table[0]}")
+    rows = [dict(zip(RESTRICTION_COLUMNS, r)) for r in table[1:] if r[0] == profile.cokey]
+    if not rows:
+        raise SourceIntegrityError("the restriction query does not include the selected soil component")
+    layers = sorted((d, r["reskind"]) for r in rows if (d := _num(r["resdept_r"])) is not None)
+    manifest = {**profile.manifest, "restrictions": {"content_sha256": content_hash(raw), "retrieved_utc": retrieved_utc,
+                                                     "layers": [{"kind": k, "top_cm": d} for d, k in layers]}}
+    if not layers:
+        return replace(profile, manifest=manifest, restriction=None)
+    depth, kind = layers[0]
+    if depth < 0:
+        raise SourceIntegrityError(f"restrictive layer depth {depth} cm is impossible")
+    return replace(profile, manifest=manifest, restriction={"kind": kind, "top_cm": depth},
+                   depth_cm=min(profile.depth_cm, depth))
 
 
 def _num(x: object) -> float | None:
@@ -131,4 +178,4 @@ def validate_and_normalize(raw: dict, lon: float, lat: float, retrieved_utc: str
         "reference": "Soil Survey Staff, NRCS, USDA. Soil Survey Geographic (SSURGO) Database, via Soil Data Access.",
     }
     return SoilProfile(first["mukey"], first["muname"], first["compname"], float(first["comppct_r"]), group, group_raw,
-                       horizons, fc_wp, horizons[-1].bottom_cm, manifest)
+                       horizons, fc_wp, horizons[-1].bottom_cm, manifest, first["cokey"])

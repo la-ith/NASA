@@ -25,3 +25,12 @@ lists the IDs it used.
 
 Tolerances in the tests are half a unit of the last digit FAO-56 printed, widened only where FAO carried a
 rounded intermediate forward; each case says so in `backend/tests/test_fao56.py` and `test_water_balance.py`.
+
+## Audit corrections and pilot metrics
+
+- Eq. 65 uses late-stage wind/RHmin means; Eq. 62 uses mid-stage means. Shared demand preparation handles soil and climate-only paths with consistent applicability checks.
+- SSURGO restrictive layers cap depth; root development was not invented without sourced parameters. Fixed maximum rooting depth remains disclosed.
+- CN values are confirmed in NRCS NEH 630 Subpart E (June 2025), Figure 630E-1 page 2; see data-source register. Storm-to-daily application remains an assumption.
+- Pilot conversions: W/m² × 0.0864 -> MJ/m²/day; km/day × 1000/86400 -> m/s; RH fraction × 100 -> percent; ft × 0.3048 -> m; wind height normalization uses Eq. 47.
+- Bias = mean(model-reference); MAE = mean(abs(model-reference)); RMSE = sqrt(mean((model-reference)^2)), computed on finite pairs, per output with missingness counts. Seasonal paired totals require at least 146 of 153 valid May–September days, without imputation.
+- Station-forced FAO versus published ETo is a method consistency cross-check, not independent environmental validation. No universal percentage tolerance or error target is introduced.

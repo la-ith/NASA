@@ -88,6 +88,8 @@ async def soil(db: sqlite3.Connection, client: httpx.AsyncClient, lon: float, la
                 raise SampleNotAvailable(f"sample data exists only for the demo sites {sorted(DEMO_SITES)}")
             saved = json.loads((FIXTURES / f"ssurgo_{site}.json").read_text(encoding="utf-8"))
             profile = ssurgo.validate_and_normalize(saved["response"], lon, lat, saved["retrieved_utc"])
+            limits = json.loads((FIXTURES / f"ssurgo_restrictions_{site}.json").read_text(encoding="utf-8"))
+            profile = ssurgo.apply_restrictions(profile, limits["response"], limits["retrieved_utc"])
         else:
             key = json.dumps({"point": [round(lon, 6), round(lat, 6)], "v": ssurgo.ADAPTER_VERSION}, sort_keys=True)
             hit = _cached(db, "ssurgo", key)
@@ -98,6 +100,14 @@ async def soil(db: sqlite3.Connection, client: httpx.AsyncClient, lon: float, la
                 retrieved = power.now_utc().isoformat()
                 profile = ssurgo.validate_and_normalize(raw, lon, lat, retrieved)
                 _store(db, "ssurgo", key, profile.manifest, raw, retrieved)
+            hit = _cached(db, "ssurgo_restrictions", key)
+            if hit:
+                profile = ssurgo.apply_restrictions(profile, hit[0], hit[1])
+            else:
+                raw = await ssurgo.fetch_restrictions(client, lon, lat)
+                retrieved = power.now_utc().isoformat()
+                profile = ssurgo.apply_restrictions(profile, raw, retrieved)
+                _store(db, "ssurgo_restrictions", key, profile.manifest["restrictions"], raw, retrieved)
     except NotCovered as exc:
         return SoilOutcome(None, "unsupported", str(exc))
     return SoilOutcome(soil_from_ssurgo(profile), "supported", "SSURGO map unit found")

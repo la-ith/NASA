@@ -82,7 +82,8 @@ def run_analysis(request: dict, state: State, weather: DailyWeather, soil: SoilI
                  mode: str) -> dict:
     years = range(request["start_year"], request["end_year"] + 1)
     history = sorted(request.get("history", []), key=lambda h: h["year"])
-    last_crop = history[-1]["crop"] if history else None
+    decision_year = request.get("decision_year", date.today().year)
+    last_crop = next((h["crop"] for h in history if h["year"] == decision_year - 1), None)
     current = request.get("current_practice") or (last_crop if last_crop in catalog.crops else None)
     strategies, rejected = build_strategies(catalog, current, request.get("candidates"))
     for s in strategies:
@@ -125,7 +126,7 @@ def run_analysis(request: dict, state: State, weather: DailyWeather, soil: SoilI
     if len(strategies) < 3:
         limitations.append(f"Only {len(strategies)} eligible strategies: fewer than the three the challenge asks for.")
     return {
-        "schema_version": "2.0", "status": status, "mode": mode, "result_types": {
+        "schema_version": "2.0", "decision_year": decision_year, "status": status, "mode": mode, "result_types": {
             "historical_analysis": "Indicators from past data (ET0, crop demand, rainfall).",
             "conditional_simulation": "Water balance under each past season's weather and stated management.",
             "validated_prediction": "None in this release."},

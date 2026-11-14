@@ -1,6 +1,10 @@
 """FastAPI app: startup cache warm-up, the error shapes from section 10, and the web app."""
 import logging
 import os
+import asyncio
+import hashlib
+import secrets
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -29,12 +33,20 @@ FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"
 async def lifespan(app: FastAPI):
     app.state.http = httpx.AsyncClient()
     app.state.db = connect(DB_PATH)
+    app.state.analysis_executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="field-analysis")
     if WARM_UP:
         try:  # warm the pilot cache, so the demo does not depend on a live call
             await build_climate_context("live", 31.5, 35.1, 2026, app.state.http, app.state.db)
         except (ProviderError, UnusableRecord) as exc:
             log.warning("Pilot cache warm-up failed; live requests will try again: %s", exc)
     yield
+    from app.api.v2 import _running
+    tasks = list(_running)
+    for task in tasks:
+        task.cancel()
+    if tasks:
+        await asyncio.gather(*tasks, return_exceptions=True)
+    app.state.analysis_executor.shutdown(wait=True)
     await app.state.http.aclose()
     app.state.db.close()
 
@@ -43,6 +55,20 @@ app = FastAPI(title="Field Shift API", version="1.0.0", lifespan=lifespan)
 app.include_router(analyses_router, prefix="/api/v1")
 app.include_router(reference_router, prefix="/api/v1")
 app.include_router(v2_router)  # spec v4.0: U.S. release; /api/v1 stays for the Hebron regression fixtures
+
+
+@app.middleware("http")
+async def session_scope(request: Request, call_next):
+    token = request.cookies.get("field_shift_session")
+    new = not token or len(token) != 43
+    if new:
+        token = secrets.token_urlsafe(32)
+    request.state.owner = hashlib.sha256(token.encode()).hexdigest()
+    response = await call_next(request)
+    if new:
+        response.set_cookie("field_shift_session", token, httponly=True, samesite="strict",
+                            secure=request.url.scheme == "https")
+    return response
 
 
 @app.get("/api/v1/health")

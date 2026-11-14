@@ -24,3 +24,18 @@ ECOSTRESS/OpenET, SRTM, and the other catalog entries in spec v4.0 section 17.
 - Soil Survey Staff, Natural Resources Conservation Service, United States Department of Agriculture. Soil Survey
   Geographic (SSURGO) Database, via Soil Data Access.
 - Basemap: OpenFreeMap (OpenMapTiles, © OpenStreetMap contributors), attribution shown on the map.
+
+## Evaluation-only sources and primary audit references
+
+Exact reference/POWER request URLs, retrieval UTC and SHA-256 are saved in `data/validation/raw/`; station QA and metrics are in `docs/validation/results/`. Reference downloads are limited to development 2020–2022. Applicability-only locations use 2020 POWER and SSURGO coverage checks, not accuracy metrics.
+
+| Source | Units / handling | Official reference |
+|---|---|---|
+| AZMET az06 | Published eto_pen_mon mm/day; temperature C; ea kPa; solar MJ/m²/day; wind m/s at 3 m normalized by FAO Eq. 47; exclude meta_needs_review=1 | https://extension.arizona.edu/sites/extension.arizona.edu/files/pubs/az1324.pdf ; exact data URLs in raw manifests |
+| CoAgMet ftc01 | ASCE short-reference ETo mm/day; RH fractions despite CSV percent header; W/m² times 0.0864; km/day times 1000/86400 | https://coagmet.colostate.edu/data/doc.html |
+| CoAgMet site metadata | Elevation 5120 ft = 1560.576 m; 6.6-ft wind height is a network-based working assumption pending station-era confirmation; metadata warns non-reference surroundings | https://coagmet.colostate.edu/station_details.php?station=FTC01 |
+| Kansas Mesonet Hays | SR MJ/m²/day; wind 2 m; pressure kPa; ea from RH extremes; reference ET0 uses our FAO calculation, not published ETo | https://mesonet.k-state.edu/rest/ ; https://mesonet.k-state.edu/rest/variables/ |
+| NRCS NEH 630 Subpart E, amended June 2025 | Figure 630E-1 page 2 confirms CN 67/78/85/89, row crops / straight row / good condition | https://directives.nrcs.usda.gov/sites/default/files2/1749749646/Subpart%20E%20%E2%80%93%20Runoff%20Curve%20Numbers.pdf |
+| SSURGO 2.3.2 metadata | Page 9: awc is a volume fraction including fragments and adjustments; need not equal unadjusted FC-WP attributes | https://www.nrcs.usda.gov/sites/default/files/2022-08/SSURGO-Metadata-Table-Column-Descriptions-Report.pdf |
+
+The earlier request to check CN values against a primary source is resolved by the NRCS reference above. Table confirmation does not validate local runoff or management assumptions. POWER precipitation may share gauge information with reference networks; no blanket independence claim is made. Station-day alignment to POWER LST remains unverified. No CIMIS values are used or invented.

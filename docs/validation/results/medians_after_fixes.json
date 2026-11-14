@@ -1,0 +1,92 @@
+{
+  "engine": "2.0.0",
+  "sites": {
+    "ks_hays": {
+      "maize_grain": {
+        "taw_mm": 266.1,
+        "root_depth_m": 1.35,
+        "et0": 947.5,
+        "etc_standard": 837.5,
+        "rainfed_deficit": 371.7,
+        "rainfed_stress_days": 92.0,
+        "irrigated_net_irrigation": 503.3
+      },
+      "soybean": {
+        "taw_mm": 178.1,
+        "root_depth_m": 0.95,
+        "et0": 884.4,
+        "etc_standard": 836.7,
+        "rainfed_deficit": 415.6,
+        "rainfed_stress_days": 104.0,
+        "irrigated_net_irrigation": 540.5
+      },
+      "sorghum_grain": {
+        "taw_mm": 299.1,
+        "root_depth_m": 1.5,
+        "et0": 812.4,
+        "etc_standard": 656.0,
+        "rainfed_deficit": 233.8,
+        "rainfed_stress_days": 82.0,
+        "irrigated_net_irrigation": 355.6
+      }
+    },
+    "ia_ames": {
+      "maize_grain": {
+        "taw_mm": 249.9,
+        "root_depth_m": 1.35,
+        "et0": 668.9,
+        "etc_standard": 577.0,
+        "rainfed_deficit": 59.5,
+        "rainfed_stress_days": 42.0,
+        "irrigated_net_irrigation": 138.7
+      },
+      "soybean": {
+        "taw_mm": 177.9,
+        "root_depth_m": 0.95,
+        "et0": 624.3,
+        "etc_standard": 576.4,
+        "rainfed_deficit": 129.3,
+        "rainfed_stress_days": 56.0,
+        "irrigated_net_irrigation": 231.3
+      },
+      "sorghum_grain": {
+        "taw_mm": 276.9,
+        "root_depth_m": 1.5,
+        "et0": 571.4,
+        "etc_standard": 454.1,
+        "rainfed_deficit": 27.6,
+        "rainfed_stress_days": 34.0,
+        "irrigated_net_irrigation": 150.3
+      }
+    },
+    "ca_fresno": {
+      "maize_grain": {
+        "taw_mm": 175.5,
+        "root_depth_m": 1.35,
+        "et0": 1196.2,
+        "etc_standard": 1072.6,
+        "rainfed_deficit": 974.7,
+        "rainfed_stress_days": 133.0,
+        "irrigated_net_irrigation": 1066.1
+      },
+      "soybean": {
+        "taw_mm": 123.5,
+        "root_depth_m": 0.95,
+        "et0": 1114.0,
+        "etc_standard": 1047.4,
+        "rainfed_deficit": 977.3,
+        "rainfed_stress_days": 136.0,
+        "irrigated_net_irrigation": 1058.5
+      },
+      "sorghum_grain": {
+        "taw_mm": 195.0,
+        "root_depth_m": 1.5,
+        "et0": 999.0,
+        "etc_standard": 813.0,
+        "rainfed_deficit": 712.8,
+        "rainfed_stress_days": 114.0,
+        "irrigated_net_irrigation": 845.2
+      }
+    }
+  }
+}

@@ -37,6 +37,7 @@ let form = store.get("fs2-form", null) || {
   history: [{ year: 2024, crop: "unknown" }, { year: 2025, crop: "unknown" }],
 };
 let coverage = null;
+let coverageToken = 0;
 let catalog = null;
 let equations = null;
 let current = store.get("fs2-result", null);
@@ -93,14 +94,18 @@ function placeMarker(lat, lon) {
 }
 
 async function setPoint(lat, lon, mode) {
+  const token = ++coverageToken;
   form.lat = lat; form.lon = lon; form.mode = mode; saveForm();
   placeMarker(lat, lon);
   coverage = { loading: true };
   renderForm();
   try {
-    coverage = await getJSON(`${API}/coverage`, { method: "POST", headers: { "Content-Type": "application/json" },
+    const response = await getJSON(`${API}/coverage`, { method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ lat, lon, mode }) });
+    if (token !== coverageToken) return;
+    coverage = response;
   } catch (err) {
+    if (token !== coverageToken) return;
     coverage = { error: err.message };
   }
   renderForm();

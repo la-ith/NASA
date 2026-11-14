@@ -16,7 +16,7 @@ from app.adapters import NotCovered, ProviderUnavailable, SourceIntegrityError, 
 URL = "https://power.larc.nasa.gov/api/temporal/daily/point"
 COMMUNITY = "AG"
 TIME_STANDARD = "LST"
-ADAPTER_VERSION = "power-daily-2.0.0"
+ADAPTER_VERSION = "power-daily-2.1.0"
 ATTEMPT_TIMEOUT_S = 20.0
 RETRY_DELAY_S = 2.0
 FIRST_DATE = date(1981, 1, 1)  # MERRA-2 era start of POWER daily meteorology
@@ -74,7 +74,7 @@ async def fetch(client: httpx.AsyncClient, lon: float, lat: float, start: date, 
         wait = RETRY_DELAY_S
         try:
             async with asyncio.timeout(ATTEMPT_TIMEOUT_S):
-                response = await client.get(URL, params=params)
+                response = await client.get(URL, params=params, timeout=ATTEMPT_TIMEOUT_S)  # httpx default is 5 s
         except (TimeoutError, httpx.TransportError) as exc:
             problem, retryable = f"no response from NASA POWER ({exc!r})", True
         else:
@@ -136,7 +136,12 @@ def validate_and_normalize(raw: dict, lon: float, lat: float, start: date, end: 
     keys = [d.strftime("%Y%m%d") for d in days]
     _require((h_start, h_end) == (keys[0], keys[-1]), f"requested {keys[0]}-{keys[-1]}, response says {h_start}-{h_end}")
     # POWER echoes the requested point (verified); the native cell is a different, coarser support.
-    _require((round(r_lat, 4), round(r_lon, 4)) == (round(lat, 4), round(lon, 4)),
+    # The API returns GeoJSON coordinates at three decimals, including when the
+    # request carries four (observed in the station-coordinate pilot downloads).
+    # Compare that exact serialization contract, not a distance tolerance.
+    sent = query(lon, lat, start, end)
+    expected_point = (round(float(sent["latitude"]), 3), round(float(sent["longitude"]), 3))
+    _require((r_lat, r_lon) == expected_point,
              f"requested {lat}, {lon}; response is for {r_lat}, {r_lon}")
     _require(_number(fill) and _number(elevation), "fill value or elevation is not a number")
 
@@ -165,7 +170,9 @@ def validate_and_normalize(raw: dict, lon: float, lat: float, start: date, end: 
         "variables": {q: {"parameter": p, "original_unit": u, "normalized_unit": u} for q, (p, u) in VARIABLES.items()},
         "transformations": "none: POWER units equal FAO-56 units; fill value -> missing",
         "time_standard": time_standard, "interval": "daily", "requested_point": {"lat": lat, "lon": lon},
-        "returned_support": {"type": "grid cell of each source product", "cell_elevation_m": elevation},
+        "returned_support": {"type": "grid cell of each source product", "cell_elevation_m": elevation,
+                             "response_point": {"lat": r_lat, "lon": r_lon},
+                             "coordinate_contract": "request at 4 decimals; returned point at 3 decimals"},
         "crs": "EPSG:4326", "period": [days[0].isoformat(), days[-1].isoformat()],
         "missing_values": {q: sum(v is None for v in col) for q, col in values.items()},
         "retrieved_utc": retrieved_utc.isoformat(), "content_sha256": content_hash(raw),

@@ -14,6 +14,8 @@ from datetime import date
 import httpx
 
 from app.adapters import AdapterError
+from app.api.v2 import AnalysisRequestV2
+from pydantic import ValidationError
 from app.db.database import connect
 from app.domain.crop_catalog import load_catalog
 from app.geo.boundaries import state_at
@@ -41,7 +43,13 @@ async def main(args: argparse.Namespace) -> int:
         print("Outside the 50 U.S. states covered by this release.", file=sys.stderr)
         return 2
     request = {"lat": lat, "lon": lon, "start_year": args.start_year, "end_year": args.end_year, "goal": args.goal,
-               "irrigation": args.irrigation, "history": parse_history(args.history or "")}
+               "irrigation": args.irrigation, "history": parse_history(args.history or ""), "mode": mode,
+               "decision_year": args.decision_year}
+    try:
+        request = AnalysisRequestV2.model_validate(request).model_dump(exclude_none=True)
+    except ValidationError as exc:
+        print(str(exc), file=sys.stderr)
+        return 2
     db = connect(":memory:")
     try:
         async with httpx.AsyncClient() as client:
@@ -76,6 +84,7 @@ if __name__ == "__main__":
     parser.add_argument("--lon", type=float)
     parser.add_argument("--start-year", type=int, default=2001)
     parser.add_argument("--end-year", type=int, default=2025)
+    parser.add_argument("--decision-year", type=int, default=date.today().year)
     parser.add_argument("--goal", choices=list(GOAL_ORDER), default="conserve_water")
     parser.add_argument("--irrigation", choices=["rain-fed", "irrigated", "unknown"], default="unknown")
     parser.add_argument("--history", help="comma-separated crop:year, for example maize_grain:2024,soybean:2025")

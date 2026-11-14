@@ -37,7 +37,7 @@ async def fetch_power_daily(
     for attempt in (1, 2):
         try:
             async with asyncio.timeout(ATTEMPT_TIMEOUT_S):  # whole attempt, not per socket read
-                response = await client.get(POWER_DAILY_URL, params=query)
+                response = await client.get(POWER_DAILY_URL, params=query, timeout=ATTEMPT_TIMEOUT_S)
         except (TimeoutError, httpx.TransportError) as exc:
             problem, retryable = f"no response from NASA POWER ({exc!r})", True
         else:

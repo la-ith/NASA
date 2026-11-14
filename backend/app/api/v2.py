@@ -47,6 +47,7 @@ class AnalysisRequestV2(BaseModel):
     lon: float = Field(ge=-180, le=180)
     start_year: int = 2001
     end_year: int = 2025
+    decision_year: int = Field(default_factory=lambda: date.today().year, ge=1982, le=2100)
     goal: Literal["conserve_water", "reduce_drought_stress", "improve_soil_rotation"]
     irrigation: Literal["rain-fed", "irrigated", "unknown"] = "unknown"
     history: list[HistoryItem] = Field(default_factory=list, max_length=10)
@@ -64,8 +65,24 @@ class AnalysisRequestV2(BaseModel):
         if self.end_year - self.start_year > 39:
             raise ValueError("Use at most 40 seasons.")
         for crop, md in self.planting_dates.items():
+            if crop not in load_catalog().crops:
+                raise ValueError(f"Unknown crop in planting_dates: {crop}")
             if not MONTH_DAY.fullmatch(md):
                 raise ValueError(f"Planting date for {crop} must look like 05-01.")
+            month, day = map(int, md.split("-"))
+            for year in range(self.start_year, self.end_year + 1):
+                try:
+                    date(year, month, day)
+                except ValueError as exc:
+                    raise ValueError(f"Invalid planting date for {crop} in {year}: {md}. "
+                                     "The date must exist in every replay year.") from exc
+        years = [h.year for h in self.history]
+        if len(set(years)) != len(years):
+            raise ValueError("History years must be unique.")
+        if self.decision_year > date.today().year + 1:
+            raise ValueError("Decision year must be current or next year, or a historical year.")
+        if any(y >= self.decision_year or y > date.today().year for y in years):
+            raise ValueError("History must precede the decision year and cannot be in the future.")
         return self
 
 
@@ -155,7 +172,15 @@ async def _run_job(app, job_id: str, body: AnalysisRequestV2) -> None:
                                      body.soil.model_dump() if body.soil else None)
         stage = "simulating"
         update("running", stage)
-        result = run_analysis(request, state_at(body.lon, body.lat), weather, soil.soil, load_catalog(), body.mode)
+        loop = asyncio.get_running_loop()
+        future = loop.run_in_executor(app.state.analysis_executor, run_analysis, request,
+                                      state_at(body.lon, body.lat), weather, soil.soil, load_catalog(), body.mode)
+        try:
+            result = await asyncio.shield(future)
+        except asyncio.CancelledError:
+            # Finish pure computation before shutdown closes shared resources.
+            await future
+            raise
         result["coverage"] = {"soil": {"status": soil.coverage, "reason": soil.reason}}
         if soil.soil is None:
             result["limitations"].append(f"Soil: {soil.reason}.")
@@ -163,9 +188,15 @@ async def _run_job(app, job_id: str, body: AnalysisRequestV2) -> None:
         analysis_id = secrets.token_urlsafe(12)
         result["analysis_id"] = analysis_id
         with db:
-            db.execute("INSERT INTO v2_analysis VALUES (?, ?, ?, ?, ?, ?)",
-                       (analysis_id, _now(), result["status"], ENGINE_VERSION, json.dumps(request), json.dumps(result)))
+            owner = db.execute("SELECT owner FROM v2_job WHERE job_id = ?", (job_id,)).fetchone()[0]
+            db.execute("INSERT INTO v2_analysis "
+                       "(analysis_id, created_utc, status, engine_version, request, result, owner) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                       (analysis_id, _now(), result["status"], ENGINE_VERSION, json.dumps(request), json.dumps(result), owner))
         update("succeeded", "done", analysis_id=analysis_id)
+    except asyncio.CancelledError:
+        update("failed", stage, error=json.dumps({"code": "server_shutdown", "stage": stage,
+                                                  "message": "Server stopped; retry the analysis.", "retryable": True}))
+        raise
     except (AdapterError, sources_v2.SampleNotAvailable) as exc:
         retryable = exc.code == "provider_error"
         update("failed", stage, error=json.dumps({"code": exc.code, "stage": stage, "message": str(exc),
@@ -181,10 +212,13 @@ async def create_analysis(body: AnalysisRequestV2, request: Request):
     if state is None:
         return _error(422, "outside_scope", "This location is outside the 50 U.S. states covered by this release.",
                       "validation", False)
+    if len(_running) >= 16:
+        return _error(503, "queue_full", "Analysis queue is full; retry later.", "queue", True)
     job_id = secrets.token_urlsafe(12)
     with request.app.state.db:
-        request.app.state.db.execute("INSERT INTO v2_job (job_id, created_utc, updated_utc, state, stage)"
-                                     " VALUES (?, ?, ?, 'queued', 'queued')", (job_id, _now(), _now()))
+        request.app.state.db.execute("INSERT INTO v2_job (job_id, created_utc, updated_utc, state, stage, owner)"
+                                     " VALUES (?, ?, ?, 'queued', 'queued', ?)",
+                                     (job_id, _now(), _now(), request.state.owner))
     task = asyncio.create_task(_run_job(request.app, job_id, body))
     _running.add(task)
     task.add_done_callback(_running.discard)
@@ -194,7 +228,8 @@ async def create_analysis(body: AnalysisRequestV2, request: Request):
 @router.get("/jobs/{job_id}")
 async def job(job_id: str, request: Request) -> dict:
     row = request.app.state.db.execute(
-        "SELECT state, stage, analysis_id, error, updated_utc FROM v2_job WHERE job_id = ?", (job_id,)).fetchone()
+        "SELECT state, stage, analysis_id, error, updated_utc FROM v2_job WHERE job_id = ? AND owner = ?",
+        (job_id, request.state.owner)).fetchone()
     if row is None:
         raise HTTPException(status_code=404, detail="job not found")
     out = {"job_id": job_id, "state": row[0], "stage": row[1], "updated_utc": row[4]}
@@ -207,7 +242,8 @@ async def job(job_id: str, request: Request) -> dict:
 
 
 def _load(request: Request, analysis_id: str) -> dict:
-    row = request.app.state.db.execute("SELECT result FROM v2_analysis WHERE analysis_id = ?", (analysis_id,)).fetchone()
+    row = request.app.state.db.execute("SELECT result FROM v2_analysis WHERE analysis_id = ? AND owner = ?",
+                                       (analysis_id, request.state.owner)).fetchone()
     if row is None:
         raise HTTPException(status_code=404, detail="analysis not found")
     return json.loads(row[0])

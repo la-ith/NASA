@@ -53,6 +53,7 @@ class BalanceResult:
     closure_residual: float = 0.0  # mm; must be ~0 (floating-point only)
     daily_ks: list[float] = field(default_factory=list)
     daily_depletion: list[float] = field(default_factory=list)
+    daily: list[dict] = field(default_factory=list)  # every flux of every day, for diagnostics
 
     @property
     def deficit(self) -> float:
@@ -62,13 +63,17 @@ class BalanceResult:
 
 def simulate(et0: list[float], kc: list[float], precip: list[float], taw: float, p_table: float,
              curve_number: float, initial_depletion: float, irrigate: bool = False,
-             adjust_p: bool = True) -> BalanceResult:
+             adjust_p: bool = True, trigger_fraction: float = 1.0, refill_fraction: float = 0.0) -> BalanceResult:
     """Run the daily balance over one season. All lists are aligned day by day [mm day-1, Kc dimensionless].
 
     irrigate=False is the rain-fed scenario: missing water stays a simulated deficit.
     irrigate=True refills the root zone to field capacity (net irrigation) whenever depletion reaches RAW,
     the FAO-56 "irrigate when RAW is depleted" rule. Irrigation is net: application losses are not modelled here.
+    For sensitivity runs only: irrigation starts when depletion reaches trigger_fraction × RAW and brings it
+    down to refill_fraction × RAW (defaults 1 and 0: the rule above).
     """
+    if not (0.0 <= refill_fraction < trigger_fraction <= 1.0):
+        raise ValueError("need 0 <= refill_fraction < trigger_fraction <= 1")
     if not (len(et0) == len(kc) == len(precip)):
         raise ValueError("et0, kc and precip must cover the same days")
     if not 0.0 <= initial_depletion <= taw:
@@ -81,7 +86,9 @@ def simulate(et0: list[float], kc: list[float], precip: list[float], taw: float,
         etc = kc_i * et0_i
         p = adjusted_depletion_fraction(p_table, etc) if adjust_p else p_table
         after_rain = max(depletion - infiltration, 0.0)
-        irrigation = after_rain if irrigate and after_rain >= p * taw and after_rain > 0.0 else 0.0
+        trigger = trigger_fraction * p * taw
+        irrigation = after_rain - refill_fraction * p * taw if irrigate and after_rain >= trigger and after_rain > 0.0 \
+            else 0.0
         start = max(after_rain - irrigation, 0.0)  # Dr,i start (FAO-56 Example 36, column 5)
         ks = water_stress_coefficient(start, taw, p)
         eta = min(ks * etc, taw - start)  # cannot transpire water that is not stored
@@ -99,6 +106,8 @@ def simulate(et0: list[float], kc: list[float], precip: list[float], taw: float,
         r.stress_days += ks < 1.0
         r.daily_ks.append(ks)
         r.daily_depletion.append(depletion)
+        r.daily.append({"p": p_i, "runoff": runoff, "irrigation": irrigation, "etc": etc, "eta": eta,
+                        "drainage": drainage, "ks": ks, "p_fraction": p, "dr_start": start, "dr_end": depletion})
     r.final_depletion = depletion
     storage_change = (taw - r.final_depletion) - (taw - r.initial_depletion)
     r.closure_residual = r.precipitation - r.runoff + r.irrigation_net - r.eta - r.drainage - storage_change

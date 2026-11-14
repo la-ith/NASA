@@ -57,8 +57,9 @@ def test_three_strategies_with_current_practice_first(inputs):
 def test_kansas_regression_medians(inputs):
     r = run(inputs)
     assert median(r, "maize_grain", "rainfed_deficit") == pytest.approx(371.7, abs=0.05)
-    assert median(r, "sorghum_grain", "rainfed_deficit") == pytest.approx(233.3, abs=0.05)
-    assert median(r, "soybean", "irrigated_net_irrigation") == pytest.approx(540.4, abs=0.05)
+    # 233.3 before 2026-11-14: Kc end (Eq. 65) then used mid-season instead of late-season u2 and RHmin.
+    assert median(r, "sorghum_grain", "rainfed_deficit") == pytest.approx(233.8, abs=0.05)
+    assert median(r, "soybean", "irrigated_net_irrigation") == pytest.approx(540.5, abs=0.05)  # 540.4 before, same reason
     taw = next(s for s in r["strategies"] if s["crop"] == "maize_grain")["result"]["taw_mm"]
     assert taw == pytest.approx(10 * (0.21 * 11 + 0.19 * 8 + 0.16 * 37 + 0.20 * 26 + 0.22 * 53), abs=0.05)
 

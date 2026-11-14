@@ -1,0 +1,8 @@
+{
+  "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CT2MDEW%2CRH2M%2CWS2M%2CALLSKY_SFC_SW_DWN%2CPS&community=AG&latitude=36.7400&longitude=-119.7900&start=20200101&end=20201231&format=JSON",
+  "retrieved_utc": "2026-11-14T19:01:30.095877+00:00",
+  "sha256": "43fa8b6afdb2ae5e7ff2509c781a3bad7ee0cb0b6076ffaccfef47ec840eb2d3",
+  "file": "power_applicability_fresno_3220e4fa1441_43fa8b6afdb2.raw",
+  "status": 200,
+  "content_type": "application/json"
+}
