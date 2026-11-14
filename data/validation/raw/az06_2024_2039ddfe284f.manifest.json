@@ -1,0 +1,8 @@
+{
+  "url": "https://api.azmet.arizona.edu/v1/observations/daily/az06/2024-05-01T00:00/P153DT0H",
+  "retrieved_utc": "2026-11-14T20:00:25.697404+00:00",
+  "sha256": "074ddd8708eff27a65f20c0364f192844637edb059f3fed63cbd848b41435140",
+  "file": "az06_2024_2039ddfe284f_074ddd8708ef.raw",
+  "status": 200,
+  "content_type": "application/json"
+}

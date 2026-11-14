@@ -5,6 +5,7 @@ import secrets
 from datetime import datetime,timezone
 from fastapi import APIRouter,HTTPException,Request
 from pydantic import BaseModel,Field
+from typing import Literal
 from app.api.v2 import _load
 from app.services.assistant import answer
 
@@ -17,6 +18,7 @@ class SessionIn(BaseModel):
 
 class MessageIn(BaseModel):
     message:str=Field(min_length=1,max_length=4000)
+    language:Literal['auto','en','ar']='auto'
 
 
 @router.get('/status')
@@ -54,7 +56,7 @@ async def message(sid:str,body:MessageIn,request:Request):
             with db:db.execute('INSERT INTO v2_ai_usage VALUES (?,1) ON CONFLICT(utc_day) DO UPDATE SET requests=requests+1',
                                (today,))
         analysis=_load(request,row[0]) if row[0] else None
-        result=await answer(request.app.state.http,body.message,analysis,[m['question'] for m in messages])
+        result=await answer(request.app.state.http,body.message,analysis,[m['question'] for m in messages],body.language)
         messages.append(dict(question=body.message,response=result))
         with db:db.execute('UPDATE v2_chat_session SET messages=? WHERE session_id=? AND owner=?',
                            (json.dumps(messages),sid,request.state.owner))

@@ -16,12 +16,17 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
+from app.config import load_private_env
+load_private_env()  # before routers read their storage/cache configuration
+
 from app.api.analyses import router as analyses_router
 from app.api.reference import router as reference_router
 from app.api.v2 import router as v2_router
 from app.api.data import router as data_router
 from app.api.products import router as products_router
 from app.api.chat import router as chat_router
+from app.api.raster import router as raster_router
+from app.api.validation import router as validation_router
 from app.db.database import connect
 from app.services.climate_context import build_climate_context
 from app.services.climate_provider import ProviderError
@@ -56,13 +61,15 @@ async def lifespan(app: FastAPI):
     app.state.db.close()
 
 
-app = FastAPI(title="Field Shift API", version="2.2.0", lifespan=lifespan)
+app = FastAPI(title="Field Shift API", version="2.3.0", lifespan=lifespan)
 app.include_router(analyses_router, prefix="/api/v1")
 app.include_router(reference_router, prefix="/api/v1")
 app.include_router(v2_router)  # spec v4.0: U.S. release; /api/v1 stays for the Hebron regression fixtures
 app.include_router(data_router)
 app.include_router(products_router)
 app.include_router(chat_router)
+app.include_router(raster_router)
+app.include_router(validation_router)
 
 
 @app.middleware("http")

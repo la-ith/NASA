@@ -5,7 +5,7 @@ No nationwide accuracy, crop-yield accuracy or field irrigation accuracy is esta
 
 ## Evaluation design
 
-Development: May–September 2020–2022, 153 daily labels per season. Temporal holdout 2023–2025 and spatial holdout stations remain reserved and were not downloaded by this runner. Raw responses are saved with request URLs, retrieval UTC and SHA-256 hashes in data/validation/raw/. Normalized reference values and QA flags are saved in results/normalized_*.json.
+Development: May–September 2020–2022, 153 daily labels per season. The originally reserved temporal and spatial holdouts have now been evaluated separately; see holdout-evaluation-v1.md. They are consumed evaluation data and must not be reused as fresh tests after tuning. Raw responses are saved with request URLs, retrieval UTC and SHA-256 hashes in data/validation/raw/. Normalized reference values and QA flags are saved in results/normalized_*.json.
 
 Kansas daily timestamps denote midnight of the following day and are shifted back one day, per the official URL-builder documentation. Its download interval includes October 1 to cover September 30. POWER uses local solar time; exact station civil/standard-time observation-window equivalence remains unverified. Daily differences still include sub-day time-window mismatch.
 

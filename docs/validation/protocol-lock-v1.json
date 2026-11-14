@@ -1,0 +1,8 @@
+{
+  "protocol_id": "external-weather-holdout-v1",
+  "sha256": "80226e01a42440107d22fe794b077c3274e9168320a850c26ca5450950e1bd62",
+  "locked_utc": "2026-11-14T19:54:46.199518+00:00",
+  "baseline_commit": "920842e",
+  "evaluation_started": true,
+  "first_opened_utc": "2026-11-14T20:00:15.061162+00:00"
+}

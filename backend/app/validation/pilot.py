@@ -68,12 +68,12 @@ async def download(client, name, url, params=None):
 
 def station_url(site,year):
     if site['network']=='azmet':
-        return f'https://api.azmet.arizona.edu/v1/observations/daily/az06/{year}-05-01T00:00/P153DT0H'
+        return f'https://api.azmet.arizona.edu/v1/observations/daily/{site["id"]}/{year}-05-01T00:00/P153DT0H'
     if site['network']=='coagmet':
-        return 'https://coagmet.colostate.edu/data/daily/ftc01.csv?'+urlencode(
+        return f'https://coagmet.colostate.edu/data/daily/{site["id"]}.csv?'+urlencode(
             dict(from_=f'{year}-05-01')).replace('from_','from')+f'&to={year}-09-30&header=yes&units=m'
     return 'https://mesonet.k-state.edu/rest/stationdata/?'+urlencode(dict(
-        stn='Hays',int='day',t_start=f'{year}0502000000',t_end=f'{year}1001000000',
+        stn=site.get('station_name','Hays'),int='day',t_start=f'{year}0502000000',t_end=f'{year}1001000000',
         vars='TEMP2MMAX,TEMP2MMIN,RELHUM2MMAX,RELHUM2MMIN,PRECIP,SR,SRAVG,WSPD2MAVG,PRESSUREAVG'))
 
 
@@ -131,9 +131,9 @@ def normalize_station(site,data):
     return result
 
 
-async def evaluate_site(client,site):
-    output=dict(site=site,group='development',years={},artifacts=[])
-    start,end=date(2020,5,1),date(2022,9,30)
+async def evaluate_site(client,site,years=(2020,2021,2022),group='development'):
+    output=dict(site=site,group=group,years={},artifacts=[])
+    start,end=date(min(years),5,1),date(max(years),9,30)
     try:
         raw,meta=await download(client,'power_'+site['id'],power.URL,power.query(site['lon'],site['lat'],start,end))
         output['artifacts'].append(meta)
@@ -143,7 +143,7 @@ async def evaluate_site(client,site):
         index={d:i for i,d in enumerate(weather.dates)}
     except Exception as e:
         output['blocker']=f'POWER {type(e).__name__}: {e}';return output
-    for year in (2020,2021,2022):
+    for year in years:
         try:
             raw,meta=await download(client,f'{site["id"]}_{year}',station_url(site,year))
             output['artifacts'].append(meta)
@@ -197,6 +197,11 @@ async def run():
         time_alignment='Kansas following-midnight stamps shifted back one day per provider documentation; '
                        'POWER LST versus station civil/standard-time windows still differ',
         thresholds='No accuracy threshold selected; select before opening holdout')
+    lock=OUT/'protocol-lock-v1.json'
+    if lock.exists() and json.loads(lock.read_text(encoding='utf-8')).get('evaluation_started'):
+        manifest['temporal_holdout']['status']='consumed by frozen external-weather-holdout-v1; no longer untouched'
+        manifest['spatial_holdout']['status']='consumed by frozen external-weather-holdout-v1; no longer untouched'
+        manifest['thresholds']='Provisional frozen engineering gates: data/catalogs/validation_protocol_v1.json'
     (OUT/'sample-manifest.json').write_text(json.dumps(manifest,indent=2))
     async with httpx.AsyncClient(timeout=90,follow_redirects=True) as client:
         results=await asyncio.gather(*(evaluate_site(client,s) for s in SITES))
@@ -254,8 +259,9 @@ def write_report(results):
       'Date: 14 November 2026. Engine 2.2.0. Purposive development pilot, not a probability sample.',
       'No nationwide accuracy, crop-yield accuracy or field irrigation accuracy is established.', '',
       '## Evaluation design','',
-      'Development: May–September 2020–2022, 153 daily labels per season. Temporal holdout 2023–2025 and '
-      'spatial holdout stations remain reserved and were not downloaded by this runner. Raw responses are '
+      'Development: May–September 2020–2022, 153 daily labels per season. Originally reserved temporal and '
+      'spatial holdouts are evaluated separately; see holdout-evaluation-v1.md and protocol-lock-v1.json for '
+      'their consumed/untouched status. Raw responses are '
       'saved with request URLs, retrieval UTC and SHA-256 hashes in data/validation/raw/. '
       'Normalized reference values and QA flags are saved in results/normalized_*.json.', '',
       'Kansas daily timestamps denote midnight of the following day and are shifted back one day, per the '

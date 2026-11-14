@@ -1,0 +1,14 @@
+{
+  "development_years": [
+    2020,
+    2021,
+    2022
+  ],
+  "station": 80,
+  "location": "Fresno State; station metadata must confirm location",
+  "checked_utc": "2026-11-14T20:12:34.587855+00:00",
+  "status": "blocked",
+  "calibration_applied": false,
+  "limitation": "Published reference ET0 comparison is not measured maize water use or irrigation validation",
+  "blocker": "CIMIS_APP_KEY not configured"
+}

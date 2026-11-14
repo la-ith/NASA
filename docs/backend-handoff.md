@@ -1,5 +1,9 @@
 # Backend handoff — engine/API 2.2.0
 
+Latest follow-through: [scientific delivery](scientific-delivery.md), API 2.3.0 / unchanged physical engine 2.2.0.
+That report supersedes the pending-status descriptions below for raster processing, consumed holdouts,
+private `.env` loading, Arabic evidence and live OpenAI account-credit status.
+
 14 November 2026. Frontend and user-account implementation are outside this change. The backend now provides
 data ingestion, historical replay, immutable results, private point layers, scenario comparisons, supplemental
 source queries and a bounded OpenAI assistant integration. This is a single-instance development backend.

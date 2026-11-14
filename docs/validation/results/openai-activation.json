@@ -1,0 +1,23 @@
+{
+  "provider": "OpenAI Responses API",
+  "configured": true,
+  "live_requested": true,
+  "checked_utc": "2026-11-14T20:06:06.760084+00:00",
+  "checks": [
+    {
+      "language": "en",
+      "mode": "deterministic_evidence",
+      "citations": [
+        "fao-demand",
+        "fao-balance",
+        "fao-climate"
+      ],
+      "passed": false,
+      "notice": "OpenAI API credits are exhausted; showing deterministic evidence.",
+      "service_status": "quota_exhausted"
+    }
+  ],
+  "activation_verified": false,
+  "model_access_verified": true,
+  "model_access_http_status": 200
+}

@@ -5,6 +5,10 @@ Python 3.12 + FastAPI.
 Backend 2.2.0: see [the backend handoff](../docs/backend-handoff.md) for OpenAI configuration, private API
 contracts, point layers, scenarios, source artifacts, deployment and remaining scientific validation gates.
 
+API 2.3.0 adds national NASA imagery, derived COG processing, frozen external evaluation and English/Arabic
+evidence responses. See [scientific delivery](../docs/scientific-delivery.md) for live checks, quota/CIMIS
+blockers, failed validation gates and the exact national-versus-Kansas coverage distinction.
+
 - **v4 U.S. release** (`/api/v2`, web app at `/`): NASA POWER daily weather, USDA SSURGO soils and FAO-56
   (Penman–Monteith ET0, crop coefficients, daily root-zone water balance) replayed over 25 past seasons for current
   practice and two alternatives. See `../Field Shift Product Spec v4_0.md` and `../docs/`.

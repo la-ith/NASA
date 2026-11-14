@@ -1,0 +1,8 @@
+{
+  "url": "https://coagmet.colostate.edu/data/metadata.json?stations=ftc01%2Cakr02%2Cgly04&units=m&instruments=yes",
+  "retrieved_utc": "2026-11-14T20:00:16.183919+00:00",
+  "sha256": "997c2e155997d0c826e64b14e044a328597bee271f1d9b8401b43a5c40dedc49",
+  "file": "holdout_coagmet_metadata_e0afe0fd95b3_997c2e155997.raw",
+  "status": 200,
+  "content_type": "application/json; charset=utf-8"
+}

@@ -1,0 +1,8 @@
+{
+  "url": "https://mesonet.k-state.edu/rest/stationdata/?stn=Hays&int=day&t_start=20240502000000&t_end=20241001000000&vars=TEMP2MMAX%2CTEMP2MMIN%2CRELHUM2MMAX%2CRELHUM2MMIN%2CPRECIP%2CSR%2CSRAVG%2CWSPD2MAVG%2CPRESSUREAVG",
+  "retrieved_utc": "2026-11-14T20:00:33.016203+00:00",
+  "sha256": "f378f5f0bc88b8db80fa4114a5d46ee5f096673758b0a9e5f8f6fa91fdeb9bf5",
+  "file": "hays_2024_430e32364645_f378f5f0bc88.raw",
+  "status": 200,
+  "content_type": "text/plain"
+}

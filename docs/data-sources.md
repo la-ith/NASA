@@ -52,7 +52,7 @@ PRISM, Landsat/MODIS/Sentinel-2, ECOSTRESS/OpenET, SRTM and other optional catal
 
 ## Evaluation-only sources and primary audit references
 
-Exact reference/POWER request URLs, retrieval UTC and SHA-256 are saved in `data/validation/raw/`; station QA and metrics are in `docs/validation/results/`. Reference downloads are limited to development 2020–2022. Applicability-only locations use 2020 POWER and SSURGO coverage checks, not accuracy metrics.
+Exact reference/POWER request URLs, retrieval UTC and SHA-256 are saved in `data/validation/raw/`; station QA and metrics are in `docs/validation/results/`. The initial development reference downloads use 2020–2022; the separately frozen reserved-group evaluation adds 2023–2025 at development sites and 2020–2022 at reserved sites. Those groups are now consumed evaluation data. Applicability-only locations use 2020 POWER and SSURGO coverage checks, not accuracy metrics.
 
 | Source | Units / handling | Official reference |
 |---|---|---|
@@ -64,3 +64,20 @@ Exact reference/POWER request URLs, retrieval UTC and SHA-256 are saved in `data
 | SSURGO 2.3.2 metadata | Page 9: awc is a volume fraction including fragments and adjustments; need not equal unadjusted FC-WP attributes | https://www.nrcs.usda.gov/sites/default/files/2022-08/SSURGO-Metadata-Table-Column-Descriptions-Report.pdf |
 
 The earlier request to check CN values against a primary source is resolved by the NRCS reference above. Table confirmation does not validate local runoff or management assumptions. POWER precipitation may share gauge information with reference networks; no blanket independence claim is made. Kansas day labels are corrected; exact civil/standard-time windows versus POWER LST still need review. No CIMIS values are used or invented.
+
+
+## National imagery, physical grids and California follow-through
+
+- NASA GIBS allowlist: IMERG precipitation rate (mm/hr), SMAP L4 surface/root-zone moisture (m3/m3), source legends, exact date intervals/gaps and capability hash in `data/catalogs/nasa_gibs_layers.json`. Imagery is US50-masked and does not supply quantitative values by RGB inversion. NASA imagery access is separate from the POWER SMAP alias that returned no data.
+- Derived COG pipeline: each populated native meteorological-grid cell uses its own POWER record and cell-centre SSURGO scenario. The live Kansas 2020 maize grid has 80/80 cells; national planning covers 3,557 cell centres across 50 states. National deficit values are not all precomputed. See `scientific-delivery.md`.
+- Current CIMIS header-authenticated adapter: `adapters/cimis.py`; needs private CIMIS_APP_KEY. New official documentation: https://cimis.water.ca.gov/web-api/rest-api/latest . The deployed production endpoint rejected a no-key probe with HTTP 401, confirming access is gated. No legacy AppKey URL or copied website token is used.
+- Public annual Spatial CIMIS 2020 GeoTIFF: metadata/range access succeeded (EPSG:3310, 366 bands); point-read and full-download attempts failed, so no reference values from it are used or invented. Station comparison still awaits the AppKey.
+- Crop-care reference paraphrases: FAO growth-stage sensitivity, NC State soybean water management and Oregon State grain sorghum guidance; English/Arabic text remains bounded to sourced evidence. No source is treated as a local field calibration.
+
+Primary new references:
+
+- https://nasa-gibs.github.io/gibs-api-docs/access-basics/
+- https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/1.0.0/WMTSCapabilities.xml
+- https://www.fao.org/4/t7202e/t7202e05.htm
+- https://content.ces.ncsu.edu/north-carolina-soybean-production-guide/10-water-management-in-soybeans
+- https://extension.oregonstate.edu/catalog/em-8794-dryland-cropping-systems-grain-sorghum

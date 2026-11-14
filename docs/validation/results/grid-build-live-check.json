@@ -1,0 +1,21 @@
+{
+  "national_plan_cells": 3557,
+  "executed_scope": "Kansas climate-grid centres",
+  "year": 2020,
+  "crop": "maize_grain",
+  "coverage": {
+    "planned_cells": 80,
+    "processed_cells": 80,
+    "computed_cells": 80,
+    "complete": true,
+    "excluded_cells": 0,
+    "note": "Uncomputed, unsupported, coastal/land-centre gaps and missing-source cells are nodata, never interpolated"
+  },
+  "artifact_id": "73db7889bf00fd73bb11ff9681526a19",
+  "raster_sha256": "3554069203ff986cd0b7f865202e6e433b4da8f6cfd8fd1e7a08081ee69b064f",
+  "source_record_count": 80,
+  "national_deficit_precomputed": false,
+  "national_source_imagery": "served on demand by allowlisted NASA GIBS tiles with US50 clipping",
+  "frontend_changed": false,
+  "schema": "grid-cog-1.0"
+}

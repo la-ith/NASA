@@ -7,3 +7,6 @@ outputs
 *.db
 data/validation
 docs/validation/results
+!docs/validation/results/
+docs/validation/results/*
+!docs/validation/results/holdout-evaluation-v1.json

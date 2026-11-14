@@ -7,8 +7,9 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt && useradd --create-home
 COPY backend/app ./backend/app
 COPY data/catalogs ./data/catalogs
 COPY data/fixtures ./data/fixtures
+COPY docs/validation/results/holdout-evaluation-v1.json ./docs/validation/results/holdout-evaluation-v1.json
 WORKDIR /srv/field-shift/backend
-ENV FIELD_SHIFT_WARMUP=0 FIELD_SHIFT_DB=/var/lib/field-shift/field_shift.db
+ENV FIELD_SHIFT_WARMUP=0 FIELD_SHIFT_DB=/var/lib/field-shift/field_shift.db FIELD_SHIFT_LAYER_DIR=/var/lib/field-shift/layers
 USER fieldshift
 EXPOSE 8000
 # In-process jobs/SQLite are single-instance. Do not add workers without a durable queue.

@@ -1,0 +1,29 @@
+{
+  "protocol_id": "external-weather-holdout-v1",
+  "version": "1.0.0",
+  "status": "engineering screening protocol; not expert-approved agronomic thresholds",
+  "frozen_before_evaluation": true,
+  "purpose": "Test regional weather and reference ET0 on previously reserved station/season groups without fitting parameters",
+  "engine_baseline_commit": "920842e",
+  "season": {"start": "05-01", "end": "09-30", "expected_days": 153},
+  "minimum_paired_fraction": 0.95,
+  "gates": {
+    "eto": {"max_abs_daily_bias_mm": 0.5, "max_daily_rmse_mm": 1.5, "max_abs_paired_season_relative_bias": 0.10},
+    "rain": {"max_abs_paired_season_relative_bias": 0.20, "minimum_reference_total_mm_for_relative_gate": 25}
+  },
+  "threshold_rationale": "Explicit provisional product screening limits, selected before opening reserved data. They are not FAO accuracy guarantees or inferred from the holdout. Failed results must be reported, not tuned away. Crop irrigation accuracy requires separate observed irrigation/soil/crop validation.",
+  "groups": {
+    "temporal_holdout": {"sites": ["az06", "ftc01", "hays"], "years": [2023, 2024, 2025]},
+    "spatial_holdout": {"sites": ["az01", "akr02", "gly04", "colby"], "years": [2020, 2021, 2022]}
+  },
+  "qa": {
+    "azmet": "Exclude flagged station-review days; normalize documented 3 m wind to 2 m",
+    "coagmet": "RH is fraction; exclude RHmin <=0.01 from humidity/ET quantities; use provider metadata wind height; record unresolved historical siting/height",
+    "kansas": "Daily stamps at following midnight map to preceding day; use measured pressure; same-equation station-forced ET0 is an input comparison, not independent equation validation",
+    "time_windows": "POWER LST and provider standard-time windows must be disclosed; no best-lag optimization is permitted",
+    "ftc01": "Known current non-reference surroundings; diagnostic-only, excluded from release qualification regardless of error magnitude"
+  },
+  "uncertainty": {"method": "bootstrap paired day errors in fixed 7-day chronological blocks within each station-season", "replicates": 1000, "seed": 314159, "meaning": "Conditional within-season uncertainty, not nationwide or field predictive coverage"},
+  "release_rule": "All eligible station-season gates must pass for an engineering weather-screening pass. Missing metadata, insufficient pairs or failed gates prevent qualification. No field-irrigation accuracy claim follows even if weather gates pass.",
+  "changes_after_opening": "Never overwrite this protocol after evaluation begins. A change requires a new version and new untouched evaluation data. These holdouts become consumed evaluation data; they cannot be reused as fresh tests after tuning."
+}

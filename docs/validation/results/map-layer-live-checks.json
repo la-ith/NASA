@@ -1,0 +1,35 @@
+[
+  {
+    "layer": "imerg_rain_rate",
+    "status": "ok",
+    "tile": [
+      6,
+      14,
+      24
+    ],
+    "nontransparent_pixels": 7764,
+    "image": "outputs\\map-live-imerg_rain_rate.png"
+  },
+  {
+    "layer": "smap_surface",
+    "status": "ok",
+    "tile": [
+      6,
+      5,
+      18
+    ],
+    "nontransparent_pixels": 38227,
+    "image": "outputs\\map-live-smap_surface.png"
+  },
+  {
+    "layer": "smap_root_zone",
+    "status": "ok",
+    "tile": [
+      6,
+      4,
+      28
+    ],
+    "nontransparent_pixels": 2526,
+    "image": "outputs\\map-live-smap_root_zone.png"
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "url": "https://coagmet.colostate.edu/data/daily/ftc01.csv?from=2023-05-01&to=2023-09-30&header=yes&units=m",
+  "retrieved_utc": "2026-11-14T20:00:29.219749+00:00",
+  "sha256": "26f4999ff0b84855faf8dc760d700bdc89eab23d6a8fd8856e4240f4b0259c3e",
+  "file": "ftc01_2023_3f4cd9f408b7_26f4999ff0b8.raw",
+  "status": 200,
+  "content_type": "text/plain; charset=utf-8"
+}

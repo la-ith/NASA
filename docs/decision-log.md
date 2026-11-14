@@ -48,3 +48,13 @@ Implementation decisions taken while building spec v4.0. "Assumed" items are dis
   Preserve previous raw artifacts and obtain correctly bounded development data. Holdouts remain unused.
 - Numerical verification is separate from environmental/field accuracy. Fresno and expert agronomic review
   remain open release gates. No correction is fitted to make irrigation totals match published numbers.
+
+
+## Three-priority delivery — 14 November 2026
+
+- Freeze provisional engineering gates before opening reserved data. Report all failures; do not tune this engine on those outcomes. These groups are now consumed, and no nationwide or field irrigation qualification follows.
+- Preserve numerical engine 2.2.0; API expands to 2.3.0. Scientific readiness explicitly reports the failed screening. Expert agronomic review remains separate from the technical source/assumption review.
+- User configured OpenAI privately. Model access is verified, but generation is credit-blocked. Use an explicit quota status and evidence fallback, never pretend a live AI answer succeeded. Add curated English/Arabic crop-care evidence without arbitrary generated claims.
+- Use actual NASA GIBS raster imagery for national context; respect units, original transparency and date gaps. Do not invert RGB to fabricate quantitative source values.
+- Operator-triggered derived-grid builds are resumable and publish immutable COGs. Missing cells stay nodata. Use each cell's source record rather than interpolate a single farm result. The completed live proof is Kansas, not a precomputed national deficit product.
+- Prepare current CIMIS header authentication and verify references only when real data can be retrieved. Public Spatial CIMIS file metadata was accessible but point/full download failed; no values from it are used.

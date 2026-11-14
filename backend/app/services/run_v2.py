@@ -114,6 +114,8 @@ def run_analysis(request: dict, state: State, weather: DailyWeather, soil: SoilI
         "an agronomist reviews them.",
         "Kc climate adjustments limit stage-mean wind to 1–6 m/s and RHmin to 20–80%; per-season "
         "kc_climate_qa records original and used values and limiting flags.",
+        "Frozen external weather screening did not qualify nationally; station-season rainfall and ET0 failures "
+        "remain. These simulations are exploratory and do not establish field irrigation accuracy.",
     ]
     if soil is None:
         limitations.append("No soil data: the water balance could not run, so deficits and irrigation needs are missing.")
@@ -151,6 +153,9 @@ def run_analysis(request: dict, state: State, weather: DailyWeather, soil: SoilI
         "versions": {"engine": ENGINE_VERSION, "crop_catalog": catalog.version, "boundary": BOUNDARY_VERSION},
         "validation": {"numerical_method": "FAO-56 worked-example verification; see equation register",
                        "environmental_accuracy": "limited development station comparison, not nationwide certification",
+                       "engineering_weather_screening": "not_qualified",
+                       "protocol_id": "external-weather-holdout-v1",
+                       "report_url": "/api/v2/validation/holdout",
                        "field_irrigation_accuracy": "not established", "agronomic_review": "draft-unreviewed",
                        "forecast": False,
                        "regional_warning": "Fresno discrepancy unresolved; California station verification pending"
