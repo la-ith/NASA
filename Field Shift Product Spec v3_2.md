@@ -22,6 +22,7 @@ Version 3.2 | 14 November 2026 | NASA Space Apps Challenge 2026 — "Field Shift
 - Added these diagrams: an analysis flowchart (6.1), an analysis state diagram (6.2), a rotation-rule flowchart (18), and a rule-review state diagram (18).
 - Added these specifications: input validation (6.3), label meanings (7), a recent-shift indicator (17), a concrete sample history and expected results (18), and an API example (10).
 - Added three new sections: challenge coverage (20), submission checklist (21), and glossary (22).
+- Added section 23: how the app analyses NASA POWER data and where each result is used. It includes Python + FastAPI reference code that was run against the live pilot record and reproduces the section 16.1 and 17 values. The backend stack is now decided (decision 12), and the cache stores only validated responses.
 - Replaced the NASA POWER acknowledgement with the current official wording.
 
 ## 1. Vision
@@ -269,8 +270,7 @@ flowchart TD
   E -->|"Yes"| V
   E -->|"No"| F["Call NASA POWER daily point API"]
   F --> G{"Result of the call"}
-  G -->|"HTTP 200 within 10 s"| H["Save response to cache"]
-  H --> V
+  G -->|"HTTP 200 within 10 s"| V
   G -->|"HTTP 422"| P
   G -->|"Timeout, 429 or 5xx"| R{"Retry already used?"}
   R -->|"No"| R1["Wait 2 s"]
@@ -282,7 +282,10 @@ flowchart TD
   V --> W{"Usable record?"}
   W -->|"No"| N["No-data state: explain why; offer sample data"]
   N -->|"Use sample data"| S
-  W -->|"Yes"| X["Site check: grid cell vs local station (16.1)"]
+  W -->|"Yes"| H{"Fresh from NASA POWER?"}
+  H -->|"Yes"| H1["Save validated response to cache"]
+  H1 --> X
+  H -->|"No: cache or sample"| X["Site check: grid cell vs local station (16.1)"]
   X --> I["Compute indicators (17)"]
   I --> K["Build candidate plans A, B, C (and D in sample mode)"]
   K --> L{"For each plan: passes H1 to H3?"}
@@ -516,7 +519,9 @@ These are targets, not verified claims.
   - So the MVP requests only `PRECTOTCORR`.
 - A map is never required to enter a field or view results.
 - Climate cache:
-  - Key: rounded latitude and longitude, parameter, community, start date, end date, and API version.
+  - Key: rounded latitude and longitude, parameter, community, start date and end date.
+  - Each entry also stores the API version and the retrieval time.
+  - Only responses that pass validation are cached.
   - Expiry: 30 days. Historical values can change when POWER releases a new version.
 
 ### Reliability and security
@@ -542,17 +547,22 @@ field-shift/
   frontend/src/pages/
   frontend/src/components/
   frontend/src/api/
-  backend/app/api/
+  backend/requirements.txt                # pinned versions, section 23.1
+  backend/pytest.ini                      # pythonpath = .
+  backend/app/main.py                     # FastAPI app, startup cache warm-up, error shapes
+  backend/app/api/analyses.py             # POST /api/v1/analyses and the other routes
   backend/app/domain/fields.py
   backend/app/domain/plans.py
-  backend/app/domain/rules.py
+  backend/app/domain/rules.py             # H1-H3 and R1-R6
   backend/app/domain/evaluation.py
   backend/app/services/climate_provider.py
+  backend/app/services/climate_cache.py
   backend/app/services/validation.py
-  backend/app/services/site_check.py
   backend/app/services/indicators.py
+  backend/app/services/site_check.py
+  backend/app/services/climate_context.py # runs the NASA data steps for one analysis
   backend/app/services/explanations.py
-  backend/tests/test_indicators.py        # reproduces the section 17 pilot values
+  backend/tests/test_indicators.py        # reproduces the section 16.1 and 17 pilot values
   backend/tests/test_rules.py             # reproduces the section 18 expected results
   data/demo/power_pilot_19911001_20260531.json
   data/demo/sample_case.json
@@ -564,8 +574,9 @@ field-shift/
   docs/rule-sources.md
 ~~~
 
+- Each folder under `backend/app` has an empty `__init__.py`.
 - Use the frontend framework the team knows best.
-- Python with FastAPI suits the analysis service if the team knows Python. Use plain Python calculations before adding data libraries.
+- The backend is Python 3.12 with FastAPI (decision 12). Section 23 specifies how it analyses NASA data, with tested reference code. Calculations use plain Python; add data libraries only when they are needed.
 - SQLite or in-memory storage is enough for a demo. Choose PostgreSQL when deployment and persistence needs justify it.
 - Use maps and charts only when they add evidence.
 
@@ -619,10 +630,23 @@ Response example, shortened to one plan:
   "mode": "live",
   "versions": { "rules": "0.1-draft", "engine": "1.0.0", "adapter": "1.0.0", "power_api": "v2.10.3" },
   "data": {
-    "provider": "NASA POWER", "parameter": "PRECTOTCORR", "units": "mm/day",
-    "period": ["1991-10-01", "2026-05-31"], "valid_days": 12662, "missing_days": 0,
-    "retrieved_utc": "2026-11-14T10:00:00Z",
-    "site_check": { "result": "not_representative", "cell_mm": 229.4, "station_mm": 470.8, "ratio": 0.49 }
+    "provider": "NASA POWER", "parameter": "PRECTOTCORR", "community": "AG", "units": "mm/day",
+    "api_version": "v2.10.3", "time_standard": "LST",
+    "period": ["1991-10-01", "2026-05-31"], "retrieved_utc": "2026-11-14T10:00:00+00:00",
+    "valid_days": 12662, "missing_days": 0, "quality_flags": [], "cell_elevation_m": 342.96,
+    "seasons": [
+      { "season": "1991/92", "total_mm": 325.7, "valid_days": 244, "days": 244 }
+    ],
+    "indicators": {
+      "baseline_mean_mm": 225.2, "baseline_cv_pct": 34.5,
+      "anomalies_pct": { "2021/22": 80.8, "2022/23": 46.9, "2023/24": 55.2, "2024/25": -36.6, "2025/26": 45.6 },
+      "recent_shift_pct": 38.4
+    },
+    "site_check": {
+      "result": "not_representative",
+      "reason": "the grid cell has 49% of the rainfall recorded at Hebron station",
+      "cell_mm": 229.4, "station_mm": 470.8, "ratio": 0.49
+    }
   },
   "plans": [
     {
@@ -630,9 +654,12 @@ Response example, shortened to one plan:
       "why_included": "Current practice: repeats the crop recorded for 2025/26.",
       "status": "evaluated",
       "criteria": [
-        { "criterion": "rotation_soil", "label": "concern", "rule": "R1", "rule_state": "draft-unreviewed" },
-        { "criterion": "water_fit", "label": "insufficient_evidence", "rule": "R5", "reason": "site_check_failed" },
-        { "criterion": "risk", "label": "mixed", "rule": "R6", "value": 34.5, "units": "%" }
+        { "criterion": "rotation_soil", "label": "concern", "rule": "R1",
+          "reason": "at least 3 cereal seasons in a row", "rule_state": "draft-unreviewed" },
+        { "criterion": "water_fit", "label": "insufficient_evidence", "rule": "R5",
+          "reason": "the grid cell has 49% of the rainfall recorded at Hebron station", "rule_state": "draft-unreviewed" },
+        { "criterion": "risk", "label": "mixed", "rule": "R6",
+          "reason": "seasonal rainfall varies by 34.5% (CV, 1991/92-2020/21)", "rule_state": "draft-unreviewed" }
       ],
       "inputs": [
         { "name": "crop 2023/24", "state": "missing", "effect": "Not needed: 2024/25 and 2025/26 already confirm a cereal run." }
@@ -643,7 +670,7 @@ Response example, shortened to one plan:
 }
 ~~~
 
-The response has no overall confidence score. The values shown come from the live record retrieved on 14 November 2026 (sections 16–18), except `analysis_id` and `retrieved_utc`, which are placeholders.
+The response has no overall confidence score. The `seasons` list is shortened to its first entry; the full list has 35 seasons. The values come from the reference code in section 23, run on the live record retrieved on 14 November 2026. `analysis_id` and `retrieved_utc` are placeholders, and the R1 reason is illustrative because R1–R3 code is not in section 23.
 
 ## 11. Acceptance criteria
 
@@ -727,6 +754,7 @@ Each row is a proposal. The owner confirms or changes it before coding starts.
 | 9 | Generative AI ("SI") | None in the product MVP. Explanations come from deterministic templates filled from engine output. A paraphrasing layer is later work. Any SI tools used to build the project must be disclosed on the submission (section 21). | Backend | Proposed |
 | 10 | Grid-cell bias at the pilot | The POWER cell gets about 49% of the rainfall recorded at Hebron station (section 16.1). Proposal: (a) for the MVP, keep POWER and turn off absolute water fit through the site check, so water fit shows "insufficient evidence" with the reason. (b) Stretch goal: add GPM IMERG monthly rainfall at 0.1° (needs a free Earthdata login) and re-run the site check against the station. Promote it only if it passes. (c) Moving the pilot to a site the cell represents is possible, but it loses the prepared demo story. | Data | **Needs team decision** |
 | 11 | Station reference | The Hebron station value now comes from a secondary source: Palestinian Meteorological Department monthly means for 2007–2018, as reproduced on Wikipedia. Obtain the primary PMD record or another citable station normal, and record it in `docs/rule-sources.md`. | Data | To do |
+| 12 | Backend stack | Python 3.12 with FastAPI, Pydantic, httpx, and SQLite through Python's built-in `sqlite3`. The analysis uses only the standard library. Pinned versions and reference code are in section 23. | Backend | Decided |
 
 ### In-app notice
 
@@ -982,9 +1010,9 @@ Keep this table current during the build. It answers acceptance criterion 16 and
 | Part | State at start of build | Target for demo |
 |---|---|---|
 | UI journey, all nine screens | Planned | Implemented |
-| NASA POWER adapter, validation, provenance | Planned (API details verified) | Implemented, with cached pilot record and sample fallback |
+| NASA POWER adapter, validation, provenance | Reference code in section 23, tested against the live record | Implemented, with cached pilot record and sample fallback |
 | Site check (16.1) | Planned (pilot values computed) | Implemented |
-| Indicators (section 17) | Planned (pilot values computed) | Implemented, with tests |
+| Indicators (section 17) | Reference code and tests in section 23 | Implemented, with tests |
 | Rule engine (section 18) | Planned | Implemented, with tests |
 | Rule content | Draft, unreviewed | Simulated: labelled illustrative unless a reviewer signs off |
 | Station reference value | Secondary source | Primary source, if obtained (decision 11) |
@@ -1080,3 +1108,710 @@ Based on the Space Apps 2026 Project Submission Guide and Judging & Awards Guide
 | Insufficient evidence | The app could not assess a criterion. This is not a negative result |
 | Draft-unreviewed | A rule written by the team that no agricultural specialist has checked yet |
 | SI | "Super Intelligence", the term Space Apps 2026 uses for what is usually called AI |
+
+## 23. NASA data analysis in the application (Python + FastAPI)
+
+The backend is Python 3.12 with FastAPI (decision 12). This section explains step by step how the app turns NASA POWER data into the labels and evidence a farmer sees, and gives the reference code for each step.
+
+The code below was run against the live pilot record on 14 November 2026 and reproduces the values in sections 16.1 and 17. The analysis itself uses only the Python standard library (`datetime`, `math`, `statistics`). About 12,700 daily values are small enough that pandas or NumPy would add weight without adding anything.
+
+### 23.1 Stack
+
+| Part | Choice | Why |
+|---|---|---|
+| Language | Python 3.12 | Team choice; plain, readable calculations |
+| Web framework | FastAPI 0.115.6, with Pydantic 2.10.4 | Typed request validation, automatic OpenAPI docs, and async calls to NASA |
+| HTTP client | httpx 0.28.1 (async) | Timeouts and retries on calls to NASA POWER |
+| Server | uvicorn 0.34.0 | Runs the FastAPI app |
+| Storage | SQLite through Python's built-in `sqlite3` | Climate cache and analysis snapshots (decision 7) |
+| Tests | pytest 8.3.4 | Reproduces the pilot values offline |
+
+`backend/requirements.txt`:
+
+~~~text
+fastapi==0.115.6
+pydantic==2.10.4
+httpx==0.28.1
+uvicorn==0.34.0
+pytest==8.3.4
+~~~
+
+### 23.2 The pipeline at a glance
+
+~~~mermaid
+flowchart LR
+  A["NASA POWER JSON<br/>12,662 daily values"] --> B["Daily record<br/>date to mm, or missing"]
+  B --> C["35 season totals<br/>1991/92 to 2025/26"]
+  C --> D["Baseline: 30 seasons<br/>mean, SD, CV, threshold counts"]
+  C --> E["Recent: 5 seasons<br/>anomalies, recent shift"]
+  C --> F["Site check<br/>2007/08 to 2017/18 vs station"]
+  D --> G["R4 or R5: water fit"]
+  F --> G
+  D --> H["R6: rainfall variability risk"]
+  G --> I["Plan labels with evidence"]
+  H --> I
+  C --> J["Evidence screen: chart and tables"]
+  E --> J
+  F --> J
+~~~
+
+| Step | Module | Turns this… | …into this | Pilot example |
+|---|---|---|---|---|
+| 1. Build the request | `services/climate_provider.py` | Rounded location and candidate season | A POWER query from 1 Oct 1991 to 31 May of the candidate year | 31.5 N, 35.1 E; 1991-10-01 to 2026-05-31 |
+| 2. Fetch or reuse | `services/climate_cache.py`, `services/climate_provider.py` | The query | Raw POWER JSON (about 195 KB) | Cache hit after the warm-up at startup |
+| 3. Validate | `services/validation.py` | Raw JSON | A daily record: each date maps to mm or "missing" | 12,662 valid days, 0 missing |
+| 4. Season totals (I1) | `services/indicators.py` | The daily record | One total per season, with its valid-day count | 2019/20: 244 of 244 days valid, 491.0 mm |
+| 5. Indicators (I2–I6) | `services/indicators.py` | Season totals | Baseline mean, SD and CV; recent anomalies; recent shift | Mean 225.2 mm, CV 34.5%, shift +38.4% |
+| 6. Site check | `services/site_check.py` | Season totals and the station reference | Representative, not representative, or not checked | 229.4 ÷ 470.8 = 0.49: not representative |
+| 7. Climate rules (R4–R6) | `domain/rules.py` | Indicators, site check, crop and irrigation | One label per criterion, with a reason | Wheat water fit: insufficient evidence. Risk: mixed |
+| 8. Response | `api/analyses.py` | Everything above | The `data` block and each plan's criteria in the JSON response | Section 10 example |
+
+### 23.3 How the results are used in the app
+
+| Output | Used by | Shown where |
+|---|---|---|
+| Season totals (I1), with valid-day counts | I2–I6 and the site check | Evidence screen bar chart: 35 bars, a solid line at the baseline mean, a dashed line at the station mean (when there is one), and the 5 recent seasons highlighted. An unavailable season is a labelled gap, never a zero-height bar. A text table is the chart's alternative |
+| Baseline totals and the crop's lower water need T (I5) | R4 | Water-fit card and evidence, only when the site check passes |
+| Baseline mean and CV (I2, I4) | R6 | The Risk label on every plan, plus the evidence screen |
+| Recent anomalies and recent shift (I3, I6) | No rule; context only | Evidence screen, "Recent seasons" |
+| Site check | Allows or blocks R4 | Data summary on the comparison screen, the evidence screen, and the report |
+| Provenance: API version, period, retrieval time, valid and missing days, time standard | Reproducibility | Evidence screen, plus the report's acknowledgement and data reference |
+| Cell elevation | Context for the site check | Evidence screen: "This data cell averages 343 m above sea level" |
+| Quality flags | The partial-data notice | Comparison screen notice and evidence screen |
+
+### 23.4 Reference code
+
+The first line of each block is the file path, matching the tree in section 10. Rotation rules R1–R3, the plan builder and the explanation templates are not shown here; they follow sections 5 and 18. The `api/analyses.py` block is an excerpt that shows only the climate path.
+
+~~~python
+# backend/app/services/climate_provider.py
+"""Fetch daily rainfall from the NASA POWER Daily API (sections 6 and 16)."""
+import asyncio
+from datetime import date
+
+import httpx
+
+POWER_DAILY_URL = "https://power.larc.nasa.gov/api/temporal/daily/point"
+ATTEMPT_TIMEOUT_S = 10.0
+RETRY_DELAY_S = 2.0
+
+
+class ProviderError(Exception):
+    """POWER could not supply the record. The UI shows the provider-error state."""
+
+
+def power_query(lat: float, lon: float, start: date, end: date) -> dict[str, str]:
+    return {
+        "parameters": "PRECTOTCORR",
+        "community": "AG",
+        "latitude": f"{lat:.1f}",
+        "longitude": f"{lon:.1f}",
+        "start": start.strftime("%Y%m%d"),
+        "end": end.strftime("%Y%m%d"),
+        "format": "JSON",
+    }
+
+
+async def fetch_power_daily(
+    client: httpx.AsyncClient, lat: float, lon: float, start: date, end: date
+) -> dict:
+    """Return the raw POWER JSON. Retry once after 2 s on a timeout, network error, 429 or 5xx."""
+    query = power_query(lat, lon, start, end)
+    for attempt in (1, 2):
+        try:
+            async with asyncio.timeout(ATTEMPT_TIMEOUT_S):  # whole attempt, not per socket read
+                response = await client.get(POWER_DAILY_URL, params=query)
+        except (TimeoutError, httpx.TransportError) as exc:
+            problem, retryable = f"no response from NASA POWER ({exc!r})", True
+        else:
+            if response.status_code == 200:
+                return response.json()
+            problem = f"NASA POWER returned HTTP {response.status_code}"
+            retryable = response.status_code == 429 or response.status_code >= 500
+        if attempt == 1 and retryable:
+            await asyncio.sleep(RETRY_DELAY_S)
+            continue
+        raise ProviderError(problem)
+~~~
+
+~~~python
+# backend/app/services/climate_cache.py
+"""SQLite cache of validated POWER responses (section 9). Entries expire after 30 days."""
+import json
+import sqlite3
+from datetime import datetime, timedelta, timezone
+
+CACHE_TTL = timedelta(days=30)
+
+
+class ClimateCache:
+    def __init__(self, path: str):
+        self.db = sqlite3.connect(path, check_same_thread=False)
+        self.db.execute(
+            "CREATE TABLE IF NOT EXISTS power_cache ("
+            "key TEXT PRIMARY KEY, retrieved_utc TEXT NOT NULL, api_version TEXT NOT NULL, body TEXT NOT NULL)"
+        )
+
+    @staticmethod
+    def key(query: dict[str, str]) -> str:
+        return "|".join(query[k] for k in ("latitude", "longitude", "parameters", "community", "start", "end"))
+
+    def get(self, key: str) -> tuple[dict, datetime] | None:
+        row = self.db.execute("SELECT retrieved_utc, body FROM power_cache WHERE key = ?", (key,)).fetchone()
+        if row is None:
+            return None
+        retrieved = datetime.fromisoformat(row[0])
+        if datetime.now(timezone.utc) - retrieved > CACHE_TTL:
+            return None
+        return json.loads(row[1]), retrieved
+
+    def put(self, key: str, raw: dict, retrieved: datetime) -> None:
+        self.db.execute(
+            "INSERT OR REPLACE INTO power_cache VALUES (?, ?, ?, ?)",
+            (key, retrieved.isoformat(), raw["header"]["api"]["version"], json.dumps(raw)),
+        )
+        self.db.commit()
+~~~
+
+~~~python
+# backend/app/services/validation.py
+"""Turn a raw POWER response into a checked daily record (section 6, step 4)."""
+from dataclasses import dataclass
+from datetime import date, timedelta
+
+PLAUSIBLE_MAX_MM_PER_DAY = 300.0  # team choice: higher values are flagged, not removed
+
+
+class UnusableRecord(Exception):
+    """The response cannot be used. The UI shows the no-data state."""
+
+
+@dataclass(frozen=True)
+class DailyRecord:
+    values: dict[date, float | None]  # None means missing, never zero
+    valid_days: int
+    missing_days: int
+    flags: list[str]
+    api_version: str
+    time_standard: str
+    cell_elevation_m: float
+
+
+def parse_power_response(raw: dict, start: date, end: date) -> DailyRecord:
+    try:
+        series = raw["properties"]["parameter"]["PRECTOTCORR"]
+        units = raw["parameters"]["PRECTOTCORR"]["units"]
+        fill_value = float(raw["header"]["fill_value"])
+        api_version = raw["header"]["api"]["version"]
+        time_standard = raw["header"]["time_standard"]
+        cell_elevation_m = float(raw["geometry"]["coordinates"][2])
+    except (KeyError, IndexError, TypeError, ValueError) as exc:
+        raise UnusableRecord(f"unexpected response structure ({exc!r})") from exc
+    if units != "mm/day":
+        raise UnusableRecord(f"expected mm/day, got {units!r}")
+
+    values: dict[date, float | None] = {}
+    flags: list[str] = []
+    day = start
+    while day <= end:
+        value = series.get(day.strftime("%Y%m%d"))
+        if value is None or value == fill_value:
+            values[day] = None
+        elif value < 0:
+            values[day] = None
+            flags.append(f"{day}: negative value {value} treated as missing")
+        else:
+            if value > PLAUSIBLE_MAX_MM_PER_DAY:
+                flags.append(f"{day}: {value} mm/day is above the plausible-range check; kept")
+            values[day] = float(value)
+        day += timedelta(days=1)
+
+    valid_days = sum(v is not None for v in values.values())
+    if valid_days == 0:
+        raise UnusableRecord("no valid days in the requested period")
+    return DailyRecord(
+        values, valid_days, len(values) - valid_days, flags, api_version, time_standard, cell_elevation_m
+    )
+~~~
+
+~~~python
+# backend/app/services/indicators.py
+"""Season totals and indicators I1-I6 (section 17). Plain Python, no data libraries."""
+import math
+import statistics
+from dataclasses import dataclass
+from datetime import date, timedelta
+
+from app.services.validation import DailyRecord
+
+BASELINE_YEARS = range(1991, 2021)  # seasons 1991/92 to 2020/21
+MIN_SEASON_COVERAGE = 0.95
+MIN_BASELINE_SEASONS = 24
+RECENT_SEASON_COUNT = 5
+MIN_RECENT_SEASONS = 4
+
+
+def season_label(start_year: int) -> str:
+    return f"{start_year}/{(start_year + 1) % 100:02d}"
+
+
+@dataclass(frozen=True)
+class SeasonTotal:  # I1
+    start_year: int
+    label: str
+    days: int
+    valid_days: int
+    total_mm: float | None  # None: under 95% coverage, so the season is unavailable
+
+
+def seasonal_totals(record: DailyRecord, first_year: int, last_year: int) -> list[SeasonTotal]:
+    seasons = []
+    for year in range(first_year, last_year + 1):
+        start, end = date(year, 10, 1), date(year + 1, 5, 31)
+        days = (end - start).days + 1  # 243, or 244 when February has 29 days
+        daily = (record.values.get(start + timedelta(days=i)) for i in range(days))
+        valid = [v for v in daily if v is not None]
+        enough = len(valid) >= math.ceil(MIN_SEASON_COVERAGE * days)
+        seasons.append(SeasonTotal(year, season_label(year), days, len(valid), sum(valid) if enough else None))
+    return seasons
+
+
+@dataclass(frozen=True)
+class Indicators:
+    baseline_totals_mm: list[float]  # valid baseline seasons; used by I5 and R4
+    baseline_mean_mm: float | None  # I2
+    baseline_sd_mm: float | None
+    baseline_cv_pct: float | None  # I4
+    anomalies_pct: dict[str, float | None]  # I3, one per recent season
+    recent_shift_pct: float | None  # I6, context only
+
+
+def compute_indicators(seasons: list[SeasonTotal], candidate_year: int) -> Indicators:
+    by_year = {s.start_year: s for s in seasons}
+    baseline = [by_year[y].total_mm for y in BASELINE_YEARS if by_year[y].total_mm is not None]
+    recent_years = range(candidate_year - RECENT_SEASON_COUNT, candidate_year)
+    mean = statistics.fmean(baseline) if len(baseline) >= MIN_BASELINE_SEASONS else None
+    if not mean:  # too few valid seasons (or no rain at all): baseline unavailable
+        return Indicators(baseline, None, None, None, {season_label(y): None for y in recent_years}, None)
+
+    sd = statistics.stdev(baseline)  # sample standard deviation, n - 1
+    anomalies: dict[str, float | None] = {}
+    recent: list[float] = []
+    for year in recent_years:
+        total = by_year[year].total_mm
+        anomalies[season_label(year)] = None if total is None else (total - mean) / mean * 100
+        if total is not None:
+            recent.append(total)
+    shift = (statistics.fmean(recent) - mean) / mean * 100 if len(recent) >= MIN_RECENT_SEASONS else None
+    return Indicators(baseline, mean, sd, sd / mean * 100, anomalies, shift)
+
+
+def seasons_meeting(indicators: Indicators, threshold_mm: float) -> tuple[int, int]:
+    """I5: (n, N), the number of valid baseline seasons with a total >= threshold. Needs I2."""
+    totals = indicators.baseline_totals_mm
+    return sum(t >= threshold_mm for t in totals), len(totals)
+~~~
+
+~~~python
+# backend/app/services/site_check.py
+"""Does the grid cell represent the field? (section 16.1)"""
+import statistics
+from dataclasses import dataclass
+from typing import Literal
+
+from app.services.indicators import SeasonTotal
+
+REPRESENTATIVE_RATIO = (0.80, 1.25)  # team choice, shown on the evidence screen
+
+
+@dataclass(frozen=True)
+class StationReference:
+    name: str
+    source: str
+    mean_oct_may_mm: float
+    first_year: int  # first season's start year: 2007 means 2007/08
+    last_year: int
+
+
+@dataclass(frozen=True)
+class SiteCheck:
+    result: Literal["representative", "not_representative", "not_checked"]
+    reason: str
+    cell_mean_mm: float | None = None
+    station_mean_mm: float | None = None
+    ratio: float | None = None
+
+
+def run_site_check(seasons: list[SeasonTotal], station: StationReference | None) -> SiteCheck:
+    if station is None:
+        return SiteCheck("not_checked", "absolute rainfall not checked against a local record")
+    window = [s for s in seasons if station.first_year <= s.start_year <= station.last_year]
+    expected = station.last_year - station.first_year + 1
+    if len(window) != expected or any(s.total_mm is None for s in window):
+        return SiteCheck("not_checked", "the grid record does not fully cover the station period")
+    cell = statistics.fmean(s.total_mm for s in window)
+    ratio = cell / station.mean_oct_may_mm
+    low, high = REPRESENTATIVE_RATIO
+    if low <= ratio <= high:
+        return SiteCheck("representative", "grid cell matches the station record", cell, station.mean_oct_may_mm, ratio)
+    reason = f"the grid cell has {ratio:.0%} of the rainfall recorded at {station.name} station"
+    return SiteCheck("not_representative", reason, cell, station.mean_oct_may_mm, ratio)
+~~~
+
+~~~python
+# backend/app/domain/rules.py
+"""Excerpt: climate rules R4-R6 (section 18). Rotation rules R1-R3 live in the same file."""
+from dataclasses import dataclass
+
+from app.services.indicators import Indicators, seasons_meeting
+from app.services.site_check import SiteCheck
+
+
+@dataclass(frozen=True)
+class CriterionResult:
+    criterion: str  # "rotation_soil", "water_fit" or "risk"
+    label: str  # "favorable", "mixed", "concern" or "insufficient_evidence"
+    rule: str
+    reason: str
+    rule_state: str = "draft-unreviewed"  # read from data/agronomy/rules.json in the full app
+
+
+def water_fit(
+    lower_need_mm: float | None, irrigation: str, site: SiteCheck, ind: Indicators
+) -> CriterionResult:
+    """R4 when every condition holds; otherwise R5 with every reason that applies."""
+    blockers = []
+    if site.result != "representative":
+        blockers.append(site.reason)
+    if irrigation != "rain-fed":
+        blockers.append(f"irrigation is {irrigation}; the MVP measures rainfall only")
+    if lower_need_mm is None:
+        blockers.append("no confirmed water figure for this crop")
+    if ind.baseline_mean_mm is None:
+        blockers.append("baseline unavailable")
+    if blockers:
+        return CriterionResult("water_fit", "insufficient_evidence", "R5", "; ".join(blockers))
+
+    n, total = seasons_meeting(ind, lower_need_mm)
+    share = n / total
+    label = "favorable" if share >= 0.80 else "mixed" if share >= 0.50 else "concern"
+    return CriterionResult("water_fit", label, "R4", f"{n} of {total} baseline seasons reached {lower_need_mm:g} mm")
+
+
+def rainfall_risk(ind: Indicators) -> CriterionResult:
+    """R6: the same label for every plan at one location."""
+    cv = ind.baseline_cv_pct
+    if cv is None:
+        return CriterionResult("risk", "insufficient_evidence", "R6", "baseline unavailable")
+    label = "favorable" if cv < 20 else "mixed" if cv <= 35 else "concern"
+    return CriterionResult("risk", label, "R6", f"seasonal rainfall varies by {cv:.1f}% (CV, 1991/92-2020/21)")
+~~~
+
+~~~python
+# backend/app/services/climate_context.py
+"""From request to climate evidence: the NASA data part of one analysis (section 6, steps 3-5)."""
+import json
+from dataclasses import dataclass
+from datetime import date, datetime, timezone
+from pathlib import Path
+
+import httpx
+
+from app.services.climate_cache import ClimateCache
+from app.services.climate_provider import fetch_power_daily, power_query
+from app.services.indicators import BASELINE_YEARS, Indicators, SeasonTotal, compute_indicators, seasonal_totals
+from app.services.site_check import SiteCheck, StationReference, run_site_check
+from app.services.validation import DailyRecord, parse_power_response
+
+DATA_DIR = Path(__file__).resolve().parents[3] / "data" / "demo"
+SAMPLE_RECORD = DATA_DIR / "power_pilot_19911001_20260531.json"  # {"retrieved_utc": ..., "response": <POWER JSON>}
+STATION_FILE = DATA_DIR / "site_check.json"
+
+
+@dataclass(frozen=True)
+class ClimateContext:
+    mode: str
+    retrieved_utc: datetime
+    period: tuple[date, date]
+    record: DailyRecord
+    seasons: list[SeasonTotal]
+    indicators: Indicators
+    site: SiteCheck
+
+
+def load_station() -> StationReference | None:
+    if not STATION_FILE.exists():
+        return None
+    return StationReference(**json.loads(STATION_FILE.read_text(encoding="utf-8")))
+
+
+async def build_climate_context(
+    mode: str, lat: float, lon: float, candidate_year: int, client: httpx.AsyncClient, cache: ClimateCache
+) -> ClimateContext:
+    start, end = date(BASELINE_YEARS.start, 10, 1), date(candidate_year, 5, 31)
+    fresh = False
+    if mode == "sample":
+        saved = json.loads(SAMPLE_RECORD.read_text(encoding="utf-8"))
+        raw, retrieved = saved["response"], datetime.fromisoformat(saved["retrieved_utc"])
+    else:
+        key = ClimateCache.key(power_query(lat, lon, start, end))
+        cached = cache.get(key)
+        if cached:
+            raw, retrieved = cached
+        else:
+            raw, retrieved, fresh = await fetch_power_daily(client, lat, lon, start, end), datetime.now(timezone.utc), True
+
+    record = parse_power_response(raw, start, end)  # raises UnusableRecord
+    if fresh:
+        cache.put(key, raw, retrieved)  # only responses that passed validation are cached
+    seasons = seasonal_totals(record, BASELINE_YEARS.start, candidate_year - 1)
+    return ClimateContext(
+        mode, retrieved, (start, end), record, seasons,
+        compute_indicators(seasons, candidate_year), run_site_check(seasons, load_station()),
+    )
+~~~
+
+~~~python
+# backend/app/api/analyses.py
+"""Excerpt: the climate path of POST /api/v1/analyses. Only the request fields this path reads are modelled here."""
+import secrets
+from dataclasses import asdict
+from typing import Literal
+
+from fastapi import APIRouter, Request
+from pydantic import BaseModel, model_validator
+
+from app.domain.rules import rainfall_risk, water_fit
+from app.services.climate_context import ClimateContext, build_climate_context
+
+router = APIRouter()
+
+# Lower indicative water need per candidate crop (section 18). The full app reads data/agronomy/crops.json.
+LOWER_WATER_NEED_MM = {"wheat": 450.0, "lentil": None, "vetch": None}
+
+
+class FieldIn(BaseModel):
+    lat: float
+    lon: float
+    irrigation: Literal["rain-fed", "irrigated", "mixed", "unknown"]
+
+    @model_validator(mode="after")
+    def in_pilot_area(self) -> "FieldIn":
+        if (self.lat, self.lon) != (31.5, 35.1):
+            raise ValueError("This version supports only the Hebron pilot area (31.5 N, 35.1 E).")
+        return self
+
+
+class AnalysisRequest(BaseModel):
+    mode: Literal["live", "sample"]
+    field: FieldIn
+    candidate_season: Literal["2026/27"]
+
+
+def round1(x: float | None) -> float | None:
+    return None if x is None else round(x, 1)  # round only for output, never before calculating
+
+
+def climate_evidence(ctx: ClimateContext) -> dict:
+    ind, site = ctx.indicators, ctx.site
+    return {
+        "provider": "NASA POWER", "parameter": "PRECTOTCORR", "community": "AG", "units": "mm/day",
+        "api_version": ctx.record.api_version, "time_standard": ctx.record.time_standard,
+        "period": [d.isoformat() for d in ctx.period], "retrieved_utc": ctx.retrieved_utc.isoformat(),
+        "valid_days": ctx.record.valid_days, "missing_days": ctx.record.missing_days,
+        "quality_flags": ctx.record.flags, "cell_elevation_m": ctx.record.cell_elevation_m,
+        "seasons": [
+            {"season": s.label, "total_mm": round1(s.total_mm), "valid_days": s.valid_days, "days": s.days}
+            for s in ctx.seasons
+        ],
+        "indicators": {
+            "baseline_mean_mm": round1(ind.baseline_mean_mm),
+            "baseline_cv_pct": round1(ind.baseline_cv_pct),
+            "anomalies_pct": {k: round1(v) for k, v in ind.anomalies_pct.items()},
+            "recent_shift_pct": round1(ind.recent_shift_pct),
+        },
+        "site_check": {
+            "result": site.result, "reason": site.reason,
+            "cell_mm": round1(site.cell_mean_mm), "station_mm": site.station_mean_mm,
+            "ratio": None if site.ratio is None else round(site.ratio, 2),
+        },
+    }
+
+
+@router.post("/analyses")
+async def create_analysis(body: AnalysisRequest, request: Request) -> dict:
+    ctx = await build_climate_context(
+        body.mode, body.field.lat, body.field.lon, int(body.candidate_season[:4]),
+        request.app.state.http, request.app.state.cache,
+    )
+    risk = rainfall_risk(ctx.indicators)  # R6 is the same for every plan
+    plans = []
+    # Plan order follows the demo case; in the full app the Candidate Plan Builder (section 5) decides it.
+    for plan_id, crop in zip("ABC", LOWER_WATER_NEED_MM):
+        water = water_fit(LOWER_WATER_NEED_MM[crop], body.field.irrigation, ctx.site, ctx.indicators)
+        # The full engine adds the rotation/soil criterion (R1-R3) and the explanation text here.
+        plans.append({"id": plan_id, "crop": crop, "criteria": [asdict(water), asdict(risk)]})
+    insufficient = any(c["label"] == "insufficient_evidence" for p in plans for c in p["criteria"])
+    return {
+        "analysis_id": secrets.token_hex(4),
+        "status": "partial" if insufficient else "complete",
+        "mode": body.mode,
+        "data": climate_evidence(ctx),
+        "plans": plans,
+    }
+~~~
+
+~~~python
+# backend/app/main.py
+"""FastAPI app: startup cache warm-up and the error shapes from section 10."""
+import logging
+from contextlib import asynccontextmanager
+
+import httpx
+from fastapi import FastAPI, Request
+from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+
+from app.api.analyses import router as analyses_router
+from app.services.climate_cache import ClimateCache
+from app.services.climate_context import build_climate_context
+from app.services.climate_provider import ProviderError
+from app.services.validation import UnusableRecord
+
+log = logging.getLogger("field_shift")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    app.state.http = httpx.AsyncClient()
+    app.state.cache = ClimateCache("field_shift.db")  # created in the working directory
+    try:  # warm the pilot cache, so the demo does not depend on a live call
+        await build_climate_context("live", 31.5, 35.1, 2026, app.state.http, app.state.cache)
+    except (ProviderError, UnusableRecord) as exc:
+        log.warning("Pilot cache warm-up failed; live requests will try again: %s", exc)
+    yield
+    await app.state.http.aclose()
+
+
+app = FastAPI(title="Field Shift API", version="1.0.0", lifespan=lifespan)
+app.include_router(analyses_router, prefix="/api/v1")
+
+
+@app.get("/api/v1/health")
+async def health() -> dict:
+    return {"status": "ok"}
+
+
+@app.exception_handler(RequestValidationError)
+async def invalid_input(request: Request, exc: RequestValidationError) -> JSONResponse:
+    fields = jsonable_encoder(exc.errors())
+    return JSONResponse(status_code=422, content={"error": {"code": "invalid_input", "fields": fields}})
+
+
+@app.exception_handler(ProviderError)
+async def provider_error(request: Request, exc: ProviderError) -> JSONResponse:
+    error = {"code": "provider_error", "message": str(exc), "sample_available": True}
+    return JSONResponse(status_code=502, content={"error": error})
+
+
+@app.exception_handler(UnusableRecord)
+async def no_data(request: Request, exc: UnusableRecord) -> JSONResponse:
+    error = {"code": "no_data", "message": str(exc), "sample_available": True}
+    return JSONResponse(status_code=502, content={"error": error})
+~~~
+
+The two data files the code reads:
+
+- `data/demo/power_pilot_19911001_20260531.json` holds the live response saved at build time, as `{"retrieved_utc": "<ISO time>", "response": <POWER JSON>}`.
+- `data/demo/site_check.json` holds the station reference:
+
+~~~json
+{
+  "name": "Hebron",
+  "source": "Palestinian Meteorological Department, monthly means 2007-2018, as reproduced on Wikipedia 'Hebron'; primary source to obtain (decision 11)",
+  "mean_oct_may_mm": 470.8,
+  "first_year": 2007,
+  "last_year": 2017
+}
+~~~
+
+### 23.5 Tests
+
+These tests run offline from the saved pilot record and reproduce sections 16.1 and 17. `backend/pytest.ini` contains `[pytest]` and `pythonpath = .`, so `app` can be imported.
+
+~~~python
+# backend/tests/test_indicators.py
+import json
+from datetime import date
+from pathlib import Path
+
+import pytest
+
+from app.domain.rules import rainfall_risk, water_fit
+from app.services.indicators import compute_indicators, seasonal_totals, seasons_meeting
+from app.services.site_check import StationReference, run_site_check
+from app.services.validation import parse_power_response
+
+DEMO = Path(__file__).resolve().parents[2] / "data" / "demo"
+
+
+@pytest.fixture(scope="module")
+def seasons():
+    raw = json.loads((DEMO / "power_pilot_19911001_20260531.json").read_text(encoding="utf-8"))["response"]
+    record = parse_power_response(raw, date(1991, 10, 1), date(2026, 5, 31))
+    assert (record.valid_days, record.missing_days) == (12662, 0)
+    return seasonal_totals(record, 1991, 2025)
+
+
+@pytest.fixture(scope="module")
+def site(seasons):
+    station = StationReference(**json.loads((DEMO / "site_check.json").read_text(encoding="utf-8")))
+    return run_site_check(seasons, station)
+
+
+def test_pilot_indicators(seasons):
+    ind = compute_indicators(seasons, candidate_year=2026)
+    assert ind.baseline_mean_mm == pytest.approx(225.2, abs=0.05)
+    assert ind.baseline_sd_mm == pytest.approx(77.8, abs=0.05)
+    assert ind.baseline_cv_pct == pytest.approx(34.5, abs=0.05)
+    assert seasons_meeting(ind, 450) == (1, 30)
+    expected = {"2021/22": 80.8, "2022/23": 46.9, "2023/24": 55.2, "2024/25": -36.6, "2025/26": 45.6}
+    assert ind.anomalies_pct == pytest.approx(expected, abs=0.05)
+    assert ind.recent_shift_pct == pytest.approx(38.4, abs=0.05)
+
+
+def test_pilot_site_check(site):
+    assert site.result == "not_representative"
+    assert site.cell_mean_mm == pytest.approx(229.4, abs=0.05)
+    assert site.ratio == pytest.approx(0.49, abs=0.005)
+
+
+def test_pilot_climate_labels(seasons, site):
+    ind = compute_indicators(seasons, candidate_year=2026)
+    assert water_fit(450.0, "rain-fed", site, ind).label == "insufficient_evidence"
+    assert water_fit(None, "rain-fed", site, ind).reason.endswith("no confirmed water figure for this crop")
+    assert rainfall_risk(ind).label == "mixed"
+~~~
+
+### 23.6 Running it locally
+
+From the `backend` folder:
+
+~~~text
+python -m venv .venv
+.venv\Scripts\activate          (Windows; on macOS or Linux: source .venv/bin/activate)
+pip install -r requirements.txt
+pytest
+uvicorn app.main:app --reload
+~~~
+
+FastAPI then serves interactive API docs at `http://127.0.0.1:8000/docs`. A POST to `/api/v1/analyses` with the section 10 request returns the climate evidence and each plan's water-fit and risk labels.
+
+### 23.7 Rules for changing this code
+
+- Never turn a missing value into zero. `None` flows through every step and becomes "unavailable" or "insufficient evidence".
+- Round only when building the response, never before a calculation or a comparison with a cut-off.
+- Keep the analysis functions (`validation`, `indicators`, `site_check`, `rules`) free of network and file access, so tests run offline.
+- Cache a POWER response only after it passes validation.
+- A new NASA dataset, such as GPM IMERG (decision 10b), gets its own adapter that produces the same `SeasonTotal` list. Indicators, the site check and the rules then work unchanged. If its absolute values feed a rule, it must pass its own site check first.
