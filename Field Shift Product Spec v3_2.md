@@ -23,6 +23,8 @@ Version 3.2 | 14 November 2026 | NASA Space Apps Challenge 2026 — "Field Shift
 - Added these specifications: input validation (6.3), label meanings (7), a recent-shift indicator (17), a concrete sample history and expected results (18), and an API example (10).
 - Added three new sections: challenge coverage (20), submission checklist (21), and glossary (22).
 - Added section 23: how the app analyses NASA POWER data and where each result is used. It includes Python + FastAPI reference code that was run against the live pilot record and reproduces the section 16.1 and 17 values. The backend stack is now decided (decision 12), and the cache stores only validated responses.
+- Added zero-tolerance data-reading integrity (section 16.2, acceptance criterion 17), carried over from the v3.1 edits. NASA's response must match the request exactly, values are kept exactly as received, and any mismatch fails as a data error. The "no data" state is now "data error". The code and tests in section 23 enforce every check.
+- Corrected the `PRECTOTCORR` sources in section 16. Requested alone, it reports `["MERRA2"]`; the earlier `["MERRA2", "POWER"]` came from a request that also included temperature.
 - Replaced the NASA POWER acknowledgement with the current official wording.
 
 ## 1. Vision
@@ -84,7 +86,7 @@ A user can:
 - Recent crop history, with an explicit unknown option.
 - One verified source for historical rainfall: NASA POWER `PRECTOTCORR` (section 16).
 - A site check that compares the NASA POWER cell with a local station record (section 16.1).
-- Data validation, units, source, version and date range, all shown to users.
+- Data validation with zero tolerance for mismatches (section 16.2). Units, source, version and date range are shown to users.
 - A small crop and rotation rule set with citations. Every rule is labelled draft until an agricultural domain reviewer approves it.
 - At least three plans: current practice plus two alternatives.
 - Hard constraints are checked before plans are compared.
@@ -179,7 +181,8 @@ flowchart LR
 
 **Validation, units, provenance, site check:**
 
-- Checks response structure, units, the fill value, date coverage, and plausible ranges.
+- Checks the response against the request with zero tolerance (section 16.2): structure, parameter, units, time standard, period, every date, location, values and source metadata. Any mismatch fails the response.
+- Converts NASA's fill value to an explicit missing status, and flags implausible values without changing them.
 - Records provenance (section 16).
 - Runs the site check (section 16.1).
 
@@ -222,7 +225,7 @@ A plan can be displayed as `wheat → lentil`. The left crop is the immediately 
 3. The orchestrator asks the adapter for climate data.
    - Sample mode uses the labelled sample record.
    - Live mode uses the cache if a matching entry exists, and otherwise calls NASA POWER.
-4. Validation converts fill values to missing, checks units and coverage, attaches provenance and quality flags, and runs the site check.
+4. Validation checks the response against the request with zero tolerance (section 16.2); any mismatch fails it as a data error. It then converts fill values to missing, attaches provenance and quality flags, and runs the site check.
 5. The indicator service calculates the section 17 indicators.
 6. The plan builder creates Plans A–C, plus Plan D in sample mode.
 7. The evaluation engine applies H1–H3, then R1–R6, and links evidence to each label.
@@ -278,9 +281,9 @@ flowchart TD
   R -->|"Yes"| P["Provider-error state: offer Retry or Use sample data"]
   P -->|"Retry"| F
   P -->|"Use sample data"| S
-  S --> V["Validate: structure, units, fill value to missing, coverage, plausible range"]
-  V --> W{"Usable record?"}
-  W -->|"No"| N["No-data state: explain why; offer sample data"]
+  S --> V["Validate with zero tolerance (16.2); fill value to missing"]
+  V --> W{"Exact match, and at least one valid day?"}
+  W -->|"No"| N["Data-error state: show the exact mismatch; offer sample data"]
   N -->|"Use sample data"| S
   W -->|"Yes"| H{"Fresh from NASA POWER?"}
   H -->|"Yes"| H1["Save validated response to cache"]
@@ -319,9 +322,9 @@ stateDiagram-v2
   Fetching --> ProviderError : HTTP 422 or second failure
   ProviderError --> Fetching : user retries
   ProviderError --> Validating : user chooses sample data
-  Validating --> NoData : record unusable
-  NoData --> Validating : user chooses sample data
-  Validating --> Evaluating : record usable
+  Validating --> DataError : integrity mismatch or no valid days
+  DataError --> Validating : user chooses sample data
+  Validating --> Evaluating : every check passed
   Evaluating --> Complete : every criterion assessed
   Evaluating --> Partial : at least one criterion has insufficient evidence
   Complete --> Draft : user changes an input (new analysis ID)
@@ -337,7 +340,7 @@ stateDiagram-v2
 | Offline | offline | "You are offline." Saved reports can still be opened, with their age shown |
 | Fetching, Retrying, Validating, Evaluating | loading | Progress stages, source and period; a "Use sample data" link is always available |
 | ProviderError | provider error | What failed, with Retry and Use sample data |
-| NoData | no data | Why the record is unusable, with Use sample data |
+| DataError | data error | The exact mismatch, such as "requested 19911001 to 20260531, response header says 19911001 to 20260530", or "no valid days". Offers Use sample data |
 | Complete | success | Comparison |
 | Partial | partial data | Comparison with a notice listing what could not be assessed and why |
 
@@ -502,7 +505,7 @@ Do not show an overall confidence score.
 
 ### Required UI states
 
-Implement idle, loading, success, partial data, no data, invalid input, provider error, and offline. Section 6.2 maps each one to an analysis state. Keep entered form data through retries and navigation.
+Implement idle, loading, success, partial data, data error, invalid input, provider error, and offline. Section 6.2 maps each one to an analysis state. Keep entered form data through retries and navigation.
 
 ## 9. Performance, reliability, privacy
 
@@ -595,7 +598,8 @@ field-shift/
 |---|---|---|
 | 200 | `status` = `complete` or `partial` | The analysis ran |
 | 422 | `error.code` = `invalid_input`, with per-field messages | Inputs failed section 6.3 |
-| 502 | `error.code` = `provider_error` or `no_data`, with `sample_available: true` | Climate data could not be obtained or used |
+| 502 | `error.code` = `provider_error`, with `sample_available: true` | NASA POWER could not be reached, or refused the request |
+| 502 | `error.code` = `data_integrity` or `no_data`, with `sample_available: true` | The response did not match the request exactly (section 16.2), or had no valid days |
 
 Request example. This is the demo case in live mode; `extra_candidates` is used only by the sample case.
 
@@ -631,7 +635,7 @@ Response example, shortened to one plan:
   "versions": { "rules": "0.1-draft", "engine": "1.0.0", "adapter": "1.0.0", "power_api": "v2.10.3" },
   "data": {
     "provider": "NASA POWER", "parameter": "PRECTOTCORR", "community": "AG", "units": "mm/day",
-    "api_version": "v2.10.3", "time_standard": "LST",
+    "api_version": "v2.10.3", "sources": ["MERRA2"], "fill_value": -999.0, "time_standard": "LST",
     "period": ["1991-10-01", "2026-05-31"], "retrieved_utc": "2026-11-14T10:00:00+00:00",
     "valid_days": 12662, "missing_days": 0, "quality_flags": [], "cell_elevation_m": 342.96,
     "seasons": [
@@ -692,6 +696,7 @@ The MVP is ready to demonstrate when all of these hold:
 14. The NASA POWER acknowledgement and data reference appear on the evidence screen and in the printed report.
 15. The automated tests reproduce the pilot values in section 17 and the expected results in section 18.
 16. The team can state which parts are implemented, simulated or planned (section 19).
+17. NASA response data passes exact integrity checks for the requested period, every date, parameter, location, values, units and source metadata (section 16.2). Any mismatch fails validation and is shown as a data error; it is never accepted under a percentage tolerance. The tests in section 23.5 prove each check.
 
 Before any real-world recommendation:
 
@@ -776,7 +781,7 @@ Additional data sources, advanced AI, pest reporting, predictive models and nati
 | API | POWER Daily API, version `v2.10.3` (from `header.api.version`) | Verified |
 | Endpoint | `https://power.larc.nasa.gov/api/temporal/daily/point` | Verified |
 | Query parameters | `parameters=PRECTOTCORR&community=AG&latitude=31.5&longitude=35.1&start=19911001&end=20260531&format=JSON` | Verified |
-| Parameter | `PRECTOTCORR`, long name "Precipitation Corrected". The header lists its sources as `MERRA2` and `POWER`. MERRA-2 is a NASA reanalysis: a weather model constrained by many observations. It is not a direct satellite or rain-gauge measurement. The data lead records the correction method from the POWER Methodology pages. | Verified (name, sources); method to record |
+| Parameter | `PRECTOTCORR`, long name "Precipitation Corrected". When it is requested alone, `header.sources` is `["MERRA2"]`. A request that also included `T2M_MAX` and `T2M_MIN` returned `["MERRA2", "POWER"]`, so the sources list depends on the parameters requested. MERRA-2 is a NASA reanalysis: a weather model constrained by many observations. It is not a direct satellite or rain-gauge measurement. The data lead records the correction method from the POWER Methodology pages. | Verified (name, sources); method to record |
 | Units | mm/day (`parameters.PRECTOTCORR.units`) | Verified |
 | Response path | `properties.parameter.PRECTOTCORR`, a map from `YYYYMMDD` to value | Verified |
 | Fill value | `header.fill_value` = `-999.0`. Read it from each response; treat it as missing, never as rain | Verified |
@@ -838,6 +843,29 @@ Without this check, R4 would label wheat a "concern" at Hebron, because only 1 o
 
 Relative indicators are still shown as regional context, with a caveat. These are the anomalies, the variability (CV) and the recent shift. R6 still runs. Drier cells tend to show higher variability, so the cell's CV may overstate variability at the field. The agronomy and data owners confirm this treatment.
 
+### 16.2 Data-reading integrity (zero tolerance)
+
+What NASA returns must match what was requested, exactly. Any mismatch fails the whole response. It is never repaired, rounded, or accepted under a percentage tolerance. The UI shows it as a data error naming the exact mismatch, and offers sample data.
+
+| Check | Must hold exactly | Pilot response, 14 Nov 2026 |
+|---|---|---|
+| Structure | `header`, `properties.parameter`, `parameters` and `geometry.coordinates` (longitude, latitude, elevation) are all present | Present |
+| Parameter name | Only `PRECTOTCORR`, in both `properties.parameter` and `parameters` | `PRECTOTCORR` |
+| Units | `mm/day` | `mm/day` |
+| Time standard | `LST` | `LST` |
+| Requested period | `header.start` and `header.end` equal the requested start and end dates | `19911001`, `20260531` |
+| Dates | One value for every requested date: none missing, none extra | 12,662 of 12,662 |
+| Location | Longitude and latitude in `geometry.coordinates` equal the requested point | 35.1, 31.5 |
+| Values | Every value is a finite number. No value is negative, except the fill value | All 12,662 pass |
+| Source metadata | `header.fill_value`, `header.api.version` and `header.sources` are present, and stored exactly as received | −999.0; v2.10.3; `["MERRA2"]` |
+
+- Values are stored exactly as received: never rounded, converted or smoothed. A value above 300 mm/day gets a review flag but is kept unchanged.
+- NASA's declared fill value (−999.0) becomes an explicit "missing" status. It never enters a calculation as a number.
+- The 95% season-coverage rule (section 17) counts only days that NASA itself marked with the fill value. It is not a tolerance for mismatches; a response with any mismatch never reaches that step.
+- Rounding is allowed only on calculated results, for display, after validation. The tests compare values read from NASA exactly, and calculated results to one decimal place (section 23.5).
+- The same checks run on the live response, on a cached copy, and on the saved sample record.
+- If NASA changes its units, time standard or response format, the data lead reviews the change and updates this section and the code together. A check is never loosened to let data through.
+
 ## 17. Indicator definitions
 
 **Season:** 1 October of year Y to 31 May of year Y+1, labelled Y/Y+1. That is 243 days, or 244 when February has 29 days. This is the team's working definition of the rain-fed winter season; the agronomy owner confirms it.
@@ -857,7 +885,7 @@ Relative indicators are still shown as regional context, with a caveat. These ar
 
 **Rules for all indicators:**
 
-- Missing days are excluded from sums and counted separately.
+- Missing days are excluded from sums and counted separately. "Missing" means only days NASA marked with its fill value (section 16.2).
 - The valid-day count is shown beside every total.
 - Every value is labelled "historical", never "expected" or "forecast".
 - I6 is labelled "five seasons are too few to establish a trend".
@@ -1104,6 +1132,8 @@ Based on the Space Apps 2026 Project Submission Guide and Judging & Awards Guide
 | Rain-fed | Grown without irrigation, relying on rainfall |
 | Legume | A plant such as lentil or vetch that hosts bacteria which fix nitrogen from the air into the soil |
 | Cereal run | Consecutive seasons of cereal crops such as wheat or barley on the same field |
+| Fill value | The number NASA POWER uses to mean "no data" (−999.0). The app turns it into "missing", never into rain |
+| Integrity check | A check that NASA's response matches the request exactly. Any mismatch stops the analysis (section 16.2) |
 | Hard constraint | A rule that rejects a plan outright, such as an unsupported crop |
 | Insufficient evidence | The app could not assess a criterion. This is not a negative result |
 | Draft-unreviewed | A rule written by the team that no agricultural specialist has checked yet |
@@ -1159,7 +1189,7 @@ flowchart LR
 |---|---|---|---|---|
 | 1. Build the request | `services/climate_provider.py` | Rounded location and candidate season | A POWER query from 1 Oct 1991 to 31 May of the candidate year | 31.5 N, 35.1 E; 1991-10-01 to 2026-05-31 |
 | 2. Fetch or reuse | `services/climate_cache.py`, `services/climate_provider.py` | The query | Raw POWER JSON (about 195 KB) | Cache hit after the warm-up at startup |
-| 3. Validate | `services/validation.py` | Raw JSON | A daily record: each date maps to mm or "missing" | 12,662 valid days, 0 missing |
+| 3. Validate | `services/validation.py` | Raw JSON | After the zero-tolerance checks in 16.2, a daily record: each date maps to the exact value returned, or "missing" | Every check passes; 12,662 valid days, 0 missing |
 | 4. Season totals (I1) | `services/indicators.py` | The daily record | One total per season, with its valid-day count | 2019/20: 244 of 244 days valid, 491.0 mm |
 | 5. Indicators (I2–I6) | `services/indicators.py` | Season totals | Baseline mean, SD and CV; recent anomalies; recent shift | Mean 225.2 mm, CV 34.5%, shift +38.4% |
 | 6. Site check | `services/site_check.py` | Season totals and the station reference | Representative, not representative, or not checked | 229.4 ÷ 470.8 = 0.49: not representative |
@@ -1175,7 +1205,8 @@ flowchart LR
 | Baseline mean and CV (I2, I4) | R6 | The Risk label on every plan, plus the evidence screen |
 | Recent anomalies and recent shift (I3, I6) | No rule; context only | Evidence screen, "Recent seasons" |
 | Site check | Allows or blocks R4 | Data summary on the comparison screen, the evidence screen, and the report |
-| Provenance: API version, period, retrieval time, valid and missing days, time standard | Reproducibility | Evidence screen, plus the report's acknowledgement and data reference |
+| Provenance: API version, sources, fill value, period, retrieval time, valid and missing days, time standard | Reproducibility | Evidence screen, plus the report's acknowledgement and data reference |
+| Integrity failure (16.2) | Stops the analysis | Data-error screen, naming the exact mismatch |
 | Cell elevation | Context for the site check | Evidence screen: "This data cell averages 343 m above sea level" |
 | Quality flags | The partial-data notice | Comparison screen notice and evidence screen |
 
@@ -1275,62 +1306,100 @@ class ClimateCache:
 
 ~~~python
 # backend/app/services/validation.py
-"""Turn a raw POWER response into a checked daily record (section 6, step 4)."""
+"""Check a raw POWER response against the request with zero tolerance (section 16.2)."""
+import math
 from dataclasses import dataclass
 from datetime import date, timedelta
 
-PLAUSIBLE_MAX_MM_PER_DAY = 300.0  # team choice: higher values are flagged, not removed
+PARAMETER = "PRECTOTCORR"
+UNITS = "mm/day"
+TIME_STANDARD = "LST"  # daily values run from local solar midnight to midnight
+PLAUSIBLE_MAX_MM_PER_DAY = 300.0  # team choice: higher values are flagged, never changed
 
 
 class UnusableRecord(Exception):
-    """The response cannot be used. The UI shows the no-data state."""
+    """The response cannot be used. The UI shows the data-error state."""
+
+    code = "no_data"
+
+
+class DataIntegrityError(UnusableRecord):
+    """The response does not match the request exactly. No tolerance applies."""
+
+    code = "data_integrity"
 
 
 @dataclass(frozen=True)
 class DailyRecord:
-    values: dict[date, float | None]  # None means missing, never zero
+    values: dict[date, float | None]  # exactly as returned; None only where NASA sent its fill value
     valid_days: int
     missing_days: int
     flags: list[str]
-    api_version: str
+    api_version: str  # source metadata below is stored exactly as received
+    sources: list[str]
+    fill_value: float
     time_standard: str
     cell_elevation_m: float
 
 
-def parse_power_response(raw: dict, start: date, end: date) -> DailyRecord:
+def _require(ok: bool, message: str) -> None:
+    if not ok:
+        raise DataIntegrityError(message)
+
+
+def _is_number(value: object) -> bool:
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+
+
+def parse_power_response(raw: dict, lat: float, lon: float, start: date, end: date) -> DailyRecord:
     try:
-        series = raw["properties"]["parameter"]["PRECTOTCORR"]
-        units = raw["parameters"]["PRECTOTCORR"]["units"]
-        fill_value = float(raw["header"]["fill_value"])
-        api_version = raw["header"]["api"]["version"]
-        time_standard = raw["header"]["time_standard"]
-        cell_elevation_m = float(raw["geometry"]["coordinates"][2])
-    except (KeyError, IndexError, TypeError, ValueError) as exc:
-        raise UnusableRecord(f"unexpected response structure ({exc!r})") from exc
-    if units != "mm/day":
-        raise UnusableRecord(f"expected mm/day, got {units!r}")
+        header = raw["header"]
+        returned = raw["properties"]["parameter"]
+        metadata = raw["parameters"]
+        returned_lon, returned_lat, cell_elevation_m = raw["geometry"]["coordinates"]
+        fill_value, api_version, sources = header["fill_value"], header["api"]["version"], header["sources"]
+        time_standard, header_start, header_end = header["time_standard"], header["start"], header["end"]
+    except (KeyError, TypeError, ValueError) as exc:
+        raise DataIntegrityError(f"unexpected response structure ({exc!r})") from exc
+
+    days = [start + timedelta(days=i) for i in range((end - start).days + 1)]
+    keys = [d.strftime("%Y%m%d") for d in days]
+    _require(set(returned) == {PARAMETER} and set(metadata) == {PARAMETER},
+             f"expected only {PARAMETER}, got {sorted(returned)} and {sorted(metadata)}")
+    units = metadata[PARAMETER].get("units")
+    _require(units == UNITS, f"expected units {UNITS!r}, got {units!r}")
+    _require(time_standard == TIME_STANDARD, f"expected time standard {TIME_STANDARD!r}, got {time_standard!r}")
+    _require((header_start, header_end) == (keys[0], keys[-1]),
+             f"requested {keys[0]} to {keys[-1]}, response header says {header_start} to {header_end}")
+    _require((returned_lat, returned_lon) == (lat, lon),
+             f"requested {lat}, {lon}; response is for {returned_lat}, {returned_lon}")
+    _require(_is_number(fill_value) and _is_number(cell_elevation_m), "fill value or cell elevation is not a number")
+    _require(isinstance(api_version, str) and isinstance(sources, list), "API version or sources missing")
+
+    series = returned[PARAMETER]
+    missing_keys, extra_keys = sorted(set(keys) - set(series)), sorted(set(series) - set(keys))
+    _require(not missing_keys and not extra_keys,
+             f"dates differ from the request: missing {missing_keys[:3]}, extra {extra_keys[:3]}")
 
     values: dict[date, float | None] = {}
     flags: list[str] = []
-    day = start
-    while day <= end:
-        value = series.get(day.strftime("%Y%m%d"))
-        if value is None or value == fill_value:
-            values[day] = None
-        elif value < 0:
-            values[day] = None
-            flags.append(f"{day}: negative value {value} treated as missing")
-        else:
-            if value > PLAUSIBLE_MAX_MM_PER_DAY:
-                flags.append(f"{day}: {value} mm/day is above the plausible-range check; kept")
-            values[day] = float(value)
-        day += timedelta(days=1)
+    for day, key in zip(days, keys):
+        value = series[key]
+        _require(_is_number(value), f"{key}: value {value!r} is not a number")
+        if value == fill_value:
+            values[day] = None  # NASA's declared missing marker becomes an explicit missing status
+            continue
+        _require(value >= 0, f"{key}: negative precipitation {value}")
+        if value > PLAUSIBLE_MAX_MM_PER_DAY:
+            flags.append(f"{key}: {value} mm/day is above the plausible-range check; kept unchanged")
+        values[day] = value  # never rounded or converted
 
     valid_days = sum(v is not None for v in values.values())
     if valid_days == 0:
         raise UnusableRecord("no valid days in the requested period")
     return DailyRecord(
-        values, valid_days, len(values) - valid_days, flags, api_version, time_standard, cell_elevation_m
+        values, valid_days, len(values) - valid_days, flags,
+        api_version, sources, fill_value, time_standard, cell_elevation_m,
     )
 ~~~
 
@@ -1561,7 +1630,7 @@ async def build_climate_context(
         else:
             raw, retrieved, fresh = await fetch_power_daily(client, lat, lon, start, end), datetime.now(timezone.utc), True
 
-    record = parse_power_response(raw, start, end)  # raises UnusableRecord
+    record = parse_power_response(raw, lat, lon, start, end)  # raises DataIntegrityError or UnusableRecord
     if fresh:
         cache.put(key, raw, retrieved)  # only responses that passed validation are cached
     seasons = seasonal_totals(record, BASELINE_YEARS.start, candidate_year - 1)
@@ -1616,7 +1685,8 @@ def climate_evidence(ctx: ClimateContext) -> dict:
     ind, site = ctx.indicators, ctx.site
     return {
         "provider": "NASA POWER", "parameter": "PRECTOTCORR", "community": "AG", "units": "mm/day",
-        "api_version": ctx.record.api_version, "time_standard": ctx.record.time_standard,
+        "api_version": ctx.record.api_version, "sources": ctx.record.sources,
+        "fill_value": ctx.record.fill_value, "time_standard": ctx.record.time_standard,
         "period": [d.isoformat() for d in ctx.period], "retrieved_utc": ctx.retrieved_utc.isoformat(),
         "valid_days": ctx.record.valid_days, "missing_days": ctx.record.missing_days,
         "quality_flags": ctx.record.flags, "cell_elevation_m": ctx.record.cell_elevation_m,
@@ -1715,9 +1785,9 @@ async def provider_error(request: Request, exc: ProviderError) -> JSONResponse:
     return JSONResponse(status_code=502, content={"error": error})
 
 
-@app.exception_handler(UnusableRecord)
-async def no_data(request: Request, exc: UnusableRecord) -> JSONResponse:
-    error = {"code": "no_data", "message": str(exc), "sample_available": True}
+@app.exception_handler(UnusableRecord)  # also handles DataIntegrityError
+async def data_error(request: Request, exc: UnusableRecord) -> JSONResponse:
+    error = {"code": exc.code, "message": str(exc), "sample_available": True}
     return JSONResponse(status_code=502, content={"error": error})
 ~~~
 
@@ -1738,10 +1808,11 @@ The two data files the code reads:
 
 ### 23.5 Tests
 
-These tests run offline from the saved pilot record and reproduce sections 16.1 and 17. `backend/pytest.ini` contains `[pytest]` and `pythonpath = .`, so `app` can be imported.
+These tests run offline from the saved pilot record. They prove that every integrity check in section 16.2 rejects a mismatch and that values are kept exactly, and they reproduce sections 16.1 and 17. Values read from NASA are compared exactly. Calculated results are compared to one decimal place, the precision they are shown at. `backend/pytest.ini` contains `[pytest]` and `pythonpath = .`, so `app` can be imported.
 
 ~~~python
 # backend/tests/test_indicators.py
+import copy
 import json
 from datetime import date
 from pathlib import Path
@@ -1751,17 +1822,67 @@ import pytest
 from app.domain.rules import rainfall_risk, water_fit
 from app.services.indicators import compute_indicators, seasonal_totals, seasons_meeting
 from app.services.site_check import StationReference, run_site_check
-from app.services.validation import parse_power_response
+from app.services.validation import DataIntegrityError, parse_power_response
 
 DEMO = Path(__file__).resolve().parents[2] / "data" / "demo"
+LAT, LON, START, END = 31.5, 35.1, date(1991, 10, 1), date(2026, 5, 31)
+
+
+def series(raw: dict) -> dict:
+    return raw["properties"]["parameter"]["PRECTOTCORR"]
 
 
 @pytest.fixture(scope="module")
-def seasons():
-    raw = json.loads((DEMO / "power_pilot_19911001_20260531.json").read_text(encoding="utf-8"))["response"]
-    record = parse_power_response(raw, date(1991, 10, 1), date(2026, 5, 31))
-    assert (record.valid_days, record.missing_days) == (12662, 0)
+def raw():
+    return json.loads((DEMO / "power_pilot_19911001_20260531.json").read_text(encoding="utf-8"))["response"]
+
+
+@pytest.fixture(scope="module")
+def record(raw):
+    return parse_power_response(raw, LAT, LON, START, END)
+
+
+@pytest.fixture(scope="module")
+def seasons(record):
     return seasonal_totals(record, 1991, 2025)
+
+
+def test_values_kept_exactly(raw, record):
+    assert (record.valid_days, record.missing_days) == (12662, 0)
+    assert (record.api_version, record.sources, record.fill_value) == ("v2.10.3", ["MERRA2"], -999.0)
+    for key, value in series(raw).items():
+        assert record.values[date(int(key[:4]), int(key[4:6]), int(key[6:]))] == value  # exact, no tolerance
+
+
+def test_fill_value_becomes_explicit_missing(raw):
+    edited = copy.deepcopy(raw)
+    series(edited)["20000101"] = raw["header"]["fill_value"]
+    record = parse_power_response(edited, LAT, LON, START, END)
+    assert record.values[date(2000, 1, 1)] is None
+    assert record.missing_days == 1
+
+
+MISMATCHES = {
+    "date missing": lambda r: series(r).pop("20000101"),
+    "extra date": lambda r: series(r).update({"20260601": 0.0}),
+    "header end date": lambda r: r["header"].update({"end": "20260530"}),
+    "parameter renamed": lambda r: r["properties"]["parameter"].update(
+        {"PRECTOT": r["properties"]["parameter"].pop("PRECTOTCORR")}),
+    "units changed": lambda r: r["parameters"]["PRECTOTCORR"].update({"units": "mm/hour"}),
+    "time standard changed": lambda r: r["header"].update({"time_standard": "UTC"}),
+    "other location": lambda r: r["geometry"].update({"coordinates": [35.0, 31.5, 342.96]}),
+    "negative value": lambda r: series(r).update({"20000101": -0.1}),
+    "text value": lambda r: series(r).update({"20000101": "0.5"}),
+    "metadata removed": lambda r: r["header"].pop("sources"),
+}
+
+
+@pytest.mark.parametrize("mismatch", MISMATCHES)
+def test_any_mismatch_fails(raw, mismatch):
+    broken = copy.deepcopy(raw)
+    MISMATCHES[mismatch](broken)
+    with pytest.raises(DataIntegrityError):
+        parse_power_response(broken, LAT, LON, START, END)
 
 
 @pytest.fixture(scope="module")
@@ -1810,6 +1931,7 @@ FastAPI then serves interactive API docs at `http://127.0.0.1:8000/docs`. A POST
 
 ### 23.7 Rules for changing this code
 
+- Never relax an integrity check (section 16.2) into a tolerance, and never repair data NASA sent. A mismatch fails the response.
 - Never turn a missing value into zero. `None` flows through every step and becomes "unavailable" or "insufficient evidence".
 - Round only when building the response, never before a calculation or a comparison with a cut-off.
 - Keep the analysis functions (`validation`, `indicators`, `site_check`, `rules`) free of network and file access, so tests run offline.
