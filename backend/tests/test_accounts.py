@@ -110,3 +110,15 @@ def test_auth_origin_validation_and_rate_limit(client):
     for _ in range(8):
         assert client.post('/api/v2/auth/login',json=dict(email='none@example.test',password=PASSWORD)).status_code==401
     assert client.post('/api/v2/auth/login',json=dict(email='none@example.test',password=PASSWORD)).status_code==429
+
+
+def test_vercel_proxy_origin_and_secure_cookies(client,monkeypatch):
+    origin='https://field-shift-demo.vercel.app'
+    monkeypatch.setenv('FIELD_SHIFT_ALLOWED_ORIGINS',origin)
+    monkeypatch.setenv('FIELD_SHIFT_COOKIE_SECURE','1')
+    response=client.post('/api/v2/auth/register',headers={'Origin':origin},
+                         json=dict(name='Demo Farmer',email='demo@example.test',password=PASSWORD))
+    assert response.status_code==201,response.text
+    cookies=response.headers.get_list('set-cookie')
+    assert any('field_shift_session=' in value and 'Secure' in value for value in cookies)
+    assert any('field_shift_auth=' in value and 'Secure' in value for value in cookies)

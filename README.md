@@ -72,6 +72,8 @@ The tests include FAO worked examples, conservation, corrupted-source rejection,
 
 ## Deploy
 
+For a temporary free demo split between Vercel and Render, follow [the deployment guide](docs/deploy-free.md). Render Free has ephemeral storage, so account and field data will be lost when its service restarts or spins down.
+
 On a host with Docker Compose v2.24 or later:
 
 ```text

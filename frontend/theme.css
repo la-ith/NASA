@@ -1,4 +1,4 @@
-/* Field Shift theme — "field glass".
+/* AstroRoot theme — "field glass".
    Loaded last on every page. Warm field-paper background, deep crop green, and liquid-glass
    surfaces for the chrome (header, tab bar, map controls, hero cards). Reading surfaces stay
    near-opaque so body text keeps AA contrast on any background. */
@@ -479,7 +479,7 @@ body.workspace-body { font-size: 17px; }
   .data-banner.sample { font-size: .78rem; padding: 6px 12px; }
 }
 
-/* ---------- Ask Field Shift (home) and the floating ask button (plans) ---------- */
+/* ---------- Ask AstroRoot (home) and the floating ask button (plans) ---------- */
 .ask-card { margin: 0 0 22px; padding: clamp(18px, 3.5vw, 26px); border-radius: var(--radius-lg); background: linear-gradient(150deg, #24553f 0%, #1a4030 100%); color: #eef5ea; box-shadow: 0 14px 36px rgb(26 64 48 / .25); }
 .ask-head { display: flex; gap: 14px; align-items: flex-start; }
 .ask-icon { display: grid; place-items: center; flex: 0 0 auto; width: 46px; height: 46px; border-radius: 14px; background: rgb(255 255 255 / .14); border: 1px solid rgb(255 255 255 / .22); }
@@ -499,3 +499,109 @@ body.workspace-body { font-size: 17px; }
 @media (max-width: 979px) { .ask-fab { bottom: calc(96px + env(safe-area-inset-bottom)); } }
 @media (max-width: 480px) { .ask-fab span { display: none; } .ask-fab { width: 56px; height: 56px; padding: 0; justify-content: center; } }
 @media print { .ask-fab, .ask-card { display: none; } }
+
+/* ---------- photographs (USDA ARS, public domain) ---------- */
+.photo { position: relative; margin: 0; overflow: hidden; border-radius: var(--radius-md); background: #dfe6d8; }
+.photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.photo figcaption { display: grid; gap: 2px; padding: 8px 12px; background: rgb(255 255 255 / .9); color: var(--muted); font-size: .8rem; }
+.photo figcaption span { color: var(--text); font-weight: 600; }
+.photo figcaption small { font-size: .7rem; }
+
+/* Home hero: a real field photo under a liquid-glass panel */
+.workspace-body .home-hero.photo-hero {
+  display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; gap: 10px;
+  min-height: clamp(380px, 52vh, 520px); padding: clamp(14px, 3vw, 28px); overflow: hidden;
+  background: linear-gradient(180deg, rgb(10 20 15 / 0) 30%, rgb(10 20 15 / .35) 100%), var(--hero-photo) center 62% / cover no-repeat;
+  border: 1px solid rgb(255 255 255 / .6); box-shadow: 0 18px 50px rgb(23 50 38 / .22);
+}
+.photo-hero::before { display: none; }
+.hero-glass {
+  position: relative; max-width: 640px; padding: clamp(18px, 3vw, 28px); border-radius: 22px;
+  background: rgb(255 255 255 / .62); border: 1px solid rgb(255 255 255 / .75);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .9), 0 12px 30px rgb(10 20 15 / .22);
+  -webkit-backdrop-filter: blur(20px) saturate(170%); backdrop-filter: blur(20px) saturate(170%);
+}
+.hero-glass::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: var(--glass-sheen); }
+.hero-glass > * { position: relative; }
+.hero-glass h1 { margin-top: 2px; }
+.hero-glass .lead { color: #2f3b33; }
+.hero-glass .button-row { margin-bottom: 0; }
+.hero-credit { margin: 0; align-self: flex-end; padding: 3px 10px; border-radius: var(--radius-full); background: rgb(0 0 0 / .38); color: #fff; font-size: .68rem; }
+@media (max-width: 700px) {
+  .workspace-body .home-hero.photo-hero { min-height: 0; padding-top: 150px; background-image: linear-gradient(180deg, rgb(10 20 15 / 0) 30%, rgb(10 20 15 / .3) 100%), var(--hero-photo-small); background-position: center, 62% 78%; background-size: cover, cover; }
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .hero-glass { background: rgb(255 255 255 / .94); } }
+@media (prefers-reduced-transparency: reduce) { .hero-glass { background: #fff; } }
+
+/* Cards that open with a photo */
+.has-photo { overflow: hidden; }
+.card.has-photo { padding-top: 0; }
+.card-photo { margin: 0 -20px 16px; border-radius: 0; aspect-ratio: 16 / 7; }
+.card-photo figcaption { position: absolute; inset-inline-end: 8px; bottom: 8px; padding: 2px 8px; border-radius: var(--radius-full); background: rgb(0 0 0 / .4); color: #fff; }
+.card-photo figcaption small { font-size: .65rem; }
+.tint-card.has-photo { display: grid; gap: 16px; }
+.tint-card .card-photo.portrait { margin: 0; border-radius: 14px; aspect-ratio: 4 / 3; }
+.tint-card .card-photo.portrait img { object-position: center 35%; }
+@container panel (min-width: 760px) {
+  .tint-card.has-photo { grid-template-columns: 190px 1fr; align-items: start; }
+  .tint-card.has-photo > .card-photo { grid-row: span 3; aspect-ratio: 3 / 4; }
+}
+.wide-photo { margin-top: 16px; aspect-ratio: 16 / 7; }
+.wide-photo img { object-position: center 60%; }
+.wide-photo figcaption { position: absolute; inset-inline: 0; bottom: 0; background: linear-gradient(180deg, rgb(0 0 0 / 0), rgb(0 0 0 / .62)); color: #fff; padding: 28px 16px 12px; }
+.wide-photo figcaption span { color: #fff; font-size: .9rem; max-width: 760px; }
+.wide-photo figcaption small { color: rgb(255 255 255 / .82); }
+
+/* Soil section: the soil-probe photo beside the heading on wide screens */
+.soil-section > header { align-items: stretch; }
+.soil-photo { order: -1; width: 100%; aspect-ratio: 16 / 9; }
+.soil-photo img { object-position: center 30%; }
+.soil-photo figcaption { position: absolute; inset-inline-end: 8px; bottom: 8px; padding: 2px 8px; border-radius: var(--radius-full); background: rgb(0 0 0 / .4); color: #fff; }
+@container panel (min-width: 820px) {
+  .soil-section > header { display: grid; grid-template-columns: 200px 1fr auto; gap: 18px; align-items: center; }
+  .soil-photo { aspect-ratio: 4 / 5; }
+}
+
+/* My land empty state with a field photo */
+.empty-with-photo { display: grid; gap: 0; margin: 18px auto; max-width: 620px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 10px 28px rgb(23 50 38 / .1); }
+.empty-with-photo .empty-photo { border-radius: 0; aspect-ratio: 16 / 7; }
+.empty-with-photo .empty-photo figcaption { position: absolute; inset-inline-end: 8px; bottom: 8px; padding: 2px 8px; border-radius: var(--radius-full); background: rgb(0 0 0 / .4); color: #fff; }
+.empty-with-photo .state-card { margin: 0; border-radius: 0; box-shadow: none; }
+
+/* Landing page: "From the field" - text beside one photo */
+.field-photos { display: grid; gap: clamp(24px, 5vw, 64px); grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); align-items: center; padding: 40px 0 80px; }
+.field-story h2 { font-size: clamp(32px, 4vw, 46px); line-height: 1.1; letter-spacing: -1.4px; font-weight: 500; margin: 8px 0 16px; }
+.field-story h2 em { font-family: Georgia, serif; font-weight: 400; color: #657a4d; }
+.field-story p:not(.eyebrow) { max-width: 440px; margin: 0 0 22px; color: var(--body); font-size: 15px; line-height: 1.8; }
+.field-photo { border-radius: 22px; box-shadow: 0 18px 44px rgb(25 62 49 / .14); }
+.field-photo img { aspect-ratio: 4 / 3; }
+.field-photo figcaption { font-family: 'DM Sans', sans-serif; padding: 10px 14px; }
+@media (max-width: 860px) { .field-photos { grid-template-columns: 1fr; padding: 24px 0 48px; } }
+@media print { .photo, .hero-credit { display: none; } .workspace-body .home-hero.photo-hero { background: none; min-height: 0; } }
+
+/* ---------- agronomist inbox ---------- */
+.example-banner { display: flex; gap: 12px; align-items: flex-start; margin: 14px 0 18px; padding: 14px 16px; border-radius: var(--radius-md); background: var(--banner-bg); color: var(--banner); font-size: .92rem; }
+.example-banner .icon { stroke: var(--banner); margin-top: 2px; }
+.workspace-body .expert-request-list { gap: 16px; margin-bottom: 22px; }
+.workspace-body .expert-thread { padding: 18px 20px; border-radius: var(--radius-lg); background: rgb(255 255 255 / .9); border: 1px solid rgb(255 255 255 / .9); box-shadow: 0 10px 28px rgb(23 50 38 / .08); }
+.expert-thread.example { border: 1.5px dashed #c9b37a; background: rgb(255 253 246 / .92); }
+.expert-thread-head h2 { margin: 4px 0 0; font-size: 1.1rem; }
+.example-tag { background: var(--mixed-bg); color: var(--mixed); border-color: #e7d4a2; }
+.workspace-body .state-pill.replied { background: var(--favorable-bg); color: var(--favorable); border-color: #c6dcc4; }
+.workspace-body .state-pill.open { background: var(--mixed-bg); color: var(--mixed); border-color: #e7d4a2; }
+.farmer-question { margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: var(--surface-soft); border: 1px solid var(--line); }
+.farmer-question p, .workspace-body .expert-reply p { margin: 6px 0; line-height: 1.6; }
+.who { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: .78rem; font-weight: 700; letter-spacing: .02em; }
+.who .icon { width: 16px; height: 16px; stroke: var(--brand); }
+.workspace-body .expert-reply { margin-top: 12px; padding: 12px 14px; border-left: 0; border-radius: 14px; background: var(--brand-tint); border: 1px solid #cddcc8; }
+.expert-waiting { display: flex; gap: 8px; align-items: center; margin-top: 12px; color: var(--muted); font-size: .88rem; }
+.how-to-ask ol { margin: 6px 0 0; padding-inline-start: 20px; line-height: 1.8; }
+
+/* Signed-in header between tablet and wide desktop: keep everything on one line. */
+.app-tabs button, .workspace-body .account-nav button, .help-link { white-space: nowrap; }
+.workspace-body .account-nav { flex-wrap: nowrap; }
+@media (max-width: 1279px) {
+  .workspace-body .account-nav .label-wide, .help-link span { display: none; }
+  .app-tabs { margin-inline-start: 8px; }
+  .app-tabs button { padding: 0 11px; }
+}

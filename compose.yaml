@@ -9,6 +9,7 @@ services:
       - path: backend/.env
         required: false
     environment:
+      PORT: "8000"
       FIELD_SHIFT_DB: /var/lib/field-shift/field_shift.db
       FIELD_SHIFT_LAYER_DIR: /var/lib/field-shift/layers
     volumes:

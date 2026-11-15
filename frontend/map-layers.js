@@ -57,7 +57,7 @@ export async function installLayers(map) {
       const count=data.coverage.metric_valid_cells?.[metric]??data.coverage.computed_cells;
       legend.innerHTML=`<div class="grid-gradient"></div><div class="legend-scale"><span>Lower</span><span>Higher · up to ${Math.round(data.legend_max[metric])} ${esc(data.units[metric])}</span></div><p class="map-data-heading">${esc(METRICS[metric]||metric)} · ${esc(data.units[metric])}</p><p>${esc(CROPS[data.job.crop]||data.job.crop)} · ${data.job.year} historical model</p><p>${count} of ${data.coverage.planned_cells} planned climate cells have a mapped value. Transparent areas indicate missing results.</p><details class="map-layer-explanation"><summary>About this map</summary><p>${esc(data.spatial_support)}. These are grid-cell model results, not measurements from individual fields. Field-level accuracy has not been validated.</p></details>`;
     }
-    map.addSource('science-raster',{type:'raster',tiles:[`${location.origin}${template}`],tileSize:256,maxzoom:source.type==='nasa'?data.maxzoom:8,attribution:source.type==='nasa'?'NASA GIBS':'NASA POWER · USDA NRCS · Field Shift FAO-56 scenario'});
+    map.addSource('science-raster',{type:'raster',tiles:[`${location.origin}${template}`],tileSize:256,maxzoom:source.type==='nasa'?data.maxzoom:8,attribution:source.type==='nasa'?'NASA GIBS':'NASA POWER · USDA NRCS · AstroRoot FAO-56 scenario'});
     const before=map.getLayer('states-line')?'states-line':undefined;
     map.addLayer({id:'science-overlay',type:'raster',source:'science-raster',paint:{'raster-opacity':.8,'raster-resampling':'nearest'}},before);
   }

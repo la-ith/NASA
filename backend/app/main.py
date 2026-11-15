@@ -80,7 +80,9 @@ app.include_router(accounts_router)
 async def session_scope(request: Request, call_next):
     if request.method in ('POST','PUT','PATCH','DELETE'):
         origin=request.headers.get('origin')
-        if origin and origin.rstrip('/')!=str(request.base_url).rstrip('/'):
+        allowed_origins={value.strip().rstrip('/') for value in
+                         os.environ.get('FIELD_SHIFT_ALLOWED_ORIGINS','').split(',') if value.strip()}
+        if origin and origin.rstrip('/')!=str(request.base_url).rstrip('/') and origin.rstrip('/') not in allowed_origins:
             return JSONResponse(status_code=403,content={'detail':'Cross-origin writes are not allowed'})
     token = request.cookies.get("field_shift_session")
     new = not token or len(token) != 43
@@ -92,7 +94,7 @@ async def session_scope(request: Request, call_next):
     response = await call_next(request)
     if new:
         response.set_cookie("field_shift_session", token, httponly=True, samesite="strict",
-                            secure=request.url.scheme == "https")
+                            secure=accounts.cookie_secure(request))
     return response
 
 

@@ -1,6 +1,7 @@
 """Argon2id passwords, revocable opaque sessions, owned field records and recovery codes."""
 import asyncio
 import hashlib
+import os
 import secrets
 import time
 from datetime import datetime,timedelta,timezone
@@ -15,6 +16,9 @@ DUMMY_HASH=HASHER.hash(secrets.token_urlsafe(24))
 
 def now():return datetime.now(timezone.utc).isoformat()
 def digest(value):return hashlib.sha256(value.encode('utf-8')).hexdigest()
+def cookie_secure(request):
+    forced=os.environ.get('FIELD_SHIFT_COOKIE_SECURE','').strip().lower() in {'1','true','yes'}
+    return forced or request.url.scheme=='https'
 
 
 def identify(db,token):
@@ -62,4 +66,4 @@ def start_session(request,response,user_id,claim_guest=True):
             for table in ('v2_job','v2_analysis','v2_chat_session','v2_product_record'):
                 db.execute(f'UPDATE {table} SET owner=? WHERE owner=?',('user:'+user_id,request.state.owner))
     response.set_cookie(COOKIE,token,max_age=SESSION_SECONDS,httponly=True,samesite='strict',
-                        secure=request.url.scheme=='https',path='/')
+                        secure=cookie_secure(request),path='/')

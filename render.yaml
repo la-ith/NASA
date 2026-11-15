@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: field-shift-api-laith
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/v2/health
+    envVars:
+      - key: FIELD_SHIFT_DB
+        value: ":memory:"
+      - key: FIELD_SHIFT_LAYER_DIR
+        value: /tmp/field-shift/layers
+      - key: FIELD_SHIFT_WARMUP
+        value: "0"
+      - key: FIELD_SHIFT_COOKIE_SECURE
+        value: "1"
+      - key: FIELD_SHIFT_ALLOWED_ORIGINS
+        sync: false
+      - key: FIELD_SHIFT_EXPERT_KEY
+        generateValue: true

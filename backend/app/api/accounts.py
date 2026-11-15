@@ -80,7 +80,7 @@ async def logout(request:Request,response:Response):
     token=request.cookies.get(service.COOKIE)
     if token:
         with request.app.state.db:request.app.state.db.execute('DELETE FROM fs_auth_session WHERE token_hash=?',(service.digest(token),))
-    response.delete_cookie(service.COOKIE,path='/',httponly=True,samesite='strict',secure=request.url.scheme=='https')
+    response.delete_cookie(service.COOKIE,path='/',httponly=True,samesite='strict',secure=service.cookie_secure(request))
 
 
 class Recovery(Credentials):
@@ -100,7 +100,7 @@ async def recover(body:Recovery,request:Request,response:Response):
                           (encoded,service.digest(new_code),row[0],row[1])).rowcount
         if changed!=1:raise HTTPException(409,'Recovery code already used')
         db.execute('DELETE FROM fs_auth_session WHERE user_id=?',(row[0],))
-    response.delete_cookie(service.COOKIE,path='/')
+    response.delete_cookie(service.COOKIE,path='/',httponly=True,samesite='strict',secure=service.cookie_secure(request))
     return dict(recovery_code=new_code,message='Password reset. Save the new recovery code, then sign in.')
 
 
@@ -121,7 +121,7 @@ async def delete_account(body:PasswordConfirmation,request:Request,response:Resp
         for table in ('v2_chat_session','v2_product_record','v2_job','v2_analysis'):
             db.execute(f'DELETE FROM {table} WHERE owner=?',(request.state.owner,))
         db.execute('DELETE FROM fs_user WHERE user_id=?',(user['id'],))
-    response.delete_cookie(service.COOKIE,path='/')
+    response.delete_cookie(service.COOKIE,path='/',httponly=True,samesite='strict',secure=service.cookie_secure(request))
 
 
 class CropHistory(BaseModel):

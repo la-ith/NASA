@@ -2,7 +2,7 @@ const nav = document.querySelector('.site-nav');
 const coverageSection = document.getElementById('coverage');
 if (coverageSection && !document.getElementById('farmer-tools')) {
   coverageSection.insertAdjacentHTML('beforebegin', `<section class="farmer-tools section-shell" id="farmer-tools">
-    <div class="farmer-tools-heading"><p class="eyebrow">BUILT AROUND A FARMER’S NEXT QUESTION</p><h2>From a field location<br><em>to a clearer next step.</em></h2><p>Field Shift brings the evidence into one practical flow. You can skip details you do not know and stay in control of the final decision.</p></div>
+    <div class="farmer-tools-heading"><p class="eyebrow">BUILT AROUND A FARMER’S NEXT QUESTION</p><h2>From a field location<br><em>to a clearer next step.</em></h2><p>AstroRoot brings the evidence into one practical flow. You can skip details you do not know and stay in control of the final decision.</p></div>
     <div class="farmer-tools-grid">
       <article><span class="farmer-tool-number">01</span><h3>Set up your field</h3><p>Choose a place on the U.S. map, tell us what you grow, and add any land details you know. Optional questions include field size, soil feel, drainage, slope, and water source.</p></article>
       <article><span class="farmer-tool-number">02</span><h3>See the evidence</h3><p>Check nearby NASA weather and mapped USDA soil coverage. Explore map layers and their dates, units, spatial coverage, and missing-data areas.</p></article>

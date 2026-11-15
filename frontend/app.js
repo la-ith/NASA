@@ -1,6 +1,6 @@
-// Farmer-first Field Shift interface. Scientific calculations stay on the API.
-import {installLayers} from '/map-layers.js?v=6';
-import {soilLayersSection, wireSoilLayers} from '/soil-profile.js?v=3';
+// Farmer-first AstroRoot interface. Scientific calculations stay on the API.
+import {installLayers} from '/map-layers.js?v=7';
+import {soilLayersSection, wireSoilLayers} from '/soil-profile.js?v=4';
 const API = "/api/v2";
 const VIEWS = {
   lower48: [[-125, 24], [-66.5, 49.5]],
@@ -38,6 +38,21 @@ const ICON_PATHS = {
   source: "M4 5c0-1.1 3.6-2 8-2s8 .9 8 2-3.6 2-8 2-8-.9-8-2zm0 0v14c0 1.1 3.6 2 8 2s8-.9 8-2V5M4 12c0 1.1 3.6 2 8 2s8-.9 8-2",
   search: "M17 11a6 6 0 1 1-12 0 6 6 0 0 1 12 0M15.5 15.5 20 20",
 };
+// USDA ARS Image Gallery photos: public domain; USDA asks for a credit line and no implied endorsement.
+// Two sizes each in /assets/photos (full and -800); metadata stripped when resized.
+const PHOTOS = {
+  "corn-sprinkler": { w: 1600, h: 656, w2: 800, h2: 328, credit: "R.C. Schwartz", alt: "Young corn under a center-pivot irrigation system at sunset, Bushland, Texas" },
+  "corn-water-split": { w: 1600, h: 1200, w2: 800, h2: 600, credit: "Tom Trout", alt: "Corn rows side by side: fully irrigated on the left, tall and green; half the water on the right, shorter and thinner" },
+  "sorghum-soil-probe": { w: 1000, h: 1500, w2: 560, h2: 840, credit: "Stephen Ausmus", alt: "A technician with a laptop reads soil-moisture probes in a ripe sorghum field" },
+  "soybean-field": { w: 1600, h: 1076, w2: 800, h2: 538, credit: "Scott Bauer", alt: "A soybean field ready for harvest with a red barn behind it" },
+  "soybean-agronomist": { w: 960, h: 1500, w2: 538, h2: 840, credit: "Keith Weller", alt: "An agronomist bends to examine soybean plants in a flood-irrigated field" },
+  "sorghum-rows": { w: 1600, h: 1067, w2: 800, h2: 533, credit: "Peggy Greb", alt: "Sorghum heads in breeding rows under a blue sky, College Station, Texas" },
+};
+const photoCredit = (name) => `Photo: ${PHOTOS[name].credit}, USDA Agricultural Research Service`;
+function photo(name, { cls = "", caption = "", sizes = "(min-width: 980px) 600px, 100vw", eager = false } = {}) {
+  const f = PHOTOS[name];
+  return `<figure class="photo ${cls}"><img src="/assets/photos/${name}-800.jpg" srcset="/assets/photos/${name}-800.jpg ${f.w2}w, /assets/photos/${name}.jpg ${f.w}w" sizes="${sizes}" width="${f.w2}" height="${f.h2}" alt="${esc(f.alt)}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"><figcaption>${caption ? `<span>${esc(caption)}</span>` : ""}<small>${esc(photoCredit(name))}</small></figcaption></figure>`;
+}
 const icon = (name, cls = "icon") => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="${ICON_PATHS[name]}"/></svg>`;
 const selectOptions = (list, selected) => list.map(([value, label]) => `<option value="${value}"${selected === value ? " selected" : ""}>${label}</option>`).join("");
 const errorBanner = (title, text) => `<div class="error-banner" role="alert">${icon("alert")}<div><strong>${esc(title)}</strong>${esc(text)}</div></div>`;
@@ -82,7 +97,7 @@ function setHeader() {
     ? `<button type="button" class="quiet-button" id="my-expert-requests">${icon("chat")}<span class="label-wide">Expert replies</span></button><button type="button" class="quiet-button account-chip" id="account-settings" aria-label="Account settings for ${esc(user.name)}"><span class="avatar" aria-hidden="true">${esc((user.name || "?").trim().charAt(0).toUpperCase())}</span><span class="label-wide">${esc(user.name)}</span></button><button type="button" class="quiet-button" id="sign-out">Sign out</button>`
     : `<button type="button" class="quiet-button" id="header-signin">Sign in</button>`;
   document.getElementById("sign-out")?.addEventListener("click", signOut);
-  document.getElementById('my-expert-requests')?.addEventListener('click',myExpertRequests);
+  document.getElementById('my-expert-requests')?.addEventListener('click',()=>myExpertRequests());
   document.getElementById('account-settings')?.addEventListener('click',accountSettings);
   document.getElementById('header-signin')?.addEventListener('click',()=>renderAuth());
 }
@@ -164,8 +179,8 @@ function putMarker(lat, lon) {
 }
 
 const GENERAL_PROMPTS = [
-  ["How does this work?", "How does Field Shift compare crops for my field, in simple terms?"],
-  ["What data is used?", "What NASA and USDA data does Field Shift use, and how reliable is it?"],
+  ["How does this work?", "How does AstroRoot compare crops for my field, in simple terms?"],
+  ["What data is used?", "What NASA and USDA data does AstroRoot use, and how reliable is it?"],
   ["Which crops?", "Which crops can I compare, and why only those?"],
   ["Is this a forecast?", "Is a comparison a forecast or an irrigation recommendation?"],
 ];
@@ -173,7 +188,7 @@ const GENERAL_PROMPTS = [
 // The Home-page Ask box: opens the general chat and sends the question straight away.
 function askCard() {
   return `<section class="ask-card" aria-labelledby="ask-title">
-    <div class="ask-head"><span class="ask-icon">${icon("chat")}</span><div><h2 id="ask-title">Ask Field Shift</h2><p>Questions about how it works, the NASA and USDA data, or what to check on your field. Answers show their sources.</p></div></div>
+    <div class="ask-head"><span class="ask-icon">${icon("chat")}</span><div><h2 id="ask-title">Ask AstroRoot</h2><p>Questions about how it works, the NASA and USDA data, or what to check on your field. Answers show their sources.</p></div></div>
     <form id="ask-form" class="ask-form"><label class="sr-only" for="ask-input">Your question</label><input id="ask-input" type="text" maxlength="4000" placeholder="For example: is this a forecast?" required><button class="primary" type="submit">${icon("arrow")}<span>Ask</span></button></form>
     <div class="prompt-chips">${GENERAL_PROMPTS.map(([label, prompt]) => `<button type="button" data-ask="${esc(prompt)}">${esc(label)}</button>`).join("")}</div>
   </section>`;
@@ -195,10 +210,11 @@ function renderAuth(mode = "login", error = "") {
   setTab("home");
   const registering = mode === "register";
   panel.innerHTML = `
-    <section class="home-hero">
-      <div><p class="eyebrow">Plan with the evidence in view</p><h1>Plan your seasons around your field’s conditions</h1>
-      <p class="lead">Start with what you know about your field. We bring in 25 past seasons of NASA weather and USDA soil records and replay them through published FAO-56 water equations for each crop.</p></div>
-      <div class="button-row"><button type="button" class="primary" id="guest-explore">${icon("plus")} Add your field</button><button type="button" class="secondary-button" id="guest-demo">See a saved example</button></div>
+    <section class="home-hero photo-hero" style="--hero-photo:url('/assets/photos/corn-sprinkler.jpg');--hero-photo-small:url('/assets/photos/corn-sprinkler-800.jpg')">
+      <div class="hero-glass"><p class="eyebrow">Plan with the evidence in view</p><h1>Plan your seasons around your field’s conditions</h1>
+      <p class="lead">Start with what you know about your field. We bring in 25 past seasons of NASA weather and USDA soil records and replay them through published FAO-56 water equations for each crop.</p>
+      <div class="button-row inline"><button type="button" class="primary" id="guest-explore">${icon("plus")} Add your field</button><button type="button" class="secondary-button" id="guest-demo">See a saved example</button></div></div>
+      <p class="hero-credit" role="img" aria-label="${esc(PHOTOS["corn-sprinkler"].alt)}">${esc(photoCredit("corn-sprinkler"))}</p>
     </section>
     ${askCard()}
     <div class="two-col">
@@ -216,12 +232,13 @@ function renderAuth(mode = "login", error = "") {
           ${registering ? `<p class="hint">Use at least 12 characters. A longer phrase is easier to remember.</p>` : ""}
           <button class="primary full-button" type="submit">${registering ? "Create account" : "Sign in"}</button>
         </form>
-        <p class="auth-switch">${registering ? "Already have an account?" : "New to Field Shift?"}
+        <p class="auth-switch">${registering ? "Already have an account?" : "New to AstroRoot?"}
           <button type="button" class="link" id="switch-auth">${registering ? "Sign in" : "Create an account"}</button>
         </p>
         <p><button class="link" id="forgot-password" type="button">Recover your account</button></p>
       </section>
-      <section class="card">
+      <section class="card has-photo">
+        ${photo("sorghum-rows", { cls: "card-photo", sizes: "(min-width: 980px) 560px, 100vw" })}
         <h2 class="card-title">${icon("layers")} What a plan shows you</h2>
         <p class="muted">Your current crop and up to two other crops, compared on the same field and the same past seasons:</p>
         <ul class="sources-list">
@@ -271,7 +288,7 @@ function showRecoveryCode(code) {
     <p class="lead">This code is shown only once. Save it somewhere private so you can recover your account if you forget your password.</p>
     <div class="recovery-code" id="recovery-code">${esc(code)}</div>
     <button type="button" class="primary full-button" id="continue-home">I saved my code</button>
-    <p class="hint">Field Shift does not email this code to you.</p>
+    <p class="hint">AstroRoot does not email this code to you.</p>
   </section>`;
   document.getElementById("continue-home").onclick = () => showHome();
 }
@@ -325,11 +342,12 @@ function renderHome(message = "") {
   setTab("home");
   const firstName = (user?.name || "").trim().split(/\s+/)[0] || "there";
   panel.innerHTML = `
-    <section class="home-hero">
-      <div><p class="eyebrow">Your farm home · ${esc(firstName)}</p><h1>Plan your seasons around your field’s conditions</h1>
+    <section class="home-hero photo-hero" style="--hero-photo:url('/assets/photos/corn-sprinkler.jpg');--hero-photo-small:url('/assets/photos/corn-sprinkler-800.jpg')">
+      <div class="hero-glass"><p class="eyebrow">Your farm home · ${esc(firstName)}</p><h1>Plan your seasons around your field’s conditions</h1>
       <p class="lead">Add what you know about each field, then compare crop plans against 25 past seasons of NASA weather and USDA soil records.</p>
-      ${fields.length ? `<div class="stat-row">${fields.slice(0, 4).map((field) => `<span class="stat-pill">${icon("pin")}<strong>${esc(field.name)}</strong>${esc(cropName(field.crop))}</span>`).join("")}</div>` : ""}</div>
-      <div class="button-row"><button type="button" class="primary" id="add-field">${icon("plus")} Add a field</button><button type="button" class="secondary-button" id="home-demo">See a saved example</button></div>
+      ${fields.length ? `<div class="stat-row">${fields.slice(0, 4).map((field) => `<span class="stat-pill">${icon("pin")}<strong>${esc(field.name)}</strong>${esc(cropName(field.crop))}</span>`).join("")}</div>` : ""}
+      <div class="button-row inline"><button type="button" class="primary" id="add-field">${icon("plus")} Add a field</button><button type="button" class="secondary-button" id="home-demo">See a saved example</button></div></div>
+      <p class="hero-credit" role="img" aria-label="${esc(PHOTOS["corn-sprinkler"].alt)}">${esc(photoCredit("corn-sprinkler"))}</p>
     </section>
     ${message ? `<div class="notice-card" role="status">${esc(message)}</div>` : ""}
     ${askCard()}
@@ -359,7 +377,7 @@ function renderLands(message = "") {
       <button type="button" class="primary" id="add-field">${icon("plus")} Add a field</button></section>
     ${message ? `<div class="notice-card" role="status">${esc(message)}</div>` : ""}
     ${fields.length ? `<div class="field-grid">${fields.map((field) => fieldCard(field)).join("")}</div>`
-      : stateCard("sprout", "Start with what you know about your field", "Its location, what you grow, and anything you know about the soil. You can answer “I don’t know” to any question.", `<button type="button" class="primary" id="empty-add">${icon("plus")} Add a field</button><button type="button" class="secondary-button" id="empty-demo">See a saved example</button>`)}`;
+      : `<div class="empty-with-photo">${photo("soybean-field", { cls: "empty-photo", sizes: "(min-width: 980px) 560px, 100vw" })}${stateCard("sprout", "Start with what you know about your field", "Its location, what you grow, and anything you know about the soil. You can answer “I don’t know” to any question.", `<button type="button" class="primary" id="empty-add">${icon("plus")} Add a field</button><button type="button" class="secondary-button" id="empty-demo">See a saved example</button>`)}</div>`}`;
   document.getElementById("add-field").onclick = () => renderFieldEditor();
   document.getElementById("empty-add")?.addEventListener("click", () => renderFieldEditor());
   document.getElementById("empty-demo")?.addEventListener("click", runDemo);
@@ -894,9 +912,9 @@ function renderAnalysis(result, field) {
       <article class="decision-guide-card"><span class="decision-step">01 · WHAT WE FOUND</span><h3>A past-season comparison</h3><p>${esc(foundSummary)}</p></article>
       <article class="decision-guide-card"><span class="decision-step">02 · WHAT IT DOESN’T TELL YOU</span><h3>Prices, yield and pests</h3><p>This compares crop water needs with past rain and the mapped soil. It doesn’t tell you which crop will earn more or yield more, and it doesn’t cover seed, equipment, markets or pests.</p></article>
       <article class="decision-guide-card"><span class="decision-step">03 · WHAT TO CHECK</span><h3>Bring your own knowledge in</h3><ul><li>${esc(irrigationNextStep)}</li><li>${esc(soilNextStep)}</li>${limits.length ? `<li>You noted: ${esc(limits.join(" · "))}.</li>` : ""}</ul></article>
-    </div></section>
+    </div>${photo("corn-water-split", { cls: "wide-photo", caption: "The same corn with full water (left) and half the water (right). The comparison above estimates differences like this from past weather.", sizes: "(min-width: 1240px) 1176px, 100vw" })}</section>
     <div class="two-col">
-      <section class="tint-card" id="ask"><h2 class="card-title">${icon("chat")} Questions about these results?</h2><p>Ask the assistant to explain any number in plain words, or send your field and this comparison to an agronomist.</p>
+      <section class="tint-card has-photo" id="ask">${photo("soybean-agronomist", { cls: "card-photo portrait", sizes: "(min-width: 980px) 300px, 100vw" })}<h2 class="card-title">${icon("chat")} Questions about these results?</h2><p>Ask the assistant to explain any number in plain words, or send your field and this comparison to an agronomist.</p>
         <div class="button-row"><button type="button" class="primary" id="open-chat">${icon("chat")} Explain my results</button>${user?`<button type="button" class="secondary-button" id="ask-expert">Ask an agronomist</button>`:`<a class="secondary-button" href="/workspace/?signin=1">Sign in to ask an agronomist</a>`}</div></section>
       <section class="card" id="sources"><h2 class="card-title">${icon("source")} What we used</h2><ul class="sources-list">
         <li><strong>Weather · NASA POWER</strong>Daily records ${weather.period ? esc(weather.period.join(" to ")) : ""}</li>
@@ -958,16 +976,49 @@ function renderExpertRequest(analysis, field, observation=null) {
   };
 }
 
+// Example threads shown only while the inbox is empty, labelled as examples on screen.
+// They show what a request and a reply look like; they are not real requests or advice.
+const EXAMPLE_REQUESTS = [
+  { field_name: "North field · Kansas", status: "replied", sent: "Sent 3 days ago", reply_when: "Replied 2 days ago",
+    message: "The comparison shows sorghum needed about 14 in of irrigation in a typical past season here, and corn about 20 in. Our well has pumped less the last two summers. Is moving part of this field to sorghum worth looking at?",
+    response: "Thanks for attaching the comparison. A lower modeled irrigation need for sorghum fits how the crop handles dry spells, but before changing acres I would check three things:\n\n1. Your well’s measured output in July and August against sorghum’s peak water use.\n2. Whether a local elevator or feedlot buys grain sorghum, and at what price.\n3. Your herbicide plan: some corn herbicides restrict planting sorghum the next season.\n\nIf you can share a recent soil test and your planting window, we could talk through trying sorghum on part of the field first." },
+  { field_name: "Creek bottom · Kansas", status: "open", sent: "Sent today",
+    message: "After heavy rain, water stands in the low corner of this field for two or three days. I attached a field note with a photo. Should that corner be planted differently from the rest?" },
+];
+
+function expertThread(item, example = false) {
+  return `<article class="expert-thread${example ? " example" : ""}">
+    <div class="expert-thread-head"><div>${example ? `<span class="tag example-tag">Example</span>` : ""}<h2>${esc(item.field_name || "Field question")}</h2></div><span class="state-pill ${esc(item.status)}">${item.status === "replied" ? "Reply received" : "Waiting for reply"}</span></div>
+    <div class="farmer-question"><span class="who">${example ? "Farmer" : "You"}</span><p>${esc(item.message)}</p><span class="hint">${esc(example ? item.sent : `Sent ${new Date(item.created_utc).toLocaleString()}`)}</span></div>
+    ${item.response ? `<div class="expert-reply"><span class="who">${icon("chat")} Agronomist${example ? " · example reply, not real advice" : ""}</span><p>${esc(item.response)}</p><span class="hint">${esc(example ? item.reply_when : item.responded_utc ? new Date(item.responded_utc).toLocaleString() : "")}</span></div>`
+      : `<div class="expert-waiting">${icon("info")} An agronomist usually replies within a few working days. You’ll find the reply here.</div>`}
+  </article>`;
+}
+
 async function myExpertRequests(message = "") {
+  if (typeof message !== "string") message = "";
   if (!user) return renderAuth();
+  const ownerVersion = authVersion;
   setMapVisible(false);
-  panel.innerHTML = `<section class="loading-card"><span class="loader"></span><p>Loading your expert requests…</p></section>`;
+  setTab("inbox");
+  panel.innerHTML = skeleton();
   try {
     const result = await getJSON(`${API}/expert/requests`);
-    panel.innerHTML = `<div class="form-topline"><button type="button" class="back-link" id="expert-home">← My fields</button><span class="step-label">AGRONOMIST SUPPORT</span></div><p class="eyebrow">YOUR INBOX</p><h1>Expert questions and replies</h1><p class="lead">Private requests linked to your fields and crop comparisons.</p>${message?`<div class="notice-card" role="status">${esc(message)}</div>`:""}${result.requests.length?`<div class="expert-request-list">${result.requests.map((item)=>`<article class="expert-thread"><div class="expert-thread-head"><strong>${esc(item.field_name||"Field question")}</strong><span class="state-pill ${item.status}">${item.status==="replied"?"Reply received":"Waiting for reply"}</span></div><p>${esc(item.message)}</p><span class="hint">Sent ${esc(new Date(item.created_utc).toLocaleString())}</span>${item.response?`<div class="expert-reply"><strong>Agronomist reply</strong><p>${esc(item.response)}</p><span class="hint">${esc(item.responded_utc?new Date(item.responded_utc).toLocaleString():"")}</span></div>`:""}</article>`).join("")}</div>`:`<section class="empty-state"><h2>No expert requests yet</h2><p>Open a crop comparison and choose “Ask an agronomist” to send a question with your field context.</p></section>`}`;
+    if (ownerVersion !== authVersion) return;
+    const real = result.requests || [];
+    panel.innerHTML = `<div class="form-topline"><button type="button" class="back-link" id="expert-home">${icon("back")} Home</button><span class="step-label">AGRONOMIST SUPPORT</span></div>
+      <section class="journal-header"><div><p class="eyebrow">Your inbox</p><h1>Expert questions and replies</h1><p class="lead">Private questions you sent with your field details, and the agronomist’s replies.</p></div><button type="button" class="primary" id="expert-new">${icon("plus")} Ask about a field</button></section>
+      ${message ? `<div class="notice-card" role="status">${esc(message)}</div>` : ""}
+      ${real.length ? `<div class="expert-request-list">${real.map((item) => expertThread(item)).join("")}</div>`
+        : `<div class="example-banner" role="note">${icon("info")}<div><strong>You haven’t sent a question yet.</strong> Below are two examples of how a question and a reply look. They are not real requests or advice. Your own questions will appear here instead.</div></div>
+           <div class="expert-request-list">${EXAMPLE_REQUESTS.map((item) => expertThread(item, true)).join("")}</div>
+           <section class="card how-to-ask"><h2 class="card-title">${icon("chat")} How to ask an agronomist</h2><ol><li>Open a plan for one of your fields.</li><li>Choose “Ask an agronomist” and write your question.</li><li>Your field details and the comparison are sent with it. Only the agronomist sees them.</li></ol></section>`}`;
     document.getElementById("expert-home").onclick = () => showHome();
+    document.getElementById("expert-new").onclick = () => showLands();
   } catch (err) {
-    panel.innerHTML = `<h1>Your inbox isn’t available</h1><div class="errors">${esc(err.message)}</div><button id="expert-home" class="primary">Back to my fields</button>`;
+    if (ownerVersion !== authVersion) return;
+    panel.innerHTML = stateCard("alert", "Your inbox isn’t available", err.message, `<button type="button" class="primary" id="expert-retry">${icon("refresh")} Try again</button><button type="button" class="secondary-button" id="expert-home">Back to home</button>`, "error");
+    document.getElementById("expert-retry").onclick = () => myExpertRequests();
     document.getElementById("expert-home").onclick = () => showHome();
   }
 }
@@ -1002,10 +1053,10 @@ async function openChat(analysis, firstQuestion = "") {
 
 function renderChat(analysis, messages, error = "") {
   panel.innerHTML = `
-    <div class="form-topline"><button type="button" class="back-link" id="back-results">← ${analysis ? "Crop comparison" : "Home"}</button><span class="step-label">FIELD SHIFT CHAT</span></div>
-    <section class="chat-header"><div class="chat-avatar">✳</div><div><p class="eyebrow">${analysis ? "YOUR FIELD CONVERSATION" : "ASK FIELD SHIFT"}</p><h1>${analysis ? "Let’s explore your options" : "Ask a question"}</h1><p class="muted">Ask about the comparison, or tell me which crop you’d like to consider.</p></div></section>
+    <div class="form-topline"><button type="button" class="back-link" id="back-results">← ${analysis ? "Crop comparison" : "Home"}</button><span class="step-label">ASTROROOT CHAT</span></div>
+    <section class="chat-header"><div class="chat-avatar">✳</div><div><p class="eyebrow">${analysis ? "YOUR FIELD CONVERSATION" : "ASK ASTROROOT"}</p><h1>${analysis ? "Let’s explore your options" : "Ask a question"}</h1><p class="muted">Ask about the comparison, or tell me which crop you’d like to consider.</p></div></section>
     <div class="chat-boundary"><strong>What this chat can do:</strong> explain the comparison and point to the evidence. It can’t guarantee the best crop, diagnose a problem, or replace local farm advice.</div>
-    <div id="chat-messages" class="chat-messages">${messages.map((item) => chatMessage(item.question, item.response)).join("") || `<div class="assistant-message"><strong>Field Shift</strong><p>${analysis ? "I can help explain the past-season comparison for this field. What would you like to know?" : "I can explain how Field Shift works, what its NASA and USDA data mean, and what to check on your field. For numbers about your own field, run a comparison first."}</p></div>`}</div>
+    <div id="chat-messages" class="chat-messages">${messages.map((item) => chatMessage(item.question, item.response)).join("") || `<div class="assistant-message"><strong>AstroRoot</strong><p>${analysis ? "I can help explain the past-season comparison for this field. What would you like to know?" : "I can explain how AstroRoot works, what its NASA and USDA data mean, and what to check on your field. For numbers about your own field, run a comparison first."}</p></div>`}</div>
     ${error ? `<div class="errors" role="alert">${esc(error)}</div>` : ""}
     <div class="prompt-chips">${analysis ? `<button type="button" data-prompt="Which crop had the lower past irrigation need?">Compare water needs</button><button type="button" data-prompt="What does this comparison tell me about my field?">Explain my field</button><button type="button" data-prompt="I want to consider a different crop. What should I compare?">Consider another crop</button>` : GENERAL_PROMPTS.map(([label, prompt]) => `<button type="button" data-prompt="${esc(prompt)}">${esc(label)}</button>`).join("")}</div>
     <form id="chat-form" class="chat-form"><label class="sr-only" for="chat-input">Your question</label><textarea id="chat-input" name="message" rows="2" maxlength="4000" placeholder="Ask a question about your field…" required></textarea><button class="primary" type="submit">Send</button></form>
@@ -1046,7 +1097,7 @@ function renderChat(analysis, messages, error = "") {
 // Say why AI selection is off, from the backend's service_status, instead of a vague "unavailable".
 function chatServiceNote(response) {
   if (response.mode === 'openai_evidence_selection') return 'AI-assisted evidence selection';
-  const from = response.analysis_id ? 'your saved comparison' : 'Field Shift’s method and sources';
+  const from = response.analysis_id ? 'your saved comparison' : 'AstroRoot’s method and sources';
   return ({
     quota_exhausted: `AI answers are paused: the OpenAI account for this app has no credits left. This answer comes straight from ${from}.`,
     access_denied: `AI answers are off: the OpenAI key was rejected. This answer comes straight from ${from}.`,
@@ -1056,7 +1107,7 @@ function chatServiceNote(response) {
 
 function chatMessage(question, response) {
   if (!response) return `<div class="user-message"><p>${esc(question)}</p></div><div class="assistant-message"><span class="loader"></span><p>Finding relevant information…</p></div>`;
-  return `<div class="user-message"><p>${esc(question)}</p></div><div class="assistant-message" dir="auto"><strong>Field Shift</strong><p class="hint">${esc(chatServiceNote(response))}</p>${chatAnswer(response)}
+  return `<div class="user-message"><p>${esc(question)}</p></div><div class="assistant-message" dir="auto"><strong>AstroRoot</strong><p class="hint">${esc(chatServiceNote(response))}</p>${chatAnswer(response)}
     ${response.evidence?.length ? `<div class="evidence-list"><span class="hint">Sources and evidence</span>${response.evidence.map((item) => `<details><summary>${esc(item.title)}</summary><p>${esc(item.text)}</p><a href="${esc(item.url)}" target="_blank" rel="noopener">Open source</a></details>`).join("")}</div>` : ""}
     ${response.questions?.length ? `<div class="follow-up"><span class="hint">To make this more useful:</span>${response.questions.map((q) => `<p>${esc(q)}</p>`).join("")}</div>` : ""}
     <p class="hint">${esc(response.limitation || "")}</p></div>`;
@@ -1067,7 +1118,7 @@ function chatAnswer(response){
   const cards=(response.evidence||[]).filter(card=>card.id!=='analysis-limits');
   if(!cards.length)return `<p>${esc(response.answer).replaceAll('\n','<br>')}</p>`;
   const names={irrigated_net_irrigation:'Net irrigation need',rainfed_deficit:'Rain-fed water deficit',etc_standard:'Crop water demand',et0:'Reference ET₀',precipitation:'Rainfall'};
-  return `<p>${response.language==='ar'?'الأدلة المتاحة من المقارنة والمصادر:':(response.analysis_id?'Evidence from this comparison and its sources:':'From Field Shift’s method and sources:')}</p>`+cards.map(card=>`<p><strong>${esc(card.title.replace('Maize (grain, field corn)','Corn').replace(/:\s*([a-z_]+)$/,(_,key)=>': '+(names[key]||key)))}</strong><br>${esc(card.text)}</p>`).join('')+`<p class="hint">${response.language==='ar'?'لم يتم التحقق من دقة تقديرات الري على مستوى الحقل.':'Field irrigation accuracy is not validated. See the saved analysis limitations below.'}</p>`;
+  return `<p>${response.language==='ar'?'الأدلة المتاحة من المقارنة والمصادر:':(response.analysis_id?'Evidence from this comparison and its sources:':'From AstroRoot’s method and sources:')}</p>`+cards.map(card=>`<p><strong>${esc(card.title.replace('Maize (grain, field corn)','Corn').replace(/:\s*([a-z_]+)$/,(_,key)=>': '+(names[key]||key)))}</strong><br>${esc(card.text)}</p>`).join('')+`<p class="hint">${response.language==='ar'?'لم يتم التحقق من دقة تقديرات الري على مستوى الحقل.':'Field irrigation accuracy is not validated. See the saved analysis limitations below.'}</p>`;
 }
 
 (async function start() {
@@ -1171,7 +1222,7 @@ function accountSettings(error='') {
   if(typeof error!=='string')error='';
   setMapVisible(false);busy=false;
   panel.innerHTML=`<section class="auth-wrap"><p class="eyebrow">YOUR ACCOUNT</p><h1>${esc(user?.name||'Account')}</h1><p>${esc(user?.email)}</p>${error?`<p class="errors">${esc(error)}</p>`:''}<h2>Your data stays yours.</h2><p>Download your fields, saved comparisons and conversation history as JSON. Passwords and recovery codes are never included.</p><button class="secondary-button" id="export-account">Download my data</button><hr><details><summary>Delete account</summary><p>This permanently deletes your account, private fields, analyses and conversations. Shared public-source caches are retained. Download your data first.</p><form id="delete-account"><label for="delete-password">Confirm your password</label><input type="password" id="delete-password" name="password" required minlength="12" autocomplete="current-password"><label class="choice-card"><input type="checkbox" required>I understand this cannot be undone.</label><button class="primary" type="submit">Permanently delete my account</button></form></details><a href="/science/">Methods and limitations</a></section>`;
-  document.getElementById('export-account').onclick=async e=>{const button=e.currentTarget;button.disabled=true;try{const data=await getJSON(`${API}/account/export`);const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='field-shift-account.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);button.disabled=false;}catch(err){accountSettings(err.message);}};
+  document.getElementById('export-account').onclick=async e=>{const button=e.currentTarget;button.disabled=true;try{const data=await getJSON(`${API}/account/export`);const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='astroroot-account.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);button.disabled=false;}catch(err){accountSettings(err.message);}};
   document.getElementById('delete-account').onsubmit=async e=>{e.preventDefault();const data=new FormData(e.currentTarget);e.currentTarget.querySelector('button').disabled=true;try{await getJSON(`${API}/auth/account`,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:data.get('password')})});authVersion++;user=null;fields=[];activeField=null;currentAnalysis=null;chatSession=null;setHeader();renderAuth();}catch(err){accountSettings(err.message);}};
 }
 

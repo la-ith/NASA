@@ -36,6 +36,7 @@ export function soilLayersSection(result) {
     <header>
       <div><p class="eyebrow">Under your field · layer by layer</p><h2 id="soil-title">Soil layers and water</h2>
       <p>From the sky to the bottom of the mapped soil: where rain arrives, how deep each crop's roots reach, how much water that soil can hold, and NASA’s latest soil-moisture estimates (SMAP satellite and MERRA-2 model).</p></div>
+      <figure class="photo soil-photo"><img src="/assets/photos/sorghum-soil-probe-800.jpg" width="560" height="840" loading="lazy" decoding="async" alt="A technician with a laptop reads soil-moisture probes in a ripe sorghum field"><figcaption><small>Photo: Stephen Ausmus, USDA Agricultural Research Service</small></figcaption></figure>
       <div class="soil-crop-switch" role="group" aria-label="Show root zone for">${strategies.map((s) => `<button type="button" data-soil-crop="${esc(s.id)}" aria-pressed="${s === first}">${esc(cropLabel(s))}</button>`).join("")}</div>
     </header>
     <div class="soil-body">
