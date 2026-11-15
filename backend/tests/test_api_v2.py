@@ -80,5 +80,6 @@ def test_coverage_and_reference_routes(client):
     assert client.get("/api/v2/health").json()["status"] == "ok"
 
 
-def test_v1_regression_route_still_works(client):
-    assert client.get("/api/v1/health").json() == {"status": "ok"}
+def test_health_and_retired_v1_routes(client):
+    assert client.get("/api/v2/health").status_code == 200
+    assert client.get("/api/v1/health").status_code == 404  # the Hebron v1 prototype was retired

@@ -18,6 +18,7 @@ Implementation decisions taken while building spec v4.0. "Assumed" items are dis
 | 2026-11-14 | Irrigation scenario refills to field capacity when RAW is depleted; net only | FAO-56 standard rule; application efficiency not modelled, so gross irrigation is not reported | Decided |
 | 2026-11-14 | Basemap: OpenFreeMap Positron; state outlines from our own boundary file | Free, no key, with attribution; the map still works without basemap tiles. Review usage terms before a public deployment | Decided for the demo |
 | 2026-11-14 | /api/v2 for the U.S. release; /api/v1 and the Hebron app (/v1/) kept as regression | Spec v4.0 sections 15 and 21.2 | Decided |
+| 2026-11-15 | Retire the Hebron v3 prototype: remove `/api/v1`, `/v1/`, its engine modules, tests and demo data; rename the web app to AstroRoot; move earlier specs to `docs/archive/` | Final cleanup before submission | Decided |
 | 2026-11-14 | Chatbot not started | Spec Phase 5 comes after the U.S. web flow; no model provider chosen | Planned |
 
 ## Review and pilot decisions — 14 November 2026

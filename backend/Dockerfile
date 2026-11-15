@@ -14,7 +14,7 @@ COPY data/fixtures ./data/fixtures
 COPY docs/validation/results/holdout-evaluation-v1.json ./docs/validation/results/holdout-evaluation-v1.json
 COPY docs/validation/results/fresno-cimis-comparison.json ./docs/validation/results/fresno-cimis-comparison.json
 WORKDIR /srv/field-shift/backend
-ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 FIELD_SHIFT_WARMUP=0 FIELD_SHIFT_DB=/var/lib/field-shift/field_shift.db FIELD_SHIFT_LAYER_DIR=/var/lib/field-shift/layers
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 FIELD_SHIFT_DB=/var/lib/field-shift/field_shift.db FIELD_SHIFT_LAYER_DIR=/var/lib/field-shift/layers
 USER fieldshift
 ENV PORT=10000
 EXPOSE 10000

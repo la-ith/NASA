@@ -1,5 +1,7 @@
 # Field Shift — Product and System Specification
 
+> Historical version. The current U.S.-first, analysis-first plan is [Field Shift Final Implementation Specification v4.0](Field%20Shift%20Product%20Spec%20v4_0.md). Keep this version and its Hebron implementation details as historical and regression references; they do not establish U.S. coverage or predictive accuracy.
+
 Version 3.2 | 14 November 2026 | NASA Space Apps Challenge 2026 — "Field Shift: Adapting Farms with NASA Data" | Proposed build plan
 
 **Status:** This specification describes intended behavior, not completed features. Items marked MVP are the recommended hackathon build. Other items are later releases. Everything marked "proposed" is a team proposal until the named owner confirms it.

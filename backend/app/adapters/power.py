@@ -188,6 +188,3 @@ def now_utc() -> datetime:
     return datetime.now(timezone.utc).replace(microsecond=0)
 
 
-def require_period(weather: DailyWeather, start: date, end: date) -> None:
-    if weather.dates[0] > start or weather.dates[-1] < end:
-        raise NotCovered("the weather record does not cover the requested period")

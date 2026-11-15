@@ -11,8 +11,6 @@ services:
         value: ":memory:"
       - key: FIELD_SHIFT_LAYER_DIR
         value: /tmp/field-shift/layers
-      - key: FIELD_SHIFT_WARMUP
-        value: "0"
       - key: FIELD_SHIFT_COOKIE_SECURE
         value: "1"
       - key: FIELD_SHIFT_ALLOWED_ORIGINS

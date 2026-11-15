@@ -15,7 +15,7 @@ observations, which has **not** been done for any output.
 | Phase 4: U.S. web app with MapLibre map, async jobs, coverage, evidence, report | Built | `frontend/` at `/`; checked in a browser for the sample and live flows. Map basemap and outlines, Alaska/Hawaii shortcuts, and forced-style-failure fallback were visually observed on 14 November 2026. Attu (52.93 N, 173.2 E) was accepted through coordinate entry; precise map-click on Attu was not certified |
 | Scientific map backend | US50 NASA imagery, COG pipeline, manifests/tiles and values implemented | Six quantities; completed Kansas 2020 maize grid 80/80 cells; full national derived deficit grid is not precomputed. Frontend wiring excluded |
 | Phase 5: grounded chatbot | English/Arabic cited evidence backend; model access verified; live generation blocked by exhausted API credits | Strict evidence IDs, source-rendered crop-care/analysis claims, private conversations, limits/fallback. Expert agronomy review and frontend wiring remain pending |
-| Phase 6: Palestine | Not started; Hebron v3 app kept at `/v1/` as regression only | — |
+| Phase 6: Palestine | Not started; the Hebron v3 prototype (`/v1/`, `/api/v1`) was retired on 2026-11-15 | — |
 | USDA CDL | Classified point adapter implemented | USDA CroplandCROS year-locked rasters; CONUS live check succeeded; separate Hawaii service is year-dependent; Alaska unsupported; never auto-confirmed as farmer history |
 | IMERG and SMAP | Source-checked context adapters via POWER UTC | IMERG live probe 3/3 valid days; SMAP probe 0/6 values, correctly `no_data`; direct Earthdata SMAP L4 ingestion pending |
 | PRISM and optional imagery/other sources | Pending | Existing station development comparison remains the external evaluation baseline |

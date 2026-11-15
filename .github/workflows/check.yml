@@ -1,4 +1,4 @@
-name: Verify Field Shift
+name: Verify AstroRoot
 on: [push, pull_request]
 jobs:
   verify:
@@ -15,9 +15,8 @@ jobs:
         working-directory: backend
         env:
           FIELD_SHIFT_DB: ':memory:'
-          FIELD_SHIFT_WARMUP: '0'
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
       - run: node --test frontend/tests/*.test.mjs
-      - run: docker build -f backend/Dockerfile -t field-shift .
+      - run: docker build -f backend/Dockerfile -t astroroot .

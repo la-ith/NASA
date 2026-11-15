@@ -1,4 +1,4 @@
-# Field Shift backend
+# AstroRoot backend
 
 Current full-app setup and limits: [root README](../README.md) and [full delivery record](../docs/full-app-delivery.md). The public home page is at `/`, the field/account workspace is at `/workspace/`, and methods are at `/science/`.
 
@@ -11,10 +11,10 @@ API 2.3.0 adds national NASA imagery, derived COG processing, frozen external ev
 evidence responses. See [scientific delivery](../docs/scientific-delivery.md) for live checks, quota/CIMIS
 blockers, failed validation gates and the exact national-versus-Kansas coverage distinction.
 
-- **v4 U.S. release** (`/api/v2`, web app at `/`): NASA POWER daily weather, USDA SSURGO soils and FAO-56
+- **U.S. release** (`/api/v2`, web app at `/`): NASA POWER daily weather, USDA SSURGO soils and FAO-56
   (Penman–Monteith ET0, crop coefficients, daily root-zone water balance) replayed over 25 past seasons for current
-  practice and two alternatives. See `../Field Shift Product Spec v4_0.md` and `../docs/`.
-- **v3.2 Hebron prototype** (`/api/v1`, app at `/v1/`): kept as regression tests only.
+  practice and two alternatives. Earlier specifications are in `../docs/archive/`.
+- The earlier Hebron prototype (`/api/v1`, `/v1/`) was retired on 2026-11-15.
 
 ## Run
 
@@ -38,7 +38,7 @@ python -m app.cli --live --lat 41.59 --lon -93.62 --out result.json --report rep
 ```
 
 `--site` uses the saved, validated records in `../data/fixtures` (offline). `--live` calls NASA POWER and USDA Soil
-Data Access. Legacy warmup is off by default; set `FIELD_SHIFT_WARMUP=1` to enable it. Set `FIELD_SHIFT_DB` to choose the database
+Data Access. Set `FIELD_SHIFT_DB` to choose the database
 file (default `field_shift.db`). The tests run offline.
 
 ## Farmer reports and expert inbox
