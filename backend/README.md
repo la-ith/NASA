@@ -1,5 +1,7 @@
 # Field Shift backend
 
+Current full-app setup and limits: [root README](../README.md) and [full delivery record](../docs/full-app-delivery.md). The public home page is at `/`, the field/account workspace is at `/workspace/`, and methods are at `/science/`.
+
 Python 3.12 + FastAPI.
 
 Backend 2.2.0: see [the backend handoff](../docs/backend-handoff.md) for OpenAI configuration, private API
@@ -38,6 +40,14 @@ python -m app.cli --live --lat 41.59 --lon -93.62 --out result.json --report rep
 `--site` uses the saved, validated records in `../data/fixtures` (offline). `--live` calls NASA POWER and USDA Soil
 Data Access. Legacy warmup is off by default; set `FIELD_SHIFT_WARMUP=1` to enable it. Set `FIELD_SHIFT_DB` to choose the database
 file (default `field_shift.db`). The tests run offline.
+
+## Farmer reports and expert inbox
+
+The workspace offers a print-ready analysis report. Choose **Export full report · Save as PDF**, then choose **Save as PDF** in the browser print dialog. It includes the field profile, crop summaries, relative water-gap scores, season-by-season values, assumptions, source provenance, equations and limitations.
+
+The displayed percentage is a relative water-gap score: each crop's median rain-fed deficit divided by the largest median deficit among the three options. It compares only those crops in that analysis; the separate count shows how often any modeled stress day occurred. Neither is a probability of crop failure, yield or profit. The model remains unvalidated at field level.
+
+Farmer questions are stored in the in-app expert queue and can be answered in `/expert/`. Configure a private, randomly generated `FIELD_SHIFT_EXPERT_KEY` on the server before enabling the expert inbox. The key is never committed to the repository. Farmers see answers in their account under **Expert replies**.
 
 ## Layout
 

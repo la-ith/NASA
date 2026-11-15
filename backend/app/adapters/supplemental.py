@@ -10,7 +10,14 @@ PRODUCTS={
                   unit='mm/day',meaning='UTC daily rainfall; context only, not mixed with LST forcing'),
  'smap':dict(parameters={'SFMC':'m3 m-3','RZMC':'m3 m-3'},source='SMAP',start=date(2015,3,31),
              unit='m3 m-3',meaning='Volumetric soil moisture, not field soil-water storage'),
+ # Labelled MERRA-2 reanalysis wetness. A separate product, never a substitute for SMAP: POWER lists the SMAP aliases
+ # but returned only fill values when re-checked on 2026-11-15 (docs/data-sources.md).
+ 'merra2_soil_wetness':dict(parameters={'GWETTOP':'1','GWETROOT':'1'},source='MERRA2',start=date(1981,1,1),
+             unit='fraction of saturation (0-1)',
+             meaning='MERRA-2 model soil wetness, 0 (dry) to 1 (saturated), top 0-5 cm and root zone 0-100 cm; '
+                     'reanalysis, not satellite soil moisture and not field soil-water storage'),
 }
+BOUNDED_0_1={'smap','merra2_soil_wetness'}
 
 
 def normalize(raw,product,start,end,lat,lon):
@@ -36,7 +43,7 @@ def normalize(raw,product,start,end,lat,lon):
             for day,x in values[name].items():
                 if isinstance(x,bool) or not isinstance(x,(int,float)) or not math.isfinite(x):raise ValueError('nonfinite value')
                 if x==header['fill_value']:out[name][day]=None;continue
-                if x<0 or product=='smap' and x>1:raise ValueError('impossible physical value')
+                if x<0 or product in BOUNDED_0_1 and x>1:raise ValueError('impossible physical value')
                 out[name][day]=x;valid+=1
         if valid and not any(cfg['source'] in s.upper() for s in header['sources']):
             raise ValueError('source does not confirm requested product; no silent MERRA2 substitution')

@@ -11,7 +11,7 @@ from datetime import date, datetime, timezone
 from typing import Literal
 
 from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, PlainTextResponse
 from pydantic import BaseModel, Field, model_validator
 
 from app.adapters import AdapterError, power
@@ -20,7 +20,8 @@ from app.geo.boundaries import BOUNDARY_FILE, BOUNDARY_VERSION, state_at
 from app.science.equations import EQUATIONS
 from app.services import sources_v2
 from app.services.analysis_v2 import ENGINE_VERSION
-from app.services.report_v2 import render
+from app.services.report_v2 import render, render_html
+from app.services.risk_v2 import summarize_water_stress
 from app.services.run_v2 import GOAL_ORDER, run_analysis
 
 router = APIRouter(prefix="/api/v2")
@@ -57,6 +58,7 @@ class AnalysisRequestV2(BaseModel):
     initial_depletion_fraction: float | None = Field(default=None, ge=0.0, le=1.0)
     soil: SoilOverride | None = None
     parent_analysis_id: str | None = Field(default=None,max_length=100)
+    field_id: str | None = Field(default=None,max_length=64)
 
     @model_validator(mode="after")
     def check_period_and_dates(self) -> "AnalysisRequestV2":
@@ -183,6 +185,7 @@ async def _run_job(app, job_id: str, body: AnalysisRequestV2) -> None:
             # Finish pure computation before shutdown closes shared resources.
             await future
             raise
+        summarize_water_stress(result["strategies"])
         result["coverage"] = {"soil": {"status": soil.coverage, "reason": soil.reason}}
         if soil.soil is None:
             result["limitations"].append(f"Soil: {soil.reason}.")
@@ -190,11 +193,17 @@ async def _run_job(app, job_id: str, body: AnalysisRequestV2) -> None:
         analysis_id = secrets.token_urlsafe(12)
         result["analysis_id"] = analysis_id
         result["parent_analysis_id"] = body.parent_analysis_id
+        result["field_id"] = body.field_id
+        result["request"] = request
+        if body.field_id:
+            profile = db.execute("SELECT name,details FROM fs_field WHERE field_id=?", (body.field_id,)).fetchone()
+            if profile:
+                result["field_context"] = {"name": profile[0], **json.loads(profile[1] or "{}")}
         with db:
             owner = db.execute("SELECT owner FROM v2_job WHERE job_id = ?", (job_id,)).fetchone()[0]
             db.execute("INSERT INTO v2_analysis "
-                       "(analysis_id, created_utc, status, engine_version, request, result, owner) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                       (analysis_id, _now(), result["status"], ENGINE_VERSION, json.dumps(request), json.dumps(result), owner))
+                       "(analysis_id, created_utc, status, engine_version, request, result, owner,field_id) VALUES (?, ?, ?, ?, ?, ?, ?,?)",
+                       (analysis_id, _now(), result["status"], ENGINE_VERSION, json.dumps(request), json.dumps(result), owner,body.field_id))
         update("succeeded", "done", analysis_id=analysis_id)
     except asyncio.CancelledError:
         update("failed", stage, error=json.dumps({"code": "server_shutdown", "stage": stage,
@@ -211,6 +220,14 @@ async def _run_job(app, job_id: str, body: AnalysisRequestV2) -> None:
 
 @router.post("/analyses", status_code=202)
 async def create_analysis(body: AnalysisRequestV2, request: Request):
+    if body.field_id:
+        from app.services.accounts import require_user
+        user=require_user(request)
+        field=request.app.state.db.execute('SELECT lat,lon FROM fs_field WHERE field_id=? AND user_id=?',
+                                          (body.field_id,user['id'])).fetchone()
+        if not field:raise HTTPException(404,'Field not found')
+        if (round(field[0],4),round(field[1],4))!=(round(body.lat,4),round(body.lon,4)):
+            raise HTTPException(422,'Analysis location must match the saved field')
     if body.parent_analysis_id:
         _load(request,body.parent_analysis_id)
     state = state_at(body.lon, body.lat)
@@ -251,7 +268,11 @@ def _load(request: Request, analysis_id: str) -> dict:
                                        (analysis_id, request.state.owner)).fetchone()
     if row is None:
         raise HTTPException(status_code=404, detail="analysis not found")
-    return json.loads(row[0])
+    result = json.loads(row[0])
+    # Recompute display indices when the scoring definition changes; saved physical
+    # model outputs remain untouched and the score formula is documented in reports.
+    summarize_water_stress(result.get("strategies", []))
+    return result
 
 
 @router.get("/analyses/{analysis_id}")
@@ -262,3 +283,9 @@ async def get_analysis(analysis_id: str, request: Request) -> dict:
 @router.get("/analyses/{analysis_id}/report", response_class=PlainTextResponse)
 async def report(analysis_id: str, request: Request) -> PlainTextResponse:
     return PlainTextResponse(render(_load(request, analysis_id), analysis_id), media_type="text/markdown")
+
+
+@router.get("/analyses/{analysis_id}/report/print", response_class=HTMLResponse)
+async def print_report(analysis_id: str, request: Request) -> HTMLResponse:
+    """Print-ready report; browser Save as PDF creates a paginated PDF file."""
+    return HTMLResponse(render_html(_load(request, analysis_id), analysis_id))

@@ -1,5 +1,7 @@
 # Implementation status against spec v4.0
 
+Latest full application delivery: see [full-app-delivery.md](full-app-delivery.md). The public home page, private accounts/fields, recovery, exports, saved comparisons, chat UI and selectable scientific map layers are now implemented. The all-crop national 2020 processing plan and per-metric no-data counts are recorded in `validation/results/national-grid-delivery.json`. This does not change the failed scientific qualification or establish field accuracy. OpenAI responses remain blocked by exhausted API credits. Container/cloud deployment execution remains external work.
+
 As of 14 November 2026. Implemented means built and tested; validated means compared with independent field
 observations, which has **not** been done for any output.
 

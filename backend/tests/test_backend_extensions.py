@@ -153,6 +153,20 @@ def test_supplemental_source_units_dates_and_missing():
     assert parse(moisture,'smap')['status']=='no_data'  # no SMAP availability invented
 
 
+def test_merra2_soil_wetness_is_labelled_and_never_smap():
+    wet=supplemental_raw('merra2_soil_wetness')
+    r=parse(wet,'merra2_soil_wetness')
+    assert r['valid_values']==2 and r['units']=={'GWETTOP':'1','GWETROOT':'1'}
+    assert r['values']['GWETTOP']['20200502'] is None and 'reanalysis' in r['meaning']
+    for mutate in [lambda r:r['header'].update(sources=['SMAP']),          # must really be MERRA-2
+                   lambda r:r['parameters']['GWETTOP'].update(units='m3 m-3'),
+                   lambda r:r['properties']['parameter']['GWETROOT'].update({'20200501':1.2})]:  # wetness is 0-1
+        broken=copy.deepcopy(wet);mutate(broken)
+        with pytest.raises(SourceIntegrityError):parse(broken,'merra2_soil_wetness')
+    smap=supplemental_raw('smap');smap['header']['sources']=['MERRA2']
+    with pytest.raises(SourceIntegrityError):parse(smap,'smap')  # the SMAP product still refuses MERRA-2 data
+
+
 def test_supplemental_api_artifacts_private_and_scope(client,monkeypatch):
     async def fake(*args):
         raw=supplemental_raw();return raw,parse(raw)

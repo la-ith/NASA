@@ -11,7 +11,7 @@ router=APIRouter(prefix='/api/v2')
 async def sources():
     from app.adapters import power,ssurgo
     return dict(integrated=[power.describe_product(),ssurgo.describe_product()],
-        supplemental=['usda_cdl','gpm_imerg','smap'],
+        supplemental=['usda_cdl','gpm_imerg','smap','merra2_soil_wetness'],
         note='Consult supplemental product routes for access status; no source is silently substituted.')
 
 

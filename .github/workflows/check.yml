@@ -1,0 +1,23 @@
+name: Verify Field Shift
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - run: pip install -r backend/requirements.txt
+      - run: python -m pytest -q
+        working-directory: backend
+        env:
+          FIELD_SHIFT_DB: ':memory:'
+          FIELD_SHIFT_WARMUP: '0'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test frontend/tests/*.test.mjs
+      - run: docker build -f backend/Dockerfile -t field-shift .

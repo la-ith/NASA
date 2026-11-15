@@ -2,7 +2,7 @@
   "provider": "OpenAI Responses API",
   "configured": true,
   "live_requested": true,
-  "checked_utc": "2026-11-14T20:06:06.760084+00:00",
+  "checked_utc": "2026-11-14T21:35:14.296730+00:00",
   "checks": [
     {
       "language": "en",
@@ -17,7 +17,6 @@
       "service_status": "quota_exhausted"
     }
   ],
-  "activation_verified": false,
   "model_access_verified": true,
-  "model_access_http_status": 200
+  "activation_verified": false
 }

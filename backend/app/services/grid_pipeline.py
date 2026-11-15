@@ -2,6 +2,7 @@
 import asyncio
 import hashlib
 import json
+from datetime import datetime,timezone
 from datetime import date
 from pathlib import Path
 import numpy as np
@@ -22,6 +23,12 @@ WIDTH,HEIGHT=576,113
 WEST,NORTH=-180.3125,73.25
 BANDS={name:i+1 for i,name in enumerate(METRICS)}
 GRID_SCHEMA='grid-cog-1.0'
+
+
+def job_spec(year,crop_id,states):
+    return dict(year=year,crop=crop_id,states=sorted(states) if states else 'US50',engine=ENGINE_VERSION,
+                crop_catalog=load_catalog().version,boundary=BOUNDARY_VERSION,
+                initial_depletion_fraction=.5,calendar='catalog default',soil='cell-centre SSURGO')
 
 
 def plan(states=None):
@@ -81,6 +88,7 @@ def publish(records,job,planned_count):
         spatial_support='0.5 degree latitude × 0.625 degree longitude meteorological grid-centre scenarios; radiation is coarser 1 degree',
         coverage=dict(planned_cells=planned_count,processed_cells=len(records),computed_cells=completed,
                       complete=len(records)==planned_count,excluded_cells=sum(x.get('status') not in ('ok','provider_error') for x in records),
+                      metric_valid_cells={k:int(np.sum(data[i-1]!=-9999)) for k,i in BANDS.items()},
                       note='Uncomputed, unsupported, coastal/land-centre gaps and missing-source cells are nodata, never interpolated'),
         source_versions=dict(engine=ENGINE_VERSION,crop_catalog=load_catalog().version,boundary=BOUNDARY_VERSION),
         assumptions=['Fixed source-tabulated crop calendar for every cell; not locally confirmed planting dates',
@@ -98,9 +106,7 @@ def publish(records,job,planned_count):
 async def build(year,crop_id,states=None,max_cells=None):
     if crop_id not in load_catalog().crops:raise ValueError('crop not in supported source-traced catalog')
     if not 1981<=year<date.today().year:raise ValueError('a complete historical year is required')
-    cells=plan(states);job=dict(year=year,crop=crop_id,states=sorted(states) if states else 'US50',engine=ENGINE_VERSION,
-                              crop_catalog=load_catalog().version,boundary=BOUNDARY_VERSION,
-                              initial_depletion_fraction=.5,calendar='catalog default',soil='cell-centre SSURGO')
+    cells=plan(states);job=job_spec(year,crop_id,states)
     key=content_hash(job)[:32];work=LAYER_ROOT/'builds'/key;work.mkdir(parents=True,exist_ok=True)
     (work/'plan.json').write_text(json.dumps(dict(job=job,cell_count=len(cells),cells=cells)),encoding='utf-8')
     db=connect(str(LAYER_ROOT/'grid-sources.db'))
@@ -121,3 +127,56 @@ async def build(year,crop_id,states=None,max_cells=None):
                 if requests:print(f"{len(records)}/{len(cells)} processed",flush=True)
     finally:db.close()
     return publish(records,job,len(cells))
+
+
+async def build_all(year,states=None,concurrency=3):
+    """Bounded shared-cache ingestion, all supported crops, recoverable per-cell checkpoints."""
+    if not 1<=concurrency<=4:raise ValueError('concurrency must be 1–4')
+    if not 1981<=year<date.today().year:raise ValueError('a complete historical year is required')
+    cells=plan(states);crops=list(load_catalog().crops);records={c:[] for c in crops}
+    works={c:LAYER_ROOT/'builds'/content_hash(job_spec(year,c,states))[:32] for c in crops}
+    for crop,work in works.items():
+        work.mkdir(parents=True,exist_ok=True)
+        (work/'plan.json').write_text(json.dumps(dict(job=job_spec(year,crop,states),cell_count=len(cells),cells=cells)),encoding='utf-8')
+    status_path=LAYER_ROOT/'national-build-status.json'
+    status=dict(state='running',year=year,states=states or 'US50',planned_cells=len(cells),completed_cells=0,
+                failures=[],crops=crops,started_utc=datetime.now(timezone.utc).isoformat())
+    def update():
+        status['updated_utc']=datetime.now(timezone.utc).isoformat()
+        temp=status_path.with_suffix('.tmp');temp.write_text(json.dumps(status,indent=2),encoding='utf-8');temp.replace(status_path)
+    update();queue=asyncio.Queue()
+    for cell in cells:queue.put_nowait(cell)
+    db=connect(str(LAYER_ROOT/'grid-sources.db'))
+    async def worker():
+        async with httpx.AsyncClient() as client:
+            while not queue.empty():
+                try:cell=queue.get_nowait()
+                except asyncio.QueueEmpty:break
+                successful=True
+                for crop in crops:
+                    target=works[crop]/(cell['id']+'.json')
+                    if target.exists():record=json.loads(target.read_text(encoding='utf-8'))
+                    else:
+                        record=None
+                        for attempt in range(3):
+                            try:
+                                record=await calculate_cell(cell,year,crop,db,client);break
+                            except Exception as e:
+                                if attempt<2:await asyncio.sleep(3*(attempt+1))
+                                else:status['failures'].append(dict(cell=cell['id'],crop=crop,error=type(e).__name__))
+                        if record is not None:target.write_text(json.dumps(record,allow_nan=False),encoding='utf-8')
+                    if record is None:successful=False;break
+                    records[crop].append(record)
+                status['completed_cells']+=1
+                if status['completed_cells']%20==0 or not successful:
+                    update();print(f"{status['completed_cells']}/{len(cells)} cells; failures {len(status['failures'])}",flush=True)
+                queue.task_done()
+    try:await asyncio.gather(*(worker() for _ in range(concurrency)))
+    finally:db.close()
+    manifests=[]
+    for crop in crops:
+        records[crop].sort(key=lambda r:(r['cell']['row'],r['cell']['col']))
+        manifests.append(publish(records[crop],job_spec(year,crop,states),len(cells)))
+    status['state']='complete' if all(m['coverage']['complete'] for m in manifests) else 'partial'
+    status['artifacts']=[m['artifact_id'] for m in manifests];update()
+    return manifests

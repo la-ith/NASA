@@ -27,6 +27,8 @@ from app.api.products import router as products_router
 from app.api.chat import router as chat_router
 from app.api.raster import router as raster_router
 from app.api.validation import router as validation_router
+from app.api.accounts import router as accounts_router
+from app.services import accounts
 from app.db.database import connect
 from app.services.climate_context import build_climate_context
 from app.services.climate_provider import ProviderError
@@ -44,6 +46,7 @@ async def lifespan(app: FastAPI):
     app.state.db = connect(DB_PATH)
     app.state.analysis_executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="field-analysis")
     app.state.chat_lock = asyncio.Lock()
+    app.state.auth_slots = asyncio.Semaphore(2)
     if WARM_UP:
         try:  # warm the pilot cache, so the demo does not depend on a live call
             await build_climate_context("live", 31.5, 35.1, 2026, app.state.http, app.state.db)
@@ -70,15 +73,22 @@ app.include_router(products_router)
 app.include_router(chat_router)
 app.include_router(raster_router)
 app.include_router(validation_router)
+app.include_router(accounts_router)
 
 
 @app.middleware("http")
 async def session_scope(request: Request, call_next):
+    if request.method in ('POST','PUT','PATCH','DELETE'):
+        origin=request.headers.get('origin')
+        if origin and origin.rstrip('/')!=str(request.base_url).rstrip('/'):
+            return JSONResponse(status_code=403,content={'detail':'Cross-origin writes are not allowed'})
     token = request.cookies.get("field_shift_session")
     new = not token or len(token) != 43
     if new:
         token = secrets.token_urlsafe(32)
     request.state.owner = hashlib.sha256(token.encode()).hexdigest()
+    request.state.user = accounts.identify(request.app.state.db,request.cookies.get(accounts.COOKIE))
+    if request.state.user:request.state.owner='user:'+request.state.user['id']
     response = await call_next(request)
     if new:
         response.set_cookie("field_shift_session", token, httponly=True, samesite="strict",
@@ -94,6 +104,8 @@ async def health() -> dict:
 @app.exception_handler(RequestValidationError)
 async def invalid_input(request: Request, exc: RequestValidationError) -> JSONResponse:
     fields = jsonable_encoder(exc.errors(), custom_encoder={float: lambda x: x if math.isfinite(x) else str(x)})
+    if request.url.path.startswith('/api/v2/auth/'):
+        fields=[{k:v for k,v in field.items() if k not in ('input','ctx')} for field in fields]
     return JSONResponse(status_code=422, content={"error": {"code": "invalid_input", "fields": fields}})
 
 
@@ -110,4 +122,9 @@ async def data_error(request: Request, exc: UnusableRecord) -> JSONResponse:
 
 
 if FRONTEND_DIR.is_dir():  # mounted last, so /api routes take precedence
+    @app.get('/api/v2/showcase')
+    async def showcase():
+        from fastapi.responses import FileResponse
+        return FileResponse(FRONTEND_DIR.parent/'data/fixtures/showcase_ks_hays.json',media_type='application/json')
+
     app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")

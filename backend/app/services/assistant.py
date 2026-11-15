@@ -55,6 +55,15 @@ def evidence(analysis,question):
     ranked=sorted(eligible,key=lambda r:len(tokens&set(r['keywords'].split())),reverse=True)
     items=[{k:r[k] for k in ('id','title','url','text')} for r in ranked]
     if analysis:
+        context=analysis.get('field_context') or {}
+        context_labels={'area_acres':'reported size (acres)','soil_texture':'reported soil feel','drainage':'reported drainage',
+                       'slope':'reported slope','water_source':'reported water source','notes':'farmer notes'}
+        context_lines=[f"{label}: {context[key]}" for key,label in context_labels.items()
+                       if context.get(key) not in (None,'','unknown')]
+        if context_lines:
+            items.insert(0,dict(id='field-context',title='Farmer-reported field details',url='',
+                text='These details were entered by the farmer and have not been independently verified: '+ '; '.join(context_lines)+
+                '. They provide conversation context only and do not change the weather or soil calculations.'))
         items.insert(0,dict(id='analysis-limits',title='Selected analysis limitations',
                             url=f"/api/v2/analyses/{analysis['analysis_id']}/provenance",
                             text=' '.join(analysis['limitations'])))

@@ -9,5 +9,5 @@ def load_private_env(path=None):
     # Disable ${...} interpolation: a credential is a literal value, never a template or shell command.
     for name,value in dotenv_values(path,interpolate=False).items():
         if value and name in {'OPENAI_API_KEY','OPENAI_MODEL','CIMIS_APP_KEY','FIELD_SHIFT_AI_DAILY_CALL_LIMIT',
-                              'FIELD_SHIFT_LAYER_DIR','FIELD_SHIFT_DB','FIELD_SHIFT_WARMUP'}:
+                              'FIELD_SHIFT_LAYER_DIR','FIELD_SHIFT_DB','FIELD_SHIFT_WARMUP','FIELD_SHIFT_EXPERT_KEY'}:
             os.environ.setdefault(name,value)

@@ -20,7 +20,8 @@ COLUMNS = ["mukey", "muname", "cokey", "compname", "comppct_r", "majcompflag", "
            "hzdept_r", "hzdepb_r", "awc_r", "wthirdbar_r", "wfifteenbar_r", "sandtotal_r", "claytotal_r"]
 TABLE_ALIAS = {"mukey": "mu", "muname": "mu", "cokey": "c", "compname": "c", "comppct_r": "c", "majcompflag": "c",
                "hydgrp": "c"}  # every other column comes from the horizon table (h)
-# TR-55 Table 2-2b, row crops, straight row, good hydrologic condition (verify against the NRCS original).
+# TR-55 Table 2-2b, row crops, straight row, good hydrologic condition.
+# Confirmed in NRCS NEH 630 Subpart E (June 2025), Figure 630E-1 p.2; docs/data-sources.md.
 CURVE_NUMBERS = {"A": 67, "B": 78, "C": 85, "D": 89}
 
 

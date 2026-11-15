@@ -1,4 +1,4 @@
-"""Session-scoped agricultural assistant API. No account database is introduced."""
+"""Owner-scoped agricultural assistant API for guests and signed-in accounts."""
 import json
 import os
 import secrets
@@ -25,6 +25,13 @@ class MessageIn(BaseModel):
 async def status():
     return dict(provider='OpenAI Responses API',configured=bool(os.environ.get('OPENAI_API_KEY') and os.environ.get('OPENAI_MODEL')),
                 default_mode='grounded evidence selection; deterministic fallback',free_form_claims=False)
+
+
+@router.get('/sessions')
+async def sessions(request:Request):
+    rows=request.app.state.db.execute('SELECT session_id,analysis_id,created_utc FROM v2_chat_session WHERE owner=? ORDER BY created_utc DESC',
+                                     (request.state.owner,)).fetchall()
+    return dict(sessions=[dict(session_id=r[0],analysis_id=r[1],created_utc=r[2]) for r in rows])
 
 
 @router.post('/sessions',status_code=201)

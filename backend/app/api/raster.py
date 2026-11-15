@@ -9,6 +9,13 @@ from app.services import raster_layers as layers
 router=APIRouter(prefix='/api/v2/map')
 
 
+@router.get('/build-status')
+async def build_status():
+    import json
+    path=layers.LAYER_ROOT/'national-build-status.json'
+    return json.loads(path.read_text(encoding='utf-8')) if path.exists() else dict(state='not_started')
+
+
 @router.get('/layers')
 async def catalog():
     return dict(scope='50 US states including Alaska across the antimeridian and Hawaii',
