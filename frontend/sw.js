@@ -1,6 +1,6 @@
 // Caches the app shell so the app opens offline (section 9). API calls always go to the network.
-const SHELL = "field-shift-shell-v11";
-const FILES = ["/", "/workspace/", "/science/", "/styles.css?v=7", "/site.css?v=7", "/workspace.css?v=7", "/theme.css?v=9", "/science.css", "/app.js?v=11", "/soil-profile.js?v=2", "/home.js?v=6", "/science.js", "/map-layers.js?v=6", "/assets/field-study.svg", "/icon.svg"];
+const SHELL = "field-shift-shell-v12";
+const FILES = ["/", "/workspace/", "/science/", "/styles.css?v=7", "/site.css?v=7", "/workspace.css?v=7", "/theme.css?v=9", "/science.css", "/app.js?v=12", "/soil-profile.js?v=2", "/home.js?v=6", "/science.js", "/map-layers.js?v=6", "/assets/field-study.svg", "/icon.svg"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(SHELL).then((cache) => cache.addAll(FILES)).then(()=>self.skipWaiting()));

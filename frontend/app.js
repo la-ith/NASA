@@ -943,9 +943,19 @@ function renderChat(analysis, messages, error = "") {
   messageBox.scrollTop = messageBox.scrollHeight;
 }
 
+// Say why AI selection is off, from the backend's service_status, instead of a vague "unavailable".
+function chatServiceNote(response) {
+  if (response.mode === 'openai_evidence_selection') return 'AI-assisted evidence selection';
+  return ({
+    quota_exhausted: 'AI answers are paused: the OpenAI account for this app has no credits left. This answer comes straight from your saved comparison.',
+    access_denied: 'AI answers are off: the OpenAI key was rejected. This answer comes straight from your saved comparison.',
+    not_configured: 'AI answers aren’t set up on this server. This answer comes straight from your saved comparison.',
+  })[response.service_status] || response.service_notice || 'AI service unavailable · this answer comes straight from your saved comparison.';
+}
+
 function chatMessage(question, response) {
   if (!response) return `<div class="user-message"><p>${esc(question)}</p></div><div class="assistant-message"><span class="loader"></span><p>Finding relevant information…</p></div>`;
-  return `<div class="user-message"><p>${esc(question)}</p></div><div class="assistant-message" dir="auto"><strong>Field Shift</strong><p class="hint">${response.mode==='openai_evidence_selection'?'AI-assisted evidence selection':'Source-based guidance · AI service unavailable'}</p>${chatAnswer(response)}
+  return `<div class="user-message"><p>${esc(question)}</p></div><div class="assistant-message" dir="auto"><strong>Field Shift</strong><p class="hint">${esc(chatServiceNote(response))}</p>${chatAnswer(response)}
     ${response.evidence?.length ? `<div class="evidence-list"><span class="hint">Sources and evidence</span>${response.evidence.map((item) => `<details><summary>${esc(item.title)}</summary><p>${esc(item.text)}</p><a href="${esc(item.url)}" target="_blank" rel="noopener">Open source</a></details>`).join("")}</div>` : ""}
     ${response.questions?.length ? `<div class="follow-up"><span class="hint">To make this more useful:</span>${response.questions.map((q) => `<p>${esc(q)}</p>`).join("")}</div>` : ""}
     <p class="hint">${esc(response.limitation || "")}</p></div>`;
