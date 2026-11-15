@@ -9,13 +9,15 @@ Historical US crop-water comparisons using NASA POWER, USDA SSURGO and FAO-56 ph
 
 ## 2026 judging alignment
 
+See the [project evidence index](docs/project-evidence.md) for reproducible checks, current validation results, and the remaining proof gaps.
+
 | Criterion | What to show | Evidence and limits |
 |---|---|---|
 | Impact | A farmer enters a field, compares three crop options, and gets practical questions to take to local expertise. | Private field notes, a grounded assistant, an in-app agronomist queue, and an exportable report support the next conversation. No yield, income, or guaranteed crop recommendation is claimed. |
-| Creativity | The field’s reported context, NASA weather, mapped USDA soil, and a documented water-balance model meet in one comparison. | Each option shows a relative water-gap score and its main modeled factor; the score is not a failure probability. |
+| Creativity | The field’s reported context, NASA weather, mapped USDA soil, and a documented water-balance model meet in one comparison. | The relative water-gap score is not a failure probability. The API/PDF field named “primary contributing factor” is only a combined deficit description; it does not isolate a proven causal driver. |
 | Validity | Open the methods page and follow the inputs through the FAO-56 calculations and source records. | Automated tests and numerical reference checks verify implementation. Independent farm-level accuracy and agronomic review are still outstanding. |
 | Relevance | Show NASA POWER weather entering reference evapotranspiration and the crop water balance, with USDA SSURGO soil informing mapped storage assumptions. | NASA data is part of the calculation. Coverage, missing records, spatial resolution, and field-versus-grid limits are identified. |
-| Presentation | Use the saved Hays example: open the map, inspect the three crop cards and main factor, then show the next-step guide and report export. | Close with the model limitations and validation status rather than presenting historical replay as a forecast. |
+| Presentation | Use the saved Hays example: open the map, compare the three crop options, then show the methods page and report export. | Explain the model limitations and validation status; present the historical replay as a comparison, not a forecast. |
 
 Suggested demo story: **farmer’s question → field and known context → NASA/USDA evidence → three comparable options → what to check with a local expert**. The home page, `/workspace/?demo=ks_hays`, and `/science/` follow this path.
 
