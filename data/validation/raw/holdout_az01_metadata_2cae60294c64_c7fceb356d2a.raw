@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#" class="sticky-footer">
+  <head>
+    <meta charset="utf-8" />
+<link rel="shortlink" href="https://azmet.arizona.edu/" />
+<link rel="canonical" href="https://azmet.arizona.edu/about/station-metadata/az01" />
+<meta property="og:site_name" content="The Arizona Meteorological Network" />
+<meta property="og:url" content="https://azmet.arizona.edu/about/station-metadata/az01" />
+<meta property="og:title" content="Tucson" />
+<meta name="twitter:card" content="summary" />
+<meta name="Generator" content="Arizona Quickstart (https://quickstart.arizona.edu)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "CollegeOrUniversity",
+            "parentOrganization": {
+                "@type": "EducationalOrganization",
+                "@id": "https://www.arizona.edu/",
+                "name": "University of Arizona",
+                "url": "https://www.arizona.edu/",
+                "sameAs": [
+                    "https://www.facebook.com/uarizona",
+                    "https://x.com/uarizona",
+                    "https://www.instagram.com/uarizona",
+                    "https://linkedin.com/edu/university-of-arizona-17783",
+                    "https://www.youtube.com/universityofarizona",
+                    "https://en.wikipedia.org/wiki/University_of_Arizona"
+                ],
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "1401 E University Blvd",
+                    "addressLocality": "Tucson",
+                    "addressRegion": "AZ",
+                    "postalCode": "85721",
+                    "addressCountry": "US"
+                }
+            },
+            "url": "https://azmet.arizona.edu/",
+            "name": "University of Arizona The Arizona Meteorological Network"
+        }
+    ]
+}</script>
+<meta http-equiv="x-ua-compatible" content="ie=edge" />
+<style>#station-bg-img {background-image: url("https://azmet.arizona.edu/sites/default/files/styles/az_full_width_bg_large/public/2024-08/az01-tucson.jpeg.webp?itok=OK0iK7Da");}</style>
+<link rel="icon" href="/profiles/custom/az_quickstart/themes/custom/az_barrio/favicon.ico" type="image/vnd.microsoft.icon" />
+
+    <title>Tucson | The Arizona Meteorological Network</title>
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_tPfEg9pWHtZqbm8mmude_t9bPsM-joj062bxLhXW4EE.css?delta=0&amp;language=en&amp;theme=az_barrio&amp;include=eJxVUFsOwzAIu1AeR6pIQtusNESBdo_TL3tU636QMZYNgAjqkMsFo3LzUcQprnUQvROKgccQoLXMHh72gyyPo41QdhBbYO-StTvsGa_iT9gEZhVtUA-HiTgA2ZdzLpOJC6bcM3t4wqKBOC7-hA3etAsXn9pWgdy3NRNyH4NmLv6E3Qr1PBsIYSTUP82XMxUaTH21WQ73H-O2UrdAWWZMRu7S3-EDCJrPie_qVk4b4RO0Enz8" />
+<link rel="stylesheet" media="all" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_c_XTCLbwQa8NqVplsXFY5U8QkaXPlsz7uB_8uDDLqFM.css?delta=2&amp;language=en&amp;theme=az_barrio&amp;include=eJxVUFsOwzAIu1AeR6pIQtusNESBdo_TL3tU636QMZYNgAjqkMsFo3LzUcQprnUQvROKgccQoLXMHh72gyyPo41QdhBbYO-StTvsGa_iT9gEZhVtUA-HiTgA2ZdzLpOJC6bcM3t4wqKBOC7-hA3etAsXn9pWgdy3NRNyH4NmLv6E3Qr1PBsIYSTUP82XMxUaTH21WQ73H-O2UrdAWWZMRu7S3-EDCJrPie_qVk4b4RO0Enz8" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_xKZ70GhzzFYmkzLuxzzHfCN67dgx2Ra5k4x44KKA7UE.css?delta=3&amp;language=en&amp;theme=az_barrio&amp;include=eJxVUFsOwzAIu1AeR6pIQtusNESBdo_TL3tU636QMZYNgAjqkMsFo3LzUcQprnUQvROKgccQoLXMHh72gyyPo41QdhBbYO-StTvsGa_iT9gEZhVtUA-HiTgA2ZdzLpOJC6bcM3t4wqKBOC7-hA3etAsXn9pWgdy3NRNyH4NmLv6E3Qr1PBsIYSTUP82XMxUaTH21WQ73H-O2UrdAWWZMRu7S3-EDCJrPie_qVk4b4RO0Enz8" />
+<link rel="stylesheet" media="all" href="https://use.typekit.net/emv3zbo.css" />
+<link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css?family=Material+Icons+Sharp#.css" />
+<link rel="stylesheet" media="all" href="https://cdn.digital.arizona.edu/lib/az-icons/1.0.4/az-icons-styles.min.css" />
+<link rel="stylesheet" media="all" href="https://cdn.digital.arizona.edu/lib/arizona-bootstrap/2.0.27/css/arizona-bootstrap.min.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_8qY07KEpr1Q-UbfVqYUMHjdnRasOB9A2d6k7YIU1dFo.css?delta=8&amp;language=en&amp;theme=az_barrio&amp;include=eJxVUFsOwzAIu1AeR6pIQtusNESBdo_TL3tU636QMZYNgAjqkMsFo3LzUcQprnUQvROKgccQoLXMHh72gyyPo41QdhBbYO-StTvsGa_iT9gEZhVtUA-HiTgA2ZdzLpOJC6bcM3t4wqKBOC7-hA3etAsXn9pWgdy3NRNyH4NmLv6E3Qr1PBsIYSTUP82XMxUaTH21WQ73H-O2UrdAWWZMRu7S3-EDCJrPie_qVk4b4RO0Enz8" />
+<link rel="stylesheet" media="print" href="/sites/default/files/css/css_KH9d4mvamGOwUoV2bXszb70-tbFm3V6yTsRSQHVewv4.css?delta=9&amp;language=en&amp;theme=az_barrio&amp;include=eJxVUFsOwzAIu1AeR6pIQtusNESBdo_TL3tU636QMZYNgAjqkMsFo3LzUcQprnUQvROKgccQoLXMHh72gyyPo41QdhBbYO-StTvsGa_iT9gEZhVtUA-HiTgA2ZdzLpOJC6bcM3t4wqKBOC7-hA3etAsXn9pWgdy3NRNyH4NmLv6E3Qr1PBsIYSTUP82XMxUaTH21WQ73H-O2UrdAWWZMRu7S3-EDCJrPie_qVk4b4RO0Enz8" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_LIio_RGtWNuXiVCTzxJt8HqosSMWW0v7OLohP5UxGdw.css?delta=10&amp;language=en&amp;theme=az_barrio&amp;include=eJxVUFsOwzAIu1AeR6pIQtusNESBdo_TL3tU636QMZYNgAjqkMsFo3LzUcQprnUQvROKgccQoLXMHh72gyyPo41QdhBbYO-StTvsGa_iT9gEZhVtUA-HiTgA2ZdzLpOJC6bcM3t4wqKBOC7-hA3etAsXn9pWgdy3NRNyH4NmLv6E3Qr1PBsIYSTUP82XMxUaTH21WQ73H-O2UrdAWWZMRu7S3-EDCJrPie_qVk4b4RO0Enz8" />
+
+    <script type="application/json" data-drupal-selector="drupal-settings-json">{"path":{"baseUrl":"\/","pathPrefix":"","currentPath":"node\/66","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"en"},"pluralDelimiter":"\u0003","suppressDeprecationErrors":true,"ajaxPageState":{"libraries":"eJyVUVtywyAMvBCGIzEylgkxIAaJNMnpqzTx1H18tD8aabW7CAmYUXyqZwxC3QVmK1iaZ7llZAN3P0PviRzcp2c20bpOAeoFeKpwUUpRh0vCN3aH3MxEwtKh7Q4x0wx5ejinGn_2Ky1owoZL0kl0pAWrzJnC5g65wauofHNLHw2yfZUmImkbJFF1RT2DCrDbNckO85HjM8KaUVygUqiqwr6QX1naXxFkdNxpPgwWKl5SRp_hhv2vwgJ9Q_1foPpPSaM2molEUd8UiC5q-F5bOMP1K1hMgw5RV33ifW-fiB21jTknPuFi-MZ6fjcDo3me9CPaQsvI-A5H9twA","theme":"az_barrio","theme_token":null},"ajaxTrustedUrl":{"\/search\/node":true},"gtag":{"tagId":"G-31KWNERJW5","consentMode":false,"otherIds":[],"events":[],"additionalConfigInfo":[]},"gtm":{"tagId":null,"settings":{"data_layer":"dataLayer","include_classes":false,"allowlist_classes":"","blocklist_classes":"","include_environment":false,"environment_id":"","environment_token":""},"tagIds":["GTM-ML2BZB"]},"data":{"extlink":{"extTarget":true,"extTargetAppendNewWindowLabel":"(opens in a new window)","extTargetNoOverride":true,"extNofollow":true,"extTitleNoOverride":false,"extNoreferrer":false,"extFollowNoOverride":false,"extClass":"0","extLabel":"(link is external)","extImgClass":false,"extSubdomains":false,"extExclude":"^(?!(https?:\\\/\\\/)(arizona.box.com|docs.google.com|dropbox.com|www.dropbox.com|emailarizona-my.sharepoint.com|events.trellis.arizona.edu)).*","extInclude":"\/sites\/.+\/files\/.+\\.pdf","extCssExclude":"","extCssInclude":"","extCssExplicit":"","extAlert":false,"extAlertText":"This link will take you to an external web site. We are not responsible for their content.","extHideIcons":false,"mailtoClass":"0","telClass":"","mailtoLabel":"(link sends email)","telLabel":"(link is a phone number)","extUseFontAwesome":false,"extIconPlacement":"before","extPreventOrphan":false,"extFaLinkClasses":"fa fa-external-link","extFaMailtoClasses":"fa fa-envelope-o","extAdditionalLinkClasses":"","extAdditionalMailtoClasses":"","extAdditionalTelClasses":"","extFaTelClasses":"fa fa-phone","whitelistedDomains":[],"extExcludeNoreferrer":""}},"geolocation":{"maps":{"ffe43c693072e9980dcc3c5a8183c31793a6040b5211a5b6a9319d5b05f687be":{"map_center":{"fit_bounds":{"map_center_id":"fit_bounds","option_id":"fit_bounds","settings":{"min_zoom":6,"reset_zoom":true},"weight":1}},"settings":{"leaflet_settings":{"map_features":{"leaflet_control_zoom":{"enabled":false,"weight":0,"settings":{"position":"topright"}},"leaflet_control_attribution":{"enabled":false,"settings":{"position":"bottomright","prefix":"Leaflet"},"weight":0},"leaflet_marker_popup":{"enabled":true,"weight":0,"settings":{"info_auto_display":false,"max_width":0,"min_width":0,"max_height":0,"auto_pan":true,"keep_in_view":true,"close_button":true,"auto_close":true,"close_on_escape_key":true,"class_name":""}},"leaflet_client_location_indicator":{"weight":0,"enabled":false},"leaflet_disable_user_interaction":{"weight":0,"enabled":false},"geolocation_shapes":{"weight":0,"settings":{"remove_markers":false,"polyline":true,"polyline_title":"","strokeColor":"#FF0000","strokeOpacity":0.8,"strokeWidth":"2","polygon":false,"polygon_title":"","fillColor":"#FF0000","fillOpacity":0.35},"enabled":false},"leaflet_gesture_handling":{"weight":0,"enabled":false},"leaflet_rotate":{"weight":0,"settings":{"display_control":true,"bearing":0},"enabled":false},"leaflet_control_fullscreen":{"weight":0,"settings":{"position":"topright"},"enabled":false},"leaflet_control_geocoder":{"weight":0,"settings":{"position":"topright","geocoder":"photon","settings":{"label":"Address","description":"Enter an address to be localized.","autocomplete_min_length":1,"location_priority":{"lat":null,"lng":null},"remove_duplicates":false}},"enabled":false},"leaflet_control_locate":{"weight":0,"settings":{"position":"topright"},"enabled":false},"leaflet_control_recenter":{"weight":0,"settings":{"position":"topright"},"enabled":false},"leaflet_control_scale":{"weight":0,"settings":{"position":"topright","metric":true,"imperial":true},"enabled":false},"leaflet_control_layer":{"weight":0,"settings":{"position":"topright","default_label":"Default","tile_layer_providers":{"OpenStreetMap":{"OpenStreetMap Mapnik":{"checkbox":false,"label":""},"OpenStreetMap BlackAndWhite":{"checkbox":false,"label":""},"OpenStreetMap DE":{"checkbox":false,"label":""},"OpenStreetMap CH":{"checkbox":false,"label":""},"OpenStreetMap France":{"checkbox":false,"label":""},"OpenStreetMap HOT":{"checkbox":false,"label":""},"OpenStreetMap BZH":{"checkbox":false,"label":""}},"OpenTopoMap":{"OpenTopoMap":{"checkbox":false,"label":""}},"Thunderforest":{"Thunderforest OpenCycleMap":{"checkbox":false,"label":""},"Thunderforest Transport":{"checkbox":false,"label":""},"Thunderforest TransportDark":{"checkbox":false,"label":""},"Thunderforest SpinalMap":{"checkbox":false,"label":""},"Thunderforest Landscape":{"checkbox":false,"label":""},"Thunderforest Outdoors":{"checkbox":false,"label":""},"Thunderforest Pioneer":{"checkbox":false,"label":""}},"OpenMapSurfer":{"OpenMapSurfer Roads":{"checkbox":false,"label":""},"OpenMapSurfer Grayscale":{"checkbox":false,"label":""}},"Hydda":{"Hydda Full":{"checkbox":false,"label":""},"Hydda Base":{"checkbox":false,"label":""}},"MapBox":{"MapBox":{"checkbox":false,"label":""}},"Stamen":{"Stamen Toner":{"checkbox":false,"label":""},"Stamen TonerBackground":{"checkbox":false,"label":""},"Stamen TonerLite":{"checkbox":false,"label":""},"Stamen Watercolor":{"checkbox":false,"label":""},"Stamen Terrain":{"checkbox":false,"label":""},"Stamen TerrainBackground":{"checkbox":false,"label":""},"Stamen TopOSMRelief":{"checkbox":false,"label":""}},"Esri":{"Esri WorldStreetMap":{"checkbox":false,"label":""},"Esri DeLorme":{"checkbox":false,"label":""},"Esri WorldTopoMap":{"checkbox":false,"label":""},"Esri WorldImagery":{"checkbox":false,"label":""},"Esri WorldTerrain":{"checkbox":false,"label":""},"Esri WorldShadedRelief":{"checkbox":false,"label":""},"Esri WorldPhysical":{"checkbox":false,"label":""},"Esri OceanBasemap":{"checkbox":false,"label":""},"Esri NatGeoWorldMap":{"checkbox":false,"label":""},"Esri WorldGrayCanvas":{"checkbox":false,"label":""}},"HERE":{"HERE normalDay":{"checkbox":false,"label":""},"HERE normalDayCustom":{"checkbox":false,"label":""},"HERE normalDayGrey":{"checkbox":false,"label":""},"HERE normalDayMobile":{"checkbox":false,"label":""},"HERE normalDayGreyMobile":{"checkbox":false,"label":""},"HERE normalDayTransit":{"checkbox":false,"label":""},"HERE normalDayTransitMobile":{"checkbox":false,"label":""},"HERE normalNight":{"checkbox":false,"label":""},"HERE normalNightMobile":{"checkbox":false,"label":""},"HERE normalNightGrey":{"checkbox":false,"label":""},"HERE normalNightGreyMobile":{"checkbox":false,"label":""},"HERE normalNightTransit":{"checkbox":false,"label":""},"HERE normalNightTransitMobile":{"checkbox":false,"label":""},"HERE redcuedDay":{"checkbox":false,"label":""},"HERE redcuedNight":{"checkbox":false,"label":""},"HERE basicMap":{"checkbox":false,"label":""},"HERE mapLabels":{"checkbox":false,"label":""},"HERE trafficFlow":{"checkbox":false,"label":""},"HERE carnavDayGrey":{"checkbox":false,"label":""},"HERE hybridDayMobile":{"checkbox":false,"label":""},"HERE hybridDayTransit":{"checkbox":false,"label":""},"HERE hybridDayGrey":{"checkbox":false,"label":""},"HERE pedestrianDay":{"checkbox":false,"label":""},"HERE pedestrianNight":{"checkbox":false,"label":""},"HERE satelliteDay":{"checkbox":false,"label":""},"HERE terrainDay":{"checkbox":false,"label":""},"HERE terrainDayMobile":{"checkbox":false,"label":""}},"FreeMapSK":{"FreeMapSK":{"checkbox":false,"label":""}},"MtbMap":{"MtbMap":{"checkbox":false,"label":""}},"CartoDB":{"CartoDB Positron":{"checkbox":false,"label":""},"CartoDB PositronNoLabels":{"checkbox":false,"label":""},"CartoDB PositronOnlyLabels":{"checkbox":false,"label":""},"CartoDB DarkMatter":{"checkbox":false,"label":""},"CartoDB DarkMatterNoLabels":{"checkbox":false,"label":""},"CartoDB DarkMatterOnlyLabels":{"checkbox":false,"label":""},"CartoDB Voyager":{"checkbox":false,"label":""},"CartoDB VoyagerNoLabels":{"checkbox":false,"label":""},"CartoDB VoyagerOnlyLabels":{"checkbox":false,"label":""},"CartoDB VoyagerLabelsUnder":{"checkbox":false,"label":""}},"HikeBike":{"HikeBike":{"checkbox":false,"label":""},"HikeBike HillShading":{"checkbox":false,"label":""}},"BasemapAT":{"BasemapAT basemap":{"checkbox":false,"label":""},"BasemapAT grau":{"checkbox":false,"label":""},"BasemapAT overlay":{"checkbox":false,"label":""},"BasemapAT highdpi":{"checkbox":false,"label":""},"BasemapAT orthofoto":{"checkbox":false,"label":""}},"NLS":{"NLS":{"checkbox":false,"label":""}},"GeoportailFrance":{"GeoportailFrance parcels":{"checkbox":false,"label":""},"GeoportailFrance ignMaps":{"checkbox":false,"label":""},"GeoportailFrance maps":{"checkbox":false,"label":""},"GeoportailFrance orthos":{"checkbox":false,"label":""}}},"tile_providers_options":{"Thunderforest":{"apikey":""},"MapBox":{"accessToken":""},"HERE":{"app_id":"","app_code":""},"GeoportailFrance":{"apikey":""}}},"enabled":false},"leaflet_marker_clusterer":{"weight":0,"settings":{"cluster_settings":{"show_coverage_on_hover":true,"zoom_to_bounds_on_click":true},"disable_clustering_at_zoom":0,"custom_marker_settings":""},"enabled":false},"leaflet_marker_icon":{"weight":0,"settings":{"marker_icon_path":"","icon_size":{"width":40,"height":40},"icon_anchor":{"x":20,"y":null},"popup_anchor":{"x":0,"y":0},"marker_shadow_path":"","shadow_size":{"width":null,"height":null},"shadow_anchor":{"x":null,"y":null}},"enabled":true},"geolocation_marker_scroll_to_id":{"weight":0,"settings":{"scroll_target_id":""},"enabled":false},"leaflet_marker_zoom_and_animate":{"weight":0,"settings":{"marker_zoom_anchor_id":""},"enabled":false},"leaflet_max_bounds":{"weight":0,"settings":{"north":35.23,"south":31.31,"east":-109.05,"west":-115.48},"enabled":false},"leaflet_custom_tile_layer":{"weight":0,"settings":{"tile_layer_url":"https:\/\/basemaps.cartocdn.com\/light_all\/{z}\/{x}\/{y}.png?key=cb1_32hd_1_1edca79c133390e9ad1f65e4","tile_layer_attribution":"\u0026copy; \u003Ca href=\u0022https:\/\/carto.com\u0022\u003ECarto\u003C\/a\u003E","tile_layer_subdomains":"abc","tile_layer_zoom":18},"enabled":true},"leaflet_tile_layer_overlay":{"weight":0,"settings":{"tile_layer_overlay":"OpenInfraMap.Power"},"enabled":false},"leaflet_tile_layer":{"weight":0,"settings":{"tile_layer_provider":"CartoDB Positron","tile_provider_options":{"Thunderforest":{"apikey":""},"MapBox":{"accessToken":""},"HERE":{"app_id":"","app_code":""},"GeoportailFrance":{"apikey":""}}},"enabled":false},"leaflet_wms":{"weight":0,"settings":{"url":"","version":"1.1.1","layers":"","styles":"","srs":"","format":"image\/jpeg","transparent":false,"identify":false},"enabled":false}},"zoom":6,"height":"450px","width":"100%","minZoom":5,"maxZoom":15,"crs":"EPSG3857","preferCanvas":false,"zoomSnap":1,"zoomDelta":1,"trackResize":true,"boxZoom":true,"doubleClickZoom":true,"dragging":true,"zoomAnimation":true,"zoomAnimationThreshold":4,"fadeAnimation":true,"markerZoomAnimation":true,"inertia":false,"inertiaDeceleration":3000,"easeLinearity":0.2,"worldCopyJump":false,"maxBoundsViscosity":0,"keyboard":true,"keyboardPanDelta":80,"scrollWheelZoom":true,"wheelDebounceTime":40,"wheelPxPerZoomLevel":60,"tap":true,"tapTolerance":15,"touchZoom":true,"bounceAtZoomLimits":true}},"leaflet_marker_popup":{"enable":true,"infoAutoDisplay":false,"maxWidth":0,"minWidth":0,"maxHeight":0,"autoPan":true,"keepInView":true,"closeButton":true,"autoClose":true,"closeOnEscapeKey":true,"className":""},"leaflet_marker_icon":{"enable":true,"iconSize":{"width":40,"height":40},"iconAnchor":{"x":20,"y":0},"popupAnchor":{"x":0,"y":0},"shadowSize":{"width":0,"height":0},"shadowAnchor":{"x":0,"y":0}},"leaflet_custom_tile_layer":{"enable":true,"tileLayerUrl":"https:\/\/basemaps.cartocdn.com\/light_all\/{z}\/{x}\/{y}.png?key=cb1_32hd_1_1edca79c133390e9ad1f65e4","tileLayerAttribution":"\u0026copy; \u003Ca href=\u0022https:\/\/carto.com\u0022\u003ECarto\u003C\/a\u003E","tileLayerSubdomains":"abc","tileLayerZoom":18}}}},"user":{"uid":0,"permissionsHash":"fdc4372c43da1dc5ec776afabc855ae63cb547b175306e034bc6c8735b408ef2"}}</script>
+<script src="/sites/default/files/js/js_BtUQ_7YLIgoK61SHFXytPg3tf3Or3kVWN7uEaeLgvYg.js?scope=header&amp;delta=0&amp;language=en&amp;theme=az_barrio&amp;include=eJyVjVFuAyEMRC8Ey5HQLDGIxGAE3m2ypw9Ss1Ja9SP9sT3jeTYOv6L3LA6H_Z6sxGgD6o5hK3aDo5D6PdPXcG-zWUV0aEc7LySWFWyHPjjXZOius9_cpW8NvLykSSQsAZqlujLhQFWpLzHraY_3jGdCZFIXpBSpk1hezp-puY8E3TqdMR-2oVK8ZibPeFD_FCzoN-o-B6n_RJq0rZkkkuZPRXJplt96wRX3n2Z5AhopnXg"></script>
+<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+<script src="/modules/contrib/google_tag/js/gtag.js?tnxn6k"></script>
+<script src="/modules/contrib/google_tag/js/gtm.js?tnxn6k"></script>
+
+  </head>
+  <body class="layout-no-sidebars page-node-66 path-node node--type-station">
+    <a href="#content" class="visually-hidden focusable skip-link">
+      Skip to main content
+    </a>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-ML2BZB"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+    
+
+
+<div id="page-wrapper">
+  <div id="page">
+    <header id="header" class="header" role="banner" aria-label="Site header">
+                <header class="bg-red arizona-header" id="header_arizona" role="banner">
+          <div class="container">
+            <div class="row">
+                            <a class="arizona-logo" href="https://www.arizona.edu" title="The University of Arizona homepage">
+                <img class="arizona-line-logo" alt="The University of Arizona Wordmark Line Logo White" src="https://cdn.digital.arizona.edu/logos/v1.0.0/ua_wordmark_line_logo_white_rgb.min.svg"/>
+              </a>
+                                              <section class="ml-auto d-none d-lg-block d-xl-block region region-header-ua-utilities">
+    <div class="search-block-form az-search-block block block-search block-search-form-block" data-drupal-selector="search-block-form" id="block-az-barrio-search" role="search">
+  
+    
+          <div class="content">
+      <form action="/search/node" method="get" id="search-block-form" accept-charset="UTF-8" class="search-form search-block-form">
+  <div class="input-group">
+      <label for="edit-keys" class="sr-only">Search</label>
+<input title="Enter the terms you wish to search for." data-drupal-selector="edit-keys" type="search" id="edit-keys" name="keys" value="" size="15" maxlength="128" class="form-search form-control" placeholder="Search this site" aria-label="Search this site" />
+
+
+
+<div data-drupal-selector="edit-actions" class="form-actions js-form-wrapper input-group-append" id="edit-actions"><button data-drupal-selector="edit-submit" type="submit" id="edit-submit" value="Search" class="button js-form-submit form-submit btn"><span class="material-icons-sharp">search</span></button>
+
+</div>
+
+
+  </div>
+</form>
+
+
+    </div>
+  
+</div>
+
+  </section>
+
+                          </div> <!-- /.row -->
+          </div> <!-- /.container -->
+                    <div class="redbar-buttons d-lg-none">
+            <button data-toggle="offcanvas" type="button" data-target="#navbarOffcanvasDemo" aria-controls="navbarOffcanvasDemo" class="btn btn-redbar" id="jsAzSearch">
+              <span class="icon material-icons-sharp"> search </span>
+              <span class="icon-text"> search </span>
+            </button>
+            <button data-toggle="offcanvas" type="button" data-target="#navbarOffcanvasDemo" aria-controls="navbarOffcanvasDemo" class="btn btn-redbar">
+              <span class="icon material-icons-sharp"> menu </span>
+              <span class="icon-text"> menu </span>
+            </button>
+          </div>
+                  </header>
+        <div class="header page-row" id="header_site" role="banner">
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-sm-6 col-lg-4">
+                  <section class="region region-branding">
+    <div id="block-az-barrio-branding" class="clearfix block block-system block-system-branding-block">
+  
+    
+        <a href="/" title="The Arizona Meteorological Network | Home" class="qs-site-logo d-block" rel="home"><img class="img-fluid" fetchpriority="high" src="/sites/default/files/AZMet_1.png" alt="The Arizona Meteorological Network | Home" />
+</a>
+    </div>
+
+  </section>
+
+              </div>
+              <div class="col-12 col-sm-6 col-lg-8">
+                <div class="row">
+                  
+                </div>
+                              </div>
+            </div> <!-- /.row -->
+          </div> <!-- /.container -->
+
+          <div class="container">
+            <div class="row">
+                            <div class="col-lg">
+                <nav  class="navbar-offcanvas has-navigation-region has-off-canvas-region" id="navbarOffcanvasDemo">
+                  <div class="navbar-offcanvas-header">
+                    <div class="bg-chili d-flex justify-content-between align-items-center">
+                      <a href="/" class="btn btn-redbar">
+                        <span class="icon material-icons-sharp"> home </span>
+                        <span class="icon-text"> home </span>
+                      </a>
+                      <button data-toggle="offcanvas" type="button" data-target="#navbarOffcanvasDemo" aria-controls="navbarOffcanvasDemo" class="btn btn-redbar">
+                        <span class="icon material-icons-sharp"> close </span>
+                        <span class="icon-text"> close </span>
+                      </button>
+                    </div>
+                                            <section class="region region-navigation-offcanvas">
+    <div class="search-block-form bg-white navbar-offcanvas-search" data-drupal-selector="search-block-form-2" id="block-az-barrio-offcanvas-searchform" role="search">
+  
+    
+      <form action="/search/node" method="get" id="search-block-form--2" accept-charset="UTF-8" class="search-form search-block-form">
+  <div class="input-group">
+      <label for="edit-keys--2" class="sr-only">Search</label>
+<input title="Enter the terms you wish to search for." data-drupal-selector="edit-keys" type="search" id="edit-keys--2" name="keys" value="" size="15" maxlength="128" class="form-search form-control" placeholder="Search this site" aria-label="Search this site" />
+
+
+
+<div data-drupal-selector="edit-actions" class="form-actions js-form-wrapper input-group-append" id="edit-actions--2"><button data-drupal-selector="edit-submit" type="submit" id="edit-submit--2" value="Search" class="button js-form-submit form-submit btn"><span class="material-icons-sharp">search</span></button>
+
+</div>
+
+
+  </div>
+</form>
+
+
+  </div>
+
+  </section>
+
+                                    </div>
+                                                        <section class="region region-navigation">
+          <nav role="navigation" aria-labelledby="block-az-barrio-main-menu-menu" id="block-az-barrio-main-menu" class="block block-menu navigation menu--main">
+                      
+    <h2 class="sr-only" id="block-az-barrio-main-menu-menu">Main navigation</h2>
+    
+  
+              
+              <ul id="block-az-barrio-main-menu" block="block-az-barrio-main-menu" class="clearfix navbar-nav flex-lg-row">
+                          <li class="nav-item menu-item--collapsed">
+                                        <a href="/current-conditions" class="nav-link" data-drupal-link-system-path="node/1">Current Conditions</a>
+                          </li>
+                                  <li class="nav-item menu-item--collapsed">
+                                        <a href="/past-data" class="nav-link" data-drupal-link-system-path="node/6">Past Data</a>
+                          </li>
+                                  <li class="nav-item menu-item--collapsed">
+                                        <a href="/application-areas" class="nav-link" data-drupal-link-system-path="node/7">Application Areas</a>
+                          </li>
+                                  <li class="nav-item menu-item--collapsed">
+                                        <a href="/about" class="nav-link" data-drupal-link-system-path="node/8">About</a>
+                          </li>
+                      </ul>
+      
+
+
+      </nav>
+
+  </section>
+
+                                                </nav>
+              </div>
+                          </div>
+                          <div class="row">
+                  <section class="col-md region region-help">
+    
+
+  </section>
+
+              </div>
+                      </div>
+        </div>
+    </header>
+    
+
+    <div id="main-wrapper" class="layout-main-wrapper bg-cool-gray clearfix">
+        <div id="main" role="main">
+                              <div class="container-fluid bg-white">
+                                    <div class="row">
+                <section class="col-md region region-breadcrumb">
+    <div id="block-az-barrio-breadcrumbs" class="container block block-system block-system-breadcrumb-block">
+  
+    
+      <div class="content">
+      
+<div class="container">
+  <nav role="navigation" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+    
+              <li class="breadcrumb-item">
+          <a href="/">
+<span>&laquo; Back to</span>
+Home</a>
+        </li>
+          
+              <li class="breadcrumb-item">
+          <a href="/about">
+About</a>
+        </li>
+          
+              <li class="breadcrumb-item">
+          <a href="/about/station-metadata">
+Station Metadata</a>
+        </li>
+          
+              <li class="breadcrumb-item active" aria-current="page">
+          Tucson
+        </li>
+              </ol>
+  </nav>
+</div>
+
+    </div>
+  </div>
+
+  </section>
+
+            </div>
+                                    <div class="row">
+              
+            </div>
+                      </div>
+                    <div class="container">
+            <div class="row row-offcanvas row-offcanvas-left clearfix">
+              <main class="main-content col" id="content" role="main">
+                  <section class="region region-content">
+    <div id="block-az-barrio-content" class="block block-system block-system-main-block">
+  
+    
+      <div class="content">
+      
+
+<article class="node node--type-station node--promoted node--view-mode-full clearfix">
+    <div class="node__content clearfix">
+  <div class="views-element-container"><div class="view view-station-map view-id-station_map view-display-id-block_7 js-view-dom-id-427ea00582e907ba15f64e4fa915a937b51a00da72cd6e52013fcc4c86902f09">
+  
+    
+      
+      <div class="view-content">
+      <div class="item-list">
+  
+  <ul>
+
+          <li><div><div></div></div><div class="views-field views-field-nothing"><span class="field-content"><div class="mb-4 paragraph position-relative paragraph--type--az-text-media media--type--az-image paragraph--view-mode--default paragraph--published box full-width-background" id="station-bg-img">
+<div class="photo-credit">Photo: Scott White</div>
+<div class="container">
+<div class="az-full-width-row">
+<div class="col col-md-8 col-lg-6">
+<div class="content az-full-width-column-content light box my-10">
+<div class="az-full-width-column-content-wrapper">
+<h2 class="my-0 bold text-midnight">
+ Tucson  Station</h2>
+<h4 class="mt-0 text-midnight">Pima County</h4>
+<p class="mb-0 text-blue"><span class="text-uppercase">Status: </span>Active</p>
+<p class="mb-0 text-blue hidden"><span class="text-uppercase">General location:</span><span typeof="Place">
+  <span property="geo" typeof="GeoCoordinates">
+    
+    
+  </span>
+  <span class="geolocation-latlng">32.28, -110.95</span>
+</span>
+</p>
+<p class="mb-0 text-blue hidden"><span class="text-uppercase">Elevation:</span> 2343 ft / 714  m</p>
+<p class="mb-0 text-blue"><span class="text-uppercase">Start Date:</span> February 1, 2024</p>
+<p class="mb-0 text-blue"><span class="text-uppercase">End Date:</span>
+    NA
+</p>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+</div></span></div></li>
+    
+  </ul>
+
+</div>
+
+    </div>
+  
+          </div>
+</div>
+
+<div class="row pt-4"> 
+<div class="col-md-6 "> <div class="views-element-container"><div class="mb-5 shadow bg-gray-100 view view-station-map view-id-station_map view-display-id-block_4 js-view-dom-id-ffe43c693072e9980dcc3c5a8183c31793a6040b5211a5b6a9319d5b05f687be">
+  
+    
+      
+      <div class="view-content">
+      <div  class="geolocation-map-wrapper" id="ffe43c693072e9980dcc3c5a8183c31793a6040b5211a5b6a9319d5b05f687be" data-map-type="leaflet">
+    <div class="geolocation-map-controls">
+          </div>
+
+    <div class="geolocation-map-container js-show"></div>
+
+            <div  data-views-row-index="0" class="geolocation-location js-hide" id="6af7fdd4358ba" data-lat="32.28" data-lng="-110.95" data-set-marker="true" data-icon="/modules/custom/cct_station_maps/images/station_icon_map_active.png" typeof="Place">
+  <span property="geo" typeof="GeoCoordinates">
+    <meta property="latitude" content="32.28" />
+    <meta property="longitude" content="-110.95" />
+  </span>
+
+      <h2 class="location-title" property="name">Tucson
+
+
+Past Data
+
+
+</h2>
+  
+      <div class="location-content"><div class="views-field views-field-title"><span class="field-content"><h5 class="m-0">Tucson</h5>
+<ul class="list-unstyled p-0">
+
+<li><a href="/past-data/station-level-summaries/az01/hourly">Past Data</a></li>
+</ul>
+
+</span></div></div>
+  </div>
+    </div>
+
+    </div>
+  
+            <div class="view-footer">
+      <p class="station-map-helper text-muted m-0 p-0">
+  Click or tap on station icon for more information. Zoom in to station location for more map detail.
+</p>
+    </div>
+    </div>
+</div>
+</div>
+<div class="col-md-6 "> <div class="views-element-container"><div class="view view-station-map view-id-station_map view-display-id-block_5 js-view-dom-id-04826bebe9c291bf77d359574d08c81da3adbf737553812792acdbea02282851">
+  
+    
+      
+      <div class="view-content">
+      <div class="card shadow bg-gray-100">
+  
+  <ul class="list-unstyled card-body">
+
+          <li><div class="views-field views-field-field-location"><div class="field-content"><h4 class="my-0"> Location </h4>
+<p class="mb-0"><span class="text-uppercase"> LATITUDE:</span> 32.28 (deg)</p>
+<p class="mb-0"><span class="text-uppercase"> LONGITUDE:</span> -110.95 (deg)</p>
+</div></div><div class="views-field views-field-field-elevation-feet"><div class="field-content"><p class="mb-0"><span class="text-uppercase">Elevation:</span> 2,343 ft (714  m)</p></div></div><div class="views-field views-field-field-site-description"><span class="views-label views-label-field-site-description text-uppercase">Site Description: </span><span class="field-content">grass pasture</span></div></li>
+    
+  </ul>
+
+</div>
+
+    </div>
+  
+          </div>
+</div>
+</div>
+  </div>
+<div class="row pt-4"> 
+<div class="col-md-12 "><div class="views-element-container"><div class="view view-station-map view-id-station_map view-display-id-block_6 js-view-dom-id-5fa7403efef1cffa88f1c100bbe1ea89bf6d97f52f4aec70788f2be9b153cd73">
+  
+    
+      
+      <div class="view-content">
+      <div class="item-list">
+  
+  <ul>
+
+          <li><div class="row"><div class="col-12 col-sm-6 pb-4">
+  <div class="card shadow bg-gray-100 h-100">
+  <div class="card-body">
+  <h4 class="my-0">Air Temperature</h4>
+  <span>SENSOR:</span> Vaisala HMP60 <br>
+  <span>SENSOR HEIGHT:</span> 4.9 ft (1.5 m)
+  </div>
+  </div>
+  </div>
+  
+  <div class="col-12 col-sm-6 pb-4">
+  <div class="card shadow bg-gray-100 h-100">
+  <div class="card-body">
+  <h4 class="my-0">Precipitation</h4>
+  <span>SENSOR:</span>  Campbell Scientific TE525-L <br>
+  <span>SENSOR HEIGHT:</span> 3.3 ft (1.0 m)
+  </div>
+  </div>
+  </div>
+  
+  <div class="col-12 col-sm-6 pb-4">
+  <div class="card shadow bg-gray-100 h-100">
+  <div class="card-body">
+  <h4 class="my-0">Relative Humidity</h4>
+  <span>SENSOR:</span> Vaisala HMP60 <br>
+  <span>SENSOR HEIGHT:</span> 4.9 ft (1.5 m)
+  </div>
+  </div>
+  </div>
+  
+  <div class="col-12 col-sm-6 pb-4">
+  <div class="card shadow bg-gray-100 h-100">
+  <div class="card-body">
+  <h4 class="my-0">Soil Temperature</h4>
+  <span>SENSOR 1:</span> Campbell Scientific 107 <br>
+  <span>SENSOR 1 DEPTH:</span> 4.0 in (10.0 cm)<br>
+  <span>SENSOR 2:</span> Campbell Scientific 107 <br>
+  <span>SENSOR 2 DEPTH:</span> 20.0 in (50.0 cm)<br>
+  </div>
+  </div>
+  </div>
+  
+  <div class="col-12 col-sm-6 pb-4">
+  <div class="card shadow bg-gray-100 h-100">
+  <div class="card-body">
+  <h4 class="my-0">Solar Radiation</h4>
+  <span>SENSOR:</span> Apogee SP-110-SS <br>
+  <span>SENSOR HEIGHT:</span> 6.6 ft (2.0 m)
+  </div>
+  </div>
+  </div>
+  
+  <div class="col-12 col-sm-6 pb-4">
+  <div class="card shadow bg-gray-100 h-100">
+  <div class="card-body">
+  <h4 class="my-0">Wind</h4>
+  <span>DIRECTION SENSOR: </span> R. M. Young 03301<br>
+  <span>DIRECTION SENSOR HEIGHT:</span> 9.8 ft (3.0 m)<br>
+  <span>SPEED SENSOR:</span> R. M. Young 03101<br>
+  <span>SPEED SENSOR HEIGHT:</span> 9.8 ft (3.0 m)<br>
+  </div>
+  </div>
+  </div>
+  
+  <div class="col-12 col-sm-6 pb-4">
+  <div class="card shadow bg-gray-100 h-100">
+  <div class="card-body">
+  <h4 class="my-0">Measurements</h4>
+  <span>DATA TRANSMISSION FREQUENCY:</span> 15 minutes <br>
+  <span>DATALOGGER:</span> Campbell Scientific CR1000 <br>
+  <span>SENSOR SCAN FREQUENCY:</span> 10 seconds <br>
+  </div>
+  </div>
+  </div></div></li>
+    
+  </ul>
+
+</div>
+
+    </div>
+  
+          </div>
+</div>
+</div>
+<div class="col-md-12 "><div  class="views-element-container row">
+<div class="col-12 col-sm-6 pb-4">
+<div class="shadow bg-gray-100 h-100 ">
+
+<div class="card card-body view view-station-map view-id-station_map view-display-id-block_10 js-view-dom-id-9826862b2312ecbd0a8d2c17a5e8287a55edc43b5c2ee727c563e3ff5fc494c2">
+  
+    
+      <div class="view-header">
+      <h4 class="m-0">Previous Locations</h4>
+    </div>
+      
+      <div class="view-content">
+      <div>
+  
+  <ul class="list-unstyled">
+
+          <li class="mb-3"><span class="text-uppercase">Start Date: </span> May 2, 1994 <div><div><span class="text-uppercase">End Date: </span> January 31, 2024 </div></div><div><div><span class="text-uppercase">Latitude: </span> 32.28 (deg)</div></div><div><div><span class="text-uppercase">Longitude: </span>-110.94 (deg)</div></div><div><div><span class="text-uppercase">Elevation: </span> 2352 ft (717 m)</div></div></li>
+          <li class="mb-3"><span class="text-uppercase">Start Date: </span> January 1, 1987 <div><div><span class="text-uppercase">End Date: </span> May 1, 1994 </div></div><div><div><span class="text-uppercase">Latitude: </span> 32.28 (deg)</div></div><div><div><span class="text-uppercase">Longitude: </span>-110.95 (deg)</div></div><div><div><span class="text-uppercase">Elevation: </span> 2339 ft (713 m)</div></div></li>
+    
+  </ul>
+
+</div>
+
+    </div>
+  
+          </div>
+
+
+</div>
+</div>
+</div>
+</div>
+  </div>
+
+</div>
+</article>
+
+    </div>
+  </div>
+
+  </section>
+
+              </main>
+                                        </div>
+          </div>
+          
+                                                </div>
+    </div>
+        <footer class="site-footer">
+
+                <div class="bg-warm-gray py-5" role="contentinfo">
+                    <section>
+            <div class="container">
+              <div class="row">
+                                  <div class="col-12 col-sm-5 col-md-4 col-lg-4 text-center-xs text-left-not-xs">
+                    <div class="row bottom-buffer-30">
+                      <div class="col">
+                        <a href="/" title="The Arizona Meteorological Network | Home" class="qs-site-logo d-block mt-0" rel="home"><img class="img-fluid" fetchpriority="high" src="/sites/default/files/AZMet_1.png" alt="The Arizona Meteorological Network | Home" />
+</a>
+                      </div>
+                    </div>
+                  </div>
+                                                  <!-- Force next columns to break to new line at md breakpoint and up -->
+                  <div class="w-100 d-block d-sm-none"></div>
+                    <section class="col-12 col-sm-7 col-md-8 col-lg-8 region region-footer">
+    <div id="block-footerinfo" class="block block-block-content block-block-content3f132fa8-4eef-48a3-8ff8-cf10a29efd9f">
+  
+    
+      <div class="content">
+      
+            <div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"><div class="text-align-right">
+<h6 class="bold mt-0">Arizona Meteorological Network</h6>
+<p>1140 E South Campus Dr<br>
+PO Box 210036<br>
+Tucson, AZ 85721-0036</p>
+<p><a href="/contact">Contact Us</a><br>
+<a href="mailto:azmet@arizona.edu">Email</a></p>
+</div></div>
+      
+    </div>
+  </div>
+
+  </section>
+
+                                <div class="col-12">
+                  <hr>
+                </div>
+              </div>
+            </div>
+          </section>
+                              <div id="footer_sub">
+            <div class="container">
+              <div class="row">
+                
+              </div>
+              <div class="row">
+                
+              </div>
+              <div class="row">
+                <div class="col text-center">
+                                    <p class="font-weight-light"><em>We respectfully acknowledge <a href="https://www.arizona.edu/university-arizona-land-acknowledgment">the University of Arizona is on the land and territories of Indigenous peoples</a>. Today, Arizona is home to 22 federally recognized tribes, with Tucson being home to the O’odham and the Yaqui. The university strives to build sustainable relationships with sovereign Native Nations and Indigenous communities through education offerings, partnerships, and community service.</em></p><hr>
+                  <p class="small"><a href="https://www.arizona.edu/information-security-privacy" target="_blank">University Information Security and Privacy</a></p>
+                  <p class="small">&copy; 2026 The Arizona Board of Regents on behalf of <a href="https://www.arizona.edu" target="_blank">The University of Arizona</a>.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+                  </div>
+            </footer>
+      </div>
+</div>
+
+  </div>
+
+    
+    <script src="/sites/default/files/js/js_-N-jUnah7k3yF_sN-W_jDSqB25ZdIBsXx3vtyMtgajM.js?scope=footer&amp;delta=0&amp;language=en&amp;theme=az_barrio&amp;include=eJyVjVFuAyEMRC8Ey5HQLDGIxGAE3m2ypw9Ss1Ja9SP9sT3jeTYOv6L3LA6H_Z6sxGgD6o5hK3aDo5D6PdPXcG-zWUV0aEc7LySWFWyHPjjXZOius9_cpW8NvLykSSQsAZqlujLhQFWpLzHraY_3jGdCZFIXpBSpk1hezp-puY8E3TqdMR-2oVK8ZibPeFD_FCzoN-o-B6n_RJq0rZkkkuZPRXJplt96wRX3n2Z5AhopnXg"></script>
+<script src="https://cdn.digital.arizona.edu/lib/arizona-bootstrap/2.0.27/js/arizona-bootstrap.bundle.min.js"></script>
+<script src="/sites/default/files/js/js_e0wSrv4fxJaNEy-krz7jwaJ-olSe3D98LnVg8twyoy0.js?scope=footer&amp;delta=2&amp;language=en&amp;theme=az_barrio&amp;include=eJyVjVFuAyEMRC8Ey5HQLDGIxGAE3m2ypw9Ss1Ja9SP9sT3jeTYOv6L3LA6H_Z6sxGgD6o5hK3aDo5D6PdPXcG-zWUV0aEc7LySWFWyHPjjXZOius9_cpW8NvLykSSQsAZqlujLhQFWpLzHraY_3jGdCZFIXpBSpk1hezp-puY8E3TqdMR-2oVK8ZibPeFD_FCzoN-o-B6n_RJq0rZkkkuZPRXJplt96wRX3n2Z5AhopnXg"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.2/dist/bootstrap-table.min.js"></script>
+<script src="/sites/default/files/js/js_3gpGEVFkyz32yrPSxExTHCk5zTRp4HfCO7DnVSjW0BQ.js?scope=footer&amp;delta=4&amp;language=en&amp;theme=az_barrio&amp;include=eJyVjVFuAyEMRC8Ey5HQLDGIxGAE3m2ypw9Ss1Ja9SP9sT3jeTYOv6L3LA6H_Z6sxGgD6o5hK3aDo5D6PdPXcG-zWUV0aEc7LySWFWyHPjjXZOius9_cpW8NvLykSSQsAZqlujLhQFWpLzHraY_3jGdCZFIXpBSpk1hezp-puY8E3TqdMR-2oVK8ZibPeFD_FCzoN-o-B6n_RJq0rZkkkuZPRXJplt96wRX3n2Z5AhopnXg"></script>
+
+  </body>
+</html>

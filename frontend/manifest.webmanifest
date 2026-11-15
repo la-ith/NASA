@@ -1,0 +1,10 @@
+{
+  "name": "Field Shift",
+  "short_name": "Field Shift",
+  "description": "Compare crop strategies for a U.S. field with NASA weather, USDA soil data and FAO-56 water equations.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f6f4ee",
+  "theme_color": "#2f6b3b",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

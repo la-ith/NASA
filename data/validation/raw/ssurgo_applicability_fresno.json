@@ -1,0 +1,62 @@
+{
+  "url": "https://SDMDataAccess.sc.egov.usda.gov/Tabular/post.rest",
+  "method": "POST",
+  "query": "SELECT mu.mukey, mu.muname, c.cokey, c.compname, c.comppct_r, c.majcompflag, c.hydgrp, h.hzname, h.hzdept_r, h.hzdepb_r, h.awc_r, h.wthirdbar_r, h.wfifteenbar_r, h.sandtotal_r, h.claytotal_r FROM SDA_Get_Mukey_from_intersection_with_WktWgs84('point(-119.790000 36.740000)') AS k INNER JOIN mapunit mu ON mu.mukey = k.mukey INNER JOIN component c ON c.mukey = mu.mukey LEFT JOIN chorizon h ON h.cokey = c.cokey WHERE c.majcompflag = 'Yes' ORDER BY c.comppct_r DESC, c.cokey, h.hzdept_r",
+  "retrieved_utc": "2026-11-14T19:01:30.780926+00:00",
+  "response": {
+    "Table": [
+      [
+        "mukey",
+        "muname",
+        "cokey",
+        "compname",
+        "comppct_r",
+        "majcompflag",
+        "hydgrp",
+        "hzname",
+        "hzdept_r",
+        "hzdepb_r",
+        "awc_r",
+        "wthirdbar_r",
+        "wfifteenbar_r",
+        "sandtotal_r",
+        "claytotal_r"
+      ],
+      [
+        "464331",
+        "Hanford sandy loam",
+        "28224903",
+        "Hanford",
+        "85",
+        "Yes",
+        "A",
+        "Ap",
+        "0",
+        "41",
+        "0.13",
+        "18.6",
+        "9.1",
+        "68",
+        "12.5"
+      ],
+      [
+        "464331",
+        "Hanford sandy loam",
+        "28224903",
+        "Hanford",
+        "85",
+        "Yes",
+        "A",
+        "C",
+        "41",
+        "183",
+        "0.13",
+        "18",
+        "8.4",
+        "68",
+        "12.5"
+      ]
+    ]
+  },
+  "sha256": "c9c6b1de6d2f052537ec8d321084eb56f01e96cf1ba20bcf6922922d3f19c252"
+}

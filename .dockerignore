@@ -1,0 +1,13 @@
+.git
+.claude
+outputs
+**/__pycache__
+**/.pytest_cache
+**/.env
+*.db
+data/validation
+docs/validation/results
+!docs/validation/results/
+docs/validation/results/*
+!docs/validation/results/holdout-evaluation-v1.json
+!docs/validation/results/fresno-cimis-comparison.json

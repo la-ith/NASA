@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>My fields — AstroRoot</title>
+  <meta name="description" content="Save field details and explore crop choices with weather and soil context.">
+  <meta name="theme-color" content="#f1efe7">
+  <link rel="icon" href="/icon.svg">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="/styles.css?v=8">
+  <link rel="stylesheet" href="/site.css?v=8">
+  <link rel="stylesheet" href="/workspace.css?v=8">
+  <link rel="stylesheet" href="/theme.css?v=19">
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script type="module" src="/app.js?v=19"></script>
+</head>
+<body class="workspace-body">
+  <a class="skip-link" href="#panel">Skip to content</a>
+  <header class="workspace-header app-bar">
+    <a class="wordmark" href="/" aria-label="AstroRoot home page"><span class="app-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21v-8m0 0c0-4 3-7 7-7 0 4-3 7-7 7Zm0-2C12 8 9.5 5 5 5c0 4.5 3 8 7 8"/></svg></span>AstroRoot</a>
+    <nav class="app-tabs" id="app-tabs" aria-label="Workspace sections">
+      <button type="button" data-tab="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg><span>Home</span></button>
+      <button type="button" data-tab="land"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20v-7m0 0c0-4 3-7 7-7 0 4-3 7-7 7Zm0-2C12 7 9.5 4 5 4c0 4.5 3 8 7 8M4 20h16"/></svg><span>My land</span></button>
+      <button type="button" data-tab="plans"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5zm-9 9 9 5 9-5M3 16l9 5 9-5"/></svg><span>Plans</span></button>
+      <button type="button" data-tab="notes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 12h7M9 16h5"/></svg><span>Field notes</span></button>
+    </nav>
+    <div class="app-bar-end">
+      <a class="help-link" href="/science/" aria-label="How AstroRoot works"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14M12 17.5v.01"/></svg><span>Help</span></a>
+      <div id="account-nav" class="account-nav"></div>
+    </div>
+  </header>
+  <p class="data-banner" id="data-banner"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.01"/></svg><span id="data-banner-text">Research preview · historical NASA and USDA records replayed through FAO-56 equations. Not a forecast.</span></p>
+  <div class="layout">
+    <section id="map-pane" class="map-pane" aria-label="Field location map" hidden>
+      <div id="map" role="application" aria-label="Map of the United States. Select your field location."></div>
+      <div class="map-shortcuts" aria-label="Map areas">
+        <button type="button" data-view="lower48">Lower 48</button>
+        <button type="button" data-view="alaska">Alaska</button>
+        <button type="button" data-view="hawaii">Hawaii</button>
+      </div>
+      <p id="map-status" class="map-status small" aria-live="polite"></p>
+    </section>
+    <main id="panel" class="panel-pane" tabindex="-1"></main>
+  </div>
+  <footer class="workspace-footer"><span>NASA POWER weather · NASA SMAP soil moisture · USDA soil · FAO-56 water balance</span><span>Historical comparisons are not forecasts.</span></footer>
+  <noscript><p>Enable JavaScript to use your field workspace.</p></noscript>
+</body>
+</html>

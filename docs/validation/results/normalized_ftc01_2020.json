@@ -1,0 +1,2175 @@
+{
+  "2020-05-01": {
+    "values": {
+      "tmax": 26.87,
+      "tmin": 9.43,
+      "rs": 20.119968,
+      "u2": 1.7655546525393684,
+      "rain": 0.25,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-02": {
+    "values": {
+      "tmax": 15.25,
+      "tmin": 7.85,
+      "rs": 6.562080000000001,
+      "u2": 1.0406019563100404,
+      "rain": 5.33,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-03": {
+    "values": {
+      "tmax": 22.82,
+      "tmin": 6.51,
+      "rs": 22.190112,
+      "u2": 1.136568581169744,
+      "rain": 2.54,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-04": {
+    "values": {
+      "tmax": 17.02,
+      "tmin": 3.88,
+      "rs": 26.630208000000003,
+      "u2": 3.1275869909096214,
+      "rain": 2.79,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-05": {
+    "values": {
+      "tmax": 20.96,
+      "tmin": -1.75,
+      "rs": 27.290304000000003,
+      "u2": 1.083382258958342,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-06": {
+    "values": {
+      "tmax": 19.26,
+      "tmin": -0.06,
+      "rs": 23.510304,
+      "u2": 1.03482083433054,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-07": {
+    "values": {
+      "tmax": 20.9,
+      "tmin": 3.02,
+      "rs": 29.660256000000004,
+      "u2": 4.807581038152386,
+      "rain": 0.0,
+      "eto": 6.29,
+      "ea": 0.5173763894689557,
+      "station_forced_eto": 6.285800948440954
+    },
+    "quality_flags": []
+  },
+  "2020-05-08": {
+    "values": {
+      "tmax": 15.35,
+      "tmin": 2.54,
+      "rs": 25.340256000000004,
+      "u2": 2.381822255554092,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-09": {
+    "values": {
+      "tmax": 14.45,
+      "tmin": 6.63,
+      "rs": 22.99968,
+      "u2": 2.7749385501601074,
+      "rain": 0.0,
+      "eto": 4.0,
+      "ea": 0.64299358378062,
+      "station_forced_eto": 4.002224140019246
+    },
+    "quality_flags": []
+  },
+  "2020-05-10": {
+    "values": {
+      "tmax": 16.17,
+      "tmin": 2.02,
+      "rs": 28.219968,
+      "u2": 1.1700990886508453,
+      "rain": 0.0,
+      "eto": 3.99,
+      "ea": 0.6228423698700442,
+      "station_forced_eto": 3.986397467237865
+    },
+    "quality_flags": []
+  },
+  "2020-05-11": {
+    "values": {
+      "tmax": 6.86,
+      "tmin": 0.9,
+      "rs": 8.030016,
+      "u2": 1.2417850011966483,
+      "rain": 4.32,
+      "eto": 1.28,
+      "ea": 0.6468938129102276,
+      "station_forced_eto": 1.337185747381387
+    },
+    "quality_flags": []
+  },
+  "2020-05-12": {
+    "values": {
+      "tmax": 15.02,
+      "tmin": 3.39,
+      "rs": 12.890016000000001,
+      "u2": 0.8319034528500822,
+      "rain": 0.51,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-13": {
+    "values": {
+      "tmax": 24.09,
+      "tmin": 1.87,
+      "rs": 17.900352,
+      "u2": 0.592102513140413,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-14": {
+    "values": {
+      "tmax": 18.79,
+      "tmin": 8.32,
+      "rs": 13.189824,
+      "u2": 0.9296044143036359,
+      "rain": 13.97,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-15": {
+    "values": {
+      "tmax": 16.65,
+      "tmin": 7.02,
+      "rs": 11.720160000000002,
+      "u2": 1.5007792658782582,
+      "rain": 8.13,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-16": {
+    "values": {
+      "tmax": 21.71,
+      "tmin": 6.05,
+      "rs": 22.10976,
+      "u2": 2.3066676698205892,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-17": {
+    "values": {
+      "tmax": 21.06,
+      "tmin": 2.34,
+      "rs": 24.920352,
+      "u2": 0.9153828542340654,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-18": {
+    "values": {
+      "tmax": 28.07,
+      "tmin": 7.1,
+      "rs": 28.519776,
+      "u2": 0.8900615399638545,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-19": {
+    "values": {
+      "tmax": 30.85,
+      "tmin": 8.18,
+      "rs": 26.510112,
+      "u2": 1.907770253235074,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-20": {
+    "values": {
+      "tmax": 30.49,
+      "tmin": 7.26,
+      "rs": 28.779840000000004,
+      "u2": 2.274293386735388,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-21": {
+    "values": {
+      "tmax": 23.34,
+      "tmin": 1.95,
+      "rs": 26.479872000000004,
+      "u2": 1.1654741910672453,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-22": {
+    "values": {
+      "tmax": 26.77,
+      "tmin": 4.09,
+      "rs": 28.950048000000002,
+      "u2": 1.4614676364176566,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-23": {
+    "values": {
+      "tmax": 26.02,
+      "tmin": 8.44,
+      "rs": 21.700224000000002,
+      "u2": 2.0337987123881787,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-24": {
+    "values": {
+      "tmax": 14.11,
+      "tmin": 6.22,
+      "rs": 7.163424,
+      "u2": 0.7658830398441897,
+      "rain": 9.91,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-25": {
+    "values": {
+      "tmax": 19.26,
+      "tmin": 1.48,
+      "rs": 20.819808000000002,
+      "u2": 0.6369640197013348,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-26": {
+    "values": {
+      "tmax": 26.29,
+      "tmin": 3.88,
+      "rs": 26.700191999999998,
+      "u2": 1.1446621519410443,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-27": {
+    "values": {
+      "tmax": 27.32,
+      "tmin": 7.89,
+      "rs": 22.349952000000002,
+      "u2": 1.3932503970595538,
+      "rain": 1.78,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-28": {
+    "values": {
+      "tmax": 23.14,
+      "tmin": 9.91,
+      "rs": 19.350144,
+      "u2": 0.8187224947368217,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-29": {
+    "values": {
+      "tmax": 29.25,
+      "tmin": 9.94,
+      "rs": 26.370144,
+      "u2": 1.2198167376745472,
+      "rain": 0.0,
+      "eto": 5.47,
+      "ea": 0.9244814649391915,
+      "station_forced_eto": 5.472165005403919
+    },
+    "quality_flags": []
+  },
+  "2020-05-30": {
+    "values": {
+      "tmax": 27.8,
+      "tmin": 11.35,
+      "rs": 24.3,
+      "u2": 1.1446621519410443,
+      "rain": 1.78,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-05-31": {
+    "values": {
+      "tmax": 30.46,
+      "tmin": 10.94,
+      "rs": 20.539872,
+      "u2": 1.0533204246649408,
+      "rain": 6.86,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-01": {
+    "values": {
+      "tmax": 32.41,
+      "tmin": 11.56,
+      "rs": 22.220352000000002,
+      "u2": 1.4233122313529551,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-02": {
+    "values": {
+      "tmax": 31.42,
+      "tmin": 15.05,
+      "rs": 23.069664,
+      "u2": 1.111131644459943,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-03": {
+    "values": {
+      "tmax": 31.86,
+      "tmin": 12.71,
+      "rs": 26.899776,
+      "u2": 1.6499322129493639,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-04": {
+    "values": {
+      "tmax": 33.41,
+      "tmin": 10.15,
+      "rs": 24.49008,
+      "u2": 1.8534277066277718,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-05": {
+    "values": {
+      "tmax": 33.8,
+      "tmin": 10.54,
+      "rs": 23.679648,
+      "u2": 1.1492870495246446,
+      "rain": 0.25,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-06": {
+    "values": {
+      "tmax": 27.79,
+      "tmin": 9.32,
+      "rs": 9.000288000000001,
+      "u2": 1.3481576456194522,
+      "rain": 1.27,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-07": {
+    "values": {
+      "tmax": 31.44,
+      "tmin": 6.66,
+      "rs": 29.529792,
+      "u2": 1.0625702198321412,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-08": {
+    "values": {
+      "tmax": 24.81,
+      "tmin": 6.77,
+      "rs": 23.320224000000003,
+      "u2": 3.6779498033580427,
+      "rain": 4.06,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-09": {
+    "values": {
+      "tmax": 19.91,
+      "tmin": 6.26,
+      "rs": 28.250208000000004,
+      "u2": 5.788059325875625,
+      "rain": 4.83,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-10": {
+    "values": {
+      "tmax": 25.78,
+      "tmin": 6.3,
+      "rs": 29.459808000000002,
+      "u2": 2.2546375720050875,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-11": {
+    "values": {
+      "tmax": 28.28,
+      "tmin": 6.84,
+      "rs": 29.0304,
+      "u2": 1.007071448828939,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-12": {
+    "values": {
+      "tmax": 32.17,
+      "tmin": 10.0,
+      "rs": 30.889728,
+      "u2": 1.2533472451556484,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-13": {
+    "values": {
+      "tmax": 30.51,
+      "tmin": 11.86,
+      "rs": 24.990336000000003,
+      "u2": 1.2556596939474487,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-14": {
+    "values": {
+      "tmax": 32.59,
+      "tmin": 12.69,
+      "rs": 27.660096,
+      "u2": 1.5285286513798593,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-15": {
+    "values": {
+      "tmax": 31.31,
+      "tmin": 9.86,
+      "rs": 19.700064,
+      "u2": 0.8834710609072242,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-16": {
+    "values": {
+      "tmax": null,
+      "tmin": null,
+      "rs": null,
+      "u2": 0.9955092048699384,
+      "rain": 0.51,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-17": {
+    "values": {
+      "tmax": 32.94,
+      "tmin": 12.21,
+      "rs": 28.499904000000004,
+      "u2": 2.3598539920319914,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-18": {
+    "values": {
+      "tmax": 23.16,
+      "tmin": 9.83,
+      "rs": 25.92,
+      "u2": 2.0372673855758787,
+      "rain": 1.27,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-19": {
+    "values": {
+      "tmax": 18.68,
+      "tmin": 7.2,
+      "rs": 14.090112000000001,
+      "u2": 1.6707442520755649,
+      "rain": 2.29,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-20": {
+    "values": {
+      "tmax": 30.26,
+      "tmin": 4.93,
+      "rs": 30.769632,
+      "u2": 1.1700990886508453,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-21": {
+    "values": {
+      "tmax": 26.86,
+      "tmin": 12.12,
+      "rs": 14.890176,
+      "u2": 1.5632153832568607,
+      "rain": 1.78,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-22": {
+    "values": {
+      "tmax": 28.05,
+      "tmin": 10.62,
+      "rs": 28.090368,
+      "u2": 0.7194028191290078,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-23": {
+    "values": {
+      "tmax": 30.42,
+      "tmin": 9.84,
+      "rs": 27.789696,
+      "u2": 0.6931565253420768,
+      "rain": 0.51,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-24": {
+    "values": {
+      "tmax": 32.99,
+      "tmin": 10.35,
+      "rs": 24.929856000000004,
+      "u2": 1.3805319287046534,
+      "rain": 0.25,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-25": {
+    "values": {
+      "tmax": 30.89,
+      "tmin": 10.26,
+      "rs": 16.060032,
+      "u2": 0.9457915558462366,
+      "rain": 0.76,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-26": {
+    "values": {
+      "tmax": 25.28,
+      "tmin": 10.3,
+      "rs": 17.31024,
+      "u2": 0.853409226613823,
+      "rain": 2.54,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-27": {
+    "values": {
+      "tmax": 31.2,
+      "tmin": 10.55,
+      "rs": 21.359808,
+      "u2": 0.8850897750614842,
+      "rain": 0.51,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-28": {
+    "values": {
+      "tmax": 32.82,
+      "tmin": 8.86,
+      "rs": 22.949568000000003,
+      "u2": 1.0221023659756396,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-29": {
+    "values": {
+      "tmax": 33.49,
+      "tmin": 11.42,
+      "rs": 25.369632,
+      "u2": 1.3562512163907525,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-06-30": {
+    "values": {
+      "tmax": 27.49,
+      "tmin": 13.59,
+      "rs": 23.209632,
+      "u2": 2.142483805602783,
+      "rain": 1.78,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-01": {
+    "values": {
+      "tmax": 30.51,
+      "tmin": 7.64,
+      "rs": 30.900096,
+      "u2": 1.7956164868327693,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-02": {
+    "values": {
+      "tmax": 34.61,
+      "tmin": 11.43,
+      "rs": 30.060288000000003,
+      "u2": 1.653400886137064,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-03": {
+    "values": {
+      "tmax": 33.04,
+      "tmin": 14.05,
+      "rs": 28.580256000000002,
+      "u2": 1.3990315190390543,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-04": {
+    "values": {
+      "tmax": 29.51,
+      "tmin": 12.77,
+      "rs": 18.349632,
+      "u2": 1.6453073153657638,
+      "rain": 2.54,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-05": {
+    "values": {
+      "tmax": 32.61,
+      "tmin": 10.24,
+      "rs": 24.829632,
+      "u2": 1.4186873337693549,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-06": {
+    "values": {
+      "tmax": 33.99,
+      "tmin": 10.55,
+      "rs": 27.31968,
+      "u2": 1.318095811326051,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-07": {
+    "values": {
+      "tmax": 36.78,
+      "tmin": 11.9,
+      "rs": 25.799904,
+      "u2": 1.595589666342062,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-08": {
+    "values": {
+      "tmax": 36.06,
+      "tmin": 10.78,
+      "rs": 27.640224000000003,
+      "u2": 1.3828443774964536,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-09": {
+    "values": {
+      "tmax": 33.03,
+      "tmin": 16.4,
+      "rs": 25.100064,
+      "u2": 1.5736214028199609,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-10": {
+    "values": {
+      "tmax": 37.26,
+      "tmin": 14.34,
+      "rs": 30.640032,
+      "u2": 1.8592088286072719,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-11": {
+    "values": {
+      "tmax": 33.45,
+      "tmin": 14.63,
+      "rs": 28.890432,
+      "u2": 1.2267540840499476,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-12": {
+    "values": {
+      "tmax": 36.11,
+      "tmin": 11.76,
+      "rs": 23.340096,
+      "u2": 1.6453073153657638,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-13": {
+    "values": {
+      "tmax": 35.97,
+      "tmin": 13.4,
+      "rs": 16.650144,
+      "u2": 1.7112121059320664,
+      "rain": 2.29,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-14": {
+    "values": {
+      "tmax": 23.81,
+      "tmin": 13.95,
+      "rs": 17.459712000000003,
+      "u2": 1.0463830782895407,
+      "rain": 0.76,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-15": {
+    "values": {
+      "tmax": 25.25,
+      "tmin": 11.79,
+      "rs": 18.770400000000002,
+      "u2": 1.2105669425073469,
+      "rain": 0.25,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-16": {
+    "values": {
+      "tmax": 34.29,
+      "tmin": 10.01,
+      "rs": 24.80976,
+      "u2": 1.5874960955707615,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-17": {
+    "values": {
+      "tmax": 36.15,
+      "tmin": 13.13,
+      "rs": 21.330432000000002,
+      "u2": 1.188598678985246,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-18": {
+    "values": {
+      "tmax": 36.77,
+      "tmin": 14.58,
+      "rs": 16.239744,
+      "u2": 1.3840006018923536,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-19": {
+    "values": {
+      "tmax": 31.61,
+      "tmin": 17.42,
+      "rs": 19.940256,
+      "u2": 1.7528361841844675,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-20": {
+    "values": {
+      "tmax": 32.13,
+      "tmin": 13.42,
+      "rs": 27.900288000000003,
+      "u2": 1.3620323383702526,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-21": {
+    "values": {
+      "tmax": 30.31,
+      "tmin": 13.58,
+      "rs": 25.640064,
+      "u2": 1.007071448828939,
+      "rain": 0.76,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-22": {
+    "values": {
+      "tmax": 31.46,
+      "tmin": 11.89,
+      "rs": 20.620224,
+      "u2": 1.3250331577014514,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-23": {
+    "values": {
+      "tmax": 33.25,
+      "tmin": 16.06,
+      "rs": 23.440320000000003,
+      "u2": 1.2047858205278468,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-24": {
+    "values": {
+      "tmax": 30.76,
+      "tmin": 17.69,
+      "rs": 16.280352,
+      "u2": 1.2834090794490498,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-25": {
+    "values": {
+      "tmax": 29.14,
+      "tmin": 16.4,
+      "rs": 11.88,
+      "u2": 1.1504432739205448,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-26": {
+    "values": {
+      "tmax": 28.1,
+      "tmin": 14.4,
+      "rs": 14.639616,
+      "u2": 1.0232585903715397,
+      "rain": 0.0,
+      "eto": 3.88,
+      "ea": 0.8789849961733547,
+      "station_forced_eto": 3.8793466201294478
+    },
+    "quality_flags": []
+  },
+  "2020-07-27": {
+    "values": {
+      "tmax": 30.43,
+      "tmin": 12.2,
+      "rs": 26.320032,
+      "u2": 1.4314058021242555,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-28": {
+    "values": {
+      "tmax": 27.92,
+      "tmin": 13.96,
+      "rs": 17.030304,
+      "u2": 1.2313789816335476,
+      "rain": 0.76,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-29": {
+    "values": {
+      "tmax": 33.6,
+      "tmin": 10.04,
+      "rs": 23.220000000000002,
+      "u2": 1.8279907699179707,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-30": {
+    "values": {
+      "tmax": 27.28,
+      "tmin": 10.84,
+      "rs": 16.469568000000002,
+      "u2": 1.1226938884189435,
+      "rain": 1.27,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-07-31": {
+    "values": {
+      "tmax": 32.42,
+      "tmin": 9.08,
+      "rs": 28.060128,
+      "u2": 0.8971145087788448,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-08-01": {
+    "values": {
+      "tmax": 31.81,
+      "tmin": 11.09,
+      "rs": 23.359968000000002,
+      "u2": 0.9758533901396378,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-08-02": {
+    "values": {
+      "tmax": 29.58,
+      "tmin": 12.69,
+      "rs": 26.269920000000003,
+      "u2": 1.136568581169744,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-08-03": {
+    "values": {
+      "tmax": 29.18,
+      "tmin": 12.77,
+      "rs": 19.929888,
+      "u2": 1.3770632555169533,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-08-04": {
+    "values": {
+      "tmax": 31.73,
+      "tmin": 11.8,
+      "rs": 21.720096,
+      "u2": 0.9746971657437377,
+      "rain": 0.25,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-08-05": {
+    "values": {
+      "tmax": 30.55,
+      "tmin": 14.35,
+      "rs": 15.220224,
+      "u2": 0.7377867870238186,
+      "rain": 0.0,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-08-06": {
+    "values": {
+      "tmax": 33.29,
+      "tmin": 11.38,
+      "rs": 18.019584000000002,
+      "u2": 1.0105401220166392,
+      "rain": 0.76,
+      "eto": null,
+      "ea": null,
+      "station_forced_eto": null
+    },
+    "quality_flags": [
+      "suspect_rh_min_le_0.01"
+    ]
+  },
+  "2020-08-07": {
+    "values": {
+      "tmax": 36.11,
+      "tmin": 9.56,
+      "rs": 24.029568,
+      "u2": 1.0579453222485409,
+      "rain": 0.0,
+      "eto": 5.52,
+      "ea": 0.8824165888053356,
+      "station_forced_eto": 5.517142861153383
+    },
+    "quality_flags": []
+  },
+  "2020-08-08": {
+    "values": {
+      "tmax": 34.45,
+      "tmin": 14.29,
+      "rs": 21.98016,
+      "u2": 0.9365417606790362,
+      "rain": 0.0,
+      "eto": 5.0,
+      "ea": 1.0574398849446163,
+      "station_forced_eto": 4.999643220516572
+    },
+    "quality_flags": []
+  },
+  "2020-08-09": {
+    "values": {
+      "tmax": 35.91,
+      "tmin": 11.54,
+      "rs": 24.369984000000002,
+      "u2": 0.9527289022216369,
+      "rain": 0.0,
+      "eto": 5.38,
+      "ea": 0.8542722631287056,
+      "station_forced_eto": 5.382468633134919
+    },
+    "quality_flags": []
+  },
+  "2020-08-10": {
+    "values": {
+      "tmax": 29.9,
+      "tmin": 13.35,
+      "rs": 25.500096,
+      "u2": 1.0741324637911414,
+      "rain": 0.0,
+      "eto": 5.11,
+      "ea": 1.2515235667642635,
+      "station_forced_eto": 5.109591129263733
+    },
+    "quality_flags": []
+  },
+  "2020-08-11": {
+    "values": {
+      "tmax": 34.78,
+      "tmin": 14.37,
+      "rs": 16.829856,
+      "u2": 0.9353855362831363,
+      "rain": 0.0,
+      "eto": 4.35,
+      "ea": 1.1386917135175993,
+      "station_forced_eto": 4.347259170250452
+    },
+    "quality_flags": []
+  },
+  "2020-08-12": {
+    "values": {
+      "tmax": 32.76,
+      "tmin": 19.47,
+      "rs": 13.220064,
+      "u2": 0.6910753214294567,
+      "rain": 0.0,
+      "eto": 3.59,
+      "ea": 0.8983859195894855,
+      "station_forced_eto": 3.593273497594209
+    },
+    "quality_flags": []
+  },
+  "2020-08-13": {
+    "values": {
+      "tmax": 34.36,
+      "tmin": 12.83,
+      "rs": 24.100416000000003,
+      "u2": 1.0406019563100404,
+      "rain": 0.0,
+      "eto": 5.31,
+      "ea": 0.9773997066947717,
+      "station_forced_eto": 5.303930405373317
+    },
+    "quality_flags": []
+  },
+  "2020-08-14": {
+    "values": {
+      "tmax": 29.25,
+      "tmin": 12.36,
+      "rs": 15.690240000000001,
+      "u2": 1.1712553130467453,
+      "rain": 0.0,
+      "eto": 4.07,
+      "ea": 0.8908244331987998,
+      "station_forced_eto": 4.069084310045255
+    },
+    "quality_flags": []
+  },
+  "2020-08-15": {
+    "values": {
+      "tmax": 32.08,
+      "tmin": 11.38,
+      "rs": 20.769696,
+      "u2": 0.8549123183284931,
+      "rain": 0.0,
+      "eto": 4.43,
+      "ea": 1.1242969704795605,
+      "station_forced_eto": 4.431172865563712
+    },
+    "quality_flags": []
+  },
+  "2020-08-16": {
+    "values": {
+      "tmax": 34.79,
+      "tmin": 11.93,
+      "rs": 24.560064,
+      "u2": 0.7187090844914679,
+      "rain": 0.0,
+      "eto": 4.93,
+      "ea": 1.1011262909449049,
+      "station_forced_eto": 4.928413500787147
+    },
+    "quality_flags": []
+  },
+  "2020-08-17": {
+    "values": {
+      "tmax": 34.44,
+      "tmin": 13.73,
+      "rs": 24.190272000000004,
+      "u2": 0.8121320156801916,
+      "rain": 0.0,
+      "eto": 5.0,
+      "ea": 1.464091487224092,
+      "station_forced_eto": 5.00140286456685
+    },
+    "quality_flags": []
+  },
+  "2020-08-18": {
+    "values": {
+      "tmax": 36.58,
+      "tmin": 13.08,
+      "rs": 21.169728000000003,
+      "u2": 0.7817233140680203,
+      "rain": 0.0,
+      "eto": 4.72,
+      "ea": 1.1310570461524203,
+      "station_forced_eto": 4.717799299731798
+    },
+    "quality_flags": []
+  },
+  "2020-08-19": {
+    "values": {
+      "tmax": 33.45,
+      "tmin": 15.06,
+      "rs": 17.120160000000002,
+      "u2": 1.1296312347943438,
+      "rain": 0.76,
+      "eto": 4.37,
+      "ea": 1.3551920540543172,
+      "station_forced_eto": 4.3667916377945435
+    },
+    "quality_flags": []
+  },
+  "2020-08-20": {
+    "values": {
+      "tmax": 32.48,
+      "tmin": 11.37,
+      "rs": 16.479936000000002,
+      "u2": 1.3562512163907525,
+      "rain": 0.25,
+      "eto": 4.26,
+      "ea": 1.4063158070107136,
+      "station_forced_eto": 4.262488638758131
+    },
+    "quality_flags": []
+  },
+  "2020-08-21": {
+    "values": {
+      "tmax": 34.35,
+      "tmin": 12.45,
+      "rs": 20.060352,
+      "u2": 0.9388542094708363,
+      "rain": 0.0,
+      "eto": 4.56,
+      "ea": 1.2429806226885958,
+      "station_forced_eto": 4.5556874074395175
+    },
+    "quality_flags": []
+  },
+  "2020-08-22": {
+    "values": {
+      "tmax": 36.28,
+      "tmin": 13.26,
+      "rs": 21.79008,
+      "u2": 1.3065335673670508,
+      "rain": 0.0,
+      "eto": 5.48,
+      "ea": 0.9526081432973574,
+      "station_forced_eto": 5.472758299684135
+    },
+    "quality_flags": []
+  },
+  "2020-08-23": {
+    "values": {
+      "tmax": 33.63,
+      "tmin": 11.86,
+      "rs": 17.389728,
+      "u2": 0.596727410724013,
+      "rain": 0.0,
+      "eto": 3.76,
+      "ea": 1.0845732919339195,
+      "station_forced_eto": 3.7544059549826616
+    },
+    "quality_flags": []
+  },
+  "2020-08-24": {
+    "values": {
+      "tmax": 35.62,
+      "tmin": 16.84,
+      "rs": 17.629920000000002,
+      "u2": 0.6812474140643063,
+      "rain": 0.0,
+      "eto": 4.06,
+      "ea": 1.2332020987901693,
+      "station_forced_eto": 4.062841310496986
+    },
+    "quality_flags": []
+  },
+  "2020-08-25": {
+    "values": {
+      "tmax": 35.35,
+      "tmin": 13.76,
+      "rs": 14.58,
+      "u2": 1.5655278320486605,
+      "rain": 0.0,
+      "eto": 4.71,
+      "ea": 1.271749107630999,
+      "station_forced_eto": 4.707486919974991
+    },
+    "quality_flags": []
+  },
+  "2020-08-26": {
+    "values": {
+      "tmax": 33.96,
+      "tmin": 15.65,
+      "rs": 11.580192,
+      "u2": 1.0105401220166392,
+      "rain": 0.51,
+      "eto": 3.49,
+      "ea": 1.4801144565659041,
+      "station_forced_eto": 3.4862450389067674
+    },
+    "quality_flags": []
+  },
+  "2020-08-27": {
+    "values": {
+      "tmax": 32.35,
+      "tmin": 11.87,
+      "rs": 16.04016,
+      "u2": 0.7910887316748106,
+      "rain": 0.0,
+      "eto": 3.64,
+      "ea": 1.3719807915137765,
+      "station_forced_eto": 3.6406301045501546
+    },
+    "quality_flags": []
+  },
+  "2020-08-28": {
+    "values": {
+      "tmax": 25.77,
+      "tmin": 12.42,
+      "rs": 12.220416,
+      "u2": 1.4545302900422563,
+      "rain": 0.25,
+      "eto": 3.16,
+      "ea": 1.297854146456738,
+      "station_forced_eto": 3.1585655581809666
+    },
+    "quality_flags": []
+  },
+  "2020-08-29": {
+    "values": {
+      "tmax": 26.01,
+      "tmin": 10.1,
+      "rs": 12.249792000000001,
+      "u2": 1.2498785719679484,
+      "rain": 2.54,
+      "eto": 2.89,
+      "ea": 1.383287497664666,
+      "station_forced_eto": 2.8871043701690096
+    },
+    "quality_flags": []
+  },
+  "2020-08-30": {
+    "values": {
+      "tmax": 33.74,
+      "tmin": 9.28,
+      "rs": 23.160384,
+      "u2": 3.2073664742267245,
+      "rain": 0.0,
+      "eto": 7.15,
+      "ea": 0.9639076546494794,
+      "station_forced_eto": 7.149151805501287
+    },
+    "quality_flags": []
+  },
+  "2020-08-31": {
+    "values": {
+      "tmax": 20.6,
+      "tmin": 7.77,
+      "rs": 14.789952000000001,
+      "u2": 1.8441779114605714,
+      "rain": 0.0,
+      "eto": 3.17,
+      "ea": 0.9421213417484304,
+      "station_forced_eto": 3.172905257129354
+    },
+    "quality_flags": []
+  },
+  "2020-09-01": {
+    "values": {
+      "tmax": 26.94,
+      "tmin": 7.75,
+      "rs": 23.25024,
+      "u2": 1.1018818492927427,
+      "rain": 0.0,
+      "eto": 4.06,
+      "ea": 1.3224007349777316,
+      "station_forced_eto": 4.060876378732242
+    },
+    "quality_flags": []
+  },
+  "2020-09-02": {
+    "values": {
+      "tmax": 30.42,
+      "tmin": 5.78,
+      "rs": 23.429952,
+      "u2": 1.003602775641239,
+      "rain": 0.0,
+      "eto": 4.46,
+      "ea": 0.7401349387908784,
+      "station_forced_eto": 4.46118440353733
+    },
+    "quality_flags": []
+  },
+  "2020-09-03": {
+    "values": {
+      "tmax": 27.52,
+      "tmin": 11.33,
+      "rs": 22.159872000000004,
+      "u2": 1.701962310764866,
+      "rain": 0.0,
+      "eto": 4.65,
+      "ea": 1.0608904454899868,
+      "station_forced_eto": 4.652064932482569
+    },
+    "quality_flags": []
+  },
+  "2020-09-04": {
+    "values": {
+      "tmax": 32.25,
+      "tmin": 8.98,
+      "rs": 21.98016,
+      "u2": 0.7315431752859584,
+      "rain": 0.0,
+      "eto": 4.13,
+      "ea": 0.9496051446251488,
+      "station_forced_eto": 4.131586269979538
+    },
+    "quality_flags": []
+  },
+  "2020-09-05": {
+    "values": {
+      "tmax": 34.95,
+      "tmin": 10.28,
+      "rs": 19.009728000000003,
+      "u2": 0.6399702031306748,
+      "rain": 0.0,
+      "eto": 3.88,
+      "ea": 1.0230554242543382,
+      "station_forced_eto": 3.873436201627156
+    },
+    "quality_flags": []
+  },
+  "2020-09-06": {
+    "values": {
+      "tmax": 37.07,
+      "tmin": 15.0,
+      "rs": 18.069696,
+      "u2": 1.7227743498910666,
+      "rain": 0.0,
+      "eto": 5.57,
+      "ea": 0.9244076769465324,
+      "station_forced_eto": 5.566803799861263
+    },
+    "quality_flags": []
+  },
+  "2020-09-07": {
+    "values": {
+      "tmax": 22.69,
+      "tmin": 4.36,
+      "rs": 3.4611840000000003,
+      "u2": 1.2186605132786472,
+      "rain": 2.79,
+      "eto": 1.63,
+      "ea": 0.8664716826565313,
+      "station_forced_eto": 1.9695450693731391
+    },
+    "quality_flags": []
+  },
+  "2020-09-08": {
+    "values": {
+      "tmax": 4.38,
+      "tmin": -0.97,
+      "rs": 4.303584000000001,
+      "u2": 1.188598678985246,
+      "rain": 10.16,
+      "eto": 0.48,
+      "ea": 0.6954549104438651,
+      "station_forced_eto": 0.6440660251967258
+    },
+    "quality_flags": []
+  },
+  "2020-09-09": {
+    "values": {
+      "tmax": 4.33,
+      "tmin": -0.84,
+      "rs": 10.26,
+      "u2": 0.6725757310950561,
+      "rain": 19.56,
+      "eto": 1.2,
+      "ea": 0.608512152321093,
+      "station_forced_eto": 1.2035071094135994
+    },
+    "quality_flags": []
+  },
+  "2020-09-10": {
+    "values": {
+      "tmax": 10.32,
+      "tmin": 3.02,
+      "rs": 10.430208,
+      "u2": 1.1851300057975458,
+      "rain": 0.51,
+      "eto": 1.55,
+      "ea": 0.7827571249137908,
+      "station_forced_eto": 1.5500133084111294
+    },
+    "quality_flags": []
+  },
+  "2020-09-11": {
+    "values": {
+      "tmax": 15.05,
+      "tmin": 1.31,
+      "rs": 9.510048,
+      "u2": 0.6269048674570044,
+      "rain": 0.0,
+      "eto": 1.53,
+      "ea": 0.9046290212852848,
+      "station_forced_eto": 1.5259554836053002
+    },
+    "quality_flags": []
+  },
+  "2020-09-12": {
+    "values": {
+      "tmax": 28.21,
+      "tmin": 2.26,
+      "rs": 21.840192000000002,
+      "u2": 0.7161653908204877,
+      "rain": 0.0,
+      "eto": 3.58,
+      "ea": 0.7478190585545502,
+      "station_forced_eto": 3.5775161161826516
+    },
+    "quality_flags": []
+  },
+  "2020-09-13": {
+    "values": {
+      "tmax": 29.03,
+      "tmin": 6.64,
+      "rs": 21.490272,
+      "u2": 0.6208925005983241,
+      "rain": 0.0,
+      "eto": 3.54,
+      "ea": 0.8341789906419264,
+      "station_forced_eto": 3.540238585640213
+    },
+    "quality_flags": []
+  },
+  "2020-09-14": {
+    "values": {
+      "tmax": 28.99,
+      "tmin": 5.77,
+      "rs": 19.249920000000003,
+      "u2": 0.669916414984486,
+      "rain": 0.0,
+      "eto": 3.36,
+      "ea": 0.937045045847273,
+      "station_forced_eto": 3.3548578907319175
+    },
+    "quality_flags": []
+  },
+  "2020-09-15": {
+    "values": {
+      "tmax": 31.31,
+      "tmin": 8.08,
+      "rs": 19.59984,
+      "u2": 1.03482083433054,
+      "rain": 0.0,
+      "eto": 4.01,
+      "ea": 0.7801091846955154,
+      "station_forced_eto": 4.011700502582332
+    },
+    "quality_flags": []
+  },
+  "2020-09-16": {
+    "values": {
+      "tmax": 23.62,
+      "tmin": 9.0,
+      "rs": 17.319744,
+      "u2": 1.1481308251287445,
+      "rain": 0.0,
+      "eto": 3.23,
+      "ea": 0.9289599754171799,
+      "station_forced_eto": 3.228697177105445
+    },
+    "quality_flags": []
+  },
+  "2020-09-17": {
+    "values": {
+      "tmax": 29.29,
+      "tmin": 4.92,
+      "rs": 17.319744,
+      "u2": 0.7049500141802573,
+      "rain": 0.0,
+      "eto": 3.18,
+      "ea": 0.8817887983061019,
+      "station_forced_eto": 3.180821979014409
+    },
+    "quality_flags": []
+  },
+  "2020-09-18": {
+    "values": {
+      "tmax": 25.02,
+      "tmin": 6.23,
+      "rs": 16.729632,
+      "u2": 0.4687333700978781,
+      "rain": 0.0,
+      "eto": 2.65,
+      "ea": 1.107777090187672,
+      "station_forced_eto": 2.6531224688289408
+    },
+    "quality_flags": []
+  },
+  "2020-09-19": {
+    "values": {
+      "tmax": 29.47,
+      "tmin": 10.24,
+      "rs": 11.810016000000001,
+      "u2": 0.9978216536617386,
+      "rain": 0.0,
+      "eto": 3.03,
+      "ea": 1.0263192561288619,
+      "station_forced_eto": 3.027075067820593
+    },
+    "quality_flags": []
+  },
+  "2020-09-20": {
+    "values": {
+      "tmax": 26.09,
+      "tmin": 10.32,
+      "rs": 13.150079999999999,
+      "u2": 0.9481040046380368,
+      "rain": 0.0,
+      "eto": 2.82,
+      "ea": 1.0608480582784612,
+      "station_forced_eto": 2.8178205978358224
+    },
+    "quality_flags": []
+  },
+  "2020-09-21": {
+    "values": {
+      "tmax": 27.87,
+      "tmin": 8.04,
+      "rs": 14.210208000000002,
+      "u2": 0.6517636919688552,
+      "rain": 0.0,
+      "eto": 2.7,
+      "ea": 1.1299652200112293,
+      "station_forced_eto": 2.6954503258845994
+    },
+    "quality_flags": []
+  },
+  "2020-09-22": {
+    "values": {
+      "tmax": 30.28,
+      "tmin": 8.01,
+      "rs": 15.430176000000001,
+      "u2": 0.9666035949724373,
+      "rain": 0.0,
+      "eto": 3.33,
+      "ea": 0.9282432830601316,
+      "station_forced_eto": 3.329714336826311
+    },
+    "quality_flags": []
+  },
+  "2020-09-23": {
+    "values": {
+      "tmax": 30.26,
+      "tmin": 12.12,
+      "rs": 16.490304000000002,
+      "u2": 1.394406621455454,
+      "rain": 0.0,
+      "eto": 3.94,
+      "ea": 0.9254881011596041,
+      "station_forced_eto": 3.933466418052869
+    },
+    "quality_flags": []
+  },
+  "2020-09-24": {
+    "values": {
+      "tmax": 30.65,
+      "tmin": 6.49,
+      "rs": 17.120160000000002,
+      "u2": 0.7377867870238186,
+      "rain": 0.0,
+      "eto": 3.18,
+      "ea": 0.8895345489989233,
+      "station_forced_eto": 3.1769665775100213
+    },
+    "quality_flags": []
+  },
+  "2020-09-25": {
+    "values": {
+      "tmax": 26.06,
+      "tmin": 10.54,
+      "rs": 15.240096,
+      "u2": 0.9527289022216369,
+      "rain": 0.0,
+      "eto": 2.92,
+      "ea": 1.0829778950357185,
+      "station_forced_eto": 2.9235189643315262
+    },
+    "quality_flags": []
+  },
+  "2020-09-26": {
+    "values": {
+      "tmax": 28.83,
+      "tmin": 10.24,
+      "rs": 9.070272000000001,
+      "u2": 2.354072870052491,
+      "rain": 0.0,
+      "eto": 4.13,
+      "ea": 0.8801453472778631,
+      "station_forced_eto": 4.128368236724015
+    },
+    "quality_flags": []
+  },
+  "2020-09-27": {
+    "values": {
+      "tmax": 12.79,
+      "tmin": 2.09,
+      "rs": 8.089632,
+      "u2": 2.036111161179979,
+      "rain": 0.0,
+      "eto": 1.79,
+      "ea": 0.6804664602137239,
+      "station_forced_eto": 1.7857543087362058
+    },
+    "quality_flags": []
+  },
+  "2020-09-28": {
+    "values": {
+      "tmax": 18.77,
+      "tmin": -1.23,
+      "rs": 18.340128000000004,
+      "u2": 1.674212925263265,
+      "rain": 0.0,
+      "eto": 3.05,
+      "ea": 0.4750811030429422,
+      "station_forced_eto": 3.053216190891991
+    },
+    "quality_flags": []
+  },
+  "2020-09-29": {
+    "values": {
+      "tmax": 27.3,
+      "tmin": 0.12,
+      "rs": 17.620416000000002,
+      "u2": 0.879539897961164,
+      "rain": 0.0,
+      "eto": 3.03,
+      "ea": 0.659604329116865,
+      "station_forced_eto": 3.0269394391094973
+    },
+    "quality_flags": []
+  },
+  "2020-09-30": {
+    "values": {
+      "tmax": 22.03,
+      "tmin": 3.67,
+      "rs": 15.159744000000002,
+      "u2": 0.6384671114160048,
+      "rain": 0.0,
+      "eto": 2.31,
+      "ea": 0.717127472046538,
+      "station_forced_eto": 2.305232113377953
+    },
+    "quality_flags": []
+  }
+}

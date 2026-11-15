@@ -1,0 +1,103 @@
+"""FastAPI app: the AstroRoot API (/api/v2), its error shapes, and the web app."""
+import math
+import os
+import asyncio
+import hashlib
+import secrets
+from concurrent.futures import ThreadPoolExecutor
+from contextlib import asynccontextmanager
+from pathlib import Path
+
+import httpx
+from fastapi import FastAPI, Request
+from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
+
+from app.config import load_private_env
+load_private_env()  # before routers read their storage/cache configuration
+
+from app.api.v2 import router as v2_router
+from app.api.data import router as data_router
+from app.api.products import router as products_router
+from app.api.chat import router as chat_router
+from app.api.raster import router as raster_router
+from app.api.validation import router as validation_router
+from app.api.accounts import router as accounts_router
+from app.services import accounts
+from app.db.database import connect
+
+DB_PATH = os.environ.get("FIELD_SHIFT_DB", "field_shift.db")  # created in the working directory
+FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    app.state.http = httpx.AsyncClient()
+    app.state.db = connect(DB_PATH)
+    app.state.analysis_executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="field-analysis")
+    app.state.chat_lock = asyncio.Lock()
+    app.state.auth_slots = asyncio.Semaphore(2)
+    yield
+    from app.api.v2 import _running
+    tasks = list(_running)
+    for task in tasks:
+        task.cancel()
+    if tasks:
+        await asyncio.gather(*tasks, return_exceptions=True)
+    app.state.analysis_executor.shutdown(wait=True)
+    await app.state.http.aclose()
+    app.state.db.close()
+
+
+app = FastAPI(title="AstroRoot API", version="2.3.0", lifespan=lifespan)
+app.include_router(v2_router)
+app.include_router(data_router)
+app.include_router(products_router)
+app.include_router(chat_router)
+app.include_router(raster_router)
+app.include_router(validation_router)
+app.include_router(accounts_router)
+
+
+@app.middleware("http")
+async def session_scope(request: Request, call_next):
+    if request.method in ('POST','PUT','PATCH','DELETE'):
+        origin=request.headers.get('origin')
+        allowed_origins={value.strip().rstrip('/') for value in
+                         os.environ.get('FIELD_SHIFT_ALLOWED_ORIGINS','').split(',') if value.strip()}
+        if origin and origin.rstrip('/')!=str(request.base_url).rstrip('/') and origin.rstrip('/') not in allowed_origins:
+            return JSONResponse(status_code=403,content={'detail':'Cross-origin writes are not allowed'})
+    token = request.cookies.get("field_shift_session")
+    new = not token or len(token) != 43
+    if new:
+        token = secrets.token_urlsafe(32)
+    request.state.owner = hashlib.sha256(token.encode()).hexdigest()
+    request.state.user = accounts.identify(request.app.state.db,request.cookies.get(accounts.COOKIE))
+    if request.state.user:request.state.owner='user:'+request.state.user['id']
+    response = await call_next(request)
+    if new:
+        response.set_cookie("field_shift_session", token, httponly=True, samesite="strict",
+                            secure=accounts.cookie_secure(request))
+    return response
+
+
+
+@app.exception_handler(RequestValidationError)
+async def invalid_input(request: Request, exc: RequestValidationError) -> JSONResponse:
+    fields = jsonable_encoder(exc.errors(), custom_encoder={float: lambda x: x if math.isfinite(x) else str(x)})
+    if request.url.path.startswith('/api/v2/auth/'):
+        fields=[{k:v for k,v in field.items() if k not in ('input','ctx')} for field in fields]
+    return JSONResponse(status_code=422, content={"error": {"code": "invalid_input", "fields": fields}})
+
+
+
+
+if FRONTEND_DIR.is_dir():  # mounted last, so /api routes take precedence
+    @app.get('/api/v2/showcase')
+    async def showcase():
+        from fastapi.responses import FileResponse
+        return FileResponse(FRONTEND_DIR.parent/'data/fixtures/showcase_ks_hays.json',media_type='application/json')
+
+    app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")

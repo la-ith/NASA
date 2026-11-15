@@ -1,0 +1,8 @@
+{
+  "url": "https://coagmet.colostate.edu/data/daily/akr02.csv?from=2022-05-01&to=2022-09-30&header=yes&units=m",
+  "retrieved_utc": "2026-11-14T20:00:41.493626+00:00",
+  "sha256": "ca8db370abc4fa9e35f277605b3c9c9d07a44ab804ba15ef728e5b3198241026",
+  "file": "akr02_2022_f492f3ab903d_ca8db370abc4.raw",
+  "status": 200,
+  "content_type": "text/plain; charset=utf-8"
+}

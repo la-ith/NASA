@@ -1,0 +1,114 @@
+[
+  {
+    "site": {
+      "id": "palmer",
+      "lat": 61.58,
+      "lon": -149.1
+    },
+    "state": "AK",
+    "group": "applicability_only",
+    "metrics": null,
+    "weather": "supported",
+    "model_applicability": {
+      "maize_grain": {
+        "status": "ok",
+        "reason": null
+      },
+      "soybean": {
+        "status": "ok",
+        "reason": null
+      },
+      "sorghum_grain": {
+        "status": "ok",
+        "reason": null
+      }
+    },
+    "january_start_applicability": "frozen_conditions",
+    "meaning": "ok means calculation prerequisites passed, not agronomic suitability or validated crop performance",
+    "ssurgo": "supported; basic coverage only, not field validation"
+  },
+  {
+    "site": {
+      "id": "maui",
+      "lat": 20.85,
+      "lon": -156.45
+    },
+    "state": "HI",
+    "group": "applicability_only",
+    "metrics": null,
+    "weather": "supported",
+    "model_applicability": {
+      "maize_grain": {
+        "status": "ok",
+        "reason": null
+      },
+      "soybean": {
+        "status": "ok",
+        "reason": null
+      },
+      "sorghum_grain": {
+        "status": "ok",
+        "reason": null
+      }
+    },
+    "january_start_applicability": "ok",
+    "meaning": "ok means calculation prerequisites passed, not agronomic suitability or validated crop performance",
+    "ssurgo": "supported; basic coverage only, not field validation"
+  },
+  {
+    "site": {
+      "id": "fresno",
+      "lat": 36.74,
+      "lon": -119.79
+    },
+    "state": "CA",
+    "group": "applicability_only",
+    "metrics": null,
+    "weather": "supported",
+    "model_applicability": {
+      "maize_grain": {
+        "status": "ok",
+        "reason": null
+      },
+      "soybean": {
+        "status": "ok",
+        "reason": null
+      },
+      "sorghum_grain": {
+        "status": "ok",
+        "reason": null
+      }
+    },
+    "january_start_applicability": "ok",
+    "meaning": "ok means calculation prerequisites passed, not agronomic suitability or validated crop performance",
+    "ssurgo": "supported; basic coverage only, not field validation"
+  },
+  {
+    "site": {
+      "id": "ames",
+      "lat": 42.03,
+      "lon": -93.62
+    },
+    "state": "IA",
+    "group": "applicability_only",
+    "metrics": null,
+    "weather": "supported",
+    "model_applicability": {
+      "maize_grain": {
+        "status": "ok",
+        "reason": null
+      },
+      "soybean": {
+        "status": "ok",
+        "reason": null
+      },
+      "sorghum_grain": {
+        "status": "ok",
+        "reason": null
+      }
+    },
+    "january_start_applicability": "frozen_conditions",
+    "meaning": "ok means calculation prerequisites passed, not agronomic suitability or validated crop performance",
+    "ssurgo": "supported; basic coverage only, not field validation"
+  }
+]

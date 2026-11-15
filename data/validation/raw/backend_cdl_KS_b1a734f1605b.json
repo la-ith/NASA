@@ -1,0 +1,4186 @@
+{
+  "retrieved_utc": "2026-11-14T19:39:01.119794+00:00",
+  "content_sha256": "b1a734f1605b4f52b656a5165f10c41e0a02d4bcaafcbeefaf38828c92119f7d",
+  "manifest": {
+    "product": "usda_cdl",
+    "year": 2020,
+    "status": "available",
+    "class_code": 176,
+    "class_name": "Grassland/Pasture",
+    "catalog_crop_id": null,
+    "provenance": "cdl",
+    "farmer_confirmed": false,
+    "raster_id": 35,
+    "raster_name": "2020_30m_cdls",
+    "catalog_low_pixel_size_m": 30,
+    "point": {
+      "lon": -99.33,
+      "lat": 38.85
+    },
+    "content_sha256": "b1a734f1605b4f52b656a5165f10c41e0a02d4bcaafcbeefaf38828c92119f7d",
+    "limitation": "Classified pixel, not a field boundary, planting date or confirmed crop history. Does not automatically alter farmer history or engine inputs.",
+    "service": "https://pdi.scinet.usda.gov/image/rest/services/CDL_WM/ImageServer",
+    "requests": [
+      "https://pdi.scinet.usda.gov/image/rest/services/CDL_WM/ImageServer/query?f=json&where=Year+%3D+2020&outFields=%2A&returnGeometry=false",
+      "https://pdi.scinet.usda.gov/image/rest/services/CDL_WM/ImageServer/identify?f=json&geometry=%7B%22x%22%3A+-99.33%2C+%22y%22%3A+38.85%2C+%22spatialReference%22%3A+%7B%22wkid%22%3A+4326%7D%7D&geometryType=esriGeometryPoint&mosaicRule=%7B%22mosaicMethod%22%3A+%22esriMosaicLockRaster%22%2C+%22lockRasterIds%22%3A+%5B35%5D%7D&renderingRule=%7B%22rasterFunction%22%3A+%22None%22%7D&returnGeometry=false&returnCatalogItems=true&returnPixelValues=true",
+      "https://pdi.scinet.usda.gov/image/rest/services/CDL_WM/ImageServer/rasterAttributeTable?f=json"
+    ]
+  },
+  "response": {
+    "catalog": {
+      "objectIdFieldName": "OBJECTID",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Catalog item categories.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Inactive",
+                "code": 5
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Year",
+          "type": "esriFieldTypeInteger",
+          "alias": "Year",
+          "domain": null
+        }
+      ],
+      "geometryType": "esriGeometryPolygon",
+      "spatialReference": {
+        "wkid": 102100,
+        "latestWkid": 3857
+      },
+      "features": [
+        {
+          "attributes": {
+            "OBJECTID": 35,
+            "Name": "2020_30m_cdls",
+            "MinPS": 0,
+            "MaxPS": 50200,
+            "LowPS": 30,
+            "HighPS": 1920,
+            "Category": 1,
+            "Year": 2020
+          },
+          "geometry": {
+            "rings": [
+              [
+                [
+                  -13219523.8123,
+                  2624796.9496
+                ],
+                [
+                  -13266044.8815,
+                  2820934.3178000003
+                ],
+                [
+                  -13314270.9208,
+                  3018299.2595999986
+                ],
+                [
+                  -13364295.2897,
+                  3217170.583900001
+                ],
+                [
+                  -13416218.1199,
+                  3417837.0276999995
+                ],
+                [
+                  -13470146.9236,
+                  3620599.984099999
+                ],
+                [
+                  -13526197.2652,
+                  3825776.5130999982
+                ],
+                [
+                  -13584493.5062,
+                  4033702.718800001
+                ],
+                [
+                  -13645169.6306,
+                  4244737.590999998
+                ],
+                [
+                  -13708370.1612,
+                  4459267.434699997
+                ],
+                [
+                  -13774251.1788,
+                  4677711.039899997
+                ],
+                [
+                  -13842981.4556,
+                  4900525.785700001
+                ],
+                [
+                  -13914743.718899999,
+                  5128214.928400002
+                ],
+                [
+                  -13989736.0607,
+                  5361336.396899998
+                ],
+                [
+                  -14068173.512400001,
+                  5600513.523199998
+                ],
+                [
+                  -14150289.8049,
+                  5846448.278800003
+                ],
+                [
+                  -14236339.3388,
+                  6099937.7885000035
+                ],
+                [
+                  -13976514.8016,
+                  6188861.765600003
+                ],
+                [
+                  -13712523.317200001,
+                  6272194.090000004
+                ],
+                [
+                  -13444600.2482,
+                  6349577.9147000015
+                ],
+                [
+                  -13173008.153099999,
+                  6420662.0999
+                ],
+                [
+                  -12898036.134300001,
+                  6485106.4657000005
+                ],
+                [
+                  -12619998.760200001,
+                  6542587.341600001
+                ],
+                [
+                  -12339234.5493,
+                  6592803.264700003
+                ],
+                [
+                  -12056104.0188,
+                  6635480.652800001
+                ],
+                [
+                  -11770987.311700001,
+                  6670379.2575
+                ],
+                [
+                  -11484281.4324,
+                  6697297.190099999
+                ],
+                [
+                  -11196397.135,
+                  6716075.317500003
+                ],
+                [
+                  -10907755.5177,
+                  6726600.8364999965
+                ],
+                [
+                  -10618784.3941,
+                  6728809.8675
+                ],
+                [
+                  -10329914.5162,
+                  6722688.943899997
+                ],
+                [
+                  -10041575.7319,
+                  6708275.328699999
+                ],
+                [
+                  -9754193.1634,
+                  6685656.141000003
+                ],
+                [
+                  -9468183.4889,
+                  6654966.336199999
+                ],
+                [
+                  -9183951.4105,
+                  6616385.633500002
+                ],
+                [
+                  -8901886.3789,
+                  6570134.5339
+                ],
+                [
+                  -8622359.6379,
+                  6516469.603
+                ],
+                [
+                  -8345721.639799999,
+                  6455678.218599997
+                ],
+                [
+                  -8072299.868100001,
+                  6388072.989299998
+                ],
+                [
+                  -7802397.0890999995,
+                  6313986.046300001
+                ],
+                [
+                  -7536290.0427,
+                  6233763.3945999965
+                ],
+                [
+                  -7274228.566299999,
+                  6147759.486500002
+                ],
+                [
+                  -7357420.777000001,
+                  5891557.5353000015
+                ],
+                [
+                  -7436778.823899999,
+                  5643201.3006
+                ],
+                [
+                  -7512553.4551,
+                  5401853.435999997
+                ],
+                [
+                  -7584974.751,
+                  5166778.862499997
+                ],
+                [
+                  -7654254.1316,
+                  4937326.770000003
+                ],
+                [
+                  -7720586.1446,
+                  4712916.2544
+                ],
+                [
+                  -7784150.059599999,
+                  4493024.720799997
+                ],
+                [
+                  -7845111.2928,
+                  4277178.4157000035
+                ],
+                [
+                  -7903622.6797,
+                  4064944.6121999994
+                ],
+                [
+                  -7959825.615499999,
+                  3855925.088600002
+                ],
+                [
+                  -8013851.077500001,
+                  3649750.626000002
+                ],
+                [
+                  -8065820.5427,
+                  3446076.3118999973
+                ],
+                [
+                  -8115846.813200001,
+                  3244577.482900001
+                ],
+                [
+                  -8164034.7589,
+                  3044946.1722999997
+                ],
+                [
+                  -8210481.987600001,
+                  2846887.956700001
+                ],
+                [
+                  -8255279.4495,
+                  2650119.1114000008
+                ],
+                [
+                  -8447876.5735,
+                  2695148.838300001
+                ],
+                [
+                  -8641992.0219,
+                  2736562.1160000004
+                ],
+                [
+                  -8837511.6375,
+                  2774304.4015999995
+                ],
+                [
+                  -9034315.7729,
+                  2808324.2525999993
+                ],
+                [
+                  -9232279.652,
+                  2838573.8572999984
+                ],
+                [
+                  -9431273.7788,
+                  2865009.5342000015
+                ],
+                [
+                  -9631164.3938,
+                  2887592.1953000017
+                ],
+                [
+                  -9831813.9727,
+                  2906287.7655000016
+                ],
+                [
+                  -10033081.7636,
+                  2921067.5527000017
+                ],
+                [
+                  -10234824.3584,
+                  2931908.5621999986
+                ],
+                [
+                  -10436896.2921,
+                  2938793.7509000003
+                ],
+                [
+                  -10639150.6646,
+                  2941712.216499999
+                ],
+                [
+                  -10841439.7778,
+                  2940659.3194000013
+                ],
+                [
+                  -11043615.7813,
+                  2935636.7347999997
+                ],
+                [
+                  -11245531.3198,
+                  2926652.433600001
+                ],
+                [
+                  -11447040.1758,
+                  2913720.5934000015
+                ],
+                [
+                  -11647997.8987,
+                  2896861.4406999983
+                ],
+                [
+                  -11848262.4156,
+                  2876101.0264
+                ],
+                [
+                  -12047694.6169,
+                  2851470.9395999983
+                ],
+                [
+                  -12246158.9095,
+                  2823007.9626
+                ],
+                [
+                  -12443523.735199999,
+                  2790753.6739000008
+                ],
+                [
+                  -12639662.046500001,
+                  2754754.004999999
+                ],
+                [
+                  -12834451.738499999,
+                  2715058.757100001
+                ],
+                [
+                  -13027776.033,
+                  2671721.083900001
+                ],
+                [
+                  -13219523.8123,
+                  2624796.9496
+                ]
+              ]
+            ],
+            "spatialReference": {
+              "wkid": 102100,
+              "latestWkid": 3857
+            }
+          }
+        }
+      ]
+    },
+    "identify": {
+      "objectId": 0,
+      "name": "Pixel",
+      "value": "176",
+      "location": {
+        "x": -11057365.020495864,
+        "y": 4700208.078504527,
+        "spatialReference": {
+          "wkid": 102100,
+          "latestWkid": 3857
+        }
+      },
+      "properties": {
+        "Values": [
+          "176"
+        ]
+      },
+      "catalogItems": {
+        "objectIdFieldName": "OBJECTID",
+        "features": [
+          {
+            "attributes": {
+              "OBJECTID": 35,
+              "Name": "2020_30m_cdls",
+              "MinPS": 0,
+              "MaxPS": 50200,
+              "LowPS": 30,
+              "HighPS": 1920,
+              "Category": 1,
+              "Year": 2020
+            }
+          }
+        ]
+      },
+      "catalogItemVisibilities": [
+        1
+      ]
+    },
+    "classes": {
+      "features": [
+        {
+          "attributes": {
+            "OBJECTID": 1,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 0,
+            "OID": 0,
+            "Count": 0,
+            "Opacity": 0,
+            "Class_Names": "Background",
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 2,
+            "Red": 255,
+            "Acreage": 91565825,
+            "Blue": 0,
+            "Value": 1,
+            "OID": 1,
+            "Count": 411726096,
+            "Opacity": 255,
+            "Class_Names": "Corn",
+            "Green": 211
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 3,
+            "Red": 255,
+            "Acreage": 15205396,
+            "Blue": 38,
+            "Value": 2,
+            "OID": 2,
+            "Count": 68371124,
+            "Opacity": 255,
+            "Class_Names": "Cotton",
+            "Green": 38
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 4,
+            "Red": 0,
+            "Acreage": 2581490,
+            "Blue": 228,
+            "Value": 3,
+            "OID": 3,
+            "Count": 11607681,
+            "Opacity": 255,
+            "Class_Names": "Rice",
+            "Green": 168
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 5,
+            "Red": 255,
+            "Acreage": 6395562,
+            "Blue": 11,
+            "Value": 4,
+            "OID": 4,
+            "Count": 28757671,
+            "Opacity": 255,
+            "Class_Names": "Sorghum",
+            "Green": 158
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 6,
+            "Red": 38,
+            "Acreage": 77044186,
+            "Blue": 0,
+            "Value": 5,
+            "OID": 5,
+            "Count": 346429490,
+            "Opacity": 255,
+            "Class_Names": "Soybeans",
+            "Green": 112
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 7,
+            "Red": 255,
+            "Acreage": 1251987,
+            "Blue": 0,
+            "Value": 6,
+            "OID": 6,
+            "Count": 5629564,
+            "Opacity": 255,
+            "Class_Names": "Sunflower",
+            "Green": 255
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 8,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 7,
+            "OID": 7,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 9,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 8,
+            "OID": 8,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 10,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 9,
+            "OID": 9,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 11,
+            "Red": 112,
+            "Acreage": 1456902,
+            "Blue": 0,
+            "Value": 10,
+            "OID": 10,
+            "Count": 6550967,
+            "Opacity": 255,
+            "Class_Names": "Peanuts",
+            "Green": 165
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 12,
+            "Red": 0,
+            "Acreage": 113246,
+            "Blue": 75,
+            "Value": 11,
+            "OID": 11,
+            "Count": 509211,
+            "Opacity": 255,
+            "Class_Names": "Tobacco",
+            "Green": 175
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 13,
+            "Red": 221,
+            "Acreage": 250166,
+            "Blue": 11,
+            "Value": 12,
+            "OID": 12,
+            "Count": 1124872,
+            "Opacity": 255,
+            "Class_Names": "Sweet Corn",
+            "Green": 165
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 14,
+            "Red": 221,
+            "Acreage": 148573,
+            "Blue": 11,
+            "Value": 13,
+            "OID": 13,
+            "Count": 668060,
+            "Opacity": 255,
+            "Class_Names": "Pop or Orn Corn",
+            "Green": 165
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 15,
+            "Red": 126,
+            "Acreage": 75179,
+            "Blue": 255,
+            "Value": 14,
+            "OID": 14,
+            "Count": 338044,
+            "Opacity": 255,
+            "Class_Names": "Mint",
+            "Green": 211
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 16,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 15,
+            "OID": 15,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 17,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 16,
+            "OID": 16,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 18,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 17,
+            "OID": 17,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 19,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 18,
+            "OID": 18,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 20,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 19,
+            "OID": 19,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 21,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 20,
+            "OID": 20,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 22,
+            "Red": 226,
+            "Acreage": 2452699,
+            "Blue": 124,
+            "Value": 21,
+            "OID": 21,
+            "Count": 11028569,
+            "Opacity": 255,
+            "Class_Names": "Barley",
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 23,
+            "Red": 137,
+            "Acreage": 1218372,
+            "Blue": 84,
+            "Value": 22,
+            "OID": 22,
+            "Count": 5478413,
+            "Opacity": 255,
+            "Class_Names": "Durum Wheat",
+            "Green": 98
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 24,
+            "Red": 216,
+            "Acreage": 14179392,
+            "Blue": 107,
+            "Value": 23,
+            "OID": 23,
+            "Count": 63757693,
+            "Opacity": 255,
+            "Class_Names": "Spring Wheat",
+            "Green": 181
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 25,
+            "Red": 165,
+            "Acreage": 29593424,
+            "Blue": 0,
+            "Value": 24,
+            "OID": 24,
+            "Count": 133066950,
+            "Opacity": 255,
+            "Class_Names": "Winter Wheat",
+            "Green": 112
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 26,
+            "Red": 214,
+            "Acreage": 2064,
+            "Blue": 188,
+            "Value": 25,
+            "OID": 25,
+            "Count": 9280,
+            "Opacity": 255,
+            "Class_Names": "Other Small Grains",
+            "Green": 158
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 27,
+            "Red": 112,
+            "Acreage": 2513368,
+            "Blue": 0,
+            "Value": 26,
+            "OID": 26,
+            "Count": 11301367,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop WinWht/Soybeans",
+            "Green": 112
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 28,
+            "Red": 172,
+            "Acreage": 672059,
+            "Blue": 124,
+            "Value": 27,
+            "OID": 27,
+            "Count": 3021917,
+            "Opacity": 255,
+            "Class_Names": "Rye",
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 29,
+            "Red": 160,
+            "Acreage": 1766320,
+            "Blue": 137,
+            "Value": 28,
+            "OID": 28,
+            "Count": 7942266,
+            "Opacity": 255,
+            "Class_Names": "Oats",
+            "Green": 89
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 30,
+            "Red": 112,
+            "Acreage": 944997,
+            "Blue": 73,
+            "Value": 29,
+            "OID": 29,
+            "Count": 4249184,
+            "Opacity": 255,
+            "Class_Names": "Millet",
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 31,
+            "Red": 214,
+            "Acreage": 3247,
+            "Blue": 188,
+            "Value": 30,
+            "OID": 30,
+            "Count": 14602,
+            "Opacity": 255,
+            "Class_Names": "Speltz",
+            "Green": 158
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 32,
+            "Red": 209,
+            "Acreage": 1965837,
+            "Blue": 0,
+            "Value": 31,
+            "OID": 31,
+            "Count": 8839396,
+            "Opacity": 255,
+            "Class_Names": "Canola",
+            "Green": 255
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 33,
+            "Red": 126,
+            "Acreage": 303686,
+            "Blue": 255,
+            "Value": 32,
+            "OID": 32,
+            "Count": 1365525,
+            "Opacity": 255,
+            "Class_Names": "Flaxseed",
+            "Green": 153
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 34,
+            "Red": 214,
+            "Acreage": 170883,
+            "Blue": 0,
+            "Value": 33,
+            "OID": 33,
+            "Count": 768374,
+            "Opacity": 255,
+            "Class_Names": "Safflower",
+            "Green": 214
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 35,
+            "Red": 209,
+            "Acreage": 991,
+            "Blue": 0,
+            "Value": 34,
+            "OID": 34,
+            "Count": 4454,
+            "Opacity": 255,
+            "Class_Names": "Rape Seed",
+            "Green": 255
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 36,
+            "Red": 0,
+            "Acreage": 81312,
+            "Blue": 75,
+            "Value": 35,
+            "OID": 35,
+            "Count": 365619,
+            "Opacity": 255,
+            "Class_Names": "Mustard",
+            "Green": 175
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 37,
+            "Red": 255,
+            "Acreage": 20787258,
+            "Blue": 226,
+            "Value": 36,
+            "OID": 36,
+            "Count": 93469989,
+            "Opacity": 255,
+            "Class_Names": "Alfalfa",
+            "Green": 165
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 38,
+            "Red": 165,
+            "Acreage": 32383901,
+            "Blue": 140,
+            "Value": 37,
+            "OID": 37,
+            "Count": 145614340,
+            "Opacity": 255,
+            "Class_Names": "Other Hay/Non Alfalfa",
+            "Green": 242
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 39,
+            "Red": 0,
+            "Acreage": 230,
+            "Blue": 75,
+            "Value": 38,
+            "OID": 38,
+            "Count": 1036,
+            "Opacity": 255,
+            "Class_Names": "Camelina",
+            "Green": 175
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 40,
+            "Red": 214,
+            "Acreage": 16054,
+            "Blue": 188,
+            "Value": 39,
+            "OID": 39,
+            "Count": 72186,
+            "Opacity": 255,
+            "Class_Names": "Buckwheat",
+            "Green": 158
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 41,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 40,
+            "OID": 40,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 42,
+            "Red": 168,
+            "Acreage": 1124503,
+            "Blue": 228,
+            "Value": 41,
+            "OID": 41,
+            "Count": 5056332,
+            "Opacity": 255,
+            "Class_Names": "Sugarbeets",
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 43,
+            "Red": 165,
+            "Acreage": 1604520,
+            "Blue": 0,
+            "Value": 42,
+            "OID": 42,
+            "Count": 7214732,
+            "Opacity": 255,
+            "Class_Names": "Dry Beans",
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 44,
+            "Red": 112,
+            "Acreage": 1008100,
+            "Blue": 0,
+            "Value": 43,
+            "OID": 43,
+            "Count": 4532924,
+            "Opacity": 255,
+            "Class_Names": "Potatoes",
+            "Green": 38
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 45,
+            "Red": 0,
+            "Acreage": 255748,
+            "Blue": 75,
+            "Value": 44,
+            "OID": 44,
+            "Count": 1149972,
+            "Opacity": 255,
+            "Class_Names": "Other Crops",
+            "Green": 175
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 46,
+            "Red": 177,
+            "Acreage": 1024118,
+            "Blue": 255,
+            "Value": 45,
+            "OID": 45,
+            "Count": 4604951,
+            "Opacity": 255,
+            "Class_Names": "Sugarcane",
+            "Green": 126
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 47,
+            "Red": 112,
+            "Acreage": 127894,
+            "Blue": 0,
+            "Value": 46,
+            "OID": 46,
+            "Count": 575075,
+            "Opacity": 255,
+            "Class_Names": "Sweet Potatoes",
+            "Green": 38
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 48,
+            "Red": 255,
+            "Acreage": 5647,
+            "Blue": 102,
+            "Value": 47,
+            "OID": 47,
+            "Count": 25391,
+            "Opacity": 255,
+            "Class_Names": "Misc Vegs & Fruits",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 49,
+            "Red": 255,
+            "Acreage": 35708,
+            "Blue": 102,
+            "Value": 48,
+            "OID": 48,
+            "Count": 160559,
+            "Opacity": 255,
+            "Class_Names": "Watermelons",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 50,
+            "Red": 255,
+            "Acreage": 138802,
+            "Blue": 102,
+            "Value": 49,
+            "OID": 49,
+            "Count": 624122,
+            "Opacity": 255,
+            "Class_Names": "Onions",
+            "Green": 204
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 51,
+            "Red": 255,
+            "Acreage": 39583,
+            "Blue": 102,
+            "Value": 50,
+            "OID": 50,
+            "Count": 177984,
+            "Opacity": 255,
+            "Class_Names": "Cucumbers",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 52,
+            "Red": 0,
+            "Acreage": 255758,
+            "Blue": 75,
+            "Value": 51,
+            "OID": 51,
+            "Count": 1150018,
+            "Opacity": 255,
+            "Class_Names": "Chick Peas",
+            "Green": 175
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 53,
+            "Red": 0,
+            "Acreage": 452798,
+            "Blue": 175,
+            "Value": 52,
+            "OID": 52,
+            "Count": 2036009,
+            "Opacity": 255,
+            "Class_Names": "Lentils",
+            "Green": 221
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 54,
+            "Red": 84,
+            "Acreage": 1229778,
+            "Blue": 0,
+            "Value": 53,
+            "OID": 53,
+            "Count": 5529703,
+            "Opacity": 255,
+            "Class_Names": "Peas",
+            "Green": 255
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 55,
+            "Red": 242,
+            "Acreage": 306450,
+            "Blue": 119,
+            "Value": 54,
+            "OID": 54,
+            "Count": 1377954,
+            "Opacity": 255,
+            "Class_Names": "Tomatoes",
+            "Green": 163
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 56,
+            "Red": 255,
+            "Acreage": 19330,
+            "Blue": 102,
+            "Value": 55,
+            "OID": 55,
+            "Count": 86918,
+            "Opacity": 255,
+            "Class_Names": "Caneberries",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 57,
+            "Red": 0,
+            "Acreage": 73405,
+            "Blue": 75,
+            "Value": 56,
+            "OID": 56,
+            "Count": 330066,
+            "Opacity": 255,
+            "Class_Names": "Hops",
+            "Green": 175
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 58,
+            "Red": 126,
+            "Acreage": 109023,
+            "Blue": 255,
+            "Value": 57,
+            "OID": 57,
+            "Count": 490223,
+            "Opacity": 255,
+            "Class_Names": "Herbs",
+            "Green": 211
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 59,
+            "Red": 232,
+            "Acreage": 196452,
+            "Blue": 255,
+            "Value": 58,
+            "OID": 58,
+            "Count": 883349,
+            "Opacity": 255,
+            "Class_Names": "Clover/Wildflowers",
+            "Green": 191
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 60,
+            "Red": 175,
+            "Acreage": 1312986,
+            "Blue": 221,
+            "Value": 59,
+            "OID": 59,
+            "Count": 5903849,
+            "Opacity": 255,
+            "Class_Names": "Sod/Grass Seed",
+            "Green": 255
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 61,
+            "Red": 0,
+            "Acreage": 6064,
+            "Blue": 75,
+            "Value": 60,
+            "OID": 60,
+            "Count": 27268,
+            "Opacity": 255,
+            "Class_Names": "Switchgrass",
+            "Green": 175
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 62,
+            "Red": 191,
+            "Acreage": 34537471,
+            "Blue": 119,
+            "Value": 61,
+            "OID": 61,
+            "Count": 155297874,
+            "Opacity": 255,
+            "Class_Names": "Fallow/Idle Cropland",
+            "Green": 191
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 63,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 62,
+            "OID": 62,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 64,
+            "Red": 147,
+            "Acreage": 0,
+            "Blue": 147,
+            "Value": 63,
+            "OID": 63,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": "Forest",
+            "Green": 204
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 65,
+            "Red": 198,
+            "Acreage": 0,
+            "Blue": 158,
+            "Value": 64,
+            "OID": 64,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": "Shrubland",
+            "Green": 214
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 66,
+            "Red": 204,
+            "Acreage": 0,
+            "Blue": 163,
+            "Value": 65,
+            "OID": 65,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": "Barren",
+            "Green": 191
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 67,
+            "Red": 255,
+            "Acreage": 240618,
+            "Blue": 255,
+            "Value": 66,
+            "OID": 66,
+            "Count": 1081941,
+            "Opacity": 255,
+            "Class_Names": "Cherries",
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 68,
+            "Red": 255,
+            "Acreage": 81903,
+            "Blue": 170,
+            "Value": 67,
+            "OID": 67,
+            "Count": 368276,
+            "Opacity": 255,
+            "Class_Names": "Peaches",
+            "Green": 142
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 69,
+            "Red": 186,
+            "Acreage": 466990,
+            "Blue": 79,
+            "Value": 68,
+            "OID": 68,
+            "Count": 2099821,
+            "Opacity": 255,
+            "Class_Names": "Apples",
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 70,
+            "Red": 112,
+            "Acreage": 1095223,
+            "Blue": 137,
+            "Value": 69,
+            "OID": 69,
+            "Count": 4924673,
+            "Opacity": 255,
+            "Class_Names": "Grapes",
+            "Green": 68
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 71,
+            "Red": 0,
+            "Acreage": 93206,
+            "Blue": 119,
+            "Value": 70,
+            "OID": 70,
+            "Count": 419102,
+            "Opacity": 255,
+            "Class_Names": "Christmas Trees",
+            "Green": 119
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 72,
+            "Red": 177,
+            "Acreage": 248382,
+            "Blue": 112,
+            "Value": 71,
+            "OID": 71,
+            "Count": 1116852,
+            "Opacity": 255,
+            "Class_Names": "Other Tree Crops",
+            "Green": 154
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 73,
+            "Red": 255,
+            "Acreage": 373113,
+            "Blue": 126,
+            "Value": 72,
+            "OID": 72,
+            "Count": 1677704,
+            "Opacity": 255,
+            "Class_Names": "Citrus",
+            "Green": 255
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 74,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 73,
+            "OID": 73,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 75,
+            "Red": 181,
+            "Acreage": 406929,
+            "Blue": 91,
+            "Value": 74,
+            "OID": 74,
+            "Count": 1829756,
+            "Opacity": 255,
+            "Class_Names": "Pecans",
+            "Green": 112
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 76,
+            "Red": 0,
+            "Acreage": 1291706,
+            "Blue": 130,
+            "Value": 75,
+            "OID": 75,
+            "Count": 5808160,
+            "Opacity": 255,
+            "Class_Names": "Almonds",
+            "Green": 165
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 77,
+            "Red": 233,
+            "Acreage": 598226,
+            "Blue": 175,
+            "Value": 76,
+            "OID": 76,
+            "Count": 2689925,
+            "Opacity": 255,
+            "Class_Names": "Walnuts",
+            "Green": 214
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 78,
+            "Red": 177,
+            "Acreage": 62660,
+            "Blue": 112,
+            "Value": 77,
+            "OID": 77,
+            "Count": 281750,
+            "Opacity": 255,
+            "Class_Names": "Pears",
+            "Green": 154
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 79,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 78,
+            "OID": 78,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 80,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 79,
+            "OID": 79,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 81,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 80,
+            "OID": 80,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 82,
+            "Red": 242,
+            "Acreage": 0,
+            "Blue": 242,
+            "Value": 81,
+            "OID": 81,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": "Clouds/No Data",
+            "Green": 242
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 83,
+            "Red": 154,
+            "Acreage": 0,
+            "Blue": 154,
+            "Value": 82,
+            "OID": 82,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": "Developed",
+            "Green": 154
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 84,
+            "Red": 75,
+            "Acreage": 0,
+            "Blue": 163,
+            "Value": 83,
+            "OID": 83,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": "Water",
+            "Green": 112
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 85,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 84,
+            "OID": 84,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 86,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 85,
+            "OID": 85,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 87,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 86,
+            "OID": 86,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 88,
+            "Red": 126,
+            "Acreage": 0,
+            "Blue": 177,
+            "Value": 87,
+            "OID": 87,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": "Wetlands",
+            "Green": 177
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 89,
+            "Red": 232,
+            "Acreage": 0,
+            "Blue": 191,
+            "Value": 88,
+            "OID": 88,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": "Nonag/Undefined",
+            "Green": 255
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 90,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 89,
+            "OID": 89,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 91,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 90,
+            "OID": 90,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 92,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 91,
+            "OID": 91,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 93,
+            "Red": 0,
+            "Acreage": 248327,
+            "Blue": 255,
+            "Value": 92,
+            "OID": 92,
+            "Count": 1116605,
+            "Opacity": 255,
+            "Class_Names": "Aquaculture",
+            "Green": 255
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 94,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 93,
+            "OID": 93,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 95,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 94,
+            "OID": 94,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 96,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 95,
+            "OID": 95,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 97,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 96,
+            "OID": 96,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 98,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 97,
+            "OID": 97,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 99,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 98,
+            "OID": 98,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 100,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 99,
+            "OID": 99,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 101,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 100,
+            "OID": 100,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 102,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 101,
+            "OID": 101,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 103,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 102,
+            "OID": 102,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 104,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 103,
+            "OID": 103,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 105,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 104,
+            "OID": 104,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 106,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 105,
+            "OID": 105,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 107,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 106,
+            "OID": 106,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 108,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 107,
+            "OID": 107,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 109,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 108,
+            "OID": 108,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 110,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 109,
+            "OID": 109,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 111,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 110,
+            "OID": 110,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 112,
+            "Red": 75,
+            "Acreage": 34346753,
+            "Blue": 163,
+            "Value": 111,
+            "OID": 111,
+            "Count": 154440309,
+            "Opacity": 255,
+            "Class_Names": "Open Water",
+            "Green": 112
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 113,
+            "Red": 211,
+            "Acreage": 112206,
+            "Blue": 249,
+            "Value": 112,
+            "OID": 112,
+            "Count": 504534,
+            "Opacity": 255,
+            "Class_Names": "Perennial Ice/Snow ",
+            "Green": 226
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 114,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 113,
+            "OID": 113,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 115,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 114,
+            "OID": 114,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 116,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 115,
+            "OID": 115,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 117,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 116,
+            "OID": 116,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 118,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 117,
+            "OID": 117,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 119,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 118,
+            "OID": 118,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 120,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 119,
+            "OID": 119,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 121,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 120,
+            "OID": 120,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 122,
+            "Red": 154,
+            "Acreage": 57285452,
+            "Blue": 154,
+            "Value": 121,
+            "OID": 121,
+            "Count": 257584261,
+            "Opacity": 255,
+            "Class_Names": "Developed/Open Space",
+            "Green": 154
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 123,
+            "Red": 154,
+            "Acreage": 29546075,
+            "Blue": 154,
+            "Value": 122,
+            "OID": 122,
+            "Count": 132854044,
+            "Opacity": 255,
+            "Class_Names": "Developed/Low Intensity",
+            "Green": 154
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 124,
+            "Red": 154,
+            "Acreage": 13860745,
+            "Blue": 154,
+            "Value": 123,
+            "OID": 123,
+            "Count": 62324896,
+            "Opacity": 255,
+            "Class_Names": "Developed/Med Intensity",
+            "Green": 154
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 125,
+            "Red": 154,
+            "Acreage": 4989630,
+            "Blue": 154,
+            "Value": 124,
+            "OID": 124,
+            "Count": 22435889,
+            "Opacity": 255,
+            "Class_Names": "Developed/High Intensity",
+            "Green": 154
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 126,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 125,
+            "OID": 125,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 127,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 126,
+            "OID": 126,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 128,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 127,
+            "OID": 127,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 129,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 128,
+            "OID": 128,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 130,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 129,
+            "OID": 129,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 131,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 130,
+            "OID": 130,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 132,
+            "Red": 204,
+            "Acreage": 20417583,
+            "Blue": 163,
+            "Value": 131,
+            "OID": 131,
+            "Count": 91807741,
+            "Opacity": 255,
+            "Class_Names": "Barren",
+            "Green": 191
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 133,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 132,
+            "OID": 132,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 134,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 133,
+            "OID": 133,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 135,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 134,
+            "OID": 134,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 136,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 135,
+            "OID": 135,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 137,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 136,
+            "OID": 136,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 138,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 137,
+            "OID": 137,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 139,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 138,
+            "OID": 138,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 140,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 139,
+            "OID": 139,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 141,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 140,
+            "OID": 140,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 142,
+            "Red": 147,
+            "Acreage": 213647484,
+            "Blue": 147,
+            "Value": 141,
+            "OID": 141,
+            "Count": 960666761,
+            "Opacity": 255,
+            "Class_Names": "Deciduous Forest",
+            "Green": 204
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 143,
+            "Red": 147,
+            "Acreage": 243953142,
+            "Blue": 147,
+            "Value": 142,
+            "OID": 142,
+            "Count": 1096936272,
+            "Opacity": 255,
+            "Class_Names": "Evergreen Forest",
+            "Green": 204
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 144,
+            "Red": 147,
+            "Acreage": 62091472,
+            "Blue": 147,
+            "Value": 143,
+            "OID": 143,
+            "Count": 279194548,
+            "Opacity": 255,
+            "Class_Names": "Mixed Forest",
+            "Green": 204
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 145,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 144,
+            "OID": 144,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 146,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 145,
+            "OID": 145,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 147,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 146,
+            "OID": 146,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 148,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 147,
+            "OID": 147,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 149,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 148,
+            "OID": 148,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 150,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 149,
+            "OID": 149,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 151,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 150,
+            "OID": 150,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 152,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 151,
+            "OID": 151,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 153,
+            "Red": 198,
+            "Acreage": 459251268,
+            "Blue": 158,
+            "Value": 152,
+            "OID": 152,
+            "Count": 2065025151,
+            "Opacity": 255,
+            "Class_Names": "Shrubland",
+            "Green": 214
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 154,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 153,
+            "OID": 153,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 155,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 154,
+            "OID": 154,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 156,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 155,
+            "OID": 155,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 157,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 156,
+            "OID": 156,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 158,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 157,
+            "OID": 157,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 159,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 158,
+            "OID": 158,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 160,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 159,
+            "OID": 159,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 161,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 160,
+            "OID": 160,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 162,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 161,
+            "OID": 161,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 163,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 162,
+            "OID": 162,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 164,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 163,
+            "OID": 163,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 165,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 164,
+            "OID": 164,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 166,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 165,
+            "OID": 165,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 167,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 166,
+            "OID": 166,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 168,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 167,
+            "OID": 167,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 169,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 168,
+            "OID": 168,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 170,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 169,
+            "OID": 169,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 171,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 170,
+            "OID": 170,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 172,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 171,
+            "OID": 171,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 173,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 172,
+            "OID": 172,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 174,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 173,
+            "OID": 173,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 175,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 174,
+            "OID": 174,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 176,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 175,
+            "OID": 175,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 177,
+            "Red": 232,
+            "Acreage": 313305000,
+            "Blue": 191,
+            "Value": 176,
+            "OID": 176,
+            "Count": 1408777175,
+            "Opacity": 255,
+            "Class_Names": "Grassland/Pasture",
+            "Green": 255
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 178,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 177,
+            "OID": 177,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 179,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 178,
+            "OID": 178,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 180,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 179,
+            "OID": 179,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 181,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 180,
+            "OID": 180,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 182,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 181,
+            "OID": 181,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 183,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 182,
+            "OID": 182,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 184,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 183,
+            "OID": 183,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 185,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 184,
+            "OID": 184,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 186,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 185,
+            "OID": 185,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 187,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 186,
+            "OID": 186,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 188,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 187,
+            "OID": 187,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 189,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 188,
+            "OID": 188,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 190,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 189,
+            "OID": 189,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 191,
+            "Red": 126,
+            "Acreage": 86322369,
+            "Blue": 177,
+            "Value": 190,
+            "OID": 190,
+            "Count": 388148876,
+            "Opacity": 255,
+            "Class_Names": "Woody Wetlands",
+            "Green": 177
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 192,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 191,
+            "OID": 191,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 193,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 192,
+            "OID": 192,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 194,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 193,
+            "OID": 193,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 195,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 194,
+            "OID": 194,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 196,
+            "Red": 126,
+            "Acreage": 28130855,
+            "Blue": 177,
+            "Value": 195,
+            "OID": 195,
+            "Count": 126490499,
+            "Opacity": 255,
+            "Class_Names": "Herbaceous Wetlands",
+            "Green": 177
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 197,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 196,
+            "OID": 196,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 198,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 197,
+            "OID": 197,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 199,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 198,
+            "OID": 198,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 200,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 199,
+            "OID": 199,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 201,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 200,
+            "OID": 200,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 202,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 201,
+            "OID": 201,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 203,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 202,
+            "OID": 202,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 204,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 203,
+            "OID": 203,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 205,
+            "Red": 0,
+            "Acreage": 393126,
+            "Blue": 140,
+            "Value": 204,
+            "OID": 204,
+            "Count": 1767694,
+            "Opacity": 255,
+            "Class_Names": "Pistachios",
+            "Green": 255
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 206,
+            "Red": 214,
+            "Acreage": 504927,
+            "Blue": 188,
+            "Value": 205,
+            "OID": 205,
+            "Count": 2270406,
+            "Opacity": 255,
+            "Class_Names": "Triticale",
+            "Green": 158
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 207,
+            "Red": 255,
+            "Acreage": 51929,
+            "Blue": 102,
+            "Value": 206,
+            "OID": 206,
+            "Count": 233497,
+            "Opacity": 255,
+            "Class_Names": "Carrots",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 208,
+            "Red": 255,
+            "Acreage": 2237,
+            "Blue": 102,
+            "Value": 207,
+            "OID": 207,
+            "Count": 10057,
+            "Opacity": 255,
+            "Class_Names": "Asparagus",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 209,
+            "Red": 255,
+            "Acreage": 26795,
+            "Blue": 102,
+            "Value": 208,
+            "OID": 208,
+            "Count": 120486,
+            "Opacity": 255,
+            "Class_Names": "Garlic",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 210,
+            "Red": 255,
+            "Acreage": 14277,
+            "Blue": 102,
+            "Value": 209,
+            "OID": 209,
+            "Count": 64195,
+            "Opacity": 255,
+            "Class_Names": "Cantaloupes",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 211,
+            "Red": 255,
+            "Acreage": 0,
+            "Blue": 170,
+            "Value": 210,
+            "OID": 210,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": "Prunes",
+            "Green": 142
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 212,
+            "Red": 51,
+            "Acreage": 78945,
+            "Blue": 51,
+            "Value": 211,
+            "OID": 211,
+            "Count": 354977,
+            "Opacity": 255,
+            "Class_Names": "Olives",
+            "Green": 73
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 213,
+            "Red": 228,
+            "Acreage": 669290,
+            "Blue": 38,
+            "Value": 212,
+            "OID": 212,
+            "Count": 3009463,
+            "Opacity": 255,
+            "Class_Names": "Oranges",
+            "Green": 112
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 214,
+            "Red": 255,
+            "Acreage": 4409,
+            "Blue": 102,
+            "Value": 213,
+            "OID": 213,
+            "Count": 19825,
+            "Opacity": 255,
+            "Class_Names": "Honeydew Melons",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 215,
+            "Red": 255,
+            "Acreage": 38070,
+            "Blue": 102,
+            "Value": 214,
+            "OID": 214,
+            "Count": 171183,
+            "Opacity": 255,
+            "Class_Names": "Broccoli",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 216,
+            "Red": 102,
+            "Acreage": 69300,
+            "Blue": 76,
+            "Value": 215,
+            "OID": 215,
+            "Count": 311607,
+            "Opacity": 255,
+            "Class_Names": "Avocados",
+            "Green": 153
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 217,
+            "Red": 255,
+            "Acreage": 21387,
+            "Blue": 102,
+            "Value": 216,
+            "OID": 216,
+            "Count": 96165,
+            "Opacity": 255,
+            "Class_Names": "Peppers",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 218,
+            "Red": 177,
+            "Acreage": 36191,
+            "Blue": 112,
+            "Value": 217,
+            "OID": 217,
+            "Count": 162734,
+            "Opacity": 255,
+            "Class_Names": "Pomegranates",
+            "Green": 154
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 219,
+            "Red": 255,
+            "Acreage": 10886,
+            "Blue": 170,
+            "Value": 218,
+            "OID": 218,
+            "Count": 48950,
+            "Opacity": 255,
+            "Class_Names": "Nectarines",
+            "Green": 142
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 220,
+            "Red": 255,
+            "Acreage": 37750,
+            "Blue": 102,
+            "Value": 219,
+            "OID": 219,
+            "Count": 169744,
+            "Opacity": 255,
+            "Class_Names": "Greens",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 221,
+            "Red": 255,
+            "Acreage": 88244,
+            "Blue": 170,
+            "Value": 220,
+            "OID": 220,
+            "Count": 396789,
+            "Opacity": 255,
+            "Class_Names": "Plums",
+            "Green": 142
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 222,
+            "Red": 255,
+            "Acreage": 49508,
+            "Blue": 102,
+            "Value": 221,
+            "OID": 221,
+            "Count": 222614,
+            "Opacity": 255,
+            "Class_Names": "Strawberries",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 223,
+            "Red": 255,
+            "Acreage": 14121,
+            "Blue": 102,
+            "Value": 222,
+            "OID": 222,
+            "Count": 63493,
+            "Opacity": 255,
+            "Class_Names": "Squash",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 224,
+            "Red": 255,
+            "Acreage": 967,
+            "Blue": 170,
+            "Value": 223,
+            "OID": 223,
+            "Count": 4350,
+            "Opacity": 255,
+            "Class_Names": "Apricots",
+            "Green": 142
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 225,
+            "Red": 0,
+            "Acreage": 3618,
+            "Blue": 75,
+            "Value": 224,
+            "OID": 224,
+            "Count": 16267,
+            "Opacity": 255,
+            "Class_Names": "Vetch",
+            "Green": 175
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 226,
+            "Red": 255,
+            "Acreage": 280390,
+            "Blue": 0,
+            "Value": 225,
+            "OID": 225,
+            "Count": 1260775,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop WinWht/Corn",
+            "Green": 211
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 227,
+            "Red": 255,
+            "Acreage": 76379,
+            "Blue": 0,
+            "Value": 226,
+            "OID": 226,
+            "Count": 343438,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop Oats/Corn",
+            "Green": 211
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 228,
+            "Red": 255,
+            "Acreage": 91198,
+            "Blue": 102,
+            "Value": 227,
+            "OID": 227,
+            "Count": 410073,
+            "Opacity": 255,
+            "Class_Names": "Lettuce",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 229,
+            "Red": 255,
+            "Acreage": 152333,
+            "Blue": 0,
+            "Value": 228,
+            "OID": 228,
+            "Count": 684968,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop Triticale/Corn",
+            "Green": 210
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 230,
+            "Red": 255,
+            "Acreage": 23180,
+            "Blue": 102,
+            "Value": 229,
+            "OID": 229,
+            "Count": 104227,
+            "Opacity": 255,
+            "Class_Names": "Pumpkins",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 231,
+            "Red": 137,
+            "Acreage": 0,
+            "Blue": 84,
+            "Value": 230,
+            "OID": 230,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop Lettuce/Durum Wht",
+            "Green": 98
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 232,
+            "Red": 255,
+            "Acreage": 1718,
+            "Blue": 102,
+            "Value": 231,
+            "OID": 231,
+            "Count": 7726,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop Lettuce/Cantaloupe",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 233,
+            "Red": 255,
+            "Acreage": 10091,
+            "Blue": 38,
+            "Value": 232,
+            "OID": 232,
+            "Count": 45372,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop Lettuce/Cotton",
+            "Green": 38
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 234,
+            "Red": 226,
+            "Acreage": 624,
+            "Blue": 124,
+            "Value": 233,
+            "OID": 233,
+            "Count": 2807,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop Lettuce/Barley",
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 235,
+            "Red": 255,
+            "Acreage": 0,
+            "Blue": 11,
+            "Value": 234,
+            "OID": 234,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop Durum Wht/Sorghum",
+            "Green": 158
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 236,
+            "Red": 255,
+            "Acreage": 0,
+            "Blue": 11,
+            "Value": 235,
+            "OID": 235,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop Barley/Sorghum",
+            "Green": 158
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 237,
+            "Red": 165,
+            "Acreage": 142451,
+            "Blue": 0,
+            "Value": 236,
+            "OID": 236,
+            "Count": 640531,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop WinWht/Sorghum",
+            "Green": 112
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 238,
+            "Red": 255,
+            "Acreage": 19628,
+            "Blue": 0,
+            "Value": 237,
+            "OID": 237,
+            "Count": 88256,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop Barley/Corn",
+            "Green": 211
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 239,
+            "Red": 165,
+            "Acreage": 60432,
+            "Blue": 0,
+            "Value": 238,
+            "OID": 238,
+            "Count": 271734,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop WinWht/Cotton",
+            "Green": 112
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 240,
+            "Red": 38,
+            "Acreage": 22,
+            "Blue": 0,
+            "Value": 239,
+            "OID": 239,
+            "Count": 101,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop Soybeans/Cotton",
+            "Green": 112
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 241,
+            "Red": 38,
+            "Acreage": 13671,
+            "Blue": 0,
+            "Value": 240,
+            "OID": 240,
+            "Count": 61471,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop Soybeans/Oats",
+            "Green": 112
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 242,
+            "Red": 255,
+            "Acreage": 4875,
+            "Blue": 0,
+            "Value": 241,
+            "OID": 241,
+            "Count": 21921,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop Corn/Soybeans",
+            "Green": 211
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 243,
+            "Red": 0,
+            "Acreage": 222414,
+            "Blue": 153,
+            "Value": 242,
+            "OID": 242,
+            "Count": 1000085,
+            "Opacity": 255,
+            "Class_Names": "Blueberries",
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 244,
+            "Red": 255,
+            "Acreage": 21445,
+            "Blue": 102,
+            "Value": 243,
+            "OID": 243,
+            "Count": 96426,
+            "Opacity": 255,
+            "Class_Names": "Cabbage",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 245,
+            "Red": 255,
+            "Acreage": 4181,
+            "Blue": 102,
+            "Value": 244,
+            "OID": 244,
+            "Count": 18801,
+            "Opacity": 255,
+            "Class_Names": "Cauliflower",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 246,
+            "Red": 255,
+            "Acreage": 341,
+            "Blue": 102,
+            "Value": 245,
+            "OID": 245,
+            "Count": 1535,
+            "Opacity": 255,
+            "Class_Names": "Celery",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 247,
+            "Red": 255,
+            "Acreage": 6755,
+            "Blue": 102,
+            "Value": 246,
+            "OID": 246,
+            "Count": 30372,
+            "Opacity": 255,
+            "Class_Names": "Radishes",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 248,
+            "Red": 255,
+            "Acreage": 2307,
+            "Blue": 102,
+            "Value": 247,
+            "OID": 247,
+            "Count": 10374,
+            "Opacity": 255,
+            "Class_Names": "Turnips",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 249,
+            "Red": 255,
+            "Acreage": 224,
+            "Blue": 102,
+            "Value": 248,
+            "OID": 248,
+            "Count": 1008,
+            "Opacity": 255,
+            "Class_Names": "Eggplants",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 250,
+            "Red": 255,
+            "Acreage": 421,
+            "Blue": 102,
+            "Value": 249,
+            "OID": 249,
+            "Count": 1892,
+            "Opacity": 255,
+            "Class_Names": "Gourds",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 251,
+            "Red": 255,
+            "Acreage": 14426,
+            "Blue": 102,
+            "Value": 250,
+            "OID": 250,
+            "Count": 64868,
+            "Opacity": 255,
+            "Class_Names": "Cranberries",
+            "Green": 102
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 252,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 251,
+            "OID": 251,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 253,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 252,
+            "OID": 252,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 254,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 253,
+            "OID": 253,
+            "Count": 0,
+            "Opacity": 255,
+            "Class_Names": null,
+            "Green": 0
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 255,
+            "Red": 38,
+            "Acreage": 33408,
+            "Blue": 0,
+            "Value": 254,
+            "OID": 254,
+            "Count": 150218,
+            "Opacity": 255,
+            "Class_Names": "Dbl Crop Barley/Soybeans",
+            "Green": 112
+          }
+        },
+        {
+          "attributes": {
+            "OBJECTID": 256,
+            "Red": 0,
+            "Acreage": 0,
+            "Blue": 0,
+            "Value": 255,
+            "OID": 255,
+            "Count": 0,
+            "Opacity": 0,
+            "Class_Names": null,
+            "Green": 0
+          }
+        }
+      ],
+      "objectIdFieldName": "OBJECTID",
+      "fields": [
+        {
+          "domain": null,
+          "name": "OBJECTID",
+          "alias": "OBJECTID",
+          "type": "esriFieldTypeOID"
+        },
+        {
+          "domain": null,
+          "name": "OID",
+          "alias": "OID",
+          "type": "esriFieldTypeInteger"
+        },
+        {
+          "domain": null,
+          "name": "Value",
+          "alias": "Value",
+          "type": "esriFieldTypeInteger"
+        },
+        {
+          "domain": null,
+          "name": "Count",
+          "alias": "Count",
+          "type": "esriFieldTypeInteger"
+        },
+        {
+          "domain": null,
+          "name": "Red",
+          "alias": "Red",
+          "type": "esriFieldTypeInteger"
+        },
+        {
+          "domain": null,
+          "name": "Green",
+          "alias": "Green",
+          "type": "esriFieldTypeInteger"
+        },
+        {
+          "domain": null,
+          "name": "Blue",
+          "alias": "Blue",
+          "type": "esriFieldTypeInteger"
+        },
+        {
+          "domain": null,
+          "name": "Class_Names",
+          "length": 8000,
+          "alias": "Class_Names",
+          "type": "esriFieldTypeString"
+        },
+        {
+          "domain": null,
+          "name": "Opacity",
+          "alias": "Opacity",
+          "type": "esriFieldTypeInteger"
+        },
+        {
+          "domain": null,
+          "name": "Acreage",
+          "alias": "Acreage",
+          "type": "esriFieldTypeInteger"
+        }
+      ]
+    }
+  }
+}

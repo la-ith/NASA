@@ -1,0 +1,129 @@
+{
+  "retrieved_utc": "2026-11-14T19:39:02.837193+00:00",
+  "content_sha256": "318c85cc55124e7218dfc53a1f40ce532bf29543cc2fe729c03b0ed2abf7b323",
+  "manifest": {
+    "dataset_id": "318c85cc55124e7218dfc53a",
+    "provider": "USDA NRCS",
+    "product": "SSURGO (Soil Data Access)",
+    "version": "SDA current release at retrieval",
+    "requested_point": {
+      "lat": 38.85,
+      "lon": -99.33
+    },
+    "returned_support": {
+      "type": "soil map unit",
+      "mukey": "1150131"
+    },
+    "selection": "dominant major component by comppct_r",
+    "retrieved_utc": "2026-11-14T19:39:02+00:00",
+    "content_sha256": "318c85cc55124e7218dfc53a1f40ce532bf29543cc2fe729c03b0ed2abf7b323",
+    "adapter_version": "ssurgo-sda-1.0.0",
+    "reference": "Soil Survey Staff, NRCS, USDA. Soil Survey Geographic (SSURGO) Database, via Soil Data Access."
+  },
+  "response": {
+    "Table": [
+      [
+        "mukey",
+        "muname",
+        "cokey",
+        "compname",
+        "comppct_r",
+        "majcompflag",
+        "hydgrp",
+        "hzname",
+        "hzdept_r",
+        "hzdepb_r",
+        "awc_r",
+        "wthirdbar_r",
+        "wfifteenbar_r",
+        "sandtotal_r",
+        "claytotal_r"
+      ],
+      [
+        "1150131",
+        "Harney silty clay loam, 3 to 7 percent slopes, eroded",
+        "27960011",
+        "Harney",
+        "85",
+        "Yes",
+        "C",
+        "Ap",
+        "0",
+        "11",
+        "0.21",
+        "32.8",
+        "19.8",
+        "7",
+        "31"
+      ],
+      [
+        "1150131",
+        "Harney silty clay loam, 3 to 7 percent slopes, eroded",
+        "27960011",
+        "Harney",
+        "85",
+        "Yes",
+        "C",
+        "Bt1",
+        "11",
+        "19",
+        "0.19",
+        "33.7",
+        "21.4",
+        "5",
+        "35"
+      ],
+      [
+        "1150131",
+        "Harney silty clay loam, 3 to 7 percent slopes, eroded",
+        "27960011",
+        "Harney",
+        "85",
+        "Yes",
+        "C",
+        "Bt2",
+        "19",
+        "56",
+        "0.16",
+        "34.6",
+        "22.9",
+        "5",
+        "39"
+      ],
+      [
+        "1150131",
+        "Harney silty clay loam, 3 to 7 percent slopes, eroded",
+        "27960011",
+        "Harney",
+        "85",
+        "Yes",
+        "C",
+        "Bk",
+        "56",
+        "82",
+        "0.2",
+        "31.5",
+        "17.7",
+        "6",
+        "30"
+      ],
+      [
+        "1150131",
+        "Harney silty clay loam, 3 to 7 percent slopes, eroded",
+        "27960011",
+        "Harney",
+        "85",
+        "Yes",
+        "C",
+        "C",
+        "82",
+        "200",
+        "0.22",
+        "29.6",
+        "14.8",
+        "6",
+        "25"
+      ]
+    ]
+  }
+}

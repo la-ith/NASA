@@ -1,0 +1,8 @@
+{
+  "url": "https://mesonet.k-state.edu/rest/stationnames/",
+  "retrieved_utc": "2026-11-14T20:00:17.658815+00:00",
+  "sha256": "b0f71f852dd99feaf71d385af547bdfd8a533c52fb1699537ae79ebbbb77edb3",
+  "file": "holdout_kansas_metadata_8e3854641c65_b0f71f852dd9.raw",
+  "status": 200,
+  "content_type": "text/plain"
+}

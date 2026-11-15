@@ -1,0 +1,65 @@
+{
+  "design": "purposive pilot, not a probability sample",
+  "development_years": [
+    2020,
+    2021,
+    2022
+  ],
+  "season": "May 1\u2013September 30, 153 calendar-day labels",
+  "temporal_holdout": {
+    "years": [
+      2023,
+      2024,
+      2025
+    ],
+    "status": "consumed by frozen external-weather-holdout-v1; no longer untouched"
+  },
+  "spatial_holdout": {
+    "stations": [
+      "AZMET az01 Tucson",
+      "CoAgMet akr02 Akron",
+      "CoAgMet gly04 Greeley",
+      "Kansas Colby"
+    ],
+    "status": "consumed by frozen external-weather-holdout-v1; no longer untouched"
+  },
+  "development_sites": [
+    {
+      "id": "az06",
+      "network": "azmet",
+      "lat": 33.07,
+      "lon": -111.97,
+      "elevation": 362,
+      "height": 3,
+      "reference": "published Penman-Monteith grass ETo"
+    },
+    {
+      "id": "ftc01",
+      "network": "coagmet",
+      "lat": 40.5947,
+      "lon": -105.137,
+      "elevation": 1560.576,
+      "height": 2.01168,
+      "reference": "published ASCE short-reference ETo; current metadata warns non-reference surroundings",
+      "metadata_url": "https://coagmet.colostate.edu/station_details.php?station=FTC01",
+      "wind_height_status": "6.6 ft working assumption from network guidance; station-era confirmation needed"
+    },
+    {
+      "id": "hays",
+      "network": "kansas",
+      "lat": 38.84945,
+      "lon": -99.34461,
+      "elevation": 618.7,
+      "height": 2,
+      "reference": "station-forced FAO56, independent inputs but same calculation method"
+    }
+  ],
+  "applicability_only": [
+    "Palmer AK",
+    "Maui HI",
+    "Fresno CA (CIMIS blocked)",
+    "Ames IA"
+  ],
+  "time_alignment": "Kansas following-midnight stamps shifted back one day per provider documentation; POWER LST versus station civil/standard-time windows still differ",
+  "thresholds": "Provisional frozen engineering gates: data/catalogs/validation_protocol_v1.json"
+}

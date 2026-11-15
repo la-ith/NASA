@@ -1,0 +1,349 @@
+{
+  "site": "ca_fresno",
+  "soil": "Hanford",
+  "curve_number": 67,
+  "crops": {
+    "maize_grain": {
+      "base (documented method)": {
+        "n": 25,
+        "taw_mm": 175.5,
+        "etc_standard": 1072.6,
+        "rainfed_deficit": 974.7,
+        "rainfed_stress_days": 133,
+        "irrigated_net_irrigation": 1066.1
+      },
+      "root depth 1.0 m (Table 22 minimum)": {
+        "n": 25,
+        "taw_mm": 130.0,
+        "etc_standard": 1072.6,
+        "rainfed_deficit": 997.5,
+        "rainfed_stress_days": 137,
+        "irrigated_net_irrigation": 1065.6
+      },
+      "root depth 1.7 m (Table 22 maximum)": {
+        "n": 25,
+        "taw_mm": 221.0,
+        "etc_standard": 1072.6,
+        "rainfed_deficit": 952.0,
+        "rainfed_stress_days": 129,
+        "irrigated_net_irrigation": 1069.3
+      },
+      "root depth 0.3 m all season (early-season roots, bounding case)": {
+        "n": 25,
+        "taw_mm": 39.0,
+        "etc_standard": 1072.6,
+        "rainfed_deficit": 1043.0,
+        "rainfed_stress_days": 145,
+        "irrigated_net_irrigation": 1063.7
+      },
+      "start at field capacity (depletion 0)": {
+        "n": 25,
+        "taw_mm": 175.5,
+        "etc_standard": 1072.6,
+        "rainfed_deficit": 887.9,
+        "rainfed_stress_days": 109,
+        "irrigated_net_irrigation": 987.7
+      },
+      "start 0.25 TAW depleted": {
+        "n": 25,
+        "taw_mm": 175.5,
+        "etc_standard": 1072.6,
+        "rainfed_deficit": 930.9,
+        "rainfed_stress_days": 116,
+        "irrigated_net_irrigation": 1022.2
+      },
+      "start 0.75 TAW depleted": {
+        "n": 25,
+        "taw_mm": 175.5,
+        "etc_standard": 1072.6,
+        "rainfed_deficit": 1018.6,
+        "rainfed_stress_days": 150,
+        "irrigated_net_irrigation": 1119.3
+      },
+      "planting 15 days earlier": {
+        "n": 25,
+        "taw_mm": 175.5,
+        "etc_standard": 1113.8,
+        "rainfed_deficit": 995.2,
+        "rainfed_stress_days": 125,
+        "irrigated_net_irrigation": 1091.5
+      },
+      "planting 15 days later": {
+        "n": 25,
+        "taw_mm": 175.5,
+        "etc_standard": 1011.3,
+        "rainfed_deficit": 912.8,
+        "rainfed_stress_days": 136,
+        "irrigated_net_irrigation": 993.2
+      },
+      "no Kc climate adjustment (Eqs. 62, 65 off)": {
+        "n": 25,
+        "taw_mm": 175.5,
+        "etc_standard": 999.9,
+        "rainfed_deficit": 908.3,
+        "rainfed_stress_days": 133,
+        "irrigated_net_irrigation": 1011.1
+      },
+      "irrigate at 0.5 RAW, refill to field capacity": {
+        "n": 25,
+        "taw_mm": 175.5,
+        "etc_standard": 1072.6,
+        "rainfed_deficit": 974.7,
+        "rainfed_stress_days": 133,
+        "irrigated_net_irrigation": 1105.6
+      },
+      "irrigate at RAW, refill to 0.5 RAW": {
+        "n": 25,
+        "taw_mm": 175.5,
+        "etc_standard": 1072.6,
+        "rainfed_deficit": 974.7,
+        "rainfed_stress_days": 133,
+        "irrigated_net_irrigation": 1069.6
+      },
+      "ea from Tdew = Tmin (FAO-56 Eq. 48)": {
+        "n": 25,
+        "taw_mm": 175.5,
+        "etc_standard": 935.4,
+        "rainfed_deficit": 835.0,
+        "rainfed_stress_days": 130,
+        "irrigated_net_irrigation": 930.7
+      },
+      "TAW from \u03b8(1/3 bar) - \u03b8(15 bar) instead of awc_r": {
+        "n": 25,
+        "taw_mm": 129.2,
+        "etc_standard": 1072.6,
+        "rainfed_deficit": 997.9,
+        "rainfed_stress_days": 138,
+        "irrigated_net_irrigation": 1065.1
+      }
+    },
+    "soybean": {
+      "base (documented method)": {
+        "n": 25,
+        "taw_mm": 123.5,
+        "etc_standard": 1047.4,
+        "rainfed_deficit": 977.3,
+        "rainfed_stress_days": 136,
+        "irrigated_net_irrigation": 1058.5
+      },
+      "root depth 0.6 m (Table 22 minimum)": {
+        "n": 25,
+        "taw_mm": 78.0,
+        "etc_standard": 1047.4,
+        "rainfed_deficit": 999.9,
+        "rainfed_stress_days": 137,
+        "irrigated_net_irrigation": 1037.1
+      },
+      "root depth 1.3 m (Table 22 maximum)": {
+        "n": 25,
+        "taw_mm": 169.0,
+        "etc_standard": 1047.4,
+        "rainfed_deficit": 954.7,
+        "rainfed_stress_days": 134,
+        "irrigated_net_irrigation": 1065.4
+      },
+      "root depth 0.3 m all season (early-season roots, bounding case)": {
+        "n": 25,
+        "taw_mm": 39.0,
+        "etc_standard": 1047.4,
+        "rainfed_deficit": 1019.2,
+        "rainfed_stress_days": 138,
+        "irrigated_net_irrigation": 1038.5
+      },
+      "start at field capacity (depletion 0)": {
+        "n": 25,
+        "taw_mm": 123.5,
+        "etc_standard": 1047.4,
+        "rainfed_deficit": 915.7,
+        "rainfed_stress_days": 118,
+        "irrigated_net_irrigation": 993.2
+      },
+      "start 0.25 TAW depleted": {
+        "n": 25,
+        "taw_mm": 123.5,
+        "etc_standard": 1047.4,
+        "rainfed_deficit": 946.4,
+        "rainfed_stress_days": 126,
+        "irrigated_net_irrigation": 1024.1
+      },
+      "start 0.75 TAW depleted": {
+        "n": 25,
+        "taw_mm": 123.5,
+        "etc_standard": 1047.4,
+        "rainfed_deficit": 1008.2,
+        "rainfed_stress_days": 140,
+        "irrigated_net_irrigation": 1085.8
+      },
+      "planting 15 days earlier": {
+        "n": 25,
+        "taw_mm": 123.5,
+        "etc_standard": 1096.7,
+        "rainfed_deficit": 1033.9,
+        "rainfed_stress_days": 135,
+        "irrigated_net_irrigation": 1095.1
+      },
+      "planting 15 days later": {
+        "n": 25,
+        "taw_mm": 123.5,
+        "etc_standard": 966.0,
+        "rainfed_deficit": 895.8,
+        "rainfed_stress_days": 138,
+        "irrigated_net_irrigation": 969.0
+      },
+      "no Kc climate adjustment (Eqs. 62, 65 off)": {
+        "n": 25,
+        "taw_mm": 123.5,
+        "etc_standard": 990.0,
+        "rainfed_deficit": 917.6,
+        "rainfed_stress_days": 136,
+        "irrigated_net_irrigation": 994.4
+      },
+      "irrigate at 0.5 RAW, refill to field capacity": {
+        "n": 25,
+        "taw_mm": 123.5,
+        "etc_standard": 1047.4,
+        "rainfed_deficit": 977.3,
+        "rainfed_stress_days": 136,
+        "irrigated_net_irrigation": 1072.1
+      },
+      "irrigate at RAW, refill to 0.5 RAW": {
+        "n": 25,
+        "taw_mm": 123.5,
+        "etc_standard": 1047.4,
+        "rainfed_deficit": 977.3,
+        "rainfed_stress_days": 136,
+        "irrigated_net_irrigation": 1035.0
+      },
+      "ea from Tdew = Tmin (FAO-56 Eq. 48)": {
+        "n": 25,
+        "taw_mm": 123.5,
+        "etc_standard": 914.7,
+        "rainfed_deficit": 842.4,
+        "rainfed_stress_days": 135,
+        "irrigated_net_irrigation": 914.4
+      },
+      "TAW from \u03b8(1/3 bar) - \u03b8(15 bar) instead of awc_r": {
+        "n": 25,
+        "taw_mm": 90.8,
+        "etc_standard": 1047.4,
+        "rainfed_deficit": 993.5,
+        "rainfed_stress_days": 137,
+        "irrigated_net_irrigation": 1051.5
+      }
+    },
+    "sorghum_grain": {
+      "base (documented method)": {
+        "n": 25,
+        "taw_mm": 195.0,
+        "etc_standard": 813.0,
+        "rainfed_deficit": 712.8,
+        "rainfed_stress_days": 114,
+        "irrigated_net_irrigation": 845.2
+      },
+      "root depth 1.0 m (Table 22 minimum)": {
+        "n": 25,
+        "taw_mm": 130.0,
+        "etc_standard": 813.0,
+        "rainfed_deficit": 745.3,
+        "rainfed_stress_days": 117,
+        "irrigated_net_irrigation": 814.3
+      },
+      "root depth 2.0 m (Table 22 maximum)": {
+        "n": 25,
+        "taw_mm": 237.9,
+        "etc_standard": 813.0,
+        "rainfed_deficit": 691.5,
+        "rainfed_stress_days": 112,
+        "irrigated_net_irrigation": 839.2
+      },
+      "root depth 0.3 m all season (early-season roots, bounding case)": {
+        "n": 25,
+        "taw_mm": 39.0,
+        "etc_standard": 813.0,
+        "rainfed_deficit": 790.7,
+        "rainfed_stress_days": 122,
+        "irrigated_net_irrigation": 812.7
+      },
+      "start at field capacity (depletion 0)": {
+        "n": 25,
+        "taw_mm": 195.0,
+        "etc_standard": 813.0,
+        "rainfed_deficit": 615.9,
+        "rainfed_stress_days": 93,
+        "irrigated_net_irrigation": 744.7
+      },
+      "start 0.25 TAW depleted": {
+        "n": 25,
+        "taw_mm": 195.0,
+        "etc_standard": 813.0,
+        "rainfed_deficit": 664.1,
+        "rainfed_stress_days": 100,
+        "irrigated_net_irrigation": 791.8
+      },
+      "start 0.75 TAW depleted": {
+        "n": 25,
+        "taw_mm": 195.0,
+        "etc_standard": 813.0,
+        "rainfed_deficit": 761.5,
+        "rainfed_stress_days": 125,
+        "irrigated_net_irrigation": 890.4
+      },
+      "planting 15 days earlier": {
+        "n": 25,
+        "taw_mm": 195.0,
+        "etc_standard": 868.8,
+        "rainfed_deficit": 760.1,
+        "rainfed_stress_days": 110,
+        "irrigated_net_irrigation": 869.1
+      },
+      "planting 15 days later": {
+        "n": 25,
+        "taw_mm": 195.0,
+        "etc_standard": 738.4,
+        "rainfed_deficit": 634.6,
+        "rainfed_stress_days": 114,
+        "irrigated_net_irrigation": 750.6
+      },
+      "no Kc climate adjustment (Eqs. 62, 65 off)": {
+        "n": 25,
+        "taw_mm": 195.0,
+        "etc_standard": 754.5,
+        "rainfed_deficit": 653.1,
+        "rainfed_stress_days": 114,
+        "irrigated_net_irrigation": 771.5
+      },
+      "irrigate at 0.5 RAW, refill to field capacity": {
+        "n": 25,
+        "taw_mm": 195.0,
+        "etc_standard": 813.0,
+        "rainfed_deficit": 712.8,
+        "rainfed_stress_days": 114,
+        "irrigated_net_irrigation": 872.0
+      },
+      "irrigate at RAW, refill to 0.5 RAW": {
+        "n": 25,
+        "taw_mm": 195.0,
+        "etc_standard": 813.0,
+        "rainfed_deficit": 712.8,
+        "rainfed_stress_days": 114,
+        "irrigated_net_irrigation": 808.7
+      },
+      "ea from Tdew = Tmin (FAO-56 Eq. 48)": {
+        "n": 25,
+        "taw_mm": 195.0,
+        "etc_standard": 706.8,
+        "rainfed_deficit": 602.2,
+        "rainfed_stress_days": 112,
+        "irrigated_net_irrigation": 691.7
+      },
+      "TAW from \u03b8(1/3 bar) - \u03b8(15 bar) instead of awc_r": {
+        "n": 25,
+        "taw_mm": 143.6,
+        "etc_standard": 813.0,
+        "rainfed_deficit": 738.5,
+        "rainfed_stress_days": 117,
+        "irrigated_net_irrigation": 819.5
+      }
+    }
+  }
+}

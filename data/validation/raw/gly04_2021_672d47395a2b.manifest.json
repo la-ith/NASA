@@ -1,0 +1,8 @@
+{
+  "url": "https://coagmet.colostate.edu/data/daily/gly04.csv?from=2021-05-01&to=2021-09-30&header=yes&units=m",
+  "retrieved_utc": "2026-11-14T20:00:44.022862+00:00",
+  "sha256": "f88fe48507fb9220daad4f30c736e07032f4e866eac46058f3799eaf999e0ebd",
+  "file": "gly04_2021_672d47395a2b_f88fe48507fb.raw",
+  "status": 200,
+  "content_type": "text/plain; charset=utf-8"
+}

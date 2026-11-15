@@ -1,0 +1,8 @@
+{
+  "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CT2MDEW%2CRH2M%2CWS2M%2CALLSKY_SFC_SW_DWN%2CPS&community=AG&latitude=38.8494&longitude=-99.3446&start=20200501&end=20220930&format=JSON",
+  "retrieved_utc": "2026-11-14T18:52:46.814922+00:00",
+  "sha256": "cdf1e7c1b82780fafe808d3f831f63241a26438fe419f69b06d870e76f2e578d",
+  "file": "power_hays_a38ae7d5fabe_cdf1e7c1b827.raw",
+  "status": 200,
+  "content_type": "application/json"
+}

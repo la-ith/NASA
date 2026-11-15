@@ -1,0 +1,104 @@
+{
+  "retrieved_utc": "2026-11-14T19:39:01.086423+00:00",
+  "content_sha256": "a4f26247c4485786dfbd0eb429d61962608b2e4be07427acfd69dcb736cb4216",
+  "manifest": {
+    "product": "smap",
+    "status": "no_data",
+    "values": {
+      "SFMC": {
+        "20200501": null,
+        "20200502": null,
+        "20200503": null
+      },
+      "RZMC": {
+        "20200501": null,
+        "20200502": null,
+        "20200503": null
+      }
+    },
+    "valid_values": 0,
+    "expected_values": 6,
+    "time_standard": "UTC",
+    "units": {
+      "SFMC": "m3 m-3",
+      "RZMC": "m3 m-3"
+    },
+    "source_metadata": {
+      "title": "NASA/POWER Source Native Resolution Daily Data",
+      "api": {
+        "version": "v2.10.3",
+        "name": "POWER Daily API"
+      },
+      "sources": [],
+      "fill_value": -999.0,
+      "time_standard": "UTC",
+      "start": "20200501",
+      "end": "20200503"
+    },
+    "content_sha256": "a4f26247c4485786dfbd0eb429d61962608b2e4be07427acfd69dcb736cb4216",
+    "meaning": "Volumetric soil moisture, not field soil-water storage",
+    "limitation": "Does not alter the historical LST simulation. Product quality and field representativeness still require review.",
+    "request": {
+      "parameters": "SFMC,RZMC",
+      "community": "AG",
+      "latitude": "38.8500",
+      "longitude": "-99.3300",
+      "start": "20200501",
+      "end": "20200503",
+      "format": "JSON",
+      "time-standard": "UTC"
+    }
+  },
+  "response": {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -99.33,
+        38.85,
+        637.87
+      ]
+    },
+    "properties": {
+      "parameter": {
+        "SFMC": {
+          "20200501": -999.0,
+          "20200502": -999.0,
+          "20200503": -999.0
+        },
+        "RZMC": {
+          "20200501": -999.0,
+          "20200502": -999.0,
+          "20200503": -999.0
+        }
+      }
+    },
+    "header": {
+      "title": "NASA/POWER Source Native Resolution Daily Data",
+      "api": {
+        "version": "v2.10.3",
+        "name": "POWER Daily API"
+      },
+      "sources": [],
+      "fill_value": -999.0,
+      "time_standard": "UTC",
+      "start": "20200501",
+      "end": "20200503"
+    },
+    "messages": [],
+    "parameters": {
+      "SFMC": {
+        "units": "m3 m-3",
+        "longname": "Surface Soil Moisture"
+      },
+      "RZMC": {
+        "units": "m3 m-3",
+        "longname": "Root Zone Soil Moisture"
+      }
+    },
+    "times": {
+      "data": 0.005,
+      "process": 0.01
+    }
+  }
+}

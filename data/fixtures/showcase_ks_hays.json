@@ -1,0 +1,3417 @@
+{
+  "schema_version": "2.0",
+  "decision_year": 2026,
+  "status": "complete",
+  "mode": "sample",
+  "result_types": {
+    "historical_analysis": "Indicators from past data (reference ET0 and rainfall).",
+    "conditional_simulation": "Water balance under each past season's weather and stated management.",
+    "validated_prediction": "None in this release."
+  },
+  "location": {
+    "state": "KS",
+    "state_name": "Kansas",
+    "boundary_version": "census-cb-2023-us-state-20m",
+    "public_location": {
+      "lat": 38.9,
+      "lon": -99.3
+    }
+  },
+  "period": {
+    "requested": [
+      2001,
+      2025
+    ],
+    "weather_record": [
+      "2001-01-01",
+      "2025-12-31"
+    ]
+  },
+  "goal": "conserve_water",
+  "output_order": [
+    "irrigated_net_irrigation",
+    "rainfed_deficit",
+    "rainfed_stress_days",
+    "etc_standard"
+  ],
+  "summary": "Median net irrigation requirement (mm per season): Maize (grain, field corn) 503.3; Soybean 540.5; Sorghum (grain) 355.6. Median rain-fed water deficit (mm per season): Maize (grain, field corn) 371.7; Soybean 415.6; Sorghum (grain) 233.8. Historical weather replay, not a forecast.",
+  "strategies": [
+    {
+      "id": "S1",
+      "crop": "maize_grain",
+      "role": "alternative",
+      "name": "Maize (grain, field corn)",
+      "planting": "05-01",
+      "why_included": "Alternative: a supported cereal in the U.S. catalog for the same season.",
+      "rotation": {
+        "key": "unknown_previous",
+        "text": "The last season's crop is unknown, so no rotation note applies.",
+        "review_state": "draft-unreviewed",
+        "scope": "U.S. Great Plains and Corn Belt pilot",
+        "quantified": false
+      },
+      "result": {
+        "taw_mm": 266.1,
+        "taw_fc_wp_mm": 181.8,
+        "raw_mm": 146.4,
+        "root_depth_m": 1.35,
+        "seasons_simulated": 25,
+        "seasons_excluded": {},
+        "summary": {
+          "et0": {
+            "unit": "mm per season",
+            "result_type": "historical_analysis",
+            "spread": {
+              "n": 25,
+              "mean": 947.6,
+              "p10": 853.1,
+              "median": 947.5,
+              "p90": 1027.7,
+              "minimum": 820.2,
+              "maximum": 1153.7
+            }
+          },
+          "etc_standard": {
+            "unit": "mm per season",
+            "result_type": "conditional_simulation",
+            "spread": {
+              "n": 25,
+              "mean": 839.3,
+              "p10": 738.0,
+              "median": 837.5,
+              "p90": 937.2,
+              "minimum": 719.0,
+              "maximum": 1030.8
+            }
+          },
+          "precipitation": {
+            "unit": "mm per season",
+            "result_type": "historical_analysis",
+            "spread": {
+              "n": 25,
+              "mean": 429.1,
+              "p10": 341.8,
+              "median": 423.6,
+              "p90": 544.8,
+              "minimum": 217.9,
+              "maximum": 612.3
+            }
+          },
+          "rainfed_eta": {
+            "unit": "mm per season",
+            "result_type": "conditional_simulation",
+            "spread": {
+              "n": 25,
+              "mean": 480.0,
+              "p10": 403.1,
+              "median": 487.6,
+              "p90": 561.1,
+              "minimum": 305.8,
+              "maximum": 587.1
+            }
+          },
+          "rainfed_deficit": {
+            "unit": "mm per season",
+            "result_type": "conditional_simulation",
+            "spread": {
+              "n": 25,
+              "mean": 359.3,
+              "p10": 179.8,
+              "median": 371.7,
+              "p90": 527.4,
+              "minimum": 135.9,
+              "maximum": 725.0
+            }
+          },
+          "rainfed_stress_days": {
+            "unit": "days per season",
+            "result_type": "conditional_simulation",
+            "spread": {
+              "n": 25,
+              "mean": 90.7,
+              "p10": 78.0,
+              "median": 92.0,
+              "p90": 102.2,
+              "minimum": 64,
+              "maximum": 126
+            }
+          },
+          "irrigated_net_irrigation": {
+            "unit": "mm per season",
+            "result_type": "conditional_simulation",
+            "spread": {
+              "n": 25,
+              "mean": 506.2,
+              "p10": 334.5,
+              "median": 503.3,
+              "p90": 658.1,
+              "minimum": 203.6,
+              "maximum": 919.1
+            }
+          }
+        },
+        "seasons": [
+          {
+            "year": 2001,
+            "planting": "2001-05-01",
+            "harvest": "2001-09-27",
+            "et0": 970.74,
+            "etc_standard": 903.29,
+            "precipitation": 532.5,
+            "runoff": 62.84,
+            "rainfed_eta": 515.56,
+            "rainfed_deficit": 387.73,
+            "rainfed_stress_days": 78,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 496.83,
+            "irrigated_events": 6,
+            "kc_mid_adjusted": 1.28,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.0362,
+                "rhmin_mean_percent": 33.57436603346471,
+                "wind_used_m_s": 3.0362,
+                "rhmin_used_percent": 33.57436603346471,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.255333333333333,
+                "rhmin_mean_percent": 39.12770828697787,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2002,
+            "planting": "2002-05-01",
+            "harvest": "2002-09-27",
+            "et0": 1074.57,
+            "etc_standard": 980.48,
+            "precipitation": 285.98,
+            "runoff": 7.56,
+            "rainfed_eta": 380.61,
+            "rainfed_deficit": 599.87,
+            "rainfed_stress_days": 103,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 794.37,
+            "irrigated_events": 9,
+            "kc_mid_adjusted": 1.3,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.4608,
+                "rhmin_mean_percent": 31.690097587431804,
+                "wind_used_m_s": 3.4608,
+                "rhmin_used_percent": 31.690097587431804,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.7243333333333335,
+                "rhmin_mean_percent": 31.069151589006903,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2003,
+            "planting": "2003-05-01",
+            "harvest": "2003-09-27",
+            "et0": 979.29,
+            "etc_standard": 937.47,
+            "precipitation": 351.01,
+            "runoff": 20.45,
+            "rainfed_eta": 408.85,
+            "rainfed_deficit": 528.63,
+            "rainfed_stress_days": 90,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 663.83,
+            "irrigated_events": 8,
+            "kc_mid_adjusted": 1.31,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.1777999999999995,
+                "rhmin_mean_percent": 26.79264305583233,
+                "wind_used_m_s": 3.1777999999999995,
+                "rhmin_used_percent": 26.79264305583233,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.7760000000000002,
+                "rhmin_mean_percent": 36.339071093024266,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2004,
+            "planting": "2004-05-01",
+            "harvest": "2004-09-27",
+            "et0": 949.44,
+            "etc_standard": 784.48,
+            "precipitation": 466.73,
+            "runoff": 35.97,
+            "rainfed_eta": 505.5,
+            "rainfed_deficit": 278.98,
+            "rainfed_stress_days": 85,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 464.78,
+            "irrigated_events": 4,
+            "kc_mid_adjusted": 1.25,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.9798,
+                "rhmin_mean_percent": 40.16433511727301,
+                "wind_used_m_s": 2.9798,
+                "rhmin_used_percent": 40.16433511727301,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 4.102,
+                "rhmin_mean_percent": 30.723570236733927,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2005,
+            "planting": "2005-05-01",
+            "harvest": "2005-09-27",
+            "et0": 981.64,
+            "etc_standard": 869.06,
+            "precipitation": 423.56,
+            "runoff": 12.56,
+            "rainfed_eta": 497.36,
+            "rainfed_deficit": 371.71,
+            "rainfed_stress_days": 96,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 534.38,
+            "irrigated_events": 6,
+            "kc_mid_adjusted": 1.27,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.2083999999999997,
+                "rhmin_mean_percent": 37.60739283631056,
+                "wind_used_m_s": 3.2083999999999997,
+                "rhmin_used_percent": 37.60739283631056,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.9099999999999997,
+                "rhmin_mean_percent": 36.80234182473472,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2006,
+            "planting": "2006-05-01",
+            "harvest": "2006-09-27",
+            "et0": 985.79,
+            "etc_standard": 846.64,
+            "precipitation": 424.16,
+            "runoff": 20.78,
+            "rainfed_eta": 467.98,
+            "rainfed_deficit": 378.66,
+            "rainfed_stress_days": 101,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 505.2,
+            "irrigated_events": 5,
+            "kc_mid_adjusted": 1.26,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.0534,
+                "rhmin_mean_percent": 37.73220036059924,
+                "wind_used_m_s": 3.0534,
+                "rhmin_used_percent": 37.73220036059924,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.5526666666666666,
+                "rhmin_mean_percent": 38.66027102032782,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2007,
+            "planting": "2007-05-01",
+            "harvest": "2007-09-27",
+            "et0": 848.9,
+            "etc_standard": 742.65,
+            "precipitation": 498.64,
+            "runoff": 29.65,
+            "rainfed_eta": 541.63,
+            "rainfed_deficit": 201.02,
+            "rainfed_stress_days": 74,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 366.1,
+            "irrigated_events": 4,
+            "kc_mid_adjusted": 1.24,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.1933999999999996,
+                "rhmin_mean_percent": 45.440137586515554,
+                "wind_used_m_s": 3.1933999999999996,
+                "rhmin_used_percent": 45.440137586515554,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.6109999999999998,
+                "rhmin_mean_percent": 38.81707951510059,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2008,
+            "planting": "2008-05-01",
+            "harvest": "2008-09-27",
+            "et0": 859.34,
+            "etc_standard": 734.88,
+            "precipitation": 552.93,
+            "runoff": 38.88,
+            "rainfed_eta": 574.01,
+            "rainfed_deficit": 160.87,
+            "rainfed_stress_days": 78,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 274.54,
+            "irrigated_events": 3,
+            "kc_mid_adjusted": 1.24,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.1618,
+                "rhmin_mean_percent": 44.30696452543962,
+                "wind_used_m_s": 3.1618,
+                "rhmin_used_percent": 44.30696452543962,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.6386666666666665,
+                "rhmin_mean_percent": 45.20759093804131,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2009,
+            "planting": "2009-05-01",
+            "harvest": "2009-09-27",
+            "et0": 822.91,
+            "etc_standard": 725.07,
+            "precipitation": 435.5,
+            "runoff": 16.99,
+            "rainfed_eta": 487.58,
+            "rainfed_deficit": 237.49,
+            "rainfed_stress_days": 92,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 391.45,
+            "irrigated_events": 4,
+            "kc_mid_adjusted": 1.25,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.0364,
+                "rhmin_mean_percent": 40.92536572475858,
+                "wind_used_m_s": 3.0364,
+                "rhmin_used_percent": 40.92536572475858,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 2.717,
+                "rhmin_mean_percent": 47.369766046702665,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2010,
+            "planting": "2010-05-01",
+            "harvest": "2010-09-27",
+            "et0": 947.74,
+            "etc_standard": 866.54,
+            "precipitation": 415.92,
+            "runoff": 21.73,
+            "rainfed_eta": 470.98,
+            "rainfed_deficit": 395.56,
+            "rainfed_stress_days": 92,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 605.0,
+            "irrigated_events": 6,
+            "kc_mid_adjusted": 1.28,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.2004,
+                "rhmin_mean_percent": 34.9273594989526,
+                "wind_used_m_s": 3.2004,
+                "rhmin_used_percent": 34.9273594989526,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.9010000000000002,
+                "rhmin_mean_percent": 35.867161408858124,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2011,
+            "planting": "2011-05-01",
+            "harvest": "2011-09-27",
+            "et0": 1012.51,
+            "etc_standard": 901.75,
+            "precipitation": 404.8,
+            "runoff": 29.11,
+            "rainfed_eta": 477.69,
+            "rainfed_deficit": 424.05,
+            "rainfed_stress_days": 96,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 565.95,
+            "irrigated_events": 7,
+            "kc_mid_adjusted": 1.27,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.7218,
+                "rhmin_mean_percent": 33.63889088474203,
+                "wind_used_m_s": 2.7218,
+                "rhmin_used_percent": 33.63889088474203,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 2.896666666666667,
+                "rhmin_mean_percent": 29.676170202893598,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2012,
+            "planting": "2012-05-01",
+            "harvest": "2012-09-27",
+            "et0": 1153.66,
+            "etc_standard": 1030.83,
+            "precipitation": 217.89,
+            "runoff": 7.07,
+            "rainfed_eta": 305.79,
+            "rainfed_deficit": 725.04,
+            "rainfed_stress_days": 126,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 919.13,
+            "irrigated_events": 10,
+            "kc_mid_adjusted": 1.3,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.0494,
+                "rhmin_mean_percent": 26.770898049624638,
+                "wind_used_m_s": 3.0494,
+                "rhmin_used_percent": 26.770898049624638,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 2.9526666666666666,
+                "rhmin_mean_percent": 27.792572956273325,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2013,
+            "planting": "2013-05-01",
+            "harvest": "2013-09-27",
+            "et0": 1023.58,
+            "etc_standard": 874.0,
+            "precipitation": 375.07,
+            "runoff": 15.22,
+            "rainfed_eta": 440.45,
+            "rainfed_deficit": 433.55,
+            "rainfed_stress_days": 104,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 638.23,
+            "irrigated_events": 6,
+            "kc_mid_adjusted": 1.25,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.3648000000000002,
+                "rhmin_mean_percent": 43.30483947299027,
+                "wind_used_m_s": 3.3648000000000002,
+                "rhmin_used_percent": 43.30483947299027,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.9166666666666665,
+                "rhmin_mean_percent": 34.72940564337772,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2014,
+            "planting": "2014-05-01",
+            "harvest": "2014-09-27",
+            "et0": 933.98,
+            "etc_standard": 824.01,
+            "precipitation": 466.81,
+            "runoff": 28.59,
+            "rainfed_eta": 506.95,
+            "rainfed_deficit": 317.06,
+            "rainfed_stress_days": 85,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 462.32,
+            "irrigated_events": 5,
+            "kc_mid_adjusted": 1.27,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.989,
+                "rhmin_mean_percent": 35.30473132135517,
+                "wind_used_m_s": 2.989,
+                "rhmin_used_percent": 35.30473132135517,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.4263333333333335,
+                "rhmin_mean_percent": 38.087046763357954,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2015,
+            "planting": "2015-05-01",
+            "harvest": "2015-09-27",
+            "et0": 940.81,
+            "etc_standard": 851.6,
+            "precipitation": 382.61,
+            "runoff": 11.11,
+            "rainfed_eta": 480.85,
+            "rainfed_deficit": 370.76,
+            "rainfed_stress_days": 89,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 509.47,
+            "irrigated_events": 5,
+            "kc_mid_adjusted": 1.26,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.0966000000000005,
+                "rhmin_mean_percent": 38.502974636706014,
+                "wind_used_m_s": 3.0966000000000005,
+                "rhmin_used_percent": 38.502974636706014,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 4.02,
+                "rhmin_mean_percent": 33.34626229692036,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2016,
+            "planting": "2016-05-01",
+            "harvest": "2016-09-27",
+            "et0": 878.93,
+            "etc_standard": 766.22,
+            "precipitation": 509.5,
+            "runoff": 27.11,
+            "rainfed_eta": 536.64,
+            "rainfed_deficit": 229.58,
+            "rainfed_stress_days": 92,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 398.06,
+            "irrigated_events": 4,
+            "kc_mid_adjusted": 1.25,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.1348000000000003,
+                "rhmin_mean_percent": 41.5568133481128,
+                "wind_used_m_s": 3.1348000000000003,
+                "rhmin_used_percent": 41.5568133481128,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.4006666666666665,
+                "rhmin_mean_percent": 45.54807301807708,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2017,
+            "planting": "2017-05-01",
+            "harvest": "2017-09-27",
+            "et0": 947.52,
+            "etc_standard": 837.54,
+            "precipitation": 339.56,
+            "runoff": 22.18,
+            "rainfed_eta": 399.28,
+            "rainfed_deficit": 438.26,
+            "rainfed_stress_days": 94,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 608.21,
+            "irrigated_events": 6,
+            "kc_mid_adjusted": 1.27,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.0536000000000003,
+                "rhmin_mean_percent": 37.03532888700427,
+                "wind_used_m_s": 3.0536000000000003,
+                "rhmin_used_percent": 37.03532888700427,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.802,
+                "rhmin_mean_percent": 31.11457855578974,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2018,
+            "planting": "2018-05-01",
+            "harvest": "2018-09-27",
+            "et0": 914.2,
+            "etc_standard": 752.78,
+            "precipitation": 582.61,
+            "runoff": 54.33,
+            "rainfed_eta": 587.11,
+            "rainfed_deficit": 165.67,
+            "rainfed_stress_days": 81,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 314.8,
+            "irrigated_events": 3,
+            "kc_mid_adjusted": 1.23,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.699,
+                "rhmin_mean_percent": 43.87939908113792,
+                "wind_used_m_s": 2.699,
+                "rhmin_used_percent": 43.87939908113792,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.5363333333333333,
+                "rhmin_mean_percent": 46.6977092532895,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2019,
+            "planting": "2019-05-01",
+            "harvest": "2019-09-27",
+            "et0": 820.15,
+            "etc_standard": 718.99,
+            "precipitation": 612.32,
+            "runoff": 54.1,
+            "rainfed_eta": 583.11,
+            "rainfed_deficit": 135.88,
+            "rainfed_stress_days": 64,
+            "rainfed_drainage": 31.92,
+            "irrigated_net_irrigation": 203.6,
+            "irrigated_events": 2,
+            "kc_mid_adjusted": 1.23,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.9506,
+                "rhmin_mean_percent": 46.89118138039234,
+                "wind_used_m_s": 2.9506,
+                "rhmin_used_percent": 46.89118138039234,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.8176666666666668,
+                "rhmin_mean_percent": 44.78809251836721,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2020,
+            "planting": "2020-05-01",
+            "harvest": "2020-09-27",
+            "et0": 937.25,
+            "etc_standard": 809.79,
+            "precipitation": 436.66,
+            "runoff": 34.37,
+            "rainfed_eta": 499.77,
+            "rainfed_deficit": 310.02,
+            "rainfed_stress_days": 99,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 412.41,
+            "irrigated_events": 4,
+            "kc_mid_adjusted": 1.25,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.1576,
+                "rhmin_mean_percent": 42.435497290335164,
+                "wind_used_m_s": 3.1576,
+                "rhmin_used_percent": 42.435497290335164,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.1713333333333336,
+                "rhmin_mean_percent": 36.32487304039385,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2021,
+            "planting": "2021-05-01",
+            "harvest": "2021-09-27",
+            "et0": 916.25,
+            "etc_standard": 836.71,
+            "precipitation": 390.8,
+            "runoff": 20.73,
+            "rainfed_eta": 463.04,
+            "rainfed_deficit": 373.67,
+            "rainfed_stress_days": 85,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 517.24,
+            "irrigated_events": 5,
+            "kc_mid_adjusted": 1.27,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.2414,
+                "rhmin_mean_percent": 36.280843719486455,
+                "wind_used_m_s": 3.2414,
+                "rhmin_used_percent": 36.280843719486455,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.241,
+                "rhmin_mean_percent": 35.69151772975547,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2022,
+            "planting": "2022-05-01",
+            "harvest": "2022-09-27",
+            "et0": 1030.45,
+            "etc_standard": 936.77,
+            "precipitation": 345.09,
+            "runoff": 20.19,
+            "rainfed_eta": 411.3,
+            "rainfed_deficit": 525.47,
+            "rainfed_stress_days": 97,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 649.47,
+            "irrigated_events": 9,
+            "kc_mid_adjusted": 1.28,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.9832,
+                "rhmin_mean_percent": 31.09676816960703,
+                "wind_used_m_s": 2.9832,
+                "rhmin_used_percent": 31.09676816960703,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 2.9219999999999997,
+                "rhmin_mean_percent": 29.708357046493234,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2023,
+            "planting": "2023-05-01",
+            "harvest": "2023-09-27",
+            "et0": 913.1,
+            "etc_standard": 822.73,
+            "precipitation": 399.24,
+            "runoff": 9.85,
+            "rainfed_eta": 487.98,
+            "rainfed_deficit": 334.75,
+            "rainfed_stress_days": 86,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 503.31,
+            "irrigated_events": 5,
+            "kc_mid_adjusted": 1.26,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.5744,
+                "rhmin_mean_percent": 34.14363325138576,
+                "wind_used_m_s": 2.5744,
+                "rhmin_used_percent": 34.14363325138576,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 2.9186666666666667,
+                "rhmin_mean_percent": 30.51098677741674,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2024,
+            "planting": "2024-05-01",
+            "harvest": "2024-09-27",
+            "et0": 965.35,
+            "etc_standard": 858.35,
+            "precipitation": 390.12,
+            "runoff": 19.02,
+            "rainfed_eta": 460.16,
+            "rainfed_deficit": 398.19,
+            "rainfed_stress_days": 94,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 491.81,
+            "irrigated_events": 5,
+            "kc_mid_adjusted": 1.27,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.8287999999999998,
+                "rhmin_mean_percent": 33.06138052473642,
+                "wind_used_m_s": 2.8287999999999998,
+                "rhmin_used_percent": 33.06138052473642,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 3.3823333333333334,
+                "rhmin_mean_percent": 32.13218095873683,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2025,
+            "planting": "2025-05-01",
+            "harvest": "2025-09-27",
+            "et0": 881.37,
+            "etc_standard": 769.79,
+            "precipitation": 487.5,
+            "runoff": 12.28,
+            "rainfed_eta": 510.9,
+            "rainfed_deficit": 258.89,
+            "rainfed_stress_days": 87,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 363.94,
+            "irrigated_events": 4,
+            "kc_mid_adjusted": 1.24,
+            "kc_end_adjusted": 0.35,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.9672,
+                "rhmin_mean_percent": 42.4296278577639,
+                "wind_used_m_s": 2.9672,
+                "rhmin_used_percent": 42.4296278577639,
+                "limited": false
+              },
+              "late": {
+                "applied": false,
+                "wind_mean_m_s": 2.693,
+                "rhmin_mean_percent": 45.297907278555954,
+                "wind_used_m_s": null,
+                "rhmin_used_percent": null,
+                "limited": false
+              }
+            }
+          }
+        ],
+        "max_closure_residual_mm": 6.963318810448982e-13
+      },
+      "parameters": {
+        "kc_ini": 0.3,
+        "kc_mid_table": 1.2,
+        "kc_end_table": 0.35,
+        "stages_days": [
+          30,
+          40,
+          50,
+          30
+        ],
+        "height_m": 2.0,
+        "p": 0.55,
+        "sources": {
+          "kc_ini": "FAO-56 Table 12, group i. Cereals (typical Kc ini; depends on wetting frequency)",
+          "kc_mid": "FAO-56 Table 12, Maize, Field (grain)",
+          "kc_end": "FAO-56 Table 12, Maize, Field (grain): 0.35 for harvest after field drying (note 11)",
+          "height_m": "FAO-56 Table 12, maximum crop height",
+          "stages_days": "FAO-56 Table 11, Maize (grain), April planting, Spain (spr, sum.); Calif. \u2014 the closest listed U.S. row for a 150-day hybrid; local calendar to confirm",
+          "root_depth_m": "FAO-56 Table 22 range 1.0-1.7 m; 'used' is the midpoint (assumed)",
+          "depletion_fraction_p": "FAO-56 Table 22",
+          "planting_default": "Assumed default; to confirm with USDA NASS 'Usual Planting and Harvesting Dates for U.S. Field Crops' for the state"
+        }
+      }
+    },
+    {
+      "id": "S2",
+      "crop": "soybean",
+      "role": "alternative",
+      "name": "Soybean",
+      "planting": "05-20",
+      "why_included": "Alternative: a supported legume in the U.S. catalog for the same season.",
+      "rotation": {
+        "key": "unknown_previous",
+        "text": "The last season's crop is unknown, so no rotation note applies.",
+        "review_state": "draft-unreviewed",
+        "scope": "U.S. Great Plains and Corn Belt pilot",
+        "quantified": false
+      },
+      "result": {
+        "taw_mm": 178.1,
+        "taw_fc_wp_mm": 122.6,
+        "raw_mm": 89.0,
+        "root_depth_m": 0.95,
+        "seasons_simulated": 25,
+        "seasons_excluded": {},
+        "summary": {
+          "et0": {
+            "unit": "mm per season",
+            "result_type": "historical_analysis",
+            "spread": {
+              "n": 25,
+              "mean": 886.9,
+              "p10": 801.6,
+              "median": 884.4,
+              "p90": 965.5,
+              "minimum": 769.1,
+              "maximum": 1052.5
+            }
+          },
+          "etc_standard": {
+            "unit": "mm per season",
+            "result_type": "conditional_simulation",
+            "spread": {
+              "n": 25,
+              "mean": 833.3,
+              "p10": 729.8,
+              "median": 836.7,
+              "p90": 919.3,
+              "minimum": 710.9,
+              "maximum": 992.2
+            }
+          },
+          "precipitation": {
+            "unit": "mm per season",
+            "result_type": "historical_analysis",
+            "spread": {
+              "n": 25,
+              "mean": 392.6,
+              "p10": 291.4,
+              "median": 396.0,
+              "p90": 511.1,
+              "minimum": 223.2,
+              "maximum": 550.7
+            }
+          },
+          "rainfed_eta": {
+            "unit": "mm per season",
+            "result_type": "conditional_simulation",
+            "spread": {
+              "n": 25,
+              "mean": 423.6,
+              "p10": 331.7,
+              "median": 437.9,
+              "p90": 509.1,
+              "minimum": 283.3,
+              "maximum": 541.1
+            }
+          },
+          "rainfed_deficit": {
+            "unit": "mm per season",
+            "result_type": "conditional_simulation",
+            "spread": {
+              "n": 25,
+              "mean": 409.6,
+              "p10": 225.6,
+              "median": 415.6,
+              "p90": 579.3,
+              "minimum": 193.8,
+              "maximum": 709.0
+            }
+          },
+          "rainfed_stress_days": {
+            "unit": "days per season",
+            "result_type": "conditional_simulation",
+            "spread": {
+              "n": 25,
+              "mean": 102.7,
+              "p10": 86.4,
+              "median": 104.0,
+              "p90": 116.0,
+              "minimum": 76,
+              "maximum": 131
+            }
+          },
+          "irrigated_net_irrigation": {
+            "unit": "mm per season",
+            "result_type": "conditional_simulation",
+            "spread": {
+              "n": 25,
+              "mean": 516.8,
+              "p10": 309.0,
+              "median": 540.5,
+              "p90": 712.3,
+              "minimum": 290.1,
+              "maximum": 787.0
+            }
+          }
+        },
+        "seasons": [
+          {
+            "year": 2001,
+            "planting": "2001-05-20",
+            "harvest": "2001-10-06",
+            "et0": 909.24,
+            "etc_standard": 882.56,
+            "precipitation": 438.62,
+            "runoff": 35.16,
+            "rainfed_eta": 448.82,
+            "rainfed_deficit": 433.74,
+            "rainfed_stress_days": 98,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 514.9,
+            "irrigated_events": 9,
+            "kc_mid_adjusted": 1.21,
+            "kc_end_adjusted": 0.55,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.158666666666667,
+                "rhmin_mean_percent": 33.832604900136765,
+                "wind_used_m_s": 3.158666666666667,
+                "rhmin_used_percent": 33.832604900136765,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.2127999999999997,
+                "rhmin_mean_percent": 38.74077434715565,
+                "wind_used_m_s": 3.2127999999999997,
+                "rhmin_used_percent": 38.74077434715565,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2002,
+            "planting": "2002-05-20",
+            "harvest": "2002-10-06",
+            "et0": 1009.55,
+            "etc_standard": 965.49,
+            "precipitation": 305.23,
+            "runoff": 13.38,
+            "rainfed_eta": 326.84,
+            "rainfed_deficit": 638.65,
+            "rainfed_stress_days": 116,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 738.4,
+            "irrigated_events": 12,
+            "kc_mid_adjusted": 1.23,
+            "kc_end_adjusted": 0.57,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.620166666666667,
+                "rhmin_mean_percent": 31.56134745252238,
+                "wind_used_m_s": 3.620166666666667,
+                "rhmin_used_percent": 31.56134745252238,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.5936000000000003,
+                "rhmin_mean_percent": 32.83648410232699,
+                "wind_used_m_s": 3.5936000000000003,
+                "rhmin_used_percent": 32.83648410232699,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2003,
+            "planting": "2003-05-20",
+            "harvest": "2003-10-06",
+            "et0": 914.18,
+            "etc_standard": 908.79,
+            "precipitation": 295.64,
+            "runoff": 19.35,
+            "rainfed_eta": 339.02,
+            "rainfed_deficit": 569.76,
+            "rainfed_stress_days": 103,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 656.28,
+            "irrigated_events": 13,
+            "kc_mid_adjusted": 1.22,
+            "kc_end_adjusted": 0.56,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.3156666666666665,
+                "rhmin_mean_percent": 30.928822560946625,
+                "wind_used_m_s": 3.3156666666666665,
+                "rhmin_used_percent": 30.928822560946625,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.3528000000000002,
+                "rhmin_mean_percent": 34.227585165749055,
+                "wind_used_m_s": 3.3528000000000002,
+                "rhmin_used_percent": 34.227585165749055,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2004,
+            "planting": "2004-05-20",
+            "harvest": "2004-10-06",
+            "et0": 866.09,
+            "etc_standard": 799.35,
+            "precipitation": 452.92,
+            "runoff": 39.23,
+            "rainfed_eta": 448.6,
+            "rainfed_deficit": 350.75,
+            "rainfed_stress_days": 103,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 483.97,
+            "irrigated_events": 7,
+            "kc_mid_adjusted": 1.2,
+            "kc_end_adjusted": 0.57,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.2041666666666666,
+                "rhmin_mean_percent": 37.25631578350662,
+                "wind_used_m_s": 3.2041666666666666,
+                "rhmin_used_percent": 37.25631578350662,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.9488,
+                "rhmin_mean_percent": 36.0740803549671,
+                "wind_used_m_s": 3.9488,
+                "rhmin_used_percent": 36.0740803549671,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2005,
+            "planting": "2005-05-20",
+            "harvest": "2005-10-06",
+            "et0": 917.42,
+            "etc_standard": 873.46,
+            "precipitation": 417.71,
+            "runoff": 12.56,
+            "rainfed_eta": 475.94,
+            "rainfed_deficit": 397.52,
+            "rainfed_stress_days": 102,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 569.96,
+            "irrigated_events": 10,
+            "kc_mid_adjusted": 1.21,
+            "kc_end_adjusted": 0.58,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.485,
+                "rhmin_mean_percent": 37.89260052958107,
+                "wind_used_m_s": 3.485,
+                "rhmin_used_percent": 37.89260052958107,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 4.0924000000000005,
+                "rhmin_mean_percent": 35.07011773053637,
+                "wind_used_m_s": 4.0924000000000005,
+                "rhmin_used_percent": 35.07011773053637,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2006,
+            "planting": "2006-05-20",
+            "harvest": "2006-10-06",
+            "et0": 930.67,
+            "etc_standard": 838.43,
+            "precipitation": 396.01,
+            "runoff": 20.77,
+            "rainfed_eta": 437.87,
+            "rainfed_deficit": 400.57,
+            "rainfed_stress_days": 115,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 509.08,
+            "irrigated_events": 9,
+            "kc_mid_adjusted": 1.19,
+            "kc_end_adjusted": 0.58,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.0835,
+                "rhmin_mean_percent": 39.09419709336715,
+                "wind_used_m_s": 3.0835,
+                "rhmin_used_percent": 39.09419709336715,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.7948000000000004,
+                "rhmin_mean_percent": 31.921965327333456,
+                "wind_used_m_s": 3.7948000000000004,
+                "rhmin_used_percent": 31.921965327333456,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2007,
+            "planting": "2007-05-20",
+            "harvest": "2007-10-06",
+            "et0": 804.66,
+            "etc_standard": 757.52,
+            "precipitation": 452.51,
+            "runoff": 28.75,
+            "rainfed_eta": 481.9,
+            "rainfed_deficit": 275.62,
+            "rainfed_stress_days": 84,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 366.26,
+            "irrigated_events": 5,
+            "kc_mid_adjusted": 1.19,
+            "kc_end_adjusted": 0.59,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.2376666666666667,
+                "rhmin_mean_percent": 43.639929004976736,
+                "wind_used_m_s": 3.2376666666666667,
+                "rhmin_used_percent": 43.639929004976736,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 4.6376,
+                "rhmin_mean_percent": 38.199126531757415,
+                "wind_used_m_s": 4.6376,
+                "rhmin_used_percent": 38.199126531757415,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2008,
+            "planting": "2008-05-20",
+            "harvest": "2008-10-06",
+            "et0": 799.55,
+            "etc_standard": 723.07,
+            "precipitation": 536.54,
+            "runoff": 43.07,
+            "rainfed_eta": 529.24,
+            "rainfed_deficit": 193.83,
+            "rainfed_stress_days": 86,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 313.33,
+            "irrigated_events": 5,
+            "kc_mid_adjusted": 1.18,
+            "kc_end_adjusted": 0.56,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.194666666666667,
+                "rhmin_mean_percent": 46.58520940215327,
+                "wind_used_m_s": 3.194666666666667,
+                "rhmin_used_percent": 46.58520940215327,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.7488,
+                "rhmin_mean_percent": 39.32372555572079,
+                "wind_used_m_s": 3.7488,
+                "rhmin_used_percent": 39.32372555572079,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2009,
+            "planting": "2009-05-20",
+            "harvest": "2009-10-06",
+            "et0": 769.84,
+            "etc_standard": 710.91,
+            "precipitation": 421.03,
+            "runoff": 16.99,
+            "rainfed_eta": 462.4,
+            "rainfed_deficit": 248.51,
+            "rainfed_stress_days": 98,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 290.15,
+            "irrigated_events": 4,
+            "kc_mid_adjusted": 1.18,
+            "kc_end_adjusted": 0.55,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.9896666666666665,
+                "rhmin_mean_percent": 42.11251512891684,
+                "wind_used_m_s": 2.9896666666666665,
+                "rhmin_used_percent": 42.11251512891684,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.3456,
+                "rhmin_mean_percent": 41.008871794800285,
+                "wind_used_m_s": 3.3456,
+                "rhmin_used_percent": 41.008871794800285,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2010,
+            "planting": "2010-05-20",
+            "harvest": "2010-10-06",
+            "et0": 904.86,
+            "etc_standard": 872.03,
+            "precipitation": 357.85,
+            "runoff": 17.79,
+            "rainfed_eta": 406.06,
+            "rainfed_deficit": 465.97,
+            "rainfed_stress_days": 104,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 542.44,
+            "irrigated_events": 9,
+            "kc_mid_adjusted": 1.22,
+            "kc_end_adjusted": 0.57,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.4135,
+                "rhmin_mean_percent": 33.999590809540955,
+                "wind_used_m_s": 3.4135,
+                "rhmin_used_percent": 33.999590809540955,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.5468,
+                "rhmin_mean_percent": 35.588201712094914,
+                "wind_used_m_s": 3.5468,
+                "rhmin_used_percent": 35.588201712094914,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2011,
+            "planting": "2011-05-20",
+            "harvest": "2011-10-06",
+            "et0": 958.17,
+            "etc_standard": 896.49,
+            "precipitation": 364.64,
+            "runoff": 21.81,
+            "rainfed_eta": 417.16,
+            "rainfed_deficit": 479.33,
+            "rainfed_stress_days": 105,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 556.02,
+            "irrigated_events": 9,
+            "kc_mid_adjusted": 1.2,
+            "kc_end_adjusted": 0.58,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.7688333333333333,
+                "rhmin_mean_percent": 32.42998538889582,
+                "wind_used_m_s": 2.7688333333333333,
+                "rhmin_used_percent": 32.42998538889582,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.3848000000000003,
+                "rhmin_mean_percent": 27.70714047365753,
+                "wind_used_m_s": 3.3848000000000003,
+                "rhmin_used_percent": 27.70714047365753,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2012,
+            "planting": "2012-05-20",
+            "harvest": "2012-10-06",
+            "et0": 1052.54,
+            "etc_standard": 992.24,
+            "precipitation": 223.19,
+            "runoff": 7.07,
+            "rainfed_eta": 283.28,
+            "rainfed_deficit": 708.95,
+            "rainfed_stress_days": 131,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 787.01,
+            "irrigated_events": 15,
+            "kc_mid_adjusted": 1.23,
+            "kc_end_adjusted": 0.56,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.1493333333333333,
+                "rhmin_mean_percent": 26.598033290086327,
+                "wind_used_m_s": 3.1493333333333333,
+                "rhmin_used_percent": 26.598033290086327,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 2.77,
+                "rhmin_mean_percent": 31.609039564053703,
+                "wind_used_m_s": 2.77,
+                "rhmin_used_percent": 31.609039564053703,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2013,
+            "planting": "2013-05-20",
+            "harvest": "2013-10-06",
+            "et0": 960.37,
+            "etc_standard": 874.8,
+            "precipitation": 341.21,
+            "runoff": 15.2,
+            "rainfed_eta": 384.82,
+            "rainfed_deficit": 489.97,
+            "rainfed_stress_days": 120,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 588.26,
+            "irrigated_events": 10,
+            "kc_mid_adjusted": 1.2,
+            "kc_end_adjusted": 0.58,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.2748333333333335,
+                "rhmin_mean_percent": 40.629693030552,
+                "wind_used_m_s": 3.2748333333333335,
+                "rhmin_used_percent": 40.629693030552,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 4.4132,
+                "rhmin_mean_percent": 38.42430463995193,
+                "wind_used_m_s": 4.4132,
+                "rhmin_used_percent": 38.42430463995193,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2014,
+            "planting": "2014-05-20",
+            "harvest": "2014-10-06",
+            "et0": 857.08,
+            "etc_standard": 809.25,
+            "precipitation": 465.69,
+            "runoff": 28.53,
+            "rainfed_eta": 487.88,
+            "rainfed_deficit": 321.36,
+            "rainfed_stress_days": 87,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 425.33,
+            "irrigated_events": 7,
+            "kc_mid_adjusted": 1.2,
+            "kc_end_adjusted": 0.56,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.037,
+                "rhmin_mean_percent": 36.165249470001854,
+                "wind_used_m_s": 3.037,
+                "rhmin_used_percent": 36.165249470001854,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.3772,
+                "rhmin_mean_percent": 36.18937991250494,
+                "wind_used_m_s": 3.3772,
+                "rhmin_used_percent": 36.18937991250494,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2015,
+            "planting": "2015-05-20",
+            "harvest": "2015-10-06",
+            "et0": 884.4,
+            "etc_standard": 855.63,
+            "precipitation": 288.92,
+            "runoff": 8.21,
+            "rainfed_eta": 357.12,
+            "rainfed_deficit": 498.51,
+            "rainfed_stress_days": 107,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 578.89,
+            "irrigated_events": 9,
+            "kc_mid_adjusted": 1.2,
+            "kc_end_adjusted": 0.57,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.2455,
+                "rhmin_mean_percent": 36.99855794185031,
+                "wind_used_m_s": 3.2455,
+                "rhmin_used_percent": 36.99855794185031,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.7460000000000004,
+                "rhmin_mean_percent": 37.42324633222252,
+                "wind_used_m_s": 3.7460000000000004,
+                "rhmin_used_percent": 37.42324633222252,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2016,
+            "planting": "2016-05-20",
+            "harvest": "2016-10-06",
+            "et0": 826.0,
+            "etc_standard": 755.5,
+            "precipitation": 468.96,
+            "runoff": 24.77,
+            "rainfed_eta": 499.93,
+            "rainfed_deficit": 255.57,
+            "rainfed_stress_days": 104,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 306.17,
+            "irrigated_events": 5,
+            "kc_mid_adjusted": 1.18,
+            "kc_end_adjusted": 0.55,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.181,
+                "rhmin_mean_percent": 43.75946447827792,
+                "wind_used_m_s": 3.181,
+                "rhmin_used_percent": 43.75946447827792,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.2736,
+                "rhmin_mean_percent": 38.71806485150385,
+                "wind_used_m_s": 3.2736,
+                "rhmin_used_percent": 38.71806485150385,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2017,
+            "planting": "2017-05-20",
+            "harvest": "2017-10-06",
+            "et0": 879.9,
+            "etc_standard": 836.7,
+            "precipitation": 291.23,
+            "runoff": 12.52,
+            "rainfed_eta": 289.92,
+            "rainfed_deficit": 546.78,
+            "rainfed_stress_days": 116,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 693.94,
+            "irrigated_events": 11,
+            "kc_mid_adjusted": 1.2,
+            "kc_end_adjusted": 0.57,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.0665,
+                "rhmin_mean_percent": 35.06625075380988,
+                "wind_used_m_s": 3.0665,
+                "rhmin_used_percent": 35.06625075380988,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 4.026,
+                "rhmin_mean_percent": 40.403606490787915,
+                "wind_used_m_s": 4.026,
+                "rhmin_used_percent": 40.403606490787915,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2018,
+            "planting": "2018-05-20",
+            "harvest": "2018-10-06",
+            "et0": 835.22,
+            "etc_standard": 736.27,
+            "precipitation": 547.95,
+            "runoff": 52.87,
+            "rainfed_eta": 541.06,
+            "rainfed_deficit": 195.21,
+            "rainfed_stress_days": 93,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 388.9,
+            "irrigated_events": 5,
+            "kc_mid_adjusted": 1.16,
+            "kc_end_adjusted": 0.56,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.7368333333333337,
+                "rhmin_mean_percent": 47.33582255526442,
+                "wind_used_m_s": 2.7368333333333337,
+                "rhmin_used_percent": 47.33582255526442,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.8176,
+                "rhmin_mean_percent": 40.06229444681222,
+                "wind_used_m_s": 3.8176,
+                "rhmin_used_percent": 40.06229444681222,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2019,
+            "planting": "2019-05-20",
+            "harvest": "2019-10-06",
+            "et0": 769.14,
+            "etc_standard": 725.55,
+            "precipitation": 550.69,
+            "runoff": 47.5,
+            "rainfed_eta": 515.24,
+            "rainfed_deficit": 210.31,
+            "rainfed_stress_days": 76,
+            "rainfed_drainage": 21.51,
+            "irrigated_net_irrigation": 299.41,
+            "irrigated_events": 5,
+            "kc_mid_adjusted": 1.17,
+            "kc_end_adjusted": 0.55,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.166333333333333,
+                "rhmin_mean_percent": 47.772740065333686,
+                "wind_used_m_s": 3.166333333333333,
+                "rhmin_used_percent": 47.772740065333686,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.958,
+                "rhmin_mean_percent": 43.770744902884346,
+                "wind_used_m_s": 3.958,
+                "rhmin_used_percent": 43.770744902884346,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2020,
+            "planting": "2020-05-20",
+            "harvest": "2020-10-06",
+            "et0": 891.52,
+            "etc_standard": 803.82,
+            "precipitation": 410.38,
+            "runoff": 34.18,
+            "rainfed_eta": 453.83,
+            "rainfed_deficit": 349.98,
+            "rainfed_stress_days": 107,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 515.47,
+            "irrigated_events": 7,
+            "kc_mid_adjusted": 1.19,
+            "kc_end_adjusted": 0.57,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.191666666666667,
+                "rhmin_mean_percent": 41.9022597631598,
+                "wind_used_m_s": 3.191666666666667,
+                "rhmin_used_percent": 41.9022597631598,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.1652,
+                "rhmin_mean_percent": 30.47819381449489,
+                "wind_used_m_s": 3.1652,
+                "rhmin_used_percent": 30.47819381449489,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2021,
+            "planting": "2021-05-20",
+            "harvest": "2021-10-06",
+            "et0": 867.92,
+            "etc_standard": 830.55,
+            "precipitation": 327.35,
+            "runoff": 18.87,
+            "rainfed_eta": 359.69,
+            "rainfed_deficit": 470.86,
+            "rainfed_stress_days": 111,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 558.76,
+            "irrigated_events": 9,
+            "kc_mid_adjusted": 1.2,
+            "kc_end_adjusted": 0.56,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.1665,
+                "rhmin_mean_percent": 37.32853521239407,
+                "wind_used_m_s": 3.1665,
+                "rhmin_used_percent": 37.32853521239407,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.1948000000000003,
+                "rhmin_mean_percent": 34.9188698344407,
+                "wind_used_m_s": 3.1948000000000003,
+                "rhmin_used_percent": 34.9188698344407,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2022,
+            "planting": "2022-05-20",
+            "harvest": "2022-10-06",
+            "et0": 968.87,
+            "etc_standard": 926.37,
+            "precipitation": 291.75,
+            "runoff": 17.41,
+            "rainfed_eta": 340.69,
+            "rainfed_deficit": 585.67,
+            "rainfed_stress_days": 107,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 724.51,
+            "irrigated_events": 12,
+            "kc_mid_adjusted": 1.21,
+            "kc_end_adjusted": 0.57,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.8498333333333337,
+                "rhmin_mean_percent": 30.48694893114216,
+                "wind_used_m_s": 2.8498333333333337,
+                "rhmin_used_percent": 30.48694893114216,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.2648,
+                "rhmin_mean_percent": 29.71266286055753,
+                "wind_used_m_s": 3.2648,
+                "rhmin_used_percent": 29.71266286055753,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2023,
+            "planting": "2023-05-20",
+            "harvest": "2023-10-06",
+            "et0": 866.74,
+            "etc_standard": 836.21,
+            "precipitation": 360.51,
+            "runoff": 9.02,
+            "rainfed_eta": 420.65,
+            "rainfed_deficit": 415.55,
+            "rainfed_stress_days": 96,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 540.5,
+            "irrigated_events": 8,
+            "kc_mid_adjusted": 1.21,
+            "kc_end_adjusted": 0.56,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.7706666666666666,
+                "rhmin_mean_percent": 31.62762157900888,
+                "wind_used_m_s": 2.7706666666666666,
+                "rhmin_used_percent": 31.62762157900888,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.1992000000000003,
+                "rhmin_mean_percent": 33.80265671386008,
+                "wind_used_m_s": 3.1992000000000003,
+                "rhmin_used_percent": 33.80265671386008,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2024,
+            "planting": "2024-05-20",
+            "harvest": "2024-10-06",
+            "et0": 913.19,
+            "etc_standard": 865.38,
+            "precipitation": 335.68,
+            "runoff": 18.98,
+            "rainfed_eta": 389.1,
+            "rainfed_deficit": 476.28,
+            "rainfed_stress_days": 104,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 611.94,
+            "irrigated_events": 9,
+            "kc_mid_adjusted": 1.21,
+            "kc_end_adjusted": 0.58,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.9108333333333336,
+                "rhmin_mean_percent": 32.88014342026938,
+                "wind_used_m_s": 2.9108333333333336,
+                "rhmin_used_percent": 32.88014342026938,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.3316000000000003,
+                "rhmin_mean_percent": 29.17397958983369,
+                "wind_used_m_s": 3.3316000000000003,
+                "rhmin_used_percent": 29.17397958983369,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2025,
+            "planting": "2025-05-20",
+            "harvest": "2025-10-06",
+            "et0": 814.3,
+            "etc_standard": 755.25,
+            "precipitation": 472.9,
+            "runoff": 11.99,
+            "rainfed_eta": 493.3,
+            "rainfed_deficit": 261.95,
+            "rainfed_stress_days": 94,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 360.72,
+            "irrigated_events": 6,
+            "kc_mid_adjusted": 1.18,
+            "kc_end_adjusted": 0.54,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.9091666666666667,
+                "rhmin_mean_percent": 43.49044689710912,
+                "wind_used_m_s": 2.9091666666666667,
+                "rhmin_used_percent": 43.49044689710912,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.2236000000000002,
+                "rhmin_mean_percent": 43.91970302100786,
+                "wind_used_m_s": 3.2236000000000002,
+                "rhmin_used_percent": 43.91970302100786,
+                "limited": false
+              }
+            }
+          }
+        ],
+        "max_closure_residual_mm": 6.963318810448982e-13
+      },
+      "parameters": {
+        "kc_ini": 0.4,
+        "kc_mid_table": 1.15,
+        "kc_end_table": 0.5,
+        "stages_days": [
+          20,
+          35,
+          60,
+          25
+        ],
+        "height_m": 0.75,
+        "p": 0.5,
+        "sources": {
+          "kc_ini": "FAO-56 Table 12, group e. Legumes",
+          "kc_mid": "FAO-56 Table 12, Soybeans",
+          "kc_end": "FAO-56 Table 12, Soybeans",
+          "height_m": "FAO-56 Table 12 range 0.5-1.0 m; midpoint (assumed)",
+          "stages_days": "FAO-56 Table 11, Soybeans, May planting, Central USA (development 30/35 days: 35 used)",
+          "root_depth_m": "FAO-56 Table 22 range 0.6-1.3 m; 'used' is the midpoint (assumed)",
+          "depletion_fraction_p": "FAO-56 Table 22",
+          "planting_default": "Assumed default; to confirm with USDA NASS 'Usual Planting and Harvesting Dates for U.S. Field Crops' for the state"
+        }
+      }
+    },
+    {
+      "id": "S3",
+      "crop": "sorghum_grain",
+      "role": "alternative",
+      "name": "Sorghum (grain)",
+      "planting": "06-01",
+      "why_included": "Alternative: a supported cereal in the U.S. catalog for the same season.",
+      "rotation": {
+        "key": "unknown_previous",
+        "text": "The last season's crop is unknown, so no rotation note applies.",
+        "review_state": "draft-unreviewed",
+        "scope": "U.S. Great Plains and Corn Belt pilot",
+        "quantified": false
+      },
+      "result": {
+        "taw_mm": 299.1,
+        "taw_fc_wp_mm": 204.0,
+        "raw_mm": 164.5,
+        "root_depth_m": 1.5,
+        "seasons_simulated": 25,
+        "seasons_excluded": {},
+        "summary": {
+          "et0": {
+            "unit": "mm per season",
+            "result_type": "historical_analysis",
+            "spread": {
+              "n": 25,
+              "mean": 806.2,
+              "p10": 726.4,
+              "median": 812.4,
+              "p90": 879.9,
+              "minimum": 686.3,
+              "maximum": 943.5
+            }
+          },
+          "etc_standard": {
+            "unit": "mm per season",
+            "result_type": "conditional_simulation",
+            "spread": {
+              "n": 25,
+              "mean": 644.7,
+              "p10": 559.5,
+              "median": 656.0,
+              "p90": 711.7,
+              "minimum": 548.8,
+              "maximum": 753.4
+            }
+          },
+          "precipitation": {
+            "unit": "mm per season",
+            "result_type": "historical_analysis",
+            "spread": {
+              "n": 25,
+              "mean": 335.3,
+              "p10": 242.3,
+              "median": 351.9,
+              "p90": 418.6,
+              "minimum": 193.3,
+              "maximum": 460.9
+            }
+          },
+          "rainfed_eta": {
+            "unit": "mm per season",
+            "result_type": "conditional_simulation",
+            "spread": {
+              "n": 25,
+              "mean": 409.1,
+              "p10": 332.5,
+              "median": 419.4,
+              "p90": 467.4,
+              "minimum": 298.7,
+              "maximum": 500.0
+            }
+          },
+          "rainfed_deficit": {
+            "unit": "mm per season",
+            "result_type": "conditional_simulation",
+            "spread": {
+              "n": 25,
+              "mean": 235.6,
+              "p10": 104.9,
+              "median": 233.8,
+              "p90": 365.9,
+              "minimum": 59.2,
+              "maximum": 454.6
+            }
+          },
+          "rainfed_stress_days": {
+            "unit": "days per season",
+            "result_type": "conditional_simulation",
+            "spread": {
+              "n": 25,
+              "mean": 79.5,
+              "p10": 65.8,
+              "median": 82.0,
+              "p90": 91.0,
+              "minimum": 52,
+              "maximum": 103
+            }
+          },
+          "irrigated_net_irrigation": {
+            "unit": "mm per season",
+            "result_type": "conditional_simulation",
+            "spread": {
+              "n": 25,
+              "mean": 373.1,
+              "p10": 251.5,
+              "median": 355.6,
+              "p90": 546.9,
+              "minimum": 145.1,
+              "maximum": 604.8
+            }
+          }
+        },
+        "seasons": [
+          {
+            "year": 2001,
+            "planting": "2001-06-01",
+            "harvest": "2001-10-03",
+            "et0": 841.94,
+            "etc_standard": 689.28,
+            "precipitation": 358.56,
+            "runoff": 22.21,
+            "rainfed_eta": 413.48,
+            "rainfed_deficit": 275.8,
+            "rainfed_stress_days": 88,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 385.35,
+            "irrigated_events": 3,
+            "kc_mid_adjusted": 1.12,
+            "kc_end_adjusted": 0.61,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.003,
+                "rhmin_mean_percent": 33.83834415505397,
+                "wind_used_m_s": 3.003,
+                "rhmin_used_percent": 33.83834415505397,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.2516666666666665,
+                "rhmin_mean_percent": 37.87273573429765,
+                "wind_used_m_s": 3.2516666666666665,
+                "rhmin_used_percent": 37.87273573429765,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2002,
+            "planting": "2002-06-01",
+            "harvest": "2002-10-03",
+            "et0": 923.26,
+            "etc_standard": 751.36,
+            "precipitation": 269.81,
+            "runoff": 10.68,
+            "rainfed_eta": 332.15,
+            "rainfed_deficit": 419.21,
+            "rainfed_stress_days": 97,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 531.06,
+            "irrigated_events": 4,
+            "kc_mid_adjusted": 1.14,
+            "kc_end_adjusted": 0.65,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.521,
+                "rhmin_mean_percent": 33.5862702067462,
+                "wind_used_m_s": 3.521,
+                "rhmin_used_percent": 33.5862702067462,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.691333333333333,
+                "rhmin_mean_percent": 32.39812838824786,
+                "wind_used_m_s": 3.691333333333333,
+                "rhmin_used_percent": 32.39812838824786,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2003,
+            "planting": "2003-06-01",
+            "harvest": "2003-10-03",
+            "et0": 835.52,
+            "etc_standard": 708.08,
+            "precipitation": 272.06,
+            "runoff": 18.8,
+            "rainfed_eta": 349.16,
+            "rainfed_deficit": 358.93,
+            "rainfed_stress_days": 90,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 468.89,
+            "irrigated_events": 4,
+            "kc_mid_adjusted": 1.13,
+            "kc_end_adjusted": 0.64,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.04025,
+                "rhmin_mean_percent": 31.783712751755484,
+                "wind_used_m_s": 3.04025,
+                "rhmin_used_percent": 31.783712751755484,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.7233333333333336,
+                "rhmin_mean_percent": 35.94294190633276,
+                "wind_used_m_s": 3.7233333333333336,
+                "rhmin_used_percent": 35.94294190633276,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2004,
+            "planting": "2004-06-01",
+            "harvest": "2004-10-03",
+            "et0": 755.99,
+            "etc_standard": 619.07,
+            "precipitation": 422.57,
+            "runoff": 34.81,
+            "rainfed_eta": 474.29,
+            "rainfed_deficit": 144.78,
+            "rainfed_stress_days": 52,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 250.94,
+            "irrigated_events": 2,
+            "kc_mid_adjusted": 1.11,
+            "kc_end_adjusted": 0.66,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.11475,
+                "rhmin_mean_percent": 38.31461722910121,
+                "wind_used_m_s": 3.11475,
+                "rhmin_used_percent": 38.31461722910121,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 4.032,
+                "rhmin_mean_percent": 32.215062162030456,
+                "wind_used_m_s": 4.032,
+                "rhmin_used_percent": 32.215062162030456,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2005,
+            "planting": "2005-06-01",
+            "harvest": "2005-10-03",
+            "et0": 830.68,
+            "etc_standard": 667.02,
+            "precipitation": 362.62,
+            "runoff": 11.65,
+            "rainfed_eta": 456.07,
+            "rainfed_deficit": 210.95,
+            "rainfed_stress_days": 78,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 413.29,
+            "irrigated_events": 3,
+            "kc_mid_adjusted": 1.09,
+            "kc_end_adjusted": 0.65,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.96875,
+                "rhmin_mean_percent": 40.87392466757068,
+                "wind_used_m_s": 2.96875,
+                "rhmin_used_percent": 40.87392466757068,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 4.245333333333333,
+                "rhmin_mean_percent": 35.827527884586665,
+                "wind_used_m_s": 4.245333333333333,
+                "rhmin_used_percent": 35.827527884586665,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2006,
+            "planting": "2006-06-01",
+            "harvest": "2006-10-03",
+            "et0": 819.95,
+            "etc_standard": 634.5,
+            "precipitation": 351.85,
+            "runoff": 19.8,
+            "rainfed_eta": 419.41,
+            "rainfed_deficit": 215.09,
+            "rainfed_stress_days": 82,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 295.17,
+            "irrigated_events": 2,
+            "kc_mid_adjusted": 1.1,
+            "kc_end_adjusted": 0.63,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.1475,
+                "rhmin_mean_percent": 42.01276430552326,
+                "wind_used_m_s": 3.1475,
+                "rhmin_used_percent": 42.01276430552326,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.453333333333333,
+                "rhmin_mean_percent": 35.025788922890776,
+                "wind_used_m_s": 3.453333333333333,
+                "rhmin_used_percent": 35.025788922890776,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2007,
+            "planting": "2007-06-01",
+            "harvest": "2007-10-03",
+            "et0": 727.13,
+            "etc_standard": 594.6,
+            "precipitation": 375.67,
+            "runoff": 23.74,
+            "rainfed_eta": 438.55,
+            "rainfed_deficit": 156.06,
+            "rainfed_stress_days": 68,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 272.16,
+            "irrigated_events": 2,
+            "kc_mid_adjusted": 1.09,
+            "kc_end_adjusted": 0.64,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.245,
+                "rhmin_mean_percent": 44.40725842056592,
+                "wind_used_m_s": 3.245,
+                "rhmin_used_percent": 44.40725842056592,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 4.091666666666667,
+                "rhmin_mean_percent": 38.77690840508202,
+                "wind_used_m_s": 4.091666666666667,
+                "rhmin_used_percent": 38.77690840508202,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2008,
+            "planting": "2008-06-01",
+            "harvest": "2008-10-03",
+            "et0": 725.93,
+            "etc_standard": 549.42,
+            "precipitation": 400.97,
+            "runoff": 25.69,
+            "rainfed_eta": 456.56,
+            "rainfed_deficit": 92.86,
+            "rainfed_stress_days": 67,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 243.96,
+            "irrigated_events": 2,
+            "kc_mid_adjusted": 1.08,
+            "kc_end_adjusted": 0.6,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.1325,
+                "rhmin_mean_percent": 47.4028211202217,
+                "wind_used_m_s": 3.1325,
+                "rhmin_used_percent": 47.4028211202217,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.355,
+                "rhmin_mean_percent": 42.251271353633065,
+                "wind_used_m_s": 3.355,
+                "rhmin_used_percent": 42.251271353633065,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2009,
+            "planting": "2009-06-01",
+            "harvest": "2009-10-03",
+            "et0": 686.3,
+            "etc_standard": 548.81,
+            "precipitation": 372.48,
+            "runoff": 9.71,
+            "rainfed_eta": 450.01,
+            "rainfed_deficit": 98.8,
+            "rainfed_stress_days": 70,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 258.45,
+            "irrigated_events": 2,
+            "kc_mid_adjusted": 1.1,
+            "kc_end_adjusted": 0.59,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.13275,
+                "rhmin_mean_percent": 41.04054305969438,
+                "wind_used_m_s": 3.13275,
+                "rhmin_used_percent": 41.04054305969438,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.0383333333333336,
+                "rhmin_mean_percent": 44.23191876131703,
+                "wind_used_m_s": 3.0383333333333336,
+                "rhmin_used_percent": 44.23191876131703,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2010,
+            "planting": "2010-06-01",
+            "harvest": "2010-10-03",
+            "et0": 824.64,
+            "etc_standard": 687.26,
+            "precipitation": 327.85,
+            "runoff": 16.98,
+            "rainfed_eta": 410.54,
+            "rainfed_deficit": 276.72,
+            "rainfed_stress_days": 82,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 355.6,
+            "irrigated_events": 3,
+            "kc_mid_adjusted": 1.13,
+            "kc_end_adjusted": 0.64,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.3365,
+                "rhmin_mean_percent": 33.653035455388626,
+                "wind_used_m_s": 3.3365,
+                "rhmin_used_percent": 33.653035455388626,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.598,
+                "rhmin_mean_percent": 34.392961269337924,
+                "wind_used_m_s": 3.598,
+                "rhmin_used_percent": 34.392961269337924,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2011,
+            "planting": "2011-06-01",
+            "harvest": "2011-10-03",
+            "et0": 866.69,
+            "etc_standard": 683.53,
+            "precipitation": 286.04,
+            "runoff": 9.17,
+            "rainfed_eta": 396.92,
+            "rainfed_deficit": 286.61,
+            "rainfed_stress_days": 91,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 410.25,
+            "irrigated_events": 3,
+            "kc_mid_adjusted": 1.1,
+            "kc_end_adjusted": 0.63,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.676,
+                "rhmin_mean_percent": 35.622692504631246,
+                "wind_used_m_s": 2.676,
+                "rhmin_used_percent": 35.622692504631246,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 2.828333333333333,
+                "rhmin_mean_percent": 27.807890596513325,
+                "wind_used_m_s": 2.828333333333333,
+                "rhmin_used_percent": 27.807890596513325,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2012,
+            "planting": "2012-06-01",
+            "harvest": "2012-10-03",
+            "et0": 943.47,
+            "etc_standard": 753.36,
+            "precipitation": 193.26,
+            "runoff": 6.64,
+            "rainfed_eta": 298.74,
+            "rainfed_deficit": 454.62,
+            "rainfed_stress_days": 103,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 604.81,
+            "irrigated_events": 5,
+            "kc_mid_adjusted": 1.13,
+            "kc_end_adjusted": 0.63,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.962,
+                "rhmin_mean_percent": 29.136339257511878,
+                "wind_used_m_s": 2.962,
+                "rhmin_used_percent": 29.136339257511878,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 2.9603333333333333,
+                "rhmin_mean_percent": 28.799280323211132,
+                "wind_used_m_s": 2.9603333333333333,
+                "rhmin_used_percent": 28.799280323211132,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2013,
+            "planting": "2013-06-01",
+            "harvest": "2013-10-03",
+            "et0": 861.47,
+            "etc_standard": 656.01,
+            "precipitation": 312.45,
+            "runoff": 13.9,
+            "rainfed_eta": 390.4,
+            "rainfed_deficit": 265.61,
+            "rainfed_stress_days": 91,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 435.99,
+            "irrigated_events": 3,
+            "kc_mid_adjusted": 1.09,
+            "kc_end_adjusted": 0.65,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.1887499999999998,
+                "rhmin_mean_percent": 44.384066990589886,
+                "wind_used_m_s": 3.1887499999999998,
+                "rhmin_used_percent": 44.384066990589886,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 4.149666666666667,
+                "rhmin_mean_percent": 36.3098475235364,
+                "wind_used_m_s": 4.149666666666667,
+                "rhmin_used_percent": 36.3098475235364,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2014,
+            "planting": "2014-06-01",
+            "harvest": "2014-10-03",
+            "et0": 776.6,
+            "etc_standard": 631.04,
+            "precipitation": 446.6,
+            "runoff": 28.53,
+            "rainfed_eta": 492.53,
+            "rainfed_deficit": 138.5,
+            "rainfed_stress_days": 70,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 252.35,
+            "irrigated_events": 2,
+            "kc_mid_adjusted": 1.11,
+            "kc_end_adjusted": 0.62,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.80025,
+                "rhmin_mean_percent": 35.1141238350601,
+                "wind_used_m_s": 2.80025,
+                "rhmin_used_percent": 35.1141238350601,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.5330000000000004,
+                "rhmin_mean_percent": 38.60370664877417,
+                "wind_used_m_s": 3.5330000000000004,
+                "rhmin_used_percent": 38.60370664877417,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2015,
+            "planting": "2015-06-01",
+            "harvest": "2015-10-03",
+            "et0": 828.18,
+            "etc_standard": 680.64,
+            "precipitation": 239.59,
+            "runoff": 8.08,
+            "rainfed_eta": 354.97,
+            "rainfed_deficit": 325.67,
+            "rainfed_stress_days": 90,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 534.88,
+            "irrigated_events": 4,
+            "kc_mid_adjusted": 1.12,
+            "kc_end_adjusted": 0.64,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.2994999999999997,
+                "rhmin_mean_percent": 36.09961163557619,
+                "wind_used_m_s": 3.2994999999999997,
+                "rhmin_used_percent": 36.09961163557619,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.878,
+                "rhmin_mean_percent": 35.57780981337301,
+                "wind_used_m_s": 3.878,
+                "rhmin_used_percent": 35.57780981337301,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2016,
+            "planting": "2016-06-01",
+            "harvest": "2016-10-03",
+            "et0": 759.27,
+            "etc_standard": 577.77,
+            "precipitation": 395.32,
+            "runoff": 21.05,
+            "rainfed_eta": 450.75,
+            "rainfed_deficit": 127.02,
+            "rainfed_stress_days": 78,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 285.5,
+            "irrigated_events": 2,
+            "kc_mid_adjusted": 1.08,
+            "kc_end_adjusted": 0.61,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.86825,
+                "rhmin_mean_percent": 45.616541890466685,
+                "wind_used_m_s": 2.86825,
+                "rhmin_used_percent": 45.616541890466685,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.5633333333333335,
+                "rhmin_mean_percent": 40.694356674799366,
+                "wind_used_m_s": 3.5633333333333335,
+                "rhmin_used_percent": 40.694356674799366,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2017,
+            "planting": "2017-06-01",
+            "harvest": "2017-10-03",
+            "et0": 812.43,
+            "etc_standard": 646.51,
+            "precipitation": 217.93,
+            "runoff": 8.62,
+            "rainfed_eta": 299.07,
+            "rainfed_deficit": 347.44,
+            "rainfed_stress_days": 88,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 554.87,
+            "irrigated_events": 4,
+            "kc_mid_adjusted": 1.1,
+            "kc_end_adjusted": 0.65,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.838,
+                "rhmin_mean_percent": 38.50488248969661,
+                "wind_used_m_s": 2.838,
+                "rhmin_used_percent": 38.50488248969661,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 4.076333333333333,
+                "rhmin_mean_percent": 34.088234384119396,
+                "wind_used_m_s": 4.076333333333333,
+                "rhmin_used_percent": 34.088234384119396,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2018,
+            "planting": "2018-06-01",
+            "harvest": "2018-10-03",
+            "et0": 751.2,
+            "etc_standard": 559.24,
+            "precipitation": 460.9,
+            "runoff": 35.37,
+            "rainfed_eta": 500.0,
+            "rainfed_deficit": 59.24,
+            "rainfed_stress_days": 56,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 145.08,
+            "irrigated_events": 1,
+            "kc_mid_adjusted": 1.07,
+            "kc_end_adjusted": 0.6,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.83125,
+                "rhmin_mean_percent": 45.840583922226905,
+                "wind_used_m_s": 2.83125,
+                "rhmin_used_percent": 45.840583922226905,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.6573333333333333,
+                "rhmin_mean_percent": 45.303603757540394,
+                "wind_used_m_s": 3.6573333333333333,
+                "rhmin_used_percent": 45.303603757540394,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2019,
+            "planting": "2019-06-01",
+            "harvest": "2019-10-03",
+            "et0": 711.91,
+            "etc_standard": 559.82,
+            "precipitation": 412.77,
+            "runoff": 24.45,
+            "rainfed_eta": 445.68,
+            "rainfed_deficit": 114.14,
+            "rainfed_stress_days": 65,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 263.78,
+            "irrigated_events": 2,
+            "kc_mid_adjusted": 1.06,
+            "kc_end_adjusted": 0.62,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.89,
+                "rhmin_mean_percent": 50.93414501038022,
+                "wind_used_m_s": 2.89,
+                "rhmin_used_percent": 50.93414501038022,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 4.012666666666666,
+                "rhmin_mean_percent": 44.345110964490885,
+                "wind_used_m_s": 4.012666666666666,
+                "rhmin_used_percent": 44.345110964490885,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2020,
+            "planting": "2020-06-01",
+            "harvest": "2020-10-03",
+            "et0": 811.69,
+            "etc_standard": 619.69,
+            "precipitation": 353.33,
+            "runoff": 30.88,
+            "rainfed_eta": 437.22,
+            "rainfed_deficit": 182.47,
+            "rainfed_stress_days": 73,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 293.65,
+            "irrigated_events": 2,
+            "kc_mid_adjusted": 1.1,
+            "kc_end_adjusted": 0.63,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.01975,
+                "rhmin_mean_percent": 39.692334398963936,
+                "wind_used_m_s": 3.01975,
+                "rhmin_used_percent": 39.692334398963936,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.3183333333333334,
+                "rhmin_mean_percent": 34.057788931544316,
+                "wind_used_m_s": 3.3183333333333334,
+                "rhmin_used_percent": 34.057788931544316,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2021,
+            "planting": "2021-06-01",
+            "harvest": "2021-10-03",
+            "et0": 805.98,
+            "etc_standard": 662.86,
+            "precipitation": 259.0,
+            "runoff": 12.1,
+            "rainfed_eta": 333.13,
+            "rainfed_deficit": 329.73,
+            "rainfed_stress_days": 90,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 594.67,
+            "irrigated_events": 4,
+            "kc_mid_adjusted": 1.12,
+            "kc_end_adjusted": 0.62,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 3.377,
+                "rhmin_mean_percent": 36.19577042819529,
+                "wind_used_m_s": 3.377,
+                "rhmin_used_percent": 36.19577042819529,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.1456666666666666,
+                "rhmin_mean_percent": 35.36067572693672,
+                "wind_used_m_s": 3.1456666666666666,
+                "rhmin_used_percent": 35.36067572693672,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2022,
+            "planting": "2022-06-01",
+            "harvest": "2022-10-03",
+            "et0": 888.7,
+            "etc_standard": 714.05,
+            "precipitation": 246.39,
+            "runoff": 12.86,
+            "rainfed_eta": 343.46,
+            "rainfed_deficit": 370.59,
+            "rainfed_stress_days": 89,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 504.13,
+            "irrigated_events": 4,
+            "kc_mid_adjusted": 1.11,
+            "kc_end_adjusted": 0.64,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.69225,
+                "rhmin_mean_percent": 33.01128585925473,
+                "wind_used_m_s": 2.69225,
+                "rhmin_used_percent": 33.01128585925473,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.2023333333333333,
+                "rhmin_mean_percent": 28.88110807286408,
+                "wind_used_m_s": 3.2023333333333333,
+                "rhmin_used_percent": 28.88110807286408,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2023,
+            "planting": "2023-06-01",
+            "harvest": "2023-10-03",
+            "et0": 792.73,
+            "etc_standard": 669.07,
+            "precipitation": 336.8,
+            "runoff": 9.02,
+            "rainfed_eta": 435.25,
+            "rainfed_deficit": 233.82,
+            "rainfed_stress_days": 72,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 345.88,
+            "irrigated_events": 3,
+            "kc_mid_adjusted": 1.12,
+            "kc_end_adjusted": 0.63,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.804,
+                "rhmin_mean_percent": 30.968478851184763,
+                "wind_used_m_s": 2.804,
+                "rhmin_used_percent": 30.968478851184763,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.1766666666666667,
+                "rhmin_mean_percent": 32.45053965057575,
+                "wind_used_m_s": 3.1766666666666667,
+                "rhmin_used_percent": 32.45053965057575,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2024,
+            "planting": "2024-06-01",
+            "harvest": "2024-10-03",
+            "et0": 825.04,
+            "etc_standard": 674.28,
+            "precipitation": 301.59,
+            "runoff": 18.66,
+            "rainfed_eta": 393.16,
+            "rainfed_deficit": 281.12,
+            "rainfed_stress_days": 84,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 366.55,
+            "irrigated_events": 3,
+            "kc_mid_adjusted": 1.12,
+            "kc_end_adjusted": 0.65,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.9837499999999997,
+                "rhmin_mean_percent": 34.00747408982535,
+                "wind_used_m_s": 2.9837499999999997,
+                "rhmin_used_percent": 34.00747408982535,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 3.4013333333333335,
+                "rhmin_mean_percent": 29.388993043241705,
+                "wind_used_m_s": 3.4013333333333335,
+                "rhmin_used_percent": 29.388993043241705,
+                "limited": false
+              }
+            }
+          },
+          {
+            "year": 2025,
+            "planting": "2025-06-01",
+            "harvest": "2025-10-03",
+            "et0": 748.26,
+            "etc_standard": 580.79,
+            "precipitation": 405.21,
+            "runoff": 10.19,
+            "rainfed_eta": 457.02,
+            "rainfed_deficit": 123.77,
+            "rainfed_stress_days": 74,
+            "rainfed_drainage": 0.0,
+            "irrigated_net_irrigation": 259.07,
+            "irrigated_events": 2,
+            "kc_mid_adjusted": 1.09,
+            "kc_end_adjusted": 0.59,
+            "max_closure_residual": 0.0,
+            "kc_climate_qa": {
+              "mid": {
+                "applied": true,
+                "wind_mean_m_s": 2.88875,
+                "rhmin_mean_percent": 43.052857734870464,
+                "wind_used_m_s": 2.88875,
+                "rhmin_used_percent": 43.052857734870464,
+                "limited": false
+              },
+              "late": {
+                "applied": true,
+                "wind_mean_m_s": 2.921666666666667,
+                "rhmin_mean_percent": 43.44229595742328,
+                "wind_used_m_s": 2.921666666666667,
+                "rhmin_used_percent": 43.44229595742328,
+                "limited": false
+              }
+            }
+          }
+        ],
+        "max_closure_residual_mm": 5.684341886080801e-13
+      },
+      "parameters": {
+        "kc_ini": 0.3,
+        "kc_mid_table": 1.05,
+        "kc_end_table": 0.55,
+        "stages_days": [
+          20,
+          35,
+          40,
+          30
+        ],
+        "height_m": 1.5,
+        "p": 0.55,
+        "sources": {
+          "kc_ini": "FAO-56 Table 12, group i. Cereals",
+          "kc_mid": "FAO-56 Table 12, Sorghum - grain, range 1.00-1.10; midpoint (assumed)",
+          "kc_end": "FAO-56 Table 12, Sorghum - grain",
+          "height_m": "FAO-56 Table 12 range 1-2 m; midpoint (assumed)",
+          "stages_days": "FAO-56 Table 11, Sorghum, May/June planting, USA, Pakis., Med.",
+          "root_depth_m": "FAO-56 Table 22 range 1.0-2.0 m; 'used' is the midpoint (assumed)",
+          "depletion_fraction_p": "FAO-56 Table 22, Sorghum - grain",
+          "planting_default": "Assumed default; to confirm with USDA NASS 'Usual Planting and Harvesting Dates for U.S. Field Crops' for the state"
+        }
+      }
+    }
+  ],
+  "rejected": [],
+  "soil": {
+    "source": "ssurgo",
+    "label": "Harney (Harney silty clay loam, 3 to 7 percent slopes, eroded; 85% of map unit 1150131; hydrologic group C; no restrictive layer recorded)",
+    "hydrologic_group": "C",
+    "curve_number": 85,
+    "depth_cm": 200.0
+  },
+  "inputs": [
+    {
+      "name": "location",
+      "state": "entered",
+      "source": "user",
+      "effect": "Selects the NASA POWER grid cell and the SSURGO map unit."
+    },
+    {
+      "name": "crop history",
+      "state": "missing",
+      "source": null,
+      "effect": "No rotation note is possible; water results are unaffected."
+    },
+    {
+      "name": "irrigation",
+      "state": "missing",
+      "source": "user",
+      "effect": "Both the rain-fed and the irrigated scenario are shown; neither is assumed to be yours."
+    },
+    {
+      "name": "soil water capacity",
+      "state": "estimated",
+      "source": "Harney (Harney silty clay loam, 3 to 7 percent slopes, eroded; 85% of map unit 1150131; hydrologic group C; no restrictive layer recorded)",
+      "effect": "Sets TAW and RAW for the water balance (FAO-56 Eqs. 82-83)."
+    },
+    {
+      "name": "runoff curve number",
+      "state": "estimated",
+      "source": "TR-55 row crops, straight row, good condition, group C: CN 85",
+      "effect": "Splits rain into runoff and infiltration."
+    },
+    {
+      "name": "Maize (grain, field corn) planting date",
+      "state": "assumed",
+      "source": "default 05-01",
+      "effect": "Fixes the dates of every simulated season."
+    },
+    {
+      "name": "Soybean planting date",
+      "state": "assumed",
+      "source": "default 05-20",
+      "effect": "Fixes the dates of every simulated season."
+    },
+    {
+      "name": "Sorghum (grain) planting date",
+      "state": "assumed",
+      "source": "default 06-01",
+      "effect": "Fixes the dates of every simulated season."
+    },
+    {
+      "name": "starting soil water",
+      "state": "assumed",
+      "source": "0.5 of TAW depleted at planting",
+      "effect": "Sets the water already used up when each season starts."
+    },
+    {
+      "name": "crop coefficients and stages",
+      "state": "estimated",
+      "source": "FAO-56 Tables 11, 12 and 22 (catalog crops-us-0.1)",
+      "effect": "Not calibrated for local hybrids or varieties."
+    }
+  ],
+  "limitations": [
+    "Historical weather replay: each strategy is run under the same past seasons. This is not a forecast and not a probability of crop success; it says nothing about yield or profit.",
+    "Weather is one NASA POWER grid cell (meteorology about 0.5\u00b0 \u00d7 0.625\u00b0, radiation 1\u00b0), mean elevation 638 m: regional, not a field measurement.",
+    "Water balance assumptions: constant rooting depth from planting, no capillary rise, curve number for average antecedent moisture, irrigation refills to field capacity when RAW is depleted (net, no application losses).",
+    "Crop parameters are FAO-56 tabulated values, not calibrated for local hybrids, and are labelled draft until an agronomist reviews them.",
+    "Kc climate adjustments limit stage-mean wind to 1\u20136 m/s and RHmin to 20\u201380%; per-season kc_climate_qa records original and used values and limiting flags.",
+    "Frozen external weather screening did not qualify nationally; station-season rainfall and ET0 failures remain. These simulations are exploratory and do not establish field irrigation accuracy.",
+    "Soil is the dominant component of the SSURGO map unit; other soils in the map unit can differ. TAW from NRCS available water capacity; the 1/3-15 bar alternative is shown as a sensitivity check.",
+    "Sample mode: saved NASA and USDA records, not a live retrieval.",
+    "Current practice is unknown, so no strategy is labelled as current practice."
+  ],
+  "provenance": {
+    "weather": {
+      "dataset_id": "cc64aefdf95cbcf948917cf8",
+      "provider": "NASA POWER",
+      "product": "POWER Daily API",
+      "version": "v2.10.3",
+      "community": "AG",
+      "sources": [
+        "MERRA2",
+        "SYN1DEG",
+        "POWER"
+      ],
+      "variables": {
+        "precipitation": {
+          "parameter": "PRECTOTCORR",
+          "original_unit": "mm/day",
+          "normalized_unit": "mm/day"
+        },
+        "t_mean": {
+          "parameter": "T2M",
+          "original_unit": "C",
+          "normalized_unit": "C"
+        },
+        "t_max": {
+          "parameter": "T2M_MAX",
+          "original_unit": "C",
+          "normalized_unit": "C"
+        },
+        "t_min": {
+          "parameter": "T2M_MIN",
+          "original_unit": "C",
+          "normalized_unit": "C"
+        },
+        "t_dew": {
+          "parameter": "T2MDEW",
+          "original_unit": "C",
+          "normalized_unit": "C"
+        },
+        "rh_mean": {
+          "parameter": "RH2M",
+          "original_unit": "%",
+          "normalized_unit": "%"
+        },
+        "wind_2m": {
+          "parameter": "WS2M",
+          "original_unit": "m/s",
+          "normalized_unit": "m/s"
+        },
+        "shortwave_down": {
+          "parameter": "ALLSKY_SFC_SW_DWN",
+          "original_unit": "MJ/m^2/day",
+          "normalized_unit": "MJ/m^2/day"
+        },
+        "surface_pressure": {
+          "parameter": "PS",
+          "original_unit": "kPa",
+          "normalized_unit": "kPa"
+        }
+      },
+      "transformations": "none: POWER units equal FAO-56 units; fill value -> missing",
+      "time_standard": "LST",
+      "interval": "daily",
+      "requested_point": {
+        "lat": 38.85,
+        "lon": -99.33
+      },
+      "returned_support": {
+        "type": "grid cell of each source product",
+        "cell_elevation_m": 637.87,
+        "response_point": {
+          "lat": 38.85,
+          "lon": -99.33
+        },
+        "coordinate_contract": "request at 4 decimals; returned point at 3 decimals"
+      },
+      "crs": "EPSG:4326",
+      "period": [
+        "2001-01-01",
+        "2025-12-31"
+      ],
+      "missing_values": {
+        "precipitation": 0,
+        "t_mean": 0,
+        "t_max": 0,
+        "t_min": 0,
+        "t_dew": 0,
+        "rh_mean": 0,
+        "wind_2m": 0,
+        "shortwave_down": 0,
+        "surface_pressure": 0
+      },
+      "retrieved_utc": "2026-11-14T17:48:04+00:00",
+      "content_sha256": "cc64aefdf95cbcf948917cf8a1699a3662c60d7475f156a07585093f4f62a871",
+      "adapter_version": "power-daily-2.1.0",
+      "reference": "The data was obtained from National Aeronautics and Space Administration (NASA) Langley Research Center's Prediction Of Worldwide Energy Resources (POWER) project funded through the NASA Earth Science Division."
+    },
+    "soil": {
+      "dataset_id": "318c85cc55124e7218dfc53a",
+      "provider": "USDA NRCS",
+      "product": "SSURGO (Soil Data Access)",
+      "version": "SDA current release at retrieval",
+      "requested_point": {
+        "lat": 38.85,
+        "lon": -99.33
+      },
+      "returned_support": {
+        "type": "soil map unit",
+        "mukey": "1150131"
+      },
+      "selection": "dominant major component by comppct_r",
+      "retrieved_utc": "2026-11-14T17:48:05+00:00",
+      "content_sha256": "318c85cc55124e7218dfc53a1f40ce532bf29543cc2fe729c03b0ed2abf7b323",
+      "adapter_version": "ssurgo-sda-1.0.0",
+      "reference": "Soil Survey Staff, NRCS, USDA. Soil Survey Geographic (SSURGO) Database, via Soil Data Access.",
+      "restrictions": {
+        "content_sha256": "078c91f2ecd4d006e3c051e47642da2047bdf394d12e743b00d5e22936049cf7",
+        "retrieved_utc": "2026-11-14T18:41:23+00:00",
+        "layers": []
+      }
+    }
+  },
+  "versions": {
+    "engine": "2.2.0",
+    "crop_catalog": "crops-us-0.1",
+    "boundary": "census-cb-2023-us-state-20m"
+  },
+  "validation": {
+    "numerical_method": "FAO-56 worked-example verification; see equation register",
+    "environmental_accuracy": "limited development station comparison, not nationwide certification",
+    "engineering_weather_screening": "not_qualified",
+    "protocol_id": "external-weather-holdout-v1",
+    "report_url": "/api/v2/validation/holdout",
+    "field_irrigation_accuracy": "not established",
+    "agronomic_review": "draft-unreviewed",
+    "forecast": false,
+    "regional_warning": null
+  },
+  "equations": [
+    "FAO56-Eq6",
+    "FAO56-Eq8",
+    "FAO56-Eq9",
+    "FAO56-Eq11",
+    "FAO56-Eq12",
+    "FAO56-Eq13",
+    "FAO56-Eq14",
+    "FAO56-Eq21",
+    "FAO56-Eq23",
+    "FAO56-Eq24",
+    "FAO56-Eq25",
+    "FAO56-Eq37",
+    "FAO56-Eq38",
+    "FAO56-Eq39",
+    "FAO56-Eq40",
+    "FAO56-Eq42",
+    "FAO56-Eq58",
+    "FAO56-Eq62",
+    "FAO56-Eq63",
+    "FAO56-Eq65",
+    "FAO56-Eq66",
+    "FAO56-Eq80",
+    "FAO56-Eq82",
+    "FAO56-Eq83",
+    "FAO56-Eq84",
+    "FAO56-Eq85",
+    "FAO56-Eq88",
+    "FAO56-T22-p",
+    "SCS-CN",
+    "BALANCE"
+  ],
+  "generated": "2026-11-14"
+}

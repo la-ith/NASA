@@ -1,0 +1,1417 @@
+[
+  {
+    "site": {
+      "id": "az06",
+      "network": "azmet",
+      "lat": 33.07,
+      "lon": -111.97,
+      "elevation": 362,
+      "height": 3,
+      "reference": "published Penman-Monteith grass ETo"
+    },
+    "group": "development",
+    "years": {
+      "2020": {
+        "eto": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.31642918951013593,
+          "mae": 0.7441960020641338,
+          "rmse": 0.9148859198911335
+        },
+        "tmax": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.501111111111111,
+          "mae": 0.8017647058823528,
+          "rmse": 1.0573480823835932
+        },
+        "tmin": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 1.701111111111111,
+          "mae": 2.130261437908497,
+          "rmse": 2.6790956673421054
+        },
+        "ea": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": -0.14542837521832888,
+          "mae": 0.17717234323103118,
+          "rmse": 0.2100280756615057
+        },
+        "rs": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.8332026143790849,
+          "mae": 1.3116339869281042,
+          "rmse": 1.6985168462880145
+        },
+        "u2": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.06669712043428946,
+          "mae": 0.38965552438477535,
+          "rmse": 0.49985067699595054
+        },
+        "rain": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.11875816993464051,
+          "mae": 0.13261437908496732,
+          "rmse": 0.510058948278485
+        },
+        "method_crosscheck": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": -0.002016427727738952,
+          "mae": 0.04627860011331757,
+          "rmse": 0.05523053167316735
+        },
+        "eto_season_total": {
+          "unit": "mm",
+          "n_paired_days": 153,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 1284.2136659950509,
+          "reference_sum": 1235.8,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "rain_season_total": {
+          "unit": "mm",
+          "n_paired_days": 153,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 21.77,
+          "reference_sum": 3.6,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "units": {
+          "eto": "mm/day",
+          "method_crosscheck": "mm/day",
+          "tmax": "C",
+          "tmin": "C",
+          "ea": "kPa",
+          "rs": "MJ/m2/day",
+          "u2": "m/s",
+          "rain": "mm/day"
+        }
+      },
+      "2021": {
+        "eto": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.018309772877226495,
+          "mae": 0.5507047629377227,
+          "rmse": 0.687582271276643
+        },
+        "tmax": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.2704575163398688,
+          "mae": 0.902222222222222,
+          "rmse": 1.2141513079895805
+        },
+        "tmin": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 1.2954901960784313,
+          "mae": 1.749346405228758,
+          "rmse": 2.2202203564899925
+        },
+        "ea": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": -0.1702980745199901,
+          "mae": 0.18994660502609612,
+          "rmse": 0.24365767384317236
+        },
+        "rs": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.9083660130718954,
+          "mae": 1.3718954248366013,
+          "rmse": 1.8102818182365719
+        },
+        "u2": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": -0.22585366405696056,
+          "mae": 0.4403726397124977,
+          "rmse": 0.5546404188937621
+        },
+        "rain": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": -0.0020915032679738456,
+          "mae": 1.5098039215686274,
+          "rmse": 4.169254725645851
+        },
+        "method_crosscheck": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.004905301622341151,
+          "mae": 0.026847357755716696,
+          "rmse": 0.03211585264303958
+        },
+        "eto_season_total": {
+          "unit": "mm",
+          "n_paired_days": 153,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 1117.1013952502155,
+          "reference_sum": 1114.3,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "rain_season_total": {
+          "unit": "mm",
+          "n_paired_days": 153,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 214.78,
+          "reference_sum": 215.1,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "units": {
+          "eto": "mm/day",
+          "method_crosscheck": "mm/day",
+          "tmax": "C",
+          "tmin": "C",
+          "ea": "kPa",
+          "rs": "MJ/m2/day",
+          "u2": "m/s",
+          "rain": "mm/day"
+        }
+      },
+      "2022": {
+        "eto": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.09635881162996934,
+          "mae": 0.6721298546618323,
+          "rmse": 0.853538616726492
+        },
+        "tmax": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.4068627450980391,
+          "mae": 0.9328758169934642,
+          "rmse": 1.3683602610137322
+        },
+        "tmin": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.8191503267973856,
+          "mae": 1.5148366013071897,
+          "rmse": 2.034991769828068
+        },
+        "ea": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": -0.15978613943729963,
+          "mae": 0.1833419862871077,
+          "rmse": 0.24277452390416113
+        },
+        "rs": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.6362745098039216,
+          "mae": 1.3582352941176472,
+          "rmse": 1.8077077168454208
+        },
+        "u2": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": -0.12214167995458915,
+          "mae": 0.4399835400944087,
+          "rmse": 0.5605954713491562
+        },
+        "rain": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.34111111111111114,
+          "mae": 1.231437908496732,
+          "rmse": 2.940900555685515
+        },
+        "method_crosscheck": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.0004550727545839245,
+          "mae": 0.02449430310823641,
+          "rmse": 0.028318629163368417
+        },
+        "eto_season_total": {
+          "unit": "mm",
+          "n_paired_days": 153,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 1169.4428981793853,
+          "reference_sum": 1154.7,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "rain_season_total": {
+          "unit": "mm",
+          "n_paired_days": 153,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 157.79,
+          "reference_sum": 105.6,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "units": {
+          "eto": "mm/day",
+          "method_crosscheck": "mm/day",
+          "tmax": "C",
+          "tmin": "C",
+          "ea": "kPa",
+          "rs": "MJ/m2/day",
+          "u2": "m/s",
+          "rain": "mm/day"
+        }
+      }
+    },
+    "artifacts": [
+      {
+        "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CT2MDEW%2CRH2M%2CWS2M%2CALLSKY_SFC_SW_DWN%2CPS&community=AG&latitude=33.0700&longitude=-111.9700&start=20200501&end=20220930&format=JSON",
+        "retrieved_utc": "2026-11-14T18:52:46.696578+00:00",
+        "sha256": "0bff3e617339bddf3905e2cc1d5b2a4af033cbc01929e62d8a607b49f578ffea",
+        "file": "power_az06_39bf7e63c65c_0bff3e617339.raw",
+        "status": 200,
+        "content_type": "application/json"
+      },
+      {
+        "url": "https://api.azmet.arizona.edu/v1/observations/daily/az06/2020-05-01T00:00/P153DT0H",
+        "retrieved_utc": "2026-11-14T18:52:48.939725+00:00",
+        "sha256": "6876a49afea0c9401651cfaf618bca7184e57540bf694db5d87e3d8c0451d753",
+        "file": "az06_2020_adf889c07a50_6876a49afea0.raw",
+        "status": 200,
+        "content_type": "application/json"
+      },
+      {
+        "url": "https://api.azmet.arizona.edu/v1/observations/daily/az06/2021-05-01T00:00/P153DT0H",
+        "retrieved_utc": "2026-11-14T18:52:49.744045+00:00",
+        "sha256": "1225c15b109ed61fe932e5d75d8e041bc2bc71ec645930e9d0aa5eed63a2c78e",
+        "file": "az06_2021_39217a7ae14a_1225c15b109e.raw",
+        "status": 200,
+        "content_type": "application/json"
+      },
+      {
+        "url": "https://api.azmet.arizona.edu/v1/observations/daily/az06/2022-05-01T00:00/P153DT0H",
+        "retrieved_utc": "2026-11-14T18:52:50.737973+00:00",
+        "sha256": "4cb5020d8a35fabc5295c7c5188f281976ff898af1258d8cadb28d6d78bd728b",
+        "file": "az06_2022_69b7514cacd8_4cb5020d8a35.raw",
+        "status": 200,
+        "content_type": "application/json"
+      }
+    ],
+    "weather_manifest": {
+      "dataset_id": "85c1a7e60928899c915ca859",
+      "provider": "NASA POWER",
+      "product": "POWER Daily API",
+      "version": "v2.10.3",
+      "community": "AG",
+      "sources": [
+        "MERRA2",
+        "SYN1DEG",
+        "POWER"
+      ],
+      "variables": {
+        "precipitation": {
+          "parameter": "PRECTOTCORR",
+          "original_unit": "mm/day",
+          "normalized_unit": "mm/day"
+        },
+        "t_mean": {
+          "parameter": "T2M",
+          "original_unit": "C",
+          "normalized_unit": "C"
+        },
+        "t_max": {
+          "parameter": "T2M_MAX",
+          "original_unit": "C",
+          "normalized_unit": "C"
+        },
+        "t_min": {
+          "parameter": "T2M_MIN",
+          "original_unit": "C",
+          "normalized_unit": "C"
+        },
+        "t_dew": {
+          "parameter": "T2MDEW",
+          "original_unit": "C",
+          "normalized_unit": "C"
+        },
+        "rh_mean": {
+          "parameter": "RH2M",
+          "original_unit": "%",
+          "normalized_unit": "%"
+        },
+        "wind_2m": {
+          "parameter": "WS2M",
+          "original_unit": "m/s",
+          "normalized_unit": "m/s"
+        },
+        "shortwave_down": {
+          "parameter": "ALLSKY_SFC_SW_DWN",
+          "original_unit": "MJ/m^2/day",
+          "normalized_unit": "MJ/m^2/day"
+        },
+        "surface_pressure": {
+          "parameter": "PS",
+          "original_unit": "kPa",
+          "normalized_unit": "kPa"
+        }
+      },
+      "transformations": "none: POWER units equal FAO-56 units; fill value -> missing",
+      "time_standard": "LST",
+      "interval": "daily",
+      "requested_point": {
+        "lat": 33.07,
+        "lon": -111.97
+      },
+      "returned_support": {
+        "type": "grid cell of each source product",
+        "cell_elevation_m": 433.97,
+        "response_point": {
+          "lat": 33.07,
+          "lon": -111.97
+        },
+        "coordinate_contract": "request at 4 decimals; returned point at 3 decimals"
+      },
+      "crs": "EPSG:4326",
+      "period": [
+        "2020-05-01",
+        "2022-09-30"
+      ],
+      "missing_values": {
+        "precipitation": 0,
+        "t_mean": 0,
+        "t_max": 0,
+        "t_min": 0,
+        "t_dew": 0,
+        "rh_mean": 0,
+        "wind_2m": 0,
+        "shortwave_down": 0,
+        "surface_pressure": 0
+      },
+      "retrieved_utc": "2026-11-14T18:52:46.696578+00:00",
+      "content_sha256": "85c1a7e60928899c915ca8594c570bc869e73506fa894665fa15417ebd6c8d43",
+      "adapter_version": "power-daily-2.1.0",
+      "reference": "The data was obtained from National Aeronautics and Space Administration (NASA) Langley Research Center's Prediction Of Worldwide Energy Resources (POWER) project funded through the NASA Earth Science Division."
+    },
+    "season_metrics": {
+      "eto": {
+        "unit": "mm per May\u2013September season",
+        "n": 3,
+        "expected": 3,
+        "missing_or_excluded": 0,
+        "suspect_reference_days": 0,
+        "bias": 21.98598647488393,
+        "mae": 21.98598647488393,
+        "rmse": 29.263651612856982
+      },
+      "rain": {
+        "unit": "mm per May\u2013September season",
+        "n": 3,
+        "expected": 3,
+        "missing_or_excluded": 0,
+        "suspect_reference_days": 0,
+        "bias": 23.346666666666668,
+        "mae": 23.56,
+        "rmse": 31.906359867587526
+      }
+    }
+  },
+  {
+    "site": {
+      "id": "ftc01",
+      "network": "coagmet",
+      "lat": 40.5947,
+      "lon": -105.137,
+      "elevation": 1560.576,
+      "height": 2.01168,
+      "reference": "published ASCE short-reference ETo; current metadata warns non-reference surroundings",
+      "metadata_url": "https://coagmet.colostate.edu/station_details.php?station=FTC01",
+      "wind_height_status": "6.6 ft working assumption from network guidance; station-era confirmation needed"
+    },
+    "group": "development",
+    "years": {
+      "2020": {
+        "eto": {
+          "n": 61,
+          "expected": 153,
+          "missing_or_excluded": 92,
+          "suspect_reference_days": 92,
+          "bias": 1.6133561449056097,
+          "mae": 1.6133561449056097,
+          "rmse": 1.817787159674112
+        },
+        "tmax": {
+          "n": 152,
+          "expected": 153,
+          "missing_or_excluded": 1,
+          "suspect_reference_days": 0,
+          "bias": 0.696315789473684,
+          "mae": 1.3143421052631579,
+          "rmse": 1.9729406318594855
+        },
+        "tmin": {
+          "n": 152,
+          "expected": 153,
+          "missing_or_excluded": 1,
+          "suspect_reference_days": 0,
+          "bias": 2.6676315789473684,
+          "mae": 3.180789473684211,
+          "rmse": 3.7150513561655334
+        },
+        "ea": {
+          "n": 61,
+          "expected": 153,
+          "missing_or_excluded": 92,
+          "suspect_reference_days": 92,
+          "bias": -0.2561853983659047,
+          "mae": 0.27433014438424524,
+          "rmse": 0.30293320696199744
+        },
+        "rs": {
+          "n": 152,
+          "expected": 153,
+          "missing_or_excluded": 1,
+          "suspect_reference_days": 0,
+          "bias": 1.8443159999999987,
+          "mae": 2.6506311578947366,
+          "rmse": 3.58594448236051
+        },
+        "u2": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 1.0746091663003214,
+          "mae": 1.0783133246387413,
+          "rmse": 1.2308056367508413
+        },
+        "rain": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.2013725490196078,
+          "mae": 0.7506535947712419,
+          "rmse": 1.9447910988845702
+        },
+        "method_crosscheck": {
+          "n": 61,
+          "expected": 153,
+          "missing_or_excluded": 92,
+          "suspect_reference_days": 92,
+          "bias": 0.008047217533934056,
+          "mae": 0.011763282564903771,
+          "rmse": 0.048934206035958855
+        },
+        "eto_season_total": {
+          "unit": "mm",
+          "n_paired_days": 61,
+          "expected_days": 153,
+          "available": false,
+          "model_sum": null,
+          "reference_sum": null,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "rain_season_total": {
+          "unit": "mm",
+          "n_paired_days": 153,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 158.56,
+          "reference_sum": 127.75,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "units": {
+          "eto": "mm/day",
+          "method_crosscheck": "mm/day",
+          "tmax": "C",
+          "tmin": "C",
+          "ea": "kPa",
+          "rs": "MJ/m2/day",
+          "u2": "m/s",
+          "rain": "mm/day"
+        }
+      },
+      "2021": {
+        "eto": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 1.2444564438873356,
+          "mae": 1.261458129129615,
+          "rmse": 1.4285665026934227
+        },
+        "tmax": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.5678431372549018,
+          "mae": 1.194640522875817,
+          "rmse": 1.609929970465772
+        },
+        "tmin": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 2.659411764705882,
+          "mae": 3.0894771241830066,
+          "rmse": 3.7075953660954983
+        },
+        "ea": {
+          "n": 149,
+          "expected": 153,
+          "missing_or_excluded": 4,
+          "suspect_reference_days": 0,
+          "bias": -0.22915326599697478,
+          "mae": 0.23016890204882992,
+          "rmse": 0.2678482921743228
+        },
+        "rs": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 1.0082705359477113,
+          "mae": 2.0241025882352934,
+          "rmse": 2.486609462288897
+        },
+        "u2": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 1.0539328593186887,
+          "mae": 1.0871725195774602,
+          "rmse": 1.2091649516940999
+        },
+        "rain": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.3142483660130719,
+          "mae": 1.2941176470588236,
+          "rmse": 3.106540643745359
+        },
+        "method_crosscheck": {
+          "n": 149,
+          "expected": 153,
+          "missing_or_excluded": 4,
+          "suspect_reference_days": 0,
+          "bias": 0.007041146449972008,
+          "mae": 0.010688808716138006,
+          "rmse": 0.048847193477902714
+        },
+        "eto_season_total": {
+          "unit": "mm",
+          "n_paired_days": 153,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 849.0618359147624,
+          "reference_sum": 658.66,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "rain_season_total": {
+          "unit": "mm",
+          "n_paired_days": 153,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 213.64,
+          "reference_sum": 165.56,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "units": {
+          "eto": "mm/day",
+          "method_crosscheck": "mm/day",
+          "tmax": "C",
+          "tmin": "C",
+          "ea": "kPa",
+          "rs": "MJ/m2/day",
+          "u2": "m/s",
+          "rain": "mm/day"
+        }
+      },
+      "2022": {
+        "eto": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 1.1321191827761459,
+          "mae": 1.1389716027265318,
+          "rmse": 1.3252002556635998
+        },
+        "tmax": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.6648366013071896,
+          "mae": 1.2793464052287584,
+          "rmse": 1.7964569341734495
+        },
+        "tmin": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 2.4958823529411767,
+          "mae": 2.9059477124183006,
+          "rmse": 3.4764617464470686
+        },
+        "ea": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": -0.07766988401826254,
+          "mae": 0.12980923042875975,
+          "rmse": 0.156825884390504
+        },
+        "rs": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.9037810196078422,
+          "mae": 1.9835352679738556,
+          "rmse": 2.580205287315411
+        },
+        "u2": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.9723978824149424,
+          "mae": 0.982462619381506,
+          "rmse": 1.1298654024261365
+        },
+        "rain": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.2700653594771241,
+          "mae": 1.0005228758169935,
+          "rmse": 1.8678970035005342
+        },
+        "method_crosscheck": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.006799276261770467,
+          "mae": 0.010968477834652043,
+          "rmse": 0.04570980598180062
+        },
+        "eto_season_total": {
+          "unit": "mm",
+          "n_paired_days": 153,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 874.5842349647503,
+          "reference_sum": 701.37,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "rain_season_total": {
+          "unit": "mm",
+          "n_paired_days": 153,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 222.41,
+          "reference_sum": 181.09,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "units": {
+          "eto": "mm/day",
+          "method_crosscheck": "mm/day",
+          "tmax": "C",
+          "tmin": "C",
+          "ea": "kPa",
+          "rs": "MJ/m2/day",
+          "u2": "m/s",
+          "rain": "mm/day"
+        }
+      }
+    },
+    "artifacts": [
+      {
+        "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CT2MDEW%2CRH2M%2CWS2M%2CALLSKY_SFC_SW_DWN%2CPS&community=AG&latitude=40.5947&longitude=-105.1370&start=20200501&end=20220930&format=JSON",
+        "retrieved_utc": "2026-11-14T18:52:46.872316+00:00",
+        "sha256": "8a3f328c6a2ca9d1983f187374b3548834fe460d0f5c70048fdc89240045d13c",
+        "file": "power_ftc01_da3f3075d922_8a3f328c6a2c.raw",
+        "status": 200,
+        "content_type": "application/json"
+      },
+      {
+        "url": "https://coagmet.colostate.edu/data/daily/ftc01.csv?from=2020-05-01&to=2020-09-30&header=yes&units=m",
+        "retrieved_utc": "2026-11-14T18:53:07.584536+00:00",
+        "sha256": "554077e9368e571daf29cfa42a57ddc5960265f6c400fa5a584ae04efcf344c4",
+        "file": "ftc01_2020_7de40e4d61c5_554077e9368e.raw",
+        "status": 200,
+        "content_type": "text/plain; charset=utf-8"
+      },
+      {
+        "url": "https://coagmet.colostate.edu/data/daily/ftc01.csv?from=2021-05-01&to=2021-09-30&header=yes&units=m",
+        "retrieved_utc": "2026-11-14T18:53:07.868043+00:00",
+        "sha256": "36e70effacc52395e784c9bfaf89f83896b6cae8574aa5e0bd041ce7b72d4df9",
+        "file": "ftc01_2021_38bc262deb59_36e70effacc5.raw",
+        "status": 200,
+        "content_type": "text/plain; charset=utf-8"
+      },
+      {
+        "url": "https://coagmet.colostate.edu/data/daily/ftc01.csv?from=2022-05-01&to=2022-09-30&header=yes&units=m",
+        "retrieved_utc": "2026-11-14T18:53:08.294126+00:00",
+        "sha256": "bd4d0b0ad2f57b7ee859cdc5b3c67caa5a7cfe10280d8df25721444865968a2e",
+        "file": "ftc01_2022_70b6306d5940_bd4d0b0ad2f5.raw",
+        "status": 200,
+        "content_type": "text/plain; charset=utf-8"
+      }
+    ],
+    "weather_manifest": {
+      "dataset_id": "bee9cd6dd83ade3aa2374bd4",
+      "provider": "NASA POWER",
+      "product": "POWER Daily API",
+      "version": "v2.10.3",
+      "community": "AG",
+      "sources": [
+        "MERRA2",
+        "SYN1DEG",
+        "POWER"
+      ],
+      "variables": {
+        "precipitation": {
+          "parameter": "PRECTOTCORR",
+          "original_unit": "mm/day",
+          "normalized_unit": "mm/day"
+        },
+        "t_mean": {
+          "parameter": "T2M",
+          "original_unit": "C",
+          "normalized_unit": "C"
+        },
+        "t_max": {
+          "parameter": "T2M_MAX",
+          "original_unit": "C",
+          "normalized_unit": "C"
+        },
+        "t_min": {
+          "parameter": "T2M_MIN",
+          "original_unit": "C",
+          "normalized_unit": "C"
+        },
+        "t_dew": {
+          "parameter": "T2MDEW",
+          "original_unit": "C",
+          "normalized_unit": "C"
+        },
+        "rh_mean": {
+          "parameter": "RH2M",
+          "original_unit": "%",
+          "normalized_unit": "%"
+        },
+        "wind_2m": {
+          "parameter": "WS2M",
+          "original_unit": "m/s",
+          "normalized_unit": "m/s"
+        },
+        "shortwave_down": {
+          "parameter": "ALLSKY_SFC_SW_DWN",
+          "original_unit": "MJ/m^2/day",
+          "normalized_unit": "MJ/m^2/day"
+        },
+        "surface_pressure": {
+          "parameter": "PS",
+          "original_unit": "kPa",
+          "normalized_unit": "kPa"
+        }
+      },
+      "transformations": "none: POWER units equal FAO-56 units; fill value -> missing",
+      "time_standard": "LST",
+      "interval": "daily",
+      "requested_point": {
+        "lat": 40.5947,
+        "lon": -105.137
+      },
+      "returned_support": {
+        "type": "grid cell of each source product",
+        "cell_elevation_m": 1772.9,
+        "response_point": {
+          "lat": 40.595,
+          "lon": -105.137
+        },
+        "coordinate_contract": "request at 4 decimals; returned point at 3 decimals"
+      },
+      "crs": "EPSG:4326",
+      "period": [
+        "2020-05-01",
+        "2022-09-30"
+      ],
+      "missing_values": {
+        "precipitation": 0,
+        "t_mean": 0,
+        "t_max": 0,
+        "t_min": 0,
+        "t_dew": 0,
+        "rh_mean": 0,
+        "wind_2m": 0,
+        "shortwave_down": 0,
+        "surface_pressure": 0
+      },
+      "retrieved_utc": "2026-11-14T18:52:46.872316+00:00",
+      "content_sha256": "bee9cd6dd83ade3aa2374bd4bf4150277306436ddffbeeec23e7ee411c3c0332",
+      "adapter_version": "power-daily-2.1.0",
+      "reference": "The data was obtained from National Aeronautics and Space Administration (NASA) Langley Research Center's Prediction Of Worldwide Energy Resources (POWER) project funded through the NASA Earth Science Division."
+    },
+    "season_metrics": {
+      "eto": {
+        "unit": "mm per May\u2013September season",
+        "n": 2,
+        "expected": 3,
+        "missing_or_excluded": 1,
+        "suspect_reference_days": 0,
+        "bias": 181.80803543975634,
+        "mae": 181.80803543975634,
+        "rmse": 182.011030317033
+      },
+      "rain": {
+        "unit": "mm per May\u2013September season",
+        "n": 3,
+        "expected": 3,
+        "missing_or_excluded": 0,
+        "suspect_reference_days": 0,
+        "bias": 40.06999999999999,
+        "mae": 40.06999999999999,
+        "rmse": 40.695146721281965
+      }
+    }
+  },
+  {
+    "site": {
+      "id": "hays",
+      "network": "kansas",
+      "lat": 38.84945,
+      "lon": -99.34461,
+      "elevation": 618.7,
+      "height": 2,
+      "reference": "station-forced FAO56, independent inputs but same calculation method"
+    },
+    "group": "development",
+    "years": {
+      "2020": {
+        "eto": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.2958334738159985,
+          "mae": 0.5476499683232621,
+          "rmse": 0.730826561832394
+        },
+        "tmax": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.5278431372549023,
+          "mae": 1.1524183006535949,
+          "rmse": 1.566398808974959
+        },
+        "tmin": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 1.8257516339869284,
+          "mae": 2.1307189542483664,
+          "rmse": 2.6154570702411677
+        },
+        "ea": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.12293882140019073,
+          "mae": 0.18205973853348048,
+          "rmse": 0.23239979280854833
+        },
+        "rs": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 1.4826797385620916,
+          "mae": 1.7845098039215685,
+          "rmse": 2.176686184340324
+        },
+        "u2": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": -0.02627450980392153,
+          "mae": 0.4920261437908497,
+          "rmse": 0.6241658485818875
+        },
+        "rain": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.2013725490196078,
+          "mae": 2.0390196078431373,
+          "rmse": 4.723597070141118
+        },
+        "method_crosscheck": {
+          "n": 0,
+          "expected": 153,
+          "missing_or_excluded": 153,
+          "suspect_reference_days": 0,
+          "bias": null,
+          "mae": null,
+          "rmse": null
+        },
+        "eto_season_total": {
+          "unit": "mm",
+          "n_paired_days": 153,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 953.5137547553986,
+          "reference_sum": 908.2512332615509,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "rain_season_total": {
+          "unit": "mm",
+          "n_paired_days": 153,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 436.65999999999997,
+          "reference_sum": 405.85,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "units": {
+          "eto": "mm/day",
+          "method_crosscheck": "mm/day",
+          "tmax": "C",
+          "tmin": "C",
+          "ea": "kPa",
+          "rs": "MJ/m2/day",
+          "u2": "m/s",
+          "rain": "mm/day"
+        }
+      },
+      "2021": {
+        "eto": {
+          "n": 149,
+          "expected": 153,
+          "missing_or_excluded": 4,
+          "suspect_reference_days": 0,
+          "bias": -0.13679131246805248,
+          "mae": 0.6966657074560679,
+          "rmse": 0.9617031290995576
+        },
+        "tmax": {
+          "n": 151,
+          "expected": 153,
+          "missing_or_excluded": 2,
+          "suspect_reference_days": 0,
+          "bias": -1.0408609271523177,
+          "mae": 2.2317218543046358,
+          "rmse": 3.3960071022320606
+        },
+        "tmin": {
+          "n": 150,
+          "expected": 153,
+          "missing_or_excluded": 3,
+          "suspect_reference_days": 0,
+          "bias": 1.8929333333333334,
+          "mae": 2.1806666666666663,
+          "rmse": 2.682258252542684
+        },
+        "ea": {
+          "n": 149,
+          "expected": 153,
+          "missing_or_excluded": 4,
+          "suspect_reference_days": 0,
+          "bias": 0.11108661706630737,
+          "mae": 0.15784308067521247,
+          "rmse": 0.20069906644714375
+        },
+        "rs": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 1.7511111111111113,
+          "mae": 2.067843137254902,
+          "rmse": 2.827633944747834
+        },
+        "u2": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": -0.19000000000000003,
+          "mae": 0.51,
+          "rmse": 0.6827783494735344
+        },
+        "rain": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": -0.034705882352941225,
+          "mae": 2.3175816993464053,
+          "rmse": 6.335634205374686
+        },
+        "method_crosscheck": {
+          "n": 0,
+          "expected": 153,
+          "missing_or_excluded": 153,
+          "suspect_reference_days": 0,
+          "bias": null,
+          "mae": null,
+          "rmse": null
+        },
+        "eto_season_total": {
+          "unit": "mm",
+          "n_paired_days": 149,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 898.2844711697222,
+          "reference_sum": 918.6663767274621,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "rain_season_total": {
+          "unit": "mm",
+          "n_paired_days": 153,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 416.8,
+          "reference_sum": 422.11,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "units": {
+          "eto": "mm/day",
+          "method_crosscheck": "mm/day",
+          "tmax": "C",
+          "tmin": "C",
+          "ea": "kPa",
+          "rs": "MJ/m2/day",
+          "u2": "m/s",
+          "rain": "mm/day"
+        }
+      },
+      "2022": {
+        "eto": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.1504102741613718,
+          "mae": 0.6541131639086893,
+          "rmse": 0.7941244461943205
+        },
+        "tmax": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.6633986928104573,
+          "mae": 1.351111111111111,
+          "rmse": 1.7365464186287354
+        },
+        "tmin": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 2.467320261437908,
+          "mae": 2.58797385620915,
+          "rmse": 3.1015311420065736
+        },
+        "ea": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.13895684281200713,
+          "mae": 0.16248319336141875,
+          "rmse": 0.2164890982558612
+        },
+        "rs": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 1.837058823529412,
+          "mae": 2.070261437908497,
+          "rmse": 2.492703994182699
+        },
+        "u2": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": -0.23202614379084968,
+          "mae": 0.4316339869281046,
+          "rmse": 0.5668431097853366
+        },
+        "rain": {
+          "n": 153,
+          "expected": 153,
+          "missing_or_excluded": 0,
+          "suspect_reference_days": 0,
+          "bias": 0.5807189542483661,
+          "mae": 1.8779738562091501,
+          "rmse": 4.499047902183727
+        },
+        "method_crosscheck": {
+          "n": 0,
+          "expected": 153,
+          "missing_or_excluded": 153,
+          "suspect_reference_days": 0,
+          "bias": null,
+          "mae": null,
+          "rmse": null
+        },
+        "eto_season_total": {
+          "unit": "mm",
+          "n_paired_days": 153,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 1049.0439221717977,
+          "reference_sum": 1026.0311502251077,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "rain_season_total": {
+          "unit": "mm",
+          "n_paired_days": 153,
+          "expected_days": 153,
+          "available": true,
+          "model_sum": 345.11,
+          "reference_sum": 256.26,
+          "note": "Sums of paired valid days only; not filled or extrapolated."
+        },
+        "units": {
+          "eto": "mm/day",
+          "method_crosscheck": "mm/day",
+          "tmax": "C",
+          "tmin": "C",
+          "ea": "kPa",
+          "rs": "MJ/m2/day",
+          "u2": "m/s",
+          "rain": "mm/day"
+        }
+      }
+    },
+    "artifacts": [
+      {
+        "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CT2MDEW%2CRH2M%2CWS2M%2CALLSKY_SFC_SW_DWN%2CPS&community=AG&latitude=38.8494&longitude=-99.3446&start=20200501&end=20220930&format=JSON",
+        "retrieved_utc": "2026-11-14T18:52:46.814922+00:00",
+        "sha256": "cdf1e7c1b82780fafe808d3f831f63241a26438fe419f69b06d870e76f2e578d",
+        "file": "power_hays_a38ae7d5fabe_cdf1e7c1b827.raw",
+        "status": 200,
+        "content_type": "application/json"
+      },
+      {
+        "url": "https://mesonet.k-state.edu/rest/stationdata/?stn=Hays&int=day&t_start=20200502000000&t_end=20201001000000&vars=TEMP2MMAX%2CTEMP2MMIN%2CRELHUM2MMAX%2CRELHUM2MMIN%2CPRECIP%2CSR%2CSRAVG%2CWSPD2MAVG%2CPRESSUREAVG",
+        "retrieved_utc": "2026-11-14T19:32:31.870500+00:00",
+        "sha256": "97159a9dc04cb01d2f701f3a6abab5519507272f5a16e4dc9c46d6ee92b805f4",
+        "file": "hays_2020_63b161d6650b_97159a9dc04c.raw",
+        "status": 200,
+        "content_type": "text/plain"
+      },
+      {
+        "url": "https://mesonet.k-state.edu/rest/stationdata/?stn=Hays&int=day&t_start=20210502000000&t_end=20211001000000&vars=TEMP2MMAX%2CTEMP2MMIN%2CRELHUM2MMAX%2CRELHUM2MMIN%2CPRECIP%2CSR%2CSRAVG%2CWSPD2MAVG%2CPRESSUREAVG",
+        "retrieved_utc": "2026-11-14T19:32:32.413149+00:00",
+        "sha256": "4b6864627b404d0fd5d061275b7a590f667f71b6a081df3bfcbaf6d106ebcb77",
+        "file": "hays_2021_f95f469a3c7c_4b6864627b40.raw",
+        "status": 200,
+        "content_type": "text/plain"
+      },
+      {
+        "url": "https://mesonet.k-state.edu/rest/stationdata/?stn=Hays&int=day&t_start=20220502000000&t_end=20221001000000&vars=TEMP2MMAX%2CTEMP2MMIN%2CRELHUM2MMAX%2CRELHUM2MMIN%2CPRECIP%2CSR%2CSRAVG%2CWSPD2MAVG%2CPRESSUREAVG",
+        "retrieved_utc": "2026-11-14T19:32:33.037244+00:00",
+        "sha256": "e1bfa7e9ee71fb8a342e8e812bf97c429a6538cf68be7ed6fbd40de038030bcd",
+        "file": "hays_2022_f70b9f14857f_e1bfa7e9ee71.raw",
+        "status": 200,
+        "content_type": "text/plain"
+      }
+    ],
+    "weather_manifest": {
+      "dataset_id": "e07b4be9a387768d9c028ff1",
+      "provider": "NASA POWER",
+      "product": "POWER Daily API",
+      "version": "v2.10.3",
+      "community": "AG",
+      "sources": [
+        "MERRA2",
+        "SYN1DEG",
+        "POWER"
+      ],
+      "variables": {
+        "precipitation": {
+          "parameter": "PRECTOTCORR",
+          "original_unit": "mm/day",
+          "normalized_unit": "mm/day"
+        },
+        "t_mean": {
+          "parameter": "T2M",
+          "original_unit": "C",
+          "normalized_unit": "C"
+        },
+        "t_max": {
+          "parameter": "T2M_MAX",
+          "original_unit": "C",
+          "normalized_unit": "C"
+        },
+        "t_min": {
+          "parameter": "T2M_MIN",
+          "original_unit": "C",
+          "normalized_unit": "C"
+        },
+        "t_dew": {
+          "parameter": "T2MDEW",
+          "original_unit": "C",
+          "normalized_unit": "C"
+        },
+        "rh_mean": {
+          "parameter": "RH2M",
+          "original_unit": "%",
+          "normalized_unit": "%"
+        },
+        "wind_2m": {
+          "parameter": "WS2M",
+          "original_unit": "m/s",
+          "normalized_unit": "m/s"
+        },
+        "shortwave_down": {
+          "parameter": "ALLSKY_SFC_SW_DWN",
+          "original_unit": "MJ/m^2/day",
+          "normalized_unit": "MJ/m^2/day"
+        },
+        "surface_pressure": {
+          "parameter": "PS",
+          "original_unit": "kPa",
+          "normalized_unit": "kPa"
+        }
+      },
+      "transformations": "none: POWER units equal FAO-56 units; fill value -> missing",
+      "time_standard": "LST",
+      "interval": "daily",
+      "requested_point": {
+        "lat": 38.84945,
+        "lon": -99.34461
+      },
+      "returned_support": {
+        "type": "grid cell of each source product",
+        "cell_elevation_m": 637.87,
+        "response_point": {
+          "lat": 38.849,
+          "lon": -99.345
+        },
+        "coordinate_contract": "request at 4 decimals; returned point at 3 decimals"
+      },
+      "crs": "EPSG:4326",
+      "period": [
+        "2020-05-01",
+        "2022-09-30"
+      ],
+      "missing_values": {
+        "precipitation": 0,
+        "t_mean": 0,
+        "t_max": 0,
+        "t_min": 0,
+        "t_dew": 0,
+        "rh_mean": 0,
+        "wind_2m": 0,
+        "shortwave_down": 0,
+        "surface_pressure": 0
+      },
+      "retrieved_utc": "2026-11-14T18:52:46.814922+00:00",
+      "content_sha256": "e07b4be9a387768d9c028ff1605537bcd9c043fe8908b40b5f92d140467dba48",
+      "adapter_version": "power-daily-2.1.0",
+      "reference": "The data was obtained from National Aeronautics and Space Administration (NASA) Langley Research Center's Prediction Of Worldwide Energy Resources (POWER) project funded through the NASA Earth Science Division."
+    },
+    "season_metrics": {
+      "eto": {
+        "unit": "mm per May\u2013September season",
+        "n": 3,
+        "expected": 3,
+        "missing_or_excluded": 0,
+        "suspect_reference_days": 0,
+        "bias": 15.964462627599309,
+        "mae": 29.552399666092544,
+        "rmse": 31.589584775238926
+      },
+      "rain": {
+        "unit": "mm per May\u2013September season",
+        "n": 3,
+        "expected": 3,
+        "missing_or_excluded": 0,
+        "suspect_reference_days": 0,
+        "bias": 38.11666666666665,
+        "mae": 41.65666666666666,
+        "rmse": 54.380678860541394
+      }
+    }
+  }
+]

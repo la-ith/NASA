@@ -1,0 +1,8 @@
+{
+  "url": "https://mesonet.k-state.edu/rest/stationdata/?stn=Colby&int=day&t_start=20210502000000&t_end=20211001000000&vars=TEMP2MMAX%2CTEMP2MMIN%2CRELHUM2MMAX%2CRELHUM2MMIN%2CPRECIP%2CSR%2CSRAVG%2CWSPD2MAVG%2CPRESSUREAVG",
+  "retrieved_utc": "2026-11-14T20:00:47.391241+00:00",
+  "sha256": "dffa90777a8423b86f2f8ac13cbd6b494dc9952867aea983a6e668401f7552c4",
+  "file": "colby_2021_d5946950749c_dffa90777a84.raw",
+  "status": 200,
+  "content_type": "text/plain"
+}

@@ -1,0 +1,50 @@
+{
+  "ftc01": {
+    "units": "m",
+    "station": "ftc01",
+    "name": "Fort Collins AERC",
+    "location": "Fort Collins AERC",
+    "lat": 40.5947,
+    "lon": -105.1370,
+    "elevation": 1561,
+    "anemometerHeight": 2.0,
+    "active": "active",
+    "irrigation": "part",
+    "firstObs": "1992-02-01",
+    "lastObs": "2026-11-14",
+    "timestep": 300,
+    "network": "Coag"
+  },
+  "akr02": {
+    "units": "m",
+    "station": "akr02",
+    "name": "Akron",
+    "location": "USDA-ARS-GPRC",
+    "lat": 40.1548,
+    "lon": -103.1420,
+    "elevation": 1383,
+    "anemometerHeight": 2.2,
+    "active": "active",
+    "irrigation": "dry",
+    "firstObs": "1992-07-01",
+    "lastObs": "2026-11-14",
+    "timestep": 3600,
+    "network": "Coag"
+  },
+  "gly04": {
+    "units": "m",
+    "station": "gly04",
+    "name": "Greeley 4",
+    "location": "1.5 mi N of Greeley Airport",
+    "lat": 40.4487,
+    "lon": -104.6380,
+    "elevation": 1427,
+    "anemometerHeight": 2.0,
+    "active": "active",
+    "irrigation": "full",
+    "firstObs": "2007-11-30",
+    "lastObs": "2026-11-14",
+    "timestep": 300,
+    "network": "Coag"
+  }
+}
