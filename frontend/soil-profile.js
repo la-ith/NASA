@@ -6,6 +6,7 @@
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const fmt = (n, digits = 0) => Number(n).toLocaleString("en-US", { maximumFractionDigits: digits });
+const inch = (mm) => `${fmt(Number(mm) / 25.4, 1)} in`; // display conversion of a backend value
 const has = (n) => n !== null && n !== undefined && n !== "" && Number.isFinite(Number(n));
 const smapCache = new Map();
 
@@ -81,8 +82,8 @@ function drawFigure(result, strategy, smap) {
       <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0v8" stroke="#2b2018" stroke-width="3"/></pattern>
     </defs>
     <rect width="${W}" height="${top}" fill="url(#sky)"/>
-    ${rain !== null ? `<g stroke="#3b78a8" stroke-width="2" stroke-linecap="round"><path d="M70 18v22M86 26v22M102 14v22M118 24v22"/></g><text x="64" y="70" class="soil-svg-label dark">Rain ${fmt(rain)} mm</text><text x="64" y="84" class="soil-svg-small" style="fill:#55625a">median per season · NASA POWER</text>` : ""}
-    ${use !== null ? `<g fill="none" stroke="#b07a2a" stroke-width="2" stroke-linecap="round"><path d="M400 58c-6-8 6-12 0-20s6-12 0-20M416 58c-6-8 6-12 0-20s6-12 0-20"/></g><text x="436" y="44" class="soil-svg-label dark">Crop water use ${fmt(use)} mm</text><text x="436" y="58" class="soil-svg-small" style="fill:#55625a">median per season · FAO-56 model</text>` : ""}
+    ${rain !== null ? `<g stroke="#3b78a8" stroke-width="2" stroke-linecap="round"><path d="M70 18v22M86 26v22M102 14v22M118 24v22"/></g><text x="64" y="70" class="soil-svg-label dark">Rain ${inch(rain)} · ${fmt(rain)} mm</text><text x="64" y="84" class="soil-svg-small" style="fill:#55625a">median per season · NASA POWER</text>` : ""}
+    ${use !== null ? `<g fill="none" stroke="#b07a2a" stroke-width="2" stroke-linecap="round"><path d="M400 58c-6-8 6-12 0-20s6-12 0-20M416 58c-6-8 6-12 0-20s6-12 0-20"/></g><text x="436" y="44" class="soil-svg-label dark">Crop water use ${inch(use)}</text><text x="436" y="58" class="soil-svg-small" style="fill:#55625a">median per season · FAO-56 model</text>` : ""}
     <g fill="none" stroke="#2f6a4f" stroke-width="3" stroke-linecap="round"><path d="M250 ${top} V ${top - 46}"/><path d="M250 ${top - 18}c-14-4-22-14-24-26 13 2 22 12 24 26zM250 ${top - 30}c14-4 22-14 24-26-13 2-22 12-24 26z" fill="#4f8a5e"/></g>
     <rect x="0" y="${top}" width="${W}" height="${soilY - top}" fill="url(#subsoil)"/>
     ${rootY ? `<rect x="0" y="${top}" width="${W}" height="${rootY - top}" fill="url(#rootzone)"/>` : ""}
@@ -91,7 +92,7 @@ function drawFigure(result, strategy, smap) {
     ${soilY < bottom ? `<rect x="0" y="${soilY}" width="${W}" height="${bottom - soilY}" fill="#3a2c22"/>` : ""}
     ${restrict ? `<rect x="0" y="${soilY - 6}" width="${W}" height="10" fill="url(#hatch)" opacity=".7"/>` : ""}
     <g fill="none" stroke="#e9f0d5" stroke-width="1.6" stroke-linecap="round" opacity=".85">${roots}</g>
-    ${rootY ? `<path d="M0 ${rootY}H${W}" stroke="#f4f1e6" stroke-width="1.5" stroke-dasharray="6 5"/><text x="300" y="${rootY - 8}" class="soil-svg-label">Root zone ${fmt(rootCm)} cm</text>` : ""}
+    ${rootY ? `<path d="M0 ${rootY}H${W}" stroke="#f4f1e6" stroke-width="1.5" stroke-dasharray="6 5"/><text x="300" y="${rootY - 8}" class="soil-svg-label">Roots reach ${fmt(rootCm / 2.54)} in (${fmt(rootCm)} cm)</text>` : ""}
     <path d="M0 ${y(100)}H${W}" stroke="#9cc3e0" stroke-width="1.2" stroke-dasharray="2 4" opacity=".9"/>
     <text x="300" y="${y(100) + 15}" class="soil-svg-small">Moisture root-zone layer ends · 100 cm${has(smapRoot?.value) ? ` · SMAP ${fmt(smapRoot.value * 100, 0)}% moisture` : ""}${has(wetRoot?.value) ? ` · MERRA-2 wetness ${fmt(wetRoot.value, 2)}` : ""}</text>
     <text x="300" y="${surfaceY - 2 > top + 8 ? surfaceY - 2 : top + 11}" class="soil-svg-small">Surface 0–5 cm${has(smapSurface?.value) ? ` · SMAP ${fmt(smapSurface.value * 100, 0)}% moisture` : ""}${has(wetSurface?.value) ? ` · MERRA-2 wetness ${fmt(wetSurface.value, 2)}` : ""}</text>
@@ -100,11 +101,11 @@ function drawFigure(result, strategy, smap) {
       <rect x="566" y="${tankTop}" width="46" height="${tankH}" rx="10" fill="rgb(255 255 255 / .22)" stroke="rgb(255 255 255 / .7)"/>
       <rect x="569" y="${tankTop + 3}" width="40" height="${tankH - 6}" rx="8" fill="#cfe1ee" opacity=".55"/>
       ${rawShare !== null ? `<rect x="569" y="${tankTop + 3}" width="40" height="${(tankH - 6) * rawShare}" rx="8" fill="#3b78a8"/>` : ""}
-      <text x="589" y="${tankBottom + 16}" text-anchor="middle" class="soil-svg-label">${fmt(taw, 0)} mm</text>
+      <text x="589" y="${tankBottom + 16}" text-anchor="middle" class="soil-svg-label">${inch(taw)}</text>
     </g>` : ""}
     <g class="soil-svg-small">${ticks.map((cm) => `<path d="M0 ${y(cm)}h10" stroke="rgb(255 255 255 / .7)"/><text x="14" y="${y(cm) + 4}">${cm} cm</text>`).join("")}</g>
     <rect y="${bottom}" width="${W}" height="${H - bottom}" fill="#f8f7f2"/>
-    <g font-size="10" fill="#55625a" font-family="DM Sans, sans-serif"><rect x="12" y="${bottom + 9}" width="10" height="10" rx="2" fill="#3b78a8"/><text x="27" y="${bottom + 18}">Readily available water (RAW)</text><rect x="210" y="${bottom + 9}" width="10" height="10" rx="2" fill="#cfe1ee"/><text x="225" y="${bottom + 18}">Rest of total available water (TAW)</text></g>
+    <g font-size="10" fill="#55625a" font-family="DM Sans, sans-serif"><rect x="12" y="${bottom + 9}" width="10" height="10" rx="2" fill="#3b78a8"/><text x="27" y="${bottom + 18}">Easy for the crop to use</text><rect x="210" y="${bottom + 9}" width="10" height="10" rx="2" fill="#cfe1ee"/><text x="225" y="${bottom + 18}">Harder to use · crop starts to struggle</text></g>
   </svg><figcaption>${esc(cropLabel(strategy))} · drawn to scale from 0 to ${fmt(deepest)} cm</figcaption>`;
 }
 
@@ -115,24 +116,24 @@ function layerList(result, strategy, smap) {
   const smapLine = (entry, what) => {
     if (smap === undefined) return `<p>Loading the latest NASA SMAP estimate…</p>`;
     if (!entry || !has(entry.value)) return `<p>${esc(what)}: <span class="value">Not available</span> · ${smap?.error ? esc(smap.error) : "NASA POWER lists SMAP soil moisture but currently returns no values for it"}. You can still view SMAP imagery on the map: open “Map data” and choose a NASA soil-moisture layer.</p>`;
-    return `<p>${esc(what)}: <span class="value">${fmt(entry.value, 3)} m³/m³</span> (${fmt(entry.value * 100, 0)}% of soil volume is water) on ${esc(entry.date)}.</p>`;
+    return `<p>${esc(what)}: about <span class="value">${fmt(entry.value * 100, 0)}% of the soil is water</span> on ${esc(entry.date)} (${fmt(entry.value, 3)} m³/m³).</p>`;
   };
   const wetLine = (entry) => {
     if (smap === undefined) return `<p>Loading the latest MERRA-2 estimate…</p>`;
     if (!entry || !has(entry.value)) return `<p>Model soil wetness: <span class="value">Not available</span>${smap?.merra2?.error ? ` · ${esc(smap.merra2.error)}` : " for the last 120 days"}.</p>`;
-    return `<p>Model soil wetness: <span class="value">${fmt(entry.value, 2)}</span> on a 0 (dry) to 1 (saturated) scale on ${esc(entry.date)}. A reanalysis estimate, not the same measure as SMAP’s m³/m³.</p>`;
+    return `<p>How wet the soil was on ${esc(entry.date)}: <span class="value">${fmt(entry.value * 100, 0)}% of fully soaked</span> (0% is bone dry). A NASA model estimate, not a satellite reading.</p>`;
   };
   return `
     <li class="soil-layer"><i style="background:linear-gradient(#cfe2ef,#eef3e6)"></i><div><h3>Above the field <span>season</span></h3>
-      <p>Rain: <span class="value">${rain !== null ? `${fmt(rain)} mm` : "Not available"}</span> · reference ET₀: <span class="value">${et0 !== null ? `${fmt(et0)} mm` : "Not available"}</span> · ${esc(cropLabel(strategy))} water use: <span class="value">${use !== null ? `${fmt(use)} mm` : "Not available"}</span>. Medians across past seasons.</p>
+      <p>In a typical past season, rain brought <span class="value">${rain !== null ? `${inch(rain)} (${fmt(rain)} mm)` : "an unknown amount"}</span> and ${esc(cropLabel(strategy))} used about <span class="value">${use !== null ? `${inch(use)} (${fmt(use)} mm)` : "an unknown amount"}</span> of water.</p><p class="hint">Weather demand (reference ET₀): ${et0 !== null ? `${inch(et0)}` : "not available"}.</p>
       <span class="source-tag nasa">NASA POWER</span> <span class="source-tag model">FAO-56</span></div></li>
     <li class="soil-layer"><i style="background:#b98f62"></i><div><h3>Surface <span>0–5 cm</span></h3>${smapLine(smap?.surface, "Recent surface moisture")}<span class="source-tag nasa">NASA SMAP L4 · SFMC</span>${wetLine(smap?.merra2?.surface)}<span class="source-tag model">NASA MERRA-2 · GWETTOP</span></div></li>
     <li class="soil-layer"><i style="background:#8f6844"></i><div><h3>${esc(cropLabel(strategy))} root zone <span>${has(r.root_depth_m) ? `0–${fmt(r.root_depth_m * 100)} cm` : "depth not available"}</span></h3>
-      <p>The soil here can hold <span class="value">${has(r.taw_mm) ? `${fmt(r.taw_mm, 1)} mm` : "an unknown amount"}</span> of plant-available water (TAW); the crop can use about <span class="value">${has(r.raw_mm) ? `${fmt(r.raw_mm, 1)} mm` : "—"}</span> of it before stress starts (RAW).</p>
+      <p>Within the roots’ reach, the soil holds about <span class="value">${has(r.taw_mm) ? `${inch(r.taw_mm)} (${fmt(r.taw_mm, 0)} mm)` : "an unknown amount"}</span> of water the crop can use. Once about <span class="value">${has(r.raw_mm) ? inch(r.raw_mm) : "—"}</span> of it is used up, the crop starts to struggle.</p><p class="hint">Technical names: total available water (TAW) and readily available water (RAW).</p>
       <span class="source-tag usda">USDA SSURGO</span> <span class="source-tag model">FAO-56 Eqs. 82–83</span></div></li>
     <li class="soil-layer"><i style="background:#9cc3e0"></i><div><h3>Satellite root-zone layer <span>0–100 cm</span></h3>${smapLine(smap?.root, "Recent root-zone moisture")}<span class="source-tag nasa">NASA SMAP L4 · RZMC</span>${wetLine(smap?.merra2?.root)}<span class="source-tag model">NASA MERRA-2 · GWETROOT</span></div></li>
     <li class="soil-layer"><i style="background:#5b4330"></i><div><h3>Mapped soil column <span>${has(soil.depth_cm) ? `0–${fmt(soil.depth_cm)} cm` : "depth not recorded"}</span></h3>
-      <p>${esc(soil.label)}.</p><p>Hydrologic group <span class="value">${esc(soil.hydrologic_group || "—")}</span> · runoff curve number <span class="value">${esc(soil.curve_number ?? "—")}</span>. A mapped estimate, not a field test.</p>
+      <p>${esc(soil.label)}.</p><p>How fast rain soaks in: <span class="value">group ${esc(soil.hydrologic_group || "—")}</span> (A soaks in fastest, D slowest). A mapped estimate, not a field test.</p><p class="hint">Runoff curve number ${esc(soil.curve_number ?? "—")}.</p>
       <span class="source-tag usda">USDA SSURGO</span></div></li>`;
 }
 

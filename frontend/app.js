@@ -1,6 +1,6 @@
 // Farmer-first Field Shift interface. Scientific calculations stay on the API.
 import {installLayers} from '/map-layers.js?v=6';
-import {soilLayersSection, wireSoilLayers} from '/soil-profile.js?v=2';
+import {soilLayersSection, wireSoilLayers} from '/soil-profile.js?v=3';
 const API = "/api/v2";
 const VIEWS = {
   lower48: [[-125, 24], [-66.5, 49.5]],
@@ -90,6 +90,8 @@ function setHeader() {
 // Tabs mirror the mockups: Home · My land · Plans · Field notes. Each screen marks its own tab.
 function setTab(name, sample = false) {
   document.body.classList.remove("wide-results"); // only the plan comparison uses the full-width layout
+  const layout = document.querySelector(".layout");
+  if (mapPane.parentElement !== layout) { layout.insertBefore(mapPane, panel); requestAnimationFrame(() => map?.resize()); }
   document.querySelectorAll("[data-tab]").forEach((button) => {
     if (button.dataset.tab === name) button.setAttribute("aria-current", "page"); else button.removeAttribute("aria-current");
   });
@@ -474,7 +476,8 @@ function renderFieldEditor(field = null, error = "", step = 1) {
           <div><label for="lon">Longitude</label><input id="lon" name="lon" type="number" inputmode="decimal" step="any" required value="${field ? esc(field.lon) : ""}" placeholder="-99.33" aria-describedby="coord-error"></div>
         </div>
         <p class="field-error" id="coord-error" hidden>${icon("alert")} Choose a point on the map, or enter a latitude between −90 and 90 and a longitude between −180 and 180.</p>
-        <button type="button" id="check-location" class="secondary-button full-width">${icon("pin")} Check this location</button>
+        <div class="location-actions"><button type="button" id="use-my-location" class="primary">${icon("pin")} Use my current location</button><button type="button" id="check-location" class="secondary-button">${icon("search")} Check typed coordinates</button></div>
+        <p class="hint">Standing in the field? Use your phone’s location. Otherwise tap the map, or type coordinates from a farm map.</p>
         <div id="location-result" class="location-result" aria-live="polite">${field?.state ? `<p class="muted small">Saved location: ${esc(field.state)}</p>` : `<p class="muted small">Select a point on the map. We’ll check which weather and soil records cover it.</p>`}</div>
         <label for="area-acres">Approximate size <span class="hint">optional</span></label><div class="unit-input"><input id="area-acres" name="area_acres" type="number" min="0.01" step="any" value="${esc(details.area_acres ?? "")}" placeholder="For example, 40"><span>acres</span></div>
         <div class="privacy-card">${icon("shield")}<div><strong>Your location stays private</strong>Saved fields are visible only in your account. Plans show the location rounded to 0.1°, about 10 km.</div></div>
@@ -520,7 +523,7 @@ function renderFieldEditor(field = null, error = "", step = 1) {
         <label for="field-notes">Anything else an agronomist should know? <span class="hint">optional</span></label><textarea id="field-notes" name="notes" maxlength="500" rows="3" placeholder="For example, a low spot stays wet after storms.">${esc(details.notes || "")}</textarea>
         <p class="hint">Priorities and limits stay with your field for your own review and for an agronomist. They don’t change the water calculation.</p>
       </section>
-      <div class="wizard-nav"><button type="submit" class="primary" id="save-field">Save and continue ${icon("arrow")}</button><button type="button" class="secondary-button" id="wizard-back">Cancel</button></div>
+      <div class="wizard-nav"><button type="submit" class="primary" id="save-field">Save and continue ${icon("arrow")}</button><button type="button" class="secondary-button" id="wizard-skip" hidden>Skip the rest · see my plans</button><button type="button" class="quiet-button" id="wizard-back">Cancel</button></div>
       <p class="hint">${user ? "Field details are saved privately to your account." : "You’re exploring without an account. Sign in to keep this field across devices."}</p>
     </form>`;
   const form = document.getElementById("field-form");
@@ -533,6 +536,7 @@ function renderFieldEditor(field = null, error = "", step = 1) {
     panel.querySelectorAll(".wizard-bars i").forEach((bar, i) => bar.classList.toggle("done", i < n));
     document.getElementById("save-field").innerHTML = n < 4 ? `Save and continue ${icon("arrow")}` : `${user ? "Save and review" : "Review my plans"} ${icon("arrow")}`;
     document.getElementById("wizard-back").textContent = n === 1 ? "Cancel" : `Back to ${WIZARD_STEPS[n - 2].toLowerCase()}`;
+    document.getElementById("wizard-skip").hidden = n < 2 || n === 4; // soil and priorities are optional
     if (n === 2) {
       const name = document.getElementById("field-name").value.trim(), lat = document.getElementById("lat").value, lon = document.getElementById("lon").value;
       const size = document.getElementById("area-acres").value;
@@ -560,6 +564,21 @@ function renderFieldEditor(field = null, error = "", step = 1) {
   };
   document.getElementById("wizard-back").onclick = () => current > 1 ? show(current - 1) : (user ? showLands() : renderAuth());
   document.getElementById("back-home").onclick = () => user ? showLands() : renderAuth();
+  document.getElementById("wizard-skip").onclick = () => { show(4, false); form.requestSubmit(); };
+  document.getElementById("use-my-location").onclick = (event) => {
+    const button = event.currentTarget, target = document.getElementById("location-result");
+    if (!navigator.geolocation) { target.innerHTML = `<p class="error">This browser can’t share your location. Tap the map instead.</p>`; return; }
+    button.disabled = true; target.innerHTML = `<p class="muted small">Asking your phone for its location…</p>`;
+    navigator.geolocation.getCurrentPosition((position) => {
+      button.disabled = false;
+      const lat = Number(position.coords.latitude.toFixed(4)), lon = Number(position.coords.longitude.toFixed(4));
+      map?.flyTo({ center: [lon, lat], zoom: 9, duration: 600 });
+      chooseLocation(lat, lon);
+    }, (error) => {
+      button.disabled = false;
+      target.innerHTML = `<p class="error">${error.code === 1 ? "Location permission was not given. Tap the map or type coordinates instead." : "We couldn’t get your location. Tap the map or type coordinates instead."}</p>`;
+    }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
+  };
   document.getElementById("check-location").onclick = () => {
     const lat = Number(document.getElementById("lat").value), lon = Number(document.getElementById("lon").value);
     if (Number.isFinite(lat) && Number.isFinite(lon) && document.getElementById("lat").value) chooseLocation(lat, lon);
@@ -703,30 +722,72 @@ const LEVEL_TEXT = { limited: "limited", moderate: "some", adequate: "enough" };
 
 // One plan card per strategy. Every number is a backend value; the meter shows the backend's
 // relative water-gap score (0–100) and nothing else.
+// Inches first for U.S. farmers, millimetres alongside. Formatting of a backend value only.
+function inches(mm) {
+  const value = Number(mm);
+  if (mm == null || mm === "" || !Number.isFinite(value)) return null;
+  return { in: (value / 25.4).toLocaleString(undefined, { maximumFractionDigits: 1 }), mm: value.toLocaleString(undefined, { maximumFractionDigits: 0 }) };
+}
+
+const plainCrop = (s) => s.crop === "maize_grain" ? "Corn" : s.name.replace(/\s*\(.*\)$/, "");
+
+// The bottom line: crops ranked by the backend median for the farmer's priority, in plain words.
+// Bar widths only scale backend values for display, like the season chart does.
+function bottomLine(result, metricKey) {
+  const rows = result.strategies.map((s) => ({ s, mm: s.result?.summary?.[metricKey]?.spread?.median, risk: s.water_stress_exposure || {} }))
+    .filter((row) => row.mm != null && Number.isFinite(Number(row.mm))).sort((a, b) => Number(a.mm) - Number(b.mm));
+  const seasons = Number(result.period.requested[1]) - Number(result.period.requested[0]) + 1;
+  if (!rows.length) return `<section class="bottom-line" id="bottom-line"><p class="eyebrow">The short answer</p><h2>Not enough results to compare</h2><p>We couldn’t get a valid water result for these crops here. See “What we used” below for which records were missing.</p></section>`;
+  const max = Math.max(...rows.map((row) => Number(row.mm)), 1);
+  const what = metricKey === "rainfed_deficit" ? "water short without irrigation" : "irrigation needed";
+  const best = rows[0];
+  return `<section class="bottom-line" id="bottom-line" aria-labelledby="bottom-line-title">
+    <p class="eyebrow">The short answer · ${esc(seasons)} past seasons</p>
+    <h2 id="bottom-line-title">${rows.length > 1 ? `${esc(plainCrop(best.s))} needed the least water here` : `${esc(plainCrop(best.s))} is the only crop with a result`}</h2>
+    <p class="bottom-line-lead">In a typical past season at this spot, ${esc(what)}:</p>
+    <ol class="rank-list">${rows.map((row, i) => {
+      const v = inches(row.mm);
+      return `<li><span class="rank">${i + 1}</span><div class="rank-body"><div class="rank-top"><strong>${esc(plainCrop(row.s))}${row.s.role === "current_practice" ? ` <span class="tag">You grow this now</span>` : ""}</strong><span class="rank-value">about ${esc(v.in)} in <small>${esc(v.mm)} mm</small></span></div>
+        <div class="rank-bar" aria-hidden="true"><i style="width:${Math.max(4, Math.round(Number(row.mm) / max * 100))}%"></i></div>
+        <p>${row.risk.seasons_assessed ? `Crop ran short of water in <strong>${esc(row.risk.seasons_affected ?? 0)} of ${esc(row.risk.seasons_assessed)}</strong> seasons without irrigation.` : "Dry-season count not available."}</p></div></li>`;
+    }).join("")}</ol>
+    <p class="hint">“Typical” is the middle value of past seasons. Past weather, not a forecast: prices, yield and local advice still decide.</p>
+  </section>`;
+}
+
+// One plan card per strategy: two numbers a farmer can use at a glance, the rest one tap away.
 function planCard(strategy, index, context) {
   const { field, lowest, metricKey } = context;
-  const label = (s) => s.crop === "maize_grain" ? "Corn" : s.name.replace(/\s*\(.*\)$/, "");
   const isCurrent = strategy.role === "current_practice";
-  const alternatives = context.alternatives;
-  const title = isCurrent ? "Current plan" : `Option ${alternatives.indexOf(strategy) + 1}`;
+  const title = isCurrent ? "Your current plan" : `Option ${context.alternatives.indexOf(strategy) + 1}`;
   const lastSeason = [...(field.history || [])].filter((item) => item.crop && item.crop !== "unknown").sort((a, b) => b.year - a.year)[0];
   const previous = lastSeason ? cropName(lastSeason.crop) : field.crop && field.crop !== "unknown" ? cropName(field.crop) : "Not entered";
   const previousLabel = lastSeason ? `Last season · ${lastSeason.year}` : "Now";
   const risk = strategy.water_stress_exposure || {};
-  const pct = risk.percentage;
   const r = strategy.result;
-  const rotation = strategy.rotation?.text;
+  const irrigation = inches(r?.summary?.irrigated_net_irrigation?.spread?.median);
+  const gap = inches(r?.summary?.rainfed_deficit?.spread?.median);
+  const lead = metricKey === "rainfed_deficit"
+    ? { label: "Water short without irrigation", v: gap }
+    : { label: "Irrigation needed", v: irrigation };
+  const pct = risk.percentage;
   return `<article class="plan-card ${isCurrent ? "current" : ""}">
-    <div class="plan-card-head"><div><h3>${esc(title)}</h3><p>${isCurrent ? "Keep what you grow now" : "Another crop for the same field"}</p></div>
-      ${lowest === strategy ? `<span class="tag best">${icon("drop")} Smallest water gap</span>` : `<span class="tag">${esc(r ? `${r.seasons_simulated} seasons` : "No result")}</span>`}</div>
-    <div class="sequence" aria-label="${esc(previous)} then ${esc(label(strategy))}"><div><span>${esc(previousLabel)}</span><strong>${esc(previous)}</strong></div>${icon("arrow")}<div class="next"><span>Next season</span><strong>${esc(label(strategy))}</strong></div></div>
-    <div class="plan-rows">
-      <div class="plan-row">${icon("drop")}<div><h4>Water needs</h4><p>Irrigation need <span class="value">${esc(metricValue(strategy, "irrigated_net_irrigation"))}</span>${r?.summary?.irrigated_net_irrigation?.spread ? ` · about ${esc(farmerWaterDepth(r.summary.irrigated_net_irrigation.spread.median).split(" (")[0])}` : ""}</p><p>Rain-fed water gap <span class="value">${esc(metricValue(strategy, "rainfed_deficit"))}</span></p><p class="hint">Medians of past seasons${metricKey === "rainfed_deficit" ? " · your priority leads with the water gap" : " · your priority leads with irrigation need"}.</p></div></div>
-      <div class="plan-row">${icon("sun")}<div><h4>Water-stress exposure</h4><p><span class="value">${pct == null ? "Not assessed" : `${esc(Number(pct).toLocaleString(undefined, { maximumFractionDigits: 1 }))}%`}</span> relative water-gap score · ${esc(exposureLevelLabel(risk.relative_level))}</p>${pct == null ? "" : `<div class="meter" role="img" aria-label="Relative water-gap score ${esc(pct)} out of 100"><i style="width:${Math.max(0, Math.min(100, Number(pct) || 0))}%"></i></div>`}<p>${esc(risk.seasons_affected ?? 0)} of ${esc(risk.seasons_assessed ?? 0)} seasons had at least one modeled stress day.</p></div></div>
-      <div class="plan-row">${icon("roots")}<div><h4>Soil and roots</h4><p>Roots reach <span class="value">${r?.root_depth_m != null ? `${esc(r.root_depth_m)} m` : "—"}</span>; the soil there holds <span class="value">${r?.taw_mm != null ? `${esc(Number(r.taw_mm).toLocaleString(undefined, { maximumFractionDigits: 1 }))} mm` : "—"}</span> of usable water.</p></div></div>
-      <div class="plan-row">${icon("layers")}<div><h4>Rotation note</h4><p>${esc(rotation || "No rotation note for this crop sequence.")}</p>${strategy.rotation?.review_state ? `<p class="hint">Note status: ${esc(String(strategy.rotation.review_state).replaceAll("-", " "))}</p>` : ""}</div></div>
+    <div class="plan-card-head"><div><h3>${esc(title)}</h3><p>${isCurrent ? "Keep growing what you grow now" : "Switch to another crop next season"}</p></div>
+      ${lowest === strategy ? `<span class="tag best">${icon("drop")} Least water</span>` : ""}</div>
+    <div class="sequence" aria-label="${esc(previous)} then ${esc(plainCrop(strategy))}"><div><span>${esc(previousLabel)}</span><strong>${esc(previous)}</strong></div>${icon("arrow")}<div class="next"><span>Next season</span><strong>${esc(plainCrop(strategy))}</strong></div></div>
+    <div class="plan-stats">
+      <div><span>${esc(lead.label)}</span><strong>${lead.v ? `${esc(lead.v.in)} in` : "Not available"}</strong>${lead.v ? `<small>${esc(lead.v.mm)} mm · typical season</small>` : ""}</div>
+      <div><span>Seasons short of water</span><strong>${risk.seasons_assessed ? `${esc(risk.seasons_affected ?? 0)} of ${esc(risk.seasons_assessed)}` : "—"}</strong><small>without irrigation</small></div>
     </div>
-    <details><summary>Reasons and details</summary><p>${esc(strategy.why_included || "")}</p><p>Planting date used: ${esc(strategy.planting || "—")} · valid past seasons: ${esc(r?.seasons_simulated ?? 0)}${r?.seasons_excluded?.length ? ` · excluded: ${esc(r.seasons_excluded.length)}` : ""}</p><p>Past variability is not a forecast confidence interval.</p></details>
+    <details><summary>More about this plan</summary>
+      <div class="plan-rows">
+        <div class="plan-row">${icon("drop")}<div><h4>Water</h4><p>Irrigation needed: <span class="value">${irrigation ? `${esc(irrigation.in)} in (${esc(irrigation.mm)} mm)` : "Not available"}</span></p><p>Water short without irrigation: <span class="value">${gap ? `${esc(gap.in)} in (${esc(gap.mm)} mm)` : "Not available"}</span></p></div></div>
+        <div class="plan-row">${icon("sun")}<div><h4>Compared with the other crops</h4><p>${pct == null ? "Not compared." : `Water shortfall score <span class="value">${esc(Number(pct).toLocaleString(undefined, { maximumFractionDigits: 0 }))} / 100</span>: 100 is the thirstiest of these options. ${esc(exposureLevelLabel(risk.relative_level))}.`}</p>${pct == null ? "" : `<div class="meter" role="img" aria-label="Shortfall score ${esc(pct)} of 100"><i style="width:${Math.max(0, Math.min(100, Number(pct) || 0))}%"></i></div>`}</div></div>
+        <div class="plan-row">${icon("roots")}<div><h4>Roots and soil</h4><p>Roots reach about <span class="value">${r?.root_depth_m != null ? `${esc((Number(r.root_depth_m) * 39.37).toFixed(0))} in (${esc(r.root_depth_m)} m)` : "—"}</span>. The soil there holds about <span class="value">${inches(r?.taw_mm) ? `${esc(inches(r.taw_mm).in)} in` : "—"}</span> of water the crop can use.</p></div></div>
+        <div class="plan-row">${icon("layers")}<div><h4>Rotation</h4><p>${esc(strategy.rotation?.text || "No rotation note for this crop sequence.")}</p></div></div>
+        <div class="plan-row">${icon("info")}<div><h4>Why it’s here</h4><p>${esc(strategy.why_included || "")} Planting date used: ${esc(strategy.planting || "—")}. ${esc(r?.seasons_simulated ?? 0)} past seasons had valid results.</p></div></div>
+      </div>
+    </details>
   </article>`;
 }
 
@@ -790,37 +851,37 @@ function renderAnalysis(result, field) {
   });
   const weather = result.provenance?.weather || {};
   panel.innerHTML = `
-    <div class="form-topline"><button type="button" class="back-link" id="result-home">${icon("back")} ${user ? "My land" : "Home"}</button><button type="button" class="secondary-button" id="change-details">${icon("note")} Edit field and priorities</button></div>
-    <section class="results-hero"><p class="eyebrow">Plans for ${esc(field.name)}</p><h1>Compare your plans, and see what needs checking</h1>
-      <p class="lead">The same ${esc(requestedSeasons)} past seasons near ${esc(result.location.state_name)}, replayed for each crop with the mapped soil. No plan is marked as the right one: a historical comparison can’t weigh prices, yield or local advice.</p></section>
-    ${result.mode === "sample" ? `<div class="notice-card" role="note"><strong>Saved example.</strong> Real NASA and USDA records for Hays, Kansas, stored with the app so it works without a live call. It is not your field.</div>` : ""}
-    <section class="plan-summary-bar">
-      <div><h2>${icon("sprout")} ${esc(field.name)}</h2><p>${esc(result.location.state_name)} · ${Number(field.lat).toFixed(2)}°, ${Number(field.lon).toFixed(2)}°${reportedDetails.area_acres ? ` · ${esc(reportedDetails.area_acres)} acres` : ""}</p><p>Now growing: ${esc(cropName(field.crop))} · ${field.irrigation === "rain-fed" ? "rain-fed" : field.irrigation === "irrigated" ? "irrigated" : "water source not confirmed"}</p><span class="done-chip">${icon("drop")} Priority: ${esc(GOALS[result.goal] || result.goal)}</span></div>
-      <div class="warn-card" style="margin:0">${icon("alert")}<div><strong>This comparison is incomplete by design</strong>It covers water and soil from public records. Equipment, market, pest and price questions need your knowledge and an agronomist’s.${limits.length ? ` You noted: ${esc(limits.join(" · "))}.` : ""}</div></div>
-    </section>
-    ${priorityList.length || detailRows ? `<section class="card"><h2 class="card-title">${icon("info")} Your priorities and field details</h2>${priorityList.length ? `<p>${priorityList.map((p) => `<span class="tag">${esc(p)}</span>`).join(" ")}</p>` : ""}${detailRows ? `<details><summary>Field details you provided</summary><ul>${detailRows}</ul></details>` : ""}<p class="hint">These help you and an expert read the plans. The water calculation uses the mapped USDA soil and the inputs listed under technical details.</p></section>` : ""}
-    <div class="section-heading" style="margin-top:26px"><div><p class="eyebrow">Plans side by side</p><h2>Each card answers the same questions</h2></div><span class="hint">Medians across past seasons</span></div>
+    <div class="form-topline"><button type="button" class="back-link" id="result-home">${icon("back")} ${user ? "My land" : "Home"}</button><button type="button" class="secondary-button" id="change-details">${icon("note")} Edit field</button></div>
+    <section class="results-hero"><p class="eyebrow">${esc(result.mode === "sample" ? "Saved example" : field.name)} · ${esc(result.location.state_name)} · ${esc(result.period.requested[0])}–${esc(result.period.requested[1])}</p><h1>What ${esc(requestedSeasons)} past seasons say about your crop choice</h1>
+      <p class="lead">Each crop ran through the same real weather, on the soil mapped at your field.</p></section>
+    <nav class="section-chips" aria-label="Sections on this page"><a href="#bottom-line">Short answer</a><a href="#plans">Plans</a><a href="#soil-section">Soil</a><a href="#map-section">Map</a><a href="#seasons">Year by year</a><a href="#next-steps">Next steps</a></nav>
+    ${bottomLine(result, metricKey)}
+    <div class="section-heading" id="plans"><div><p class="eyebrow">Side by side</p><h2>Your plans</h2></div><span class="hint">Tap “More about this plan” for details</span></div>
     <div class="plan-grid">${ordered.map((strategy, index) => planCard(strategy, index, context)).join("")}</div>
     ${soilLayersSection(result)}
-    ${seasonChart(result)}
-    <section class="decision-guide" aria-labelledby="decision-guide-title"><div class="section-heading"><div><p class="eyebrow">FROM DATA TO A NEXT STEP</p><h2 id="decision-guide-title">What this means for your field</h2></div></div><div class="decision-guide-grid">
+    <section class="map-section" id="map-section" aria-labelledby="map-section-title"><p class="eyebrow">On the map</p><h2 id="map-section-title">Where this is</h2><p class="hint">The pin is your location point, not a surveyed field boundary. Open “Map data” to see NASA rain and soil-moisture layers.</p><div id="map-slot" class="map-slot"></div></section>
+    <div id="seasons">${seasonChart(result)}</div>
+    <section class="decision-guide" id="next-steps" aria-labelledby="decision-guide-title"><div class="section-heading"><div><p class="eyebrow">Before you decide</p><h2 id="decision-guide-title">What to check next</h2></div></div><div class="decision-guide-grid">
       <article class="decision-guide-card"><span class="decision-step">01 · WHAT WE FOUND</span><h3>A past-season comparison</h3><p>${esc(foundSummary)}</p></article>
-      <article class="decision-guide-card"><span class="decision-step">02 · WHAT IT MAY MEAN</span><h3>A water signal to consider</h3><p>This estimates how crop water demand compared with past rainfall and mapped soil storage. It is not a measured amount of water missing from your field, and it doesn’t tell you which crop will earn more, yield more, or do best next season.</p></article>
-      <article class="decision-guide-card"><span class="decision-step">03 · WHAT TO CHECK NEXT</span><h3>Bring local knowledge in</h3><ul><li>${esc(irrigationNextStep)}</li><li>${esc(soilNextStep)}</li><li>Ask the assistant to explain a number, or send your question and field context to an agronomist.</li></ul></article>
-    </div><p class="decision-coverage" role="note"><strong>Data coverage:</strong> ${esc(coverageSummary)} Your field marker is a location point, not a surveyed field boundary.</p></section>
+      <article class="decision-guide-card"><span class="decision-step">02 · WHAT IT DOESN’T TELL YOU</span><h3>Prices, yield and pests</h3><p>This compares crop water needs with past rain and the mapped soil. It doesn’t tell you which crop will earn more or yield more, and it doesn’t cover seed, equipment, markets or pests.</p></article>
+      <article class="decision-guide-card"><span class="decision-step">03 · WHAT TO CHECK</span><h3>Bring your own knowledge in</h3><ul><li>${esc(irrigationNextStep)}</li><li>${esc(soilNextStep)}</li>${limits.length ? `<li>You noted: ${esc(limits.join(" · "))}.</li>` : ""}</ul></article>
+    </div></section>
     <div class="two-col">
-      <section class="card"><h2 class="card-title">${icon("source")} Data and sources</h2><ul class="sources-list">
-        <li><strong>Weather · NASA POWER</strong>${esc(weather.product || "Daily agroclimatology")}${weather.period ? ` · ${esc(weather.period.join(" to "))}` : ""}</li>
-        <li><strong>Soil · USDA SSURGO</strong>${esc(result.soil?.label || "No mapped soil record at this point")}</li>
-        <li><strong>Soil moisture · NASA SMAP</strong>Recent surface and root-zone estimates, shown for context in Soil layers. Not used in the calculation.</li>
-        <li><strong>Equations · FAO-56</strong>Penman–Monteith ET₀, crop coefficients and a daily root-zone water balance. <a href="/science/">See the method</a></li>
-        <li><strong>Past seasons</strong>${esc(result.period.requested[0])}–${esc(result.period.requested[1])} · ${esc(coverageSummary)}</li>
-      </ul></section>
-      <section class="tint-card"><h2 class="card-title">${icon("chat")} Take your questions to an expert</h2><p>Check soil, water, equipment and markets before you change crops. The assistant can explain any number here; an agronomist can give a person’s view.</p>
+      <section class="tint-card"><h2 class="card-title">${icon("chat")} Questions about these results?</h2><p>Ask the assistant to explain any number in plain words, or send your field and this comparison to an agronomist.</p>
         <div class="button-row"><button type="button" class="primary" id="open-chat">${icon("chat")} Explain my results</button>${user?`<button type="button" class="secondary-button" id="ask-expert">Ask an agronomist</button>`:`<a class="secondary-button" href="/workspace/?signin=1">Sign in to ask an agronomist</a>`}</div></section>
+      <section class="card" id="sources"><h2 class="card-title">${icon("source")} What we used</h2><ul class="sources-list">
+        <li><strong>Weather · NASA POWER</strong>Daily records ${weather.period ? esc(weather.period.join(" to ")) : ""}</li>
+        <li><strong>Soil · USDA soil survey</strong>${esc(result.soil?.label || "No mapped soil record at this point")}</li>
+        <li><strong>Method · FAO-56</strong>The standard UN FAO method for crop water use and a daily soil-water balance. <a href="/science/">How it works</a></li>
+        <li><strong>Seasons</strong>${esc(coverageSummary)}</li>
+        ${priorityList.length ? `<li><strong>Your priorities</strong>${esc(priorityList.join(" · "))}</li>` : ""}
+      </ul>${detailRows ? `<details><summary>Field details you entered</summary><ul>${detailRows}</ul></details>` : ""}</section>
     </div>
-    <div class="actions result-actions"><button type="button" class="quiet-button" id="new-comparison">${icon("refresh")} Compare again</button>${user ? `<button type="button" class="quiet-button" id="all-plans">${icon("layers")} All saved plans</button>` : ""}<button type="button" class="quiet-button" id="show-details">Show technical details</button></div>
+    <div class="actions result-actions"><button type="button" class="quiet-button" id="new-comparison">${icon("refresh")} Compare again</button>${user ? `<button type="button" class="quiet-button" id="all-plans">${icon("layers")} All saved plans</button>` : ""}<button type="button" class="quiet-button" id="show-details">Technical details</button></div>
     <details class="technical-details" id="technical"><summary>Technical details</summary><div><p>Status: ${esc(result.status)} · mode: ${esc(result.mode)} · analysis: ${esc(result.analysis_id)}</p><p>Location: ${result.location.public_location.lat}, ${result.location.public_location.lon}</p><p class="muted small">${esc(result.summary)}</p><ul>${result.limitations.map((item) => `<li>${esc(item)}</li>`).join("")}</ul><p>Weather source: ${esc(weather.provider)} ${esc(weather.product)}, ${esc((weather.period || []).join(" to "))}.</p></div></details>`;
+  // The map lives inside the page here, below the plans, instead of above the answer.
+  document.getElementById("map-slot")?.append(mapPane);
+  requestAnimationFrame(() => map?.resize());
   wireSoilLayers(panel, result);
   document.getElementById("result-home").onclick = () => user ? showLands() : renderAuth();
   document.getElementById("open-chat").onclick = async () => {

@@ -413,3 +413,68 @@ body.wide-results .results-hero .lead { max-width: 820px; }
   .data-banner:not(.sample) { font-size: .72rem; margin-top: 8px; }
   .workspace-body .home-hero .button-row { width: 100%; }
 }
+
+/* ---------- farmer-first readability: bigger text, plainer blocks ----------
+   Phones outdoors: body text at least ~16px, hints at ~14px, touch targets at least 44px. */
+body.workspace-body { font-size: 17px; }
+.workspace-body .hint, .workspace-body .small, .plan-row p, .soil-layer p, .sources-list li { font-size: .9rem; }
+.workspace-body .decision-guide-card p, .workspace-body .decision-guide-card li, .workspace-body .decision-coverage { font-size: .95rem; line-height: 1.6; }
+.workspace-body .field-card-context { font-size: .82rem; }
+.workspace-body .field-card label, .workspace-body .field-card select { font-size: .95rem; }
+.workspace-body summary { min-height: 44px; }
+
+/* Short answer at the top of the plans page */
+.bottom-line { margin: 18px 0 26px; padding: clamp(18px, 4vw, 28px); border-radius: var(--radius-lg); background: linear-gradient(160deg, #ffffff 0%, #f1f6ee 100%); border: 1px solid #d6e3d1; box-shadow: 0 12px 34px rgb(23 50 38 / .10); }
+.bottom-line h2 { margin: 4px 0 6px; font-size: clamp(1.35rem, 3.4vw, 1.8rem); }
+.bottom-line-lead { margin: 0 0 14px; color: var(--muted); }
+.rank-list { display: grid; gap: 12px; margin: 0 0 12px; padding: 0; list-style: none; }
+.rank-list li { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start; padding: 12px 14px; border-radius: 16px; background: #fff; border: 1px solid var(--line); }
+.rank-list li:first-child { border-color: #b9d1b3; box-shadow: 0 0 0 2px rgb(35 83 62 / .12); }
+.rank { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--brand-tint); color: var(--brand); font-weight: 800; }
+.rank-list li:first-child .rank { background: var(--brand); color: #fff; }
+.rank-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; align-items: baseline; }
+.rank-top strong { font-size: 1.05rem; }
+.rank-value { font-size: 1.15rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.rank-value small { color: var(--muted); font-weight: 500; font-size: .8rem; margin-inline-start: 4px; }
+.rank-bar { height: 8px; margin: 8px 0 6px; border-radius: var(--radius-full); background: rgb(23 36 29 / .07); overflow: hidden; }
+.rank-bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #6f9fc4, #3b78a8); }
+.rank-list p { margin: 0; color: var(--muted); font-size: .9rem; }
+
+/* Two numbers per plan card; the rest behind "More about this plan" */
+.plan-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0 4px; }
+.plan-stats > div { padding: 12px; border-radius: 14px; background: var(--surface-soft); border: 1px solid var(--line); }
+.plan-stats span { display: block; color: var(--muted); font-size: .8rem; font-weight: 600; }
+.plan-stats strong { display: block; margin-top: 2px; font-size: 1.45rem; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.plan-stats small { color: var(--muted); font-size: .75rem; }
+.plan-card details .plan-rows { margin-top: 4px; }
+
+/* Jump bar for the long plans page; sticks under the app bar */
+.section-chips { position: sticky; top: 82px; z-index: 12; display: flex; gap: 6px; margin: 6px 0 4px; padding: 6px; overflow-x: auto; scrollbar-width: none; border-radius: var(--radius-full); background: var(--glass-bg-strong); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
+.section-chips::-webkit-scrollbar { display: none; }
+.section-chips a { flex: 0 0 auto; display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: var(--radius-full); color: var(--text); font-size: .85rem; font-weight: 650; text-decoration: none; }
+.section-chips a:hover, .section-chips a:focus-visible { background: var(--brand-tint); color: var(--brand); }
+.workspace-body [id="bottom-line"], .workspace-body [id="plans"], .workspace-body [id="soil-section"], .workspace-body [id="map-section"], .workspace-body [id="seasons"], .workspace-body [id="next-steps"] { scroll-margin-top: 150px; }
+
+/* The map inside the plans page */
+.map-section { margin: 26px 0; }
+.map-section h2 { margin: 2px 0 4px; }
+.map-slot { margin-top: 12px; }
+.map-slot .map-pane { position: relative !important; top: auto !important; width: 100%; height: clamp(260px, 42vh, 440px) !important; min-height: 0 !important; }
+
+/* Wizard location buttons */
+.location-actions { display: grid; gap: 8px; margin-top: 14px; }
+@media (min-width: 560px) { .location-actions { grid-template-columns: 1fr 1fr; } }
+.location-actions .primary, .location-actions .secondary-button { width: 100%; }
+.wizard-nav .quiet-button { justify-self: center; }
+
+@media (max-width: 979px) { .section-chips { top: 76px; } }
+@media print { .section-chips { display: none; } }
+/* Phones: get to the short answer within the first screen. */
+@media (max-width: 600px) {
+  .workspace-body .form-topline { margin-bottom: 6px; }
+  .workspace-body .form-topline .secondary-button { min-height: 44px; padding: 8px 14px; }
+  body.wide-results .results-hero { padding-top: 0; }
+  body.wide-results .results-hero .lead { display: none; }
+  body.wide-results .results-hero h1 { font-size: 1.6rem; margin-bottom: 4px; }
+  .data-banner.sample { font-size: .78rem; padding: 6px 12px; }
+}

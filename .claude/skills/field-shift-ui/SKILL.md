@@ -81,7 +81,10 @@ There are two token sets, one per page family. Use variables rather than raw hex
 - **Copy voice:** short, warm and plain, for farmers.
   - Say "Corn", not `maize_grain`; use `plainCropName` and `cropName`.
   - Say "Finding past weather…", not "retrieving_weather".
-  - Keep units visible (`mm per season`).
+  - Keep units visible. Water amounts are **inches first, mm alongside** (`inches()` in `app.js`, `inch()` in `soil-profile.js`); US farmers think in inches and acres.
+  - Lead with the answer: the plans page opens with `bottomLine()` (crops ranked by the backend median for the farmer's priority). Each plan card shows two numbers; everything else goes behind "More about this plan".
+  - Plain words first, technical names second and small, e.g. "water the crop can use (TAW)", never a bare "TAW", "ET₀" or "m³/m³".
+  - Text is 17px on the workspace and hints at least ~14px; phones are used outdoors.
   - Use sentence-case headings. Section labels are uppercase eyebrows.
 - **Charts** are hand-built inline SVG (see `seasonChart`). They need `role="img"`, an `aria-label` naming the years, a `<title>` that says "no future prediction", per-point `<title>` tooltips, a legend, and visible gaps for excluded seasons.
 
