@@ -163,6 +163,31 @@ function putMarker(lat, lon) {
   marker.setLngLat([lon, lat]).addTo(map);
 }
 
+const GENERAL_PROMPTS = [
+  ["How does this work?", "How does Field Shift compare crops for my field, in simple terms?"],
+  ["What data is used?", "What NASA and USDA data does Field Shift use, and how reliable is it?"],
+  ["Which crops?", "Which crops can I compare, and why only those?"],
+  ["Is this a forecast?", "Is a comparison a forecast or an irrigation recommendation?"],
+];
+
+// The Home-page Ask box: opens the general chat and sends the question straight away.
+function askCard() {
+  return `<section class="ask-card" aria-labelledby="ask-title">
+    <div class="ask-head"><span class="ask-icon">${icon("chat")}</span><div><h2 id="ask-title">Ask Field Shift</h2><p>Questions about how it works, the NASA and USDA data, or what to check on your field. Answers show their sources.</p></div></div>
+    <form id="ask-form" class="ask-form"><label class="sr-only" for="ask-input">Your question</label><input id="ask-input" type="text" maxlength="4000" placeholder="For example: is this a forecast?" required><button class="primary" type="submit">${icon("arrow")}<span>Ask</span></button></form>
+    <div class="prompt-chips">${GENERAL_PROMPTS.map(([label, prompt]) => `<button type="button" data-ask="${esc(prompt)}">${esc(label)}</button>`).join("")}</div>
+  </section>`;
+}
+
+function wireAskCard() {
+  document.getElementById("ask-form")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const question = document.getElementById("ask-input").value.trim();
+    if (question) openChat(null, question);
+  });
+  panel.querySelectorAll("[data-ask]").forEach((button) => button.onclick = () => openChat(null, button.dataset.ask));
+}
+
 function renderAuth(mode = "login", error = "") {
   setMapVisible(false);
   busy = false;
@@ -175,6 +200,7 @@ function renderAuth(mode = "login", error = "") {
       <p class="lead">Start with what you know about your field. We bring in 25 past seasons of NASA weather and USDA soil records and replay them through published FAO-56 water equations for each crop.</p></div>
       <div class="button-row"><button type="button" class="primary" id="guest-explore">${icon("plus")} Add your field</button><button type="button" class="secondary-button" id="guest-demo">See a saved example</button></div>
     </section>
+    ${askCard()}
     <div class="two-col">
       <section class="auth-wrap" aria-labelledby="auth-title">
         <p class="eyebrow">${registering ? "New account" : "Welcome back"}</p>
@@ -210,6 +236,7 @@ function renderAuth(mode = "login", error = "") {
   document.getElementById('forgot-password').onclick = recoverAccount;
   document.getElementById('guest-explore').onclick = () => renderFieldEditor();
   document.getElementById('guest-demo').onclick = runDemo;
+  wireAskCard();
   document.getElementById("auth-form").onsubmit = async (event) => {
     event.preventDefault();
     if (busy) return;
@@ -305,6 +332,7 @@ function renderHome(message = "") {
       <div class="button-row"><button type="button" class="primary" id="add-field">${icon("plus")} Add a field</button><button type="button" class="secondary-button" id="home-demo">See a saved example</button></div>
     </section>
     ${message ? `<div class="notice-card" role="status">${esc(message)}</div>` : ""}
+    ${askCard()}
     <div class="home-grid">
       <article class="card"><h2 class="card-title">${icon("sprout")} Your land</h2>
         ${fields.length ? `<p><strong>${fields.length} saved field${fields.length === 1 ? "" : "s"}</strong></p><p class="muted">Compare plans, update details or remove a field.</p>` : `<p><strong>No fields yet</strong></p><p class="muted">Add your first field to compare crop plans for it.</p>`}
@@ -320,6 +348,7 @@ function renderHome(message = "") {
   document.getElementById("home-lands").onclick = () => fields.length ? renderLands() : renderFieldEditor();
   document.getElementById("home-plans").onclick = () => { currentAnalysis = null; renderPlans(); };
   document.getElementById("home-notes").onclick = () => renderNotesHub();
+  wireAskCard();
 }
 
 function renderLands(message = "") {
@@ -854,7 +883,7 @@ function renderAnalysis(result, field) {
     <div class="form-topline"><button type="button" class="back-link" id="result-home">${icon("back")} ${user ? "My land" : "Home"}</button><button type="button" class="secondary-button" id="change-details">${icon("note")} Edit field</button></div>
     <section class="results-hero"><p class="eyebrow">${esc(result.mode === "sample" ? "Saved example" : field.name)} · ${esc(result.location.state_name)} · ${esc(result.period.requested[0])}–${esc(result.period.requested[1])}</p><h1>What ${esc(requestedSeasons)} past seasons say about your crop choice</h1>
       <p class="lead">Each crop ran through the same real weather, on the soil mapped at your field.</p></section>
-    <nav class="section-chips" aria-label="Sections on this page"><a href="#bottom-line">Short answer</a><a href="#plans">Plans</a><a href="#soil-section">Soil</a><a href="#map-section">Map</a><a href="#seasons">Year by year</a><a href="#next-steps">Next steps</a></nav>
+    <nav class="section-chips" aria-label="Sections on this page"><a href="#bottom-line">Short answer</a><a href="#plans">Plans</a><a href="#soil-section">Soil</a><a href="#map-section">Map</a><a href="#seasons">Year by year</a><a href="#next-steps">Next steps</a><a href="#ask">Ask a question</a></nav>
     ${bottomLine(result, metricKey)}
     <div class="section-heading" id="plans"><div><p class="eyebrow">Side by side</p><h2>Your plans</h2></div><span class="hint">Tap “More about this plan” for details</span></div>
     <div class="plan-grid">${ordered.map((strategy, index) => planCard(strategy, index, context)).join("")}</div>
@@ -867,7 +896,7 @@ function renderAnalysis(result, field) {
       <article class="decision-guide-card"><span class="decision-step">03 · WHAT TO CHECK</span><h3>Bring your own knowledge in</h3><ul><li>${esc(irrigationNextStep)}</li><li>${esc(soilNextStep)}</li>${limits.length ? `<li>You noted: ${esc(limits.join(" · "))}.</li>` : ""}</ul></article>
     </div></section>
     <div class="two-col">
-      <section class="tint-card"><h2 class="card-title">${icon("chat")} Questions about these results?</h2><p>Ask the assistant to explain any number in plain words, or send your field and this comparison to an agronomist.</p>
+      <section class="tint-card" id="ask"><h2 class="card-title">${icon("chat")} Questions about these results?</h2><p>Ask the assistant to explain any number in plain words, or send your field and this comparison to an agronomist.</p>
         <div class="button-row"><button type="button" class="primary" id="open-chat">${icon("chat")} Explain my results</button>${user?`<button type="button" class="secondary-button" id="ask-expert">Ask an agronomist</button>`:`<a class="secondary-button" href="/workspace/?signin=1">Sign in to ask an agronomist</a>`}</div></section>
       <section class="card" id="sources"><h2 class="card-title">${icon("source")} What we used</h2><ul class="sources-list">
         <li><strong>Weather · NASA POWER</strong>Daily records ${weather.period ? esc(weather.period.join(" to ")) : ""}</li>
@@ -878,6 +907,7 @@ function renderAnalysis(result, field) {
       </ul>${detailRows ? `<details><summary>Field details you entered</summary><ul>${detailRows}</ul></details>` : ""}</section>
     </div>
     <div class="actions result-actions"><button type="button" class="quiet-button" id="new-comparison">${icon("refresh")} Compare again</button>${user ? `<button type="button" class="quiet-button" id="all-plans">${icon("layers")} All saved plans</button>` : ""}<button type="button" class="quiet-button" id="show-details">Technical details</button></div>
+    <button type="button" class="ask-fab" id="ask-fab">${icon("chat")}<span>Ask about these results</span></button>
     <details class="technical-details" id="technical"><summary>Technical details</summary><div><p>Status: ${esc(result.status)} · mode: ${esc(result.mode)} · analysis: ${esc(result.analysis_id)}</p><p>Location: ${result.location.public_location.lat}, ${result.location.public_location.lon}</p><p class="muted small">${esc(result.summary)}</p><ul>${result.limitations.map((item) => `<li>${esc(item)}</li>`).join("")}</ul><p>Weather source: ${esc(weather.provider)} ${esc(weather.product)}, ${esc((weather.period || []).join(" to "))}.</p></div></details>`;
   // The map lives inside the page here, below the plans, instead of above the answer.
   document.getElementById("map-slot")?.append(mapPane);
@@ -893,6 +923,7 @@ function renderAnalysis(result, field) {
     }
   };
   document.getElementById("ask-expert")?.addEventListener("click", () => renderExpertRequest(result, field));
+  document.getElementById("ask-fab").onclick = () => document.getElementById("open-chat").click();
   document.getElementById("all-plans")?.addEventListener("click", () => savedAnalyses());
   document.getElementById("change-details").onclick = () => renderFieldEditor(field, "", 4);
   document.getElementById("new-comparison").onclick = () => startAnalysis(field, result.goal, result.mode);
@@ -941,37 +972,45 @@ async function myExpertRequests(message = "") {
   }
 }
 
-async function openChat(analysis) {
+const goHomeScreen = () => user ? showHome() : renderAuth();
+
+// analysis = null opens a general chat (how the app works, what the data means) from the Home page.
+async function openChat(analysis, firstQuestion = "") {
   const ownerVersion=authVersion;
   setMapVisible(false);
-  panel.innerHTML = `<section class="loading-card"><span class="loader"></span><p>Opening your crop conversation…</p></section>`;
+  setTab(analysis ? "plans" : "home");
+  panel.innerHTML = `<section class="loading-card"><span class="loader"></span><p>Opening the conversation…</p></section>`;
   try {
     const existing = await getJSON(`${API}/chat/sessions`);
     if(ownerVersion!==authVersion)return;
-    const previous = existing.sessions.find(s=>s.analysis_id===analysis.analysis_id);
-    if (previous) { chatSession=previous.session_id; const saved=await getJSON(`${API}/chat/sessions/${encodeURIComponent(chatSession)}`); if(ownerVersion!==authVersion)return; return renderChat(analysis,saved.messages); }
-    const session = await getJSON(`${API}/chat/sessions`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ analysis_id: analysis.analysis_id }) });
-    if(ownerVersion!==authVersion)return;
-    chatSession = session.session_id;
-    renderChat(analysis, []);
+    const previous = existing.sessions.find(s=>(s.analysis_id||null)===(analysis?.analysis_id||null));
+    let messages = [];
+    if (previous) { chatSession=previous.session_id; const saved=await getJSON(`${API}/chat/sessions/${encodeURIComponent(chatSession)}`); if(ownerVersion!==authVersion)return; messages=saved.messages; }
+    else {
+      const session = await getJSON(`${API}/chat/sessions`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(analysis ? { analysis_id: analysis.analysis_id } : {}) });
+      if(ownerVersion!==authVersion)return;
+      chatSession = session.session_id;
+    }
+    renderChat(analysis, messages);
+    if (firstQuestion) { document.getElementById("chat-input").value = firstQuestion; document.getElementById("chat-form").requestSubmit(); }
   } catch (err) {
     if(ownerVersion!==authVersion)return;
-    panel.innerHTML = `<h1>Chat isn’t available right now</h1><div class="errors">${esc(err.message)}</div><button class="primary" id="back-results">Back to comparison</button>`;
-    document.getElementById("back-results").onclick = () => renderAnalysis(analysis, fields.find((item) => item.id === analysis.field_id) || activeField || fields[0]);
+    panel.innerHTML = stateCard("chat", "Chat isn’t available right now", err.status === 429 ? "You have 10 saved conversations, the most allowed. Remove an older one from Conversations, then try again." : err.message, `<button class="primary" id="back-results">${analysis ? "Back to comparison" : "Back to home"}</button>`, "error");
+    document.getElementById("back-results").onclick = () => analysis ? renderAnalysis(analysis, fields.find((item) => item.id === analysis.field_id) || activeField || fields[0]) : goHomeScreen();
   }
 }
 
 function renderChat(analysis, messages, error = "") {
   panel.innerHTML = `
-    <div class="form-topline"><button type="button" class="back-link" id="back-results">← Crop comparison</button><span class="step-label">FIELD SHIFT CHAT</span></div>
-    <section class="chat-header"><div class="chat-avatar">✳</div><div><p class="eyebrow">YOUR FIELD CONVERSATION</p><h1>Let’s explore your options</h1><p class="muted">Ask about the comparison, or tell me which crop you’d like to consider.</p></div></section>
+    <div class="form-topline"><button type="button" class="back-link" id="back-results">← ${analysis ? "Crop comparison" : "Home"}</button><span class="step-label">FIELD SHIFT CHAT</span></div>
+    <section class="chat-header"><div class="chat-avatar">✳</div><div><p class="eyebrow">${analysis ? "YOUR FIELD CONVERSATION" : "ASK FIELD SHIFT"}</p><h1>${analysis ? "Let’s explore your options" : "Ask a question"}</h1><p class="muted">Ask about the comparison, or tell me which crop you’d like to consider.</p></div></section>
     <div class="chat-boundary"><strong>What this chat can do:</strong> explain the comparison and point to the evidence. It can’t guarantee the best crop, diagnose a problem, or replace local farm advice.</div>
-    <div id="chat-messages" class="chat-messages">${messages.map((item) => chatMessage(item.question, item.response)).join("") || `<div class="assistant-message"><strong>Field Shift</strong><p>I can help explain the past-season comparison for this field. What would you like to know?</p></div>`}</div>
+    <div id="chat-messages" class="chat-messages">${messages.map((item) => chatMessage(item.question, item.response)).join("") || `<div class="assistant-message"><strong>Field Shift</strong><p>${analysis ? "I can help explain the past-season comparison for this field. What would you like to know?" : "I can explain how Field Shift works, what its NASA and USDA data mean, and what to check on your field. For numbers about your own field, run a comparison first."}</p></div>`}</div>
     ${error ? `<div class="errors" role="alert">${esc(error)}</div>` : ""}
-    <div class="prompt-chips"><button type="button" data-prompt="Which crop had the lower past irrigation need?">Compare water needs</button><button type="button" data-prompt="What does this comparison tell me about my field?">Explain my field</button><button type="button" data-prompt="I want to consider a different crop. What should I compare?">Consider another crop</button></div>
+    <div class="prompt-chips">${analysis ? `<button type="button" data-prompt="Which crop had the lower past irrigation need?">Compare water needs</button><button type="button" data-prompt="What does this comparison tell me about my field?">Explain my field</button><button type="button" data-prompt="I want to consider a different crop. What should I compare?">Consider another crop</button>` : GENERAL_PROMPTS.map(([label, prompt]) => `<button type="button" data-prompt="${esc(prompt)}">${esc(label)}</button>`).join("")}</div>
     <form id="chat-form" class="chat-form"><label class="sr-only" for="chat-input">Your question</label><textarea id="chat-input" name="message" rows="2" maxlength="4000" placeholder="Ask a question about your field…" required></textarea><button class="primary" type="submit">Send</button></form>
     <p class="hint">Answers use the saved comparison and cited information. Crop parameters in this release are still under review.</p>`;
-  document.getElementById("back-results").onclick = () => renderAnalysis(analysis, fields.find((field) => field.id === analysis.field_id) || activeField || fields[0]);
+  document.getElementById("back-results").onclick = () => analysis ? renderAnalysis(analysis, fields.find((field) => field.id === analysis.field_id) || activeField || fields[0]) : goHomeScreen();
   document.querySelector('.form-topline').insertAdjacentHTML('beforeend','<button class="quiet-button" id="manage-chat">Conversations</button>');
   document.getElementById('manage-chat').onclick = () => manageConversations(analysis);
   panel.querySelectorAll("[data-prompt]").forEach((button) => button.onclick = () => {
@@ -1007,11 +1046,12 @@ function renderChat(analysis, messages, error = "") {
 // Say why AI selection is off, from the backend's service_status, instead of a vague "unavailable".
 function chatServiceNote(response) {
   if (response.mode === 'openai_evidence_selection') return 'AI-assisted evidence selection';
+  const from = response.analysis_id ? 'your saved comparison' : 'Field Shift’s method and sources';
   return ({
-    quota_exhausted: 'AI answers are paused: the OpenAI account for this app has no credits left. This answer comes straight from your saved comparison.',
-    access_denied: 'AI answers are off: the OpenAI key was rejected. This answer comes straight from your saved comparison.',
-    not_configured: 'AI answers aren’t set up on this server. This answer comes straight from your saved comparison.',
-  })[response.service_status] || response.service_notice || 'AI service unavailable · this answer comes straight from your saved comparison.';
+    quota_exhausted: `AI answers are paused: the OpenAI account for this app has no credits left. This answer comes straight from ${from}.`,
+    access_denied: `AI answers are off: the OpenAI key was rejected. This answer comes straight from ${from}.`,
+    not_configured: `AI answers aren’t set up on this server. This answer comes straight from ${from}.`,
+  })[response.service_status] || response.service_notice || `AI service unavailable · this answer comes straight from ${from}.`;
 }
 
 function chatMessage(question, response) {
@@ -1027,7 +1067,7 @@ function chatAnswer(response){
   const cards=(response.evidence||[]).filter(card=>card.id!=='analysis-limits');
   if(!cards.length)return `<p>${esc(response.answer).replaceAll('\n','<br>')}</p>`;
   const names={irrigated_net_irrigation:'Net irrigation need',rainfed_deficit:'Rain-fed water deficit',etc_standard:'Crop water demand',et0:'Reference ET₀',precipitation:'Rainfall'};
-  return `<p>${response.language==='ar'?'الأدلة المتاحة من المقارنة والمصادر:':'Evidence from this comparison and its sources:'}</p>`+cards.map(card=>`<p><strong>${esc(card.title.replace('Maize (grain, field corn)','Corn').replace(/:\s*([a-z_]+)$/,(_,key)=>': '+(names[key]||key)))}</strong><br>${esc(card.text)}</p>`).join('')+`<p class="hint">${response.language==='ar'?'لم يتم التحقق من دقة تقديرات الري على مستوى الحقل.':'Field irrigation accuracy is not validated. See the saved analysis limitations below.'}</p>`;
+  return `<p>${response.language==='ar'?'الأدلة المتاحة من المقارنة والمصادر:':(response.analysis_id?'Evidence from this comparison and its sources:':'From Field Shift’s method and sources:')}</p>`+cards.map(card=>`<p><strong>${esc(card.title.replace('Maize (grain, field corn)','Corn').replace(/:\s*([a-z_]+)$/,(_,key)=>': '+(names[key]||key)))}</strong><br>${esc(card.text)}</p>`).join('')+`<p class="hint">${response.language==='ar'?'لم يتم التحقق من دقة تقديرات الري على مستوى الحقل.':'Field irrigation accuracy is not validated. See the saved analysis limitations below.'}</p>`;
 }
 
 (async function start() {
@@ -1138,8 +1178,8 @@ function accountSettings(error='') {
 async function manageConversations(analysis) {
   try {
     const r=await getJSON(`${API}/chat/sessions`);
-    panel.innerHTML=`<h1>Your conversations</h1><p>Up to 10 saved conversations. Remove an older conversation to make room.</p>${r.sessions.map(s=>`<article class="saved-row"><div>${esc(new Date(s.created_utc).toLocaleString())}<p class="hint">${s.analysis_id===analysis.analysis_id?'This comparison':'Another comparison'}</p></div><button class="quiet-button" data-chat-delete="${esc(s.session_id)}">Remove</button></article>`).join('')}<button class="primary" id="chat-return">Back to comparison</button>`;
-    document.getElementById('chat-return').onclick=()=>renderAnalysis(analysis,activeField);
+    panel.innerHTML=`<h1>Your conversations</h1><p>Up to 10 saved conversations. Remove an older conversation to make room.</p>${r.sessions.map(s=>`<article class="saved-row"><div>${esc(new Date(s.created_utc).toLocaleString())}<p class="hint">${(s.analysis_id||null)===(analysis?.analysis_id||null)?'This conversation':s.analysis_id?'About a comparison':'General questions'}</p></div><button class="quiet-button" data-chat-delete="${esc(s.session_id)}">Remove</button></article>`).join('')}<button class="primary" id="chat-return">${analysis?'Back to comparison':'Back to home'}</button>`;
+    document.getElementById('chat-return').onclick=()=>analysis?renderAnalysis(analysis,activeField):goHomeScreen();
     panel.querySelectorAll('[data-chat-delete]').forEach(b=>b.onclick=async()=>{b.disabled=true;try{await getJSON(`${API}/chat/sessions/${encodeURIComponent(b.dataset.chatDelete)}`,{method:'DELETE'});await manageConversations(analysis);}catch(e){b.textContent=e.message;}});
-  }catch(e){renderAnalysis(analysis,activeField);}
+  }catch(e){analysis?renderAnalysis(analysis,activeField):goHomeScreen();}
 }

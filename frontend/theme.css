@@ -478,3 +478,24 @@ body.workspace-body { font-size: 17px; }
   body.wide-results .results-hero h1 { font-size: 1.6rem; margin-bottom: 4px; }
   .data-banner.sample { font-size: .78rem; padding: 6px 12px; }
 }
+
+/* ---------- Ask Field Shift (home) and the floating ask button (plans) ---------- */
+.ask-card { margin: 0 0 22px; padding: clamp(18px, 3.5vw, 26px); border-radius: var(--radius-lg); background: linear-gradient(150deg, #24553f 0%, #1a4030 100%); color: #eef5ea; box-shadow: 0 14px 36px rgb(26 64 48 / .25); }
+.ask-head { display: flex; gap: 14px; align-items: flex-start; }
+.ask-icon { display: grid; place-items: center; flex: 0 0 auto; width: 46px; height: 46px; border-radius: 14px; background: rgb(255 255 255 / .14); border: 1px solid rgb(255 255 255 / .22); }
+.ask-icon .icon { width: 24px; height: 24px; stroke: #e6f1cf; }
+.ask-card h2 { margin: 0 0 4px; color: #fff; font-size: 1.3rem; }
+.ask-card p { margin: 0; color: rgb(238 245 234 / .88); font-size: .95rem; }
+.ask-form { display: flex; gap: 8px; margin: 16px 0 10px; }
+.workspace-body .ask-form input { flex: 1; min-width: 0; min-height: 52px; padding: 12px 16px; border-radius: 14px; border: 1px solid rgb(255 255 255 / .35); background: rgb(255 255 255 / .96); color: var(--text); font: inherit; }
+.workspace-body .ask-form .primary { min-height: 52px; background: #e6f1cf; color: var(--brand-strong); border-color: #e6f1cf; box-shadow: none; }
+.ask-card .prompt-chips { margin: 0; }
+.ask-card .prompt-chips button { border: 1px solid rgb(255 255 255 / .3); background: rgb(255 255 255 / .1); color: #fff; font: inherit; font-size: .85rem; cursor: pointer; }
+.ask-card .prompt-chips button:hover { background: rgb(255 255 255 / .2); }
+@media (max-width: 480px) { .ask-form .primary span { display: none; } }
+
+.ask-fab { position: fixed; z-index: 35; inset-inline-end: clamp(14px, 3vw, 28px); bottom: 24px; display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 20px; border: 1px solid var(--brand-strong); border-radius: var(--radius-full); background: linear-gradient(180deg, #2c6249, var(--brand-strong)); color: #fff; font: inherit; font-weight: 700; cursor: pointer; box-shadow: 0 12px 28px rgb(26 64 48 / .35); }
+.ask-fab .icon { stroke: #e6f1cf; }
+@media (max-width: 979px) { .ask-fab { bottom: calc(96px + env(safe-area-inset-bottom)); } }
+@media (max-width: 480px) { .ask-fab span { display: none; } .ask-fab { width: 56px; height: 56px; padding: 0; justify-content: center; } }
+@media print { .ask-fab, .ask-card { display: none; } }
